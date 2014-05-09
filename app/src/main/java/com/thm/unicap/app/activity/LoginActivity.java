@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,8 +21,10 @@ import android.widget.TextView;
 
 import com.activeandroid.query.Delete;
 import com.thm.unicap.app.R;
+import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.util.RequestUtils;
+import com.thm.unicap.app.util.UnicapUtils;
 import com.thm.unicap.app.util.WordUtils;
 
 import org.jsoup.Jsoup;
@@ -117,8 +120,12 @@ public class LoginActivity extends Activity {
         View focusView = null;
 
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        // Check for a valid password.
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_field_required));
+            focusView = mPasswordView;
+            cancel = true;
+        } else if (!UnicapUtils.isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -129,7 +136,7 @@ public class LoginActivity extends Activity {
             mRegistrationView.setError(getString(R.string.error_field_required));
             focusView = mRegistrationView;
             cancel = true;
-        } else if (!isRegistrationValid(registration)) {
+        } else if (!UnicapUtils.isRegistrationValid(registration)) {
             mRegistrationView.setError(getString(R.string.error_invalid_registration));
             focusView = mRegistrationView;
             cancel = true;
@@ -146,15 +153,6 @@ public class LoginActivity extends Activity {
             mAuthTask = new UserLoginTask(registration, password);
             mAuthTask.execute((Void) null);
         }
-    }
-    private boolean isRegistrationValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("-") && (email.length() == 11);
-    }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() == 6;
     }
 
     /**
@@ -249,6 +247,14 @@ public class LoginActivity extends Activity {
                 student.email = personal.select(".tab_texto").get(20).text();
 
                 student.save();
+
+                Log.d(UnicapApplication.TAG, "registration: "+student.registration);
+                Log.d(UnicapApplication.TAG, "name: "+student.name);
+                Log.d(UnicapApplication.TAG, "course: "+student.course);
+                Log.d(UnicapApplication.TAG, "shift: "+student.shift);
+                Log.d(UnicapApplication.TAG, "gender: "+student.gender);
+                Log.d(UnicapApplication.TAG, "birthday: "+student.birthday);
+                Log.d(UnicapApplication.TAG, "email: "+student.email);
 
             } catch (IOException e) {
                 e.printStackTrace();
