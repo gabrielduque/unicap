@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,18 +18,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 import com.thm.unicap.app.R;
-import com.thm.unicap.app.UnicapApplication;
+import com.thm.unicap.app.connection.UnicapConnector;
 import com.thm.unicap.app.model.Student;
-import com.thm.unicap.app.util.RequestUtils;
 import com.thm.unicap.app.util.UnicapUtils;
-import com.thm.unicap.app.util.WordUtils;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
-import java.io.IOException;
 
 
 /**
@@ -209,58 +201,17 @@ public class LoginActivity extends Activity {
         protected Boolean doInBackground(Void... params) {
 
             try {
-                Document document;
+                UnicapConnector.prepareLoginRequest();
+                UnicapConnector.loginRequest(mRegistration, mPassword);
+                UnicapConnector.receivePersonalData();
+                UnicapConnector.receiveSubjectsActualData();
 
-                // Request to get temporary session to be used on login request
-                document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL)
-                        .timeout(RequestUtils.REQUEST_TIMEOUT)
-                        .get();
+                Student student = new Select().from(Student.class).executeSingle();
 
-                String loginURL = document.select("form").first().attr("action");
-
-                // Request to get permanent session to all future requests
-                document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + loginURL)
-                        .timeout(RequestUtils.REQUEST_TIMEOUT)
-                        .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_LOGIN)
-                        .data(RequestUtils.Params.REGISTRATION, mRegistration.substring(0,9))
-                        .data(RequestUtils.Params.DIGIT, mRegistration.substring(10))
-                        .data(RequestUtils.Params.PASSWORD, mPassword)
-                        .get();
-
-                String actionURL = document.select("form").first().attr("action");
-
-                // Personal data request
-                Document personal = Jsoup.connect(RequestUtils.REQUEST_BASE_URL +actionURL)
-                        .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_PERSONAL)
-                        .get();
-
-                // Clean table before inserting
-                new Delete().from(Student.class).execute();
-
-                Student student = new Student();
-                student.registration = personal.select(".tab_texto").get(0).text();
-                student.name = WordUtils.capitalizeFully(personal.select(".tab_texto").get(1).text(), null);
-                student.course = WordUtils.capitalizeFully(personal.select(".tab_texto").get(2).text(), null).replace("Curso De ", "");
-                student.shift = personal.select(".tab_texto").get(4).text();
-                student.gender = WordUtils.capitalizeFully(personal.select(".tab_texto").get(5).text(), null);
-                student.birthday = WordUtils.capitalizeFully(personal.select(".tab_texto").get(6).text(), null);
-                student.email = personal.select(".tab_texto").get(20).text();
-
-                student.save();
-
-                Log.d(UnicapApplication.TAG, "registration: "+student.registration);
-                Log.d(UnicapApplication.TAG, "name: "+student.name);
-                Log.d(UnicapApplication.TAG, "course: "+student.course);
-                Log.d(UnicapApplication.TAG, "shift: "+student.shift);
-                Log.d(UnicapApplication.TAG, "gender: "+student.gender);
-                Log.d(UnicapApplication.TAG, "birthday: "+student.birthday);
-                Log.d(UnicapApplication.TAG, "email: "+student.email);
-
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            // TODO: register the new account here.
             return true;
         }
 

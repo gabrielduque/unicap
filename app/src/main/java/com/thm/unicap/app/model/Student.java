@@ -5,8 +5,6 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
 /*
-Student
-Subject
 Class
 Test
 BankSlip
@@ -36,4 +34,16 @@ public class Student extends Model {
     @Column(name = "Email")
     public String email;
 
+    @Override
+    public String toString() {
+        return "Student{" +
+                "registration='" + registration + '\'' +
+                ", name='" + name + '\'' +
+                ", course='" + course + '\'' +
+                ", shift='" + shift + '\'' +
+                ", gender='" + gender + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

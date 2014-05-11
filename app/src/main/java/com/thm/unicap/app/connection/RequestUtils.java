@@ -1,4 +1,4 @@
-package com.thm.unicap.app.util;
+package com.thm.unicap.app.connection;
 
 public abstract class RequestUtils {
 
@@ -15,5 +15,6 @@ public abstract class RequestUtils {
     public abstract static class Values {
         public static final String ROUTINE_LOGIN = "1";
         public static final String ROUTINE_PERSONAL = "2";
+        public static final String ROUTINE_SUBJECTS_ACTUAL = "14";
     }
 }
