@@ -207,6 +207,7 @@ public class LoginActivity extends Activity {
                 UnicapConnector.cleanDatabase();
 
                 UnicapConnector.receivePersonalData();
+                UnicapConnector.receiveSubjectsPastData();
                 UnicapConnector.receiveSubjectsActualData();
 
 //                Student student = new Select().from(Student.class).executeSingle();

@@ -4,10 +4,15 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
+import java.util.List;
+
 @Table(name = "Subjects")
 public class Subject extends Model {
 
-    @Column(name = "Code")
+    @Column(name = "Student")
+    public Student student;
+
+    @Column(name = "Code", unique = true)
     public String code;
 
     @Column(name = "Name")
@@ -17,19 +22,12 @@ public class Subject extends Model {
     public String workload;
 
     @Column(name = "Credits")
-    public int credits;
+    public Integer credits;
 
     @Column(name = "Period")
-    public int period;
+    public Integer period;
 
-    @Override
-    public String toString() {
-        return "Subject{" +
-                "code='" + code + '\'' +
-                ", name='" + name + '\'' +
-                ", workload='" + workload + '\'' +
-                ", credits='" + credits + '\'' +
-                ", period='" + period + '\'' +
-                '}';
+    public List<SubjectStatus> getSubjectStatus() {
+        return getMany(SubjectStatus.class, "Subject");
     }
 }

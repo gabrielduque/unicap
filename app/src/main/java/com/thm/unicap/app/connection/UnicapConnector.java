@@ -2,6 +2,7 @@ package com.thm.unicap.app.connection;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
@@ -56,20 +57,86 @@ public class UnicapConnector {
         if (actionUrl == null) throw new Exception("Authenticate is required before any action.");
 
         // Personal data request
-        Document personal = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionUrl)
+        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionUrl)
                 .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_PERSONAL)
+                .timeout(RequestUtils.REQUEST_TIMEOUT)
                 .get();
 
-        Student student = new Student();
-        student.registration = personal.select(".tab_texto").get(0).text();
-        student.name = WordUtils.capitalizeFully(personal.select(".tab_texto").get(1).text(), null);
-        student.course = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(personal.select(".tab_texto").get(2).text()).replace("Curso De ", ""));
-        student.shift = personal.select(".tab_texto").get(4).text();
-        student.gender = WordUtils.capitalizeFully(personal.select(".tab_texto").get(5).text(), null);
-        student.birthday = WordUtils.capitalizeFully(personal.select(".tab_texto").get(6).text(), null);
-        student.email = personal.select(".tab_texto").get(20).text();
+        String registration = document.select(".tab_texto").get(0).text();
+
+        Student student = new Select().from(Student.class).where("Registration = ?", registration).executeSingle();
+
+        if(student == null) {
+            student = new Student();
+            student.registration = document.select(".tab_texto").get(0).text();
+        }
+
+        student.name = WordUtils.capitalizeFully(document.select(".tab_texto").get(1).text(), null);
+        student.course = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(document.select(".tab_texto").get(2).text()).replace("Curso De ", ""));
+        student.shift = document.select(".tab_texto").get(4).text();
+        student.gender = WordUtils.capitalizeFully(document.select(".tab_texto").get(5).text(), null);
+        student.birthday = WordUtils.capitalizeFully(document.select(".tab_texto").get(6).text(), null);
+        student.email = document.select(".tab_texto").get(20).text();
 
         student.save();
+
+    }
+
+    public static void receiveSubjectsPastData() throws Exception {
+
+        if (actionUrl == null) throw new Exception("Authenticate is required before any action.");
+
+        // Subjects data request
+        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionUrl)
+                .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_PAST)
+                .timeout(RequestUtils.REQUEST_TIMEOUT)
+                .get();
+
+        Elements subjectsTable = document.select("table").get(6).select("tr");
+
+        subjectsTable.remove(0); // Removing header
+
+        Student student = new Select().from(Student.class).executeSingle();
+
+        // Using transactions to speed up the process
+        ActiveAndroid.beginTransaction();
+
+        for (Element subjectRow : subjectsTable) {
+
+            Elements subjectColumns = subjectRow.select(".tab_texto");
+
+            String code = subjectColumns.get(1).text();
+
+            Subject subject = new Select().from(Subject.class).where("Code = ?", code).executeSingle();
+
+            if(subject == null) {
+                subject = new Subject();
+                subject.code = code;
+            }
+
+            subject.student = student;
+            subject.name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(2).text()));
+
+            subject.save();
+
+            SubjectStatus subjectStatus = new SubjectStatus();
+
+            subjectStatus.subject = subject;
+            subjectStatus.paidIn = subjectColumns.get(0).text();
+            subjectStatus.average = Float.parseFloat(subjectColumns.get(3).text());
+
+            String situation = subjectColumns.get(4).text();
+
+            if (situation.equals("AP")) subjectStatus.situation = SubjectStatus.Situation.APPROVED;
+            else if (situation.equals("RM")) subjectStatus.situation = SubjectStatus.Situation.REPROVED;
+            else subjectStatus.situation = SubjectStatus.Situation.UNKNOWN;
+
+            subjectStatus.save();
+
+        }
+
+        ActiveAndroid.setTransactionSuccessful();
+        ActiveAndroid.endTransaction();
 
     }
 
@@ -78,24 +145,36 @@ public class UnicapConnector {
         if (actionUrl == null) throw new Exception("Authenticate is required before any action.");
 
         // Subjects data request
-        Document personal = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionUrl)
+        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionUrl)
                 .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_ACTUAL)
+                .timeout(RequestUtils.REQUEST_TIMEOUT)
                 .get();
 
-        Elements subjectsTable = personal.select("table").get(5).select("tr");
+        String paidIn = document.select("table").get(4).select("td").get(1).text();
+        Elements subjectsTable = document.select("table").get(5).select("tr");
 
         subjectsTable.remove(0); // Removing header
         subjectsTable.remove(subjectsTable.size()-1); // Removing 'sum' row
 
+        Student student = new Select().from(Student.class).executeSingle();
+
+        // Using transactions to speed up the process
         ActiveAndroid.beginTransaction();
 
         for (Element subjectRow : subjectsTable) {
 
             Elements subjectColumns = subjectRow.select(".tab_texto");
 
-            Subject subject = new Subject();
+            String code = subjectColumns.get(0).text();
 
-            subject.code = subjectColumns.get(0).text();
+            Subject subject = new Select().from(Subject.class).where("Code = ?", code).executeSingle();
+
+            if(subject == null) {
+                subject = new Subject();
+                subject.code = code;
+            }
+
+            subject.student = student;
             subject.name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(1).text()));
             subject.workload = subjectColumns.get(5).text();
             subject.credits = Integer.parseInt(subjectColumns.get(6).text());
@@ -110,6 +189,7 @@ public class UnicapConnector {
             subjectStatus.team = subjectColumns.get(2).text();
             subjectStatus.room = subjectColumns.get(3).text();
             subjectStatus.schedule = subjectColumns.get(4).text();
+            subjectStatus.paidIn = paidIn;
 
             subjectStatus.save();
 

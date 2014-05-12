@@ -3,17 +3,44 @@ package com.thm.unicap.app.util;
 public class UnicapUtils {
 
     private static String[][] exceptions = {
-            {"De", "de"},
-            {"Do", "do"},
-            {"Da", "da"},
+            {"A", "a"},
+            {"Administracao", "Administração"},
+            {"Algebra", "Álgebra"},
+            {"Analise", "Análise"},
+            {"Arq", "Arquitetura"},
+            {"Basica", "Básica"},
+            {"Calculo", "Cálculo"},
             {"Ciencia", "Ciência"},
             {"Computacao", "Computação"},
-            {"Paradig", "Paradigmas"},
-            {"Ling", "Linguagens"},
-            {"Programacao", "Programação"},
+            {"Conhecimen", "Conhecimento"},
+            {"Da", "da"},
+            {"De", "de"},
+            {"Dif", "Diferencial"},
+            {"Do", "do"},
+            {"E", "e"},
+            {"Eletronica", "Eletrônica"},
+            {"Estatistica", "Estatística"},
+            {"Fil", "Filosofia"},
+            {"Ii", "II"},
+            {"Iii", "III"},
+            {"Iv", "IV"},
             {"Informacao", "Informação"},
+            {"Informatica", "Informática"},
+            {"Ingles", "Inglês"},
+            {"Inteligencia", "Inteligência"},
+            {"Introd", "Introdução"},
+            {"Introducao", "Introdução"},
+            {"Ling", "Linguagens"},
+            {"Logica", "Lógica"},
+            {"Matematica", "Matemática"},
             {"Metodos", "Métodos"},
             {"Numericos", "Numéricos"},
+            {"Org", "Organização"},
+            {"Portugues", "Português"},
+            {"Pratica", "Prática"},
+            {"Programacao", "Programação"},
+            {"Tecnologico", "Tecnológico"},
+            {"Transcendencia", "Transcendência"},
     };
 
     public static boolean isRegistrationValid(String email) {
@@ -45,7 +72,7 @@ public class UnicapUtils {
     public static String replaceExceptions (String str) {
 
         for (String[] exception : exceptions) {
-            str = str.replaceAll("(?i)"+exception[0], exception[1]);
+            str = str.replaceAll("(?i)\\b"+exception[0]+"\\b", exception[1]);
         }
         return str;
     }
