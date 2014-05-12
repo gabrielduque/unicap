@@ -1,11 +1,10 @@
 package com.thm.unicap.app.connection;
 
-import android.util.Log;
-
+import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
-import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
+import com.thm.unicap.app.model.SubjectStatus;
 import com.thm.unicap.app.util.UnicapUtils;
 import com.thm.unicap.app.util.WordUtils;
 
@@ -21,6 +20,12 @@ public class UnicapConnector {
     private static String loginUrl;
     private static String actionUrl;
 
+    public static void cleanDatabase() {
+        new Delete().from(Student.class).execute();
+        new Delete().from(Subject.class).execute();
+        new Delete().from(SubjectStatus.class).execute();
+    }
+
     public static void prepareLoginRequest() throws IOException {
         // Request to get temporary session to be used on login request
         Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL)
@@ -30,7 +35,7 @@ public class UnicapConnector {
         loginUrl = document.select("form").first().attr("action");
     }
 
-    public static void loginRequest(String mRegistration, String mPassword) throws Exception {
+    public static void loginRequest(String registration, String password) throws Exception {
 
         if (loginUrl == null) throw new Exception("Prepare login before trying to call this.");
 
@@ -38,9 +43,9 @@ public class UnicapConnector {
         Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + loginUrl)
                 .timeout(RequestUtils.REQUEST_TIMEOUT)
                 .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_LOGIN)
-                .data(RequestUtils.Params.REGISTRATION, mRegistration.substring(0, 9))
-                .data(RequestUtils.Params.DIGIT, mRegistration.substring(10))
-                .data(RequestUtils.Params.PASSWORD, mPassword)
+                .data(RequestUtils.Params.REGISTRATION, registration.substring(0, 9))
+                .data(RequestUtils.Params.DIGIT, registration.substring(10))
+                .data(RequestUtils.Params.PASSWORD, password)
                 .get();
 
         actionUrl = document.select("form").first().attr("action");
@@ -55,9 +60,6 @@ public class UnicapConnector {
                 .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_PERSONAL)
                 .get();
 
-        // Clean table before inserting
-        new Delete().from(Student.class).execute();
-
         Student student = new Student();
         student.registration = personal.select(".tab_texto").get(0).text();
         student.name = WordUtils.capitalizeFully(personal.select(".tab_texto").get(1).text(), null);
@@ -69,7 +71,6 @@ public class UnicapConnector {
 
         student.save();
 
-        Log.d(UnicapApplication.TAG, student.toString());
     }
 
     public static void receiveSubjectsActualData() throws Exception {
@@ -81,13 +82,12 @@ public class UnicapConnector {
                 .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_ACTUAL)
                 .get();
 
-        // Clean table before inserting
-        new Delete().from(Subject.class).execute();
-
         Elements subjectsTable = personal.select("table").get(5).select("tr");
 
         subjectsTable.remove(0); // Removing header
         subjectsTable.remove(subjectsTable.size()-1); // Removing 'sum' row
+
+        ActiveAndroid.beginTransaction();
 
         for (Element subjectRow : subjectsTable) {
 
@@ -97,18 +97,26 @@ public class UnicapConnector {
 
             subject.code = subjectColumns.get(0).text();
             subject.name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(1).text()));
-            subject.team = subjectColumns.get(2).text();
-            subject.room = subjectColumns.get(3).text();
-            subject.schedule = subjectColumns.get(4).text();
             subject.workload = subjectColumns.get(5).text();
-            subject.credits = subjectColumns.get(6).text();
-            subject.period = subjectColumns.get(7).text();
+            subject.credits = Integer.parseInt(subjectColumns.get(6).text());
+            subject.period = Integer.parseInt(subjectColumns.get(7).text());
 
             subject.save();
 
-            Log.d(UnicapApplication.TAG, subject.toString());
+            SubjectStatus subjectStatus = new SubjectStatus();
+
+            subjectStatus.subject = subject;
+            subjectStatus.situation = SubjectStatus.Situation.ACTUAL;
+            subjectStatus.team = subjectColumns.get(2).text();
+            subjectStatus.room = subjectColumns.get(3).text();
+            subjectStatus.schedule = subjectColumns.get(4).text();
+
+            subjectStatus.save();
 
         }
+
+        ActiveAndroid.setTransactionSuccessful();
+        ActiveAndroid.endTransaction();
 
     }
 

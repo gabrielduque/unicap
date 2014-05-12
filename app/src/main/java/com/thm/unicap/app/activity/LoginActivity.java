@@ -203,10 +203,13 @@ public class LoginActivity extends Activity {
             try {
                 UnicapConnector.prepareLoginRequest();
                 UnicapConnector.loginRequest(mRegistration, mPassword);
+
+                UnicapConnector.cleanDatabase();
+
                 UnicapConnector.receivePersonalData();
                 UnicapConnector.receiveSubjectsActualData();
 
-                Student student = new Select().from(Student.class).executeSingle();
+//                Student student = new Select().from(Student.class).executeSingle();
 
             } catch (Exception e) {
                 e.printStackTrace();
