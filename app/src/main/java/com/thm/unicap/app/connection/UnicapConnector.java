@@ -1,8 +1,11 @@
 package com.thm.unicap.app.connection;
 
+import android.util.Log;
+
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
@@ -22,9 +25,9 @@ public class UnicapConnector {
     private static String actionUrl;
 
     public static void cleanDatabase() {
-        new Delete().from(Student.class).execute();
-        new Delete().from(Subject.class).execute();
         new Delete().from(SubjectStatus.class).execute();
+        new Delete().from(Subject.class).execute();
+        new Delete().from(Student.class).execute();
     }
 
     public static void prepareLoginRequest() throws IOException {
@@ -176,7 +179,7 @@ public class UnicapConnector {
 
             subject.student = student;
             subject.name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(1).text()));
-            subject.workload = subjectColumns.get(5).text();
+            subject.workload = Integer.parseInt(subjectColumns.get(5).text());
             subject.credits = Integer.parseInt(subjectColumns.get(6).text());
             subject.period = Integer.parseInt(subjectColumns.get(7).text());
 
@@ -192,6 +195,53 @@ public class UnicapConnector {
             subjectStatus.paidIn = paidIn;
 
             subjectStatus.save();
+
+        }
+
+        ActiveAndroid.setTransactionSuccessful();
+        ActiveAndroid.endTransaction();
+
+    }
+
+    public static void receiveSubjectsPendingData() throws Exception {
+
+        if (actionUrl == null) throw new Exception("Authenticate is required before any action.");
+
+        // Subjects data request
+        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionUrl)
+                .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_PENDING)
+                .timeout(RequestUtils.REQUEST_TIMEOUT)
+                .get();
+
+        Elements subjectsTable = document.select("table").get(6).select("tr");
+
+        subjectsTable.remove(0); // Removing header
+
+        Student student = new Select().from(Student.class).executeSingle();
+
+        // Using transactions to speed up the process
+        ActiveAndroid.beginTransaction();
+
+        for (Element subjectRow : subjectsTable) {
+
+            Elements subjectColumns = subjectRow.select(".tab_texto");
+
+            String code = subjectColumns.get(2).text();
+
+            Subject subject = new Select().from(Subject.class).where("Code = ?", code).executeSingle();
+
+            if(subject == null) {
+                subject = new Subject();
+                subject.code = code;
+            }
+
+            subject.student = student;
+            subject.period = Integer.parseInt(subjectColumns.get(0).text());
+            subject.name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(4).text()));
+            subject.credits = Integer.parseInt(subjectColumns.get(5).text());
+            subject.workload = Integer.parseInt(subjectColumns.get(6).text());
+
+            subject.save();
 
         }
 

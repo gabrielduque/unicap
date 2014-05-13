@@ -17,5 +17,6 @@ public abstract class RequestUtils {
         public static final String ROUTINE_PERSONAL = "2";
         public static final String ROUTINE_SUBJECTS_ACTUAL = "14";
         public static final String ROUTINE_SUBJECTS_PAST = "5";
+        public static final String ROUTINE_SUBJECTS_PENDING = "6";
     }
 }

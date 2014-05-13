@@ -19,7 +19,7 @@ public class Subject extends Model {
     public String name;
 
     @Column(name = "Workload")
-    public String workload;
+    public Integer workload;
 
     @Column(name = "Credits")
     public Integer credits;
