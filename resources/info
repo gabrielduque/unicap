@@ -1,5 +1,9 @@
-Launcher:
+LauncherIcon:
 
 #B8B98E
 unicap.svg
 http://android-ui-utils.googlecode.com/hg/asset-studio/dist/icons-launcher.html#foreground.type=image&foreground.space.trim=1&foreground.space.pad=0&foreColor=b8b98e%2C100&crop=0&backgroundShape=none&backColor=ffffff%2C100
+
+ActionbarStyleGenerator:
+
+http://jgilfelt.github.io/android-actionbarstylegenerator/#name=UnicapBar&compat=appcompat&theme=light&actionbarstyle=solid&texture=0&hairline=0&neutralPressed=1&backColor=E4E4E4%2C100&secondaryColor=D6D6D6%2C100&tabColor=b8b98e%2C100&tertiaryColor=F2F2F2%2C100&accentColor=b8b98e%2C100&cabBackColor=FFFFFF%2C100&cabHighlightColor=6c6e12%2C100
