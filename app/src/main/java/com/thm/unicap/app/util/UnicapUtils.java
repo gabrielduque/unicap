@@ -36,6 +36,7 @@ public class UnicapUtils {
             {"Metodos", "Métodos"},
             {"Numericos", "Numéricos"},
             {"Org", "Organização"},
+            {"Paradig", "Paradigmas"},
             {"Portugues", "Português"},
             {"Pratica", "Prática"},
             {"Programacao", "Programação"},
