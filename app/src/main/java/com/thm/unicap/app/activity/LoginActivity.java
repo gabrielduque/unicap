@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.activeandroid.query.Select;
 import com.thm.unicap.app.R;
+import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.connection.UnicapConnector;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.util.UnicapUtils;
@@ -52,14 +54,26 @@ public class LoginActivity extends Activity {
 
         //Allow only digits or hyphen
         InputFilter filter = new InputFilter() {
+            //TODO: Fix some bugs
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                // TODO: allow only 11 characters
+
+                if(dest.length() >= 11) return "";
+
+                Log.d(UnicapApplication.TAG, "----------");
+                Log.d(UnicapApplication.TAG, "source: "+source.toString());
+                Log.d(UnicapApplication.TAG, "start: "+String.valueOf(start));
+                Log.d(UnicapApplication.TAG, "end: "+String.valueOf(end));
+                Log.d(UnicapApplication.TAG, "dest: "+dest.toString());
+                Log.d(UnicapApplication.TAG, "dstart: "+String.valueOf(dstart));
+                Log.d(UnicapApplication.TAG, "dend: "+String.valueOf(dend));
+
                 for (int i = start; i < end; i++) {
-                    if (!Character.isDigit(source.charAt(i)) && source.charAt(i) != '-') {
-                        return "";
-                    }
+                    if (!Character.isDigit(source.charAt(i))) return "";
+
+                    if (dstart == 9) return "-"+source.charAt(i);
                 }
+
                 return null;
             }
         };
