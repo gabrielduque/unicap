@@ -50,6 +50,7 @@
                     android:imeOptions="actionUnspecified"
                     android:inputType="numberPassword"
                     android:maxLines="1"
+                    android:maxLength="6"
                     android:singleLine="true"/>
 
                 <Button

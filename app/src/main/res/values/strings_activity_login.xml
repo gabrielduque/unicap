@@ -1,6 +1,4 @@
 <resources>
-        <string name="title_activity_login">Entrar</string>
-
     <!-- Strings related to login -->
     <string name="prompt_registration">Matrícula</string>
     <string name="prompt_password">Senha</string>
