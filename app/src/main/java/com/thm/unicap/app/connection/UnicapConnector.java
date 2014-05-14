@@ -1,14 +1,12 @@
 package com.thm.unicap.app.connection;
 
-import android.util.Log;
-
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
-import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
+import com.thm.unicap.app.model.SubjectTest;
 import com.thm.unicap.app.util.UnicapUtils;
 import com.thm.unicap.app.util.WordUtils;
 
@@ -18,6 +16,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class UnicapConnector {
 
@@ -25,6 +25,7 @@ public class UnicapConnector {
     private static String actionUrl;
 
     public static void cleanDatabase() {
+        new Delete().from(SubjectTest.class).execute();
         new Delete().from(SubjectStatus.class).execute();
         new Delete().from(Subject.class).execute();
         new Delete().from(Student.class).execute();
@@ -249,6 +250,127 @@ public class UnicapConnector {
             subjectStatus.situation = SubjectStatus.Situation.PENDING;
 
             subjectStatus.save();
+
+        }
+
+        ActiveAndroid.setTransactionSuccessful();
+        ActiveAndroid.endTransaction();
+
+    }
+
+    public static void receiveSubjectsCalendarData() throws Exception {
+
+        if (actionUrl == null) throw new Exception("Authenticate is required before any action.");
+
+        // Subjects data request
+        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionUrl)
+                .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_CALENDAR)
+                .timeout(RequestUtils.REQUEST_TIMEOUT)
+                .get();
+
+        Elements subjectsTable = document.select("table").get(5).select("tr");
+
+        subjectsTable.remove(0); // Removing header
+
+        // Using transactions to speed up the process
+        ActiveAndroid.beginTransaction();
+
+        for (Element subjectRow : subjectsTable) {
+
+            Elements subjectColumns = subjectRow.select(".tab_texto");
+
+            String code = subjectColumns.get(0).text();
+
+            Subject subject = new Select().from(Subject.class).where("Code = ?", code).executeSingle();
+
+            if(subject != null) {
+
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+                SubjectTest firstDegree = new SubjectTest();
+                firstDegree.subject = subject;
+                firstDegree.degree = SubjectTest.Degree.FIRST_DEGREE;
+                firstDegree.date1 = simpleDateFormat.parse(subjectColumns.get(3).text());
+                firstDegree.date2 = simpleDateFormat.parse(subjectColumns.get(4).text());
+                firstDegree.save();
+
+                SubjectTest secondDegree = new SubjectTest();
+                secondDegree.subject = subject;
+                secondDegree.degree = SubjectTest.Degree.SECOND_DEGREE;
+                secondDegree.date1 = simpleDateFormat.parse(subjectColumns.get(5).text());
+                secondDegree.save();
+
+                SubjectTest finalDegree = new SubjectTest();
+                finalDegree.subject = subject;
+                finalDegree.degree = SubjectTest.Degree.FINAL_DEGREE;
+                finalDegree.date1 = simpleDateFormat.parse(subjectColumns.get(6).text());
+                finalDegree.date2 = simpleDateFormat.parse(subjectColumns.get(7).text());
+                finalDegree.save();
+
+            }
+
+        }
+
+        ActiveAndroid.setTransactionSuccessful();
+        ActiveAndroid.endTransaction();
+
+    }
+
+    public static void receiveSubjectsTestsData() throws Exception {
+
+        if (actionUrl == null) throw new Exception("Authenticate is required before any action.");
+
+        // Subjects data request
+        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionUrl)
+                .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_TESTS)
+                .timeout(RequestUtils.REQUEST_TIMEOUT)
+                .get();
+
+        Elements subjectsTable = document.select("table").get(7).select("tr");
+
+        subjectsTable.remove(0); // Removing header
+
+        // Using transactions to speed up the process
+        ActiveAndroid.beginTransaction();
+
+        for (Element subjectRow : subjectsTable) {
+
+            Elements subjectColumns = subjectRow.select(".tab_texto");
+
+            String code = subjectColumns.get(0).text();
+
+            Subject subject = new Select().from(Subject.class).where("Code = ?", code).executeSingle();
+
+            if(subject != null) {
+
+                SubjectTest subjectTest;
+                String gradeText;
+
+                subjectTest = subject.getTestByDegree(SubjectTest.Degree.FIRST_DEGREE);
+                gradeText = subjectColumns.get(2).text();
+
+                if(subjectTest != null && !gradeText.equals("--")) {
+                    subjectTest.grade = Float.parseFloat(gradeText);
+                    subjectTest.save();
+                }
+
+                subjectTest = subject.getTestByDegree(SubjectTest.Degree.SECOND_DEGREE);
+                gradeText = subjectColumns.get(3).text();
+
+                if(subjectTest != null && !gradeText.equals("--")) {
+                    subjectTest.grade = Float.parseFloat(gradeText);
+                    subjectTest.save();
+                }
+
+                subjectTest = subject.getTestByDegree(SubjectTest.Degree.FINAL_DEGREE);
+                gradeText = subjectColumns.get(5).text();
+
+                if(subjectTest != null && !gradeText.equals("--")) {
+                    subjectTest.grade = Float.parseFloat(gradeText);
+                    subjectTest.save();
+                }
+
+            }
 
         }
 

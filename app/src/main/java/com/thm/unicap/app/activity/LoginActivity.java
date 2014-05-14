@@ -210,6 +210,8 @@ public class LoginActivity extends Activity {
                 UnicapConnector.receiveSubjectsPastData();
                 UnicapConnector.receiveSubjectsActualData();
                 UnicapConnector.receiveSubjectsPendingData();
+                UnicapConnector.receiveSubjectsCalendarData();
+                UnicapConnector.receiveSubjectsTestsData();
 
 //                Student student = new Select().from(Student.class).executeSingle();
 

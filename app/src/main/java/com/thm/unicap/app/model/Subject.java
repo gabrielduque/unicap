@@ -30,4 +30,18 @@ public class Subject extends Model {
     public List<SubjectStatus> getSubjectStatus() {
         return getMany(SubjectStatus.class, "Subject");
     }
+
+    public List<SubjectTest> getSubjectTests() {
+        return getMany(SubjectTest.class, "Subject");
+    }
+
+    public SubjectTest getTestByDegree(SubjectTest.Degree degree) {
+        List<SubjectTest> subjectTests = getMany(SubjectTest.class, "Subject");
+
+        for (SubjectTest subjectTest : subjectTests) {
+            if (subjectTest.degree == degree) return subjectTest;
+        }
+
+        return null;
+    }
 }
