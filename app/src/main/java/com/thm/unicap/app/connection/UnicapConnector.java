@@ -243,6 +243,13 @@ public class UnicapConnector {
 
             subject.save();
 
+            SubjectStatus subjectStatus = new SubjectStatus();
+
+            subjectStatus.subject = subject;
+            subjectStatus.situation = SubjectStatus.Situation.PENDING;
+
+            subjectStatus.save();
+
         }
 
         ActiveAndroid.setTransactionSuccessful();

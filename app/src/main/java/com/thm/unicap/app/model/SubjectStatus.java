@@ -8,7 +8,7 @@ import com.activeandroid.annotation.Table;
 public class SubjectStatus extends Model {
 
     public enum Situation {
-        APPROVED, REPROVED, ACTUAL, UNKNOWN
+        APPROVED, REPROVED, ACTUAL, PENDING, UNKNOWN
     }
 
     @Column(name = "Subject")
