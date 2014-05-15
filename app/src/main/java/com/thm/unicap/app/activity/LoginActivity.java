@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -60,13 +61,13 @@ public class LoginActivity extends Activity {
 
                 if(dest.length() >= 11) return "";
 
-                Log.d(UnicapApplication.TAG, "----------");
-                Log.d(UnicapApplication.TAG, "source: "+source.toString());
-                Log.d(UnicapApplication.TAG, "start: "+String.valueOf(start));
-                Log.d(UnicapApplication.TAG, "end: "+String.valueOf(end));
-                Log.d(UnicapApplication.TAG, "dest: "+dest.toString());
-                Log.d(UnicapApplication.TAG, "dstart: "+String.valueOf(dstart));
-                Log.d(UnicapApplication.TAG, "dend: "+String.valueOf(dend));
+//                Log.d(UnicapApplication.TAG, "----------");
+//                Log.d(UnicapApplication.TAG, "source: "+source.toString());
+//                Log.d(UnicapApplication.TAG, "start: "+String.valueOf(start));
+//                Log.d(UnicapApplication.TAG, "end: "+String.valueOf(end));
+//                Log.d(UnicapApplication.TAG, "dest: "+dest.toString());
+//                Log.d(UnicapApplication.TAG, "dstart: "+String.valueOf(dstart));
+//                Log.d(UnicapApplication.TAG, "dend: "+String.valueOf(dend));
 
                 for (int i = start; i < end; i++) {
                     if (!Character.isDigit(source.charAt(i))) return "";
@@ -227,28 +228,30 @@ public class LoginActivity extends Activity {
                 UnicapConnector.receiveSubjectsCalendarData();
                 UnicapConnector.receiveSubjectsTestsData();
 
-//                Student student = new Select().from(Student.class).executeSingle();
+                return true;
 
             } catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
 
-            return true;
+
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-            showProgress(false);
 
-
-
-//            if (success) {
-//                finish();
-//            } else {
-//                mPasswordView.setError(getString(R.string.error_incorrect_password));
-//                mPasswordView.requestFocus();
-//            }
+            if (success) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                showProgress(false);
+                //TODO: Show specific error instead of "incorrect password"
+                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.requestFocus();
+            }
         }
 
         @Override

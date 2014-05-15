@@ -9,5 +9,6 @@
     <string name="navigation_drawer_close">Fechar navegação</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
+    <string name="unicap_full_name">Universidade Católica de Pernambuco</string>
 
 </resources>
