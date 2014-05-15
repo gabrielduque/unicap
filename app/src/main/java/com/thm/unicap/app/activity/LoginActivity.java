@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.activeandroid.query.Select;
+import com.github.johnpersano.supertoasts.SuperToast;
+import com.github.johnpersano.supertoasts.util.Style;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.connection.UnicapConnector;
@@ -246,11 +249,21 @@ public class LoginActivity extends Activity {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
+
+                SuperToast genericErrorMessage = new SuperToast(getApplicationContext(), Style.getStyle(Style.BLACK, SuperToast.Animations.SCALE));
+                genericErrorMessage.setText("Bem vindo."); //TODO: Add student name here
+                genericErrorMessage.setDuration(SuperToast.Duration.EXTRA_LONG);
+                genericErrorMessage.show();
+
             } else {
                 showProgress(false);
-                //TODO: Show specific error instead of "incorrect password"
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+
+                //TODO: Show specific error instead of generic one
+                SuperToast genericErrorMessage = new SuperToast(getApplicationContext(), Style.getStyle(Style.RED, SuperToast.Animations.FLYIN));
+                genericErrorMessage.setText(getString(R.string.generic_error));
+                genericErrorMessage.setDuration(SuperToast.Duration.EXTRA_LONG);
+                genericErrorMessage.setIcon(SuperToast.Icon.Dark.INFO, SuperToast.IconPosition.LEFT);
+                genericErrorMessage.show();
             }
         }
 

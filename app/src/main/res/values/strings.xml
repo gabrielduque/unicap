@@ -10,5 +10,6 @@
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
     <string name="unicap_full_name">Universidade Católica de Pernambuco</string>
+    <string name="generic_error">Ops… Algo deu errado :/</string>
 
 </resources>

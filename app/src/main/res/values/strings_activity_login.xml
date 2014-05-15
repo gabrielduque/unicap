@@ -6,6 +6,5 @@
 
     <string name="error_invalid_registration">Matrícula inválida</string>
     <string name="error_invalid_password">Senha inválida</string>
-    <string name="error_incorrect_password">Senha incorreta</string>
     <string name="error_field_required">Este campo é obrigatório</string>
 </resources>
