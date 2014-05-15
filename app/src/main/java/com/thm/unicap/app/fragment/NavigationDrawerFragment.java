@@ -1,5 +1,6 @@
 package com.thm.unicap.app.fragment;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -23,6 +24,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.thm.unicap.app.R;
+import com.thm.unicap.app.activity.LoginActivity;
+import com.thm.unicap.app.adapter.NavigationAdapter;
+import com.thm.unicap.app.adapter.NavigationItem;
+import com.thm.unicap.app.connection.UnicapConnector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -89,25 +97,27 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(
-                R.layout.fragment_navigation_drawer, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        mDrawerListView = (ListView) inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                }));
+
+        List<NavigationItem> navigationItems = new ArrayList<NavigationItem>();
+
+        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
+        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
+        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
+        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
+        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
+
+        mDrawerListView.setAdapter(new NavigationAdapter(getActionBar().getThemedContext(), R.layout.navigation_item, navigationItems));
+
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
@@ -249,8 +259,11 @@ public class NavigationDrawerFragment extends Fragment {
             return true;
         }
 
-        if (item.getItemId() == R.id.action_example) {
-            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.action_logout) {
+            UnicapConnector.cleanDatabase();
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
             return true;
         }
 
