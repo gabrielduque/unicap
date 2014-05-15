@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="500"
+   height="500"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="unicap-with-text.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="146.93118"
+     inkscape:cy="279.00042"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="702"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-552.36218)">
+    <text
+       xml:space="preserve"
+       style="font-size:82.57487488px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Times New Roman;-inkscape-font-specification:Times New Roman"
+       x="250.55943"
+       y="901.28064"
+       id="text2983"
+       sodipodi:linespacing="100%"><tspan
+         sodipodi:role="line"
+         id="tspan2985"
+         x="250.55943"
+         y="901.28064"
+         style="font-size:61.93115616px;text-align:center;line-height:100%;text-anchor:middle;fill:#b8b98e;fill-opacity:1">UNIVERSIDADE</tspan><tspan
+         sodipodi:role="line"
+         x="250.55943"
+         y="987.2085"
+         id="tspan2987"
+         style="font-size:92.89673615px;font-weight:normal;text-align:center;line-height:100%;text-anchor:middle;-inkscape-font-specification:'Times New Roman,'">CATÓLICA</tspan><tspan
+         sodipodi:role="line"
+         x="250.55943"
+         y="1048.1096"
+         id="tspan2989"
+         style="font-size:51.60929871px;text-align:center;line-height:100%;text-anchor:middle;fill:#b8b98e;fill-opacity:1">DE PERNAMBUCO</tspan></text>
+    <path
+       style="fill:#b8b98e;fill-opacity:1;stroke:none"
+       d="m 203.78751,557.80831 c 36.39224,64.38797 173.64811,11.09926 207.17545,168.60555 16.23091,-30.24759 37.93611,-37.4498 56.90456,-18.54038 2.47804,2.47034 0.65461,5.29767 11.97025,13.5814 -37.84067,1.26648 -25.8646,19.7881 -25.36808,28.03054 3.98809,66.20455 -78.85705,111.0699 -154.80846,30.92628 37.90163,30.47112 64.06622,29.52562 71.29923,-4.73853 -69.64393,29.83003 -63.51641,-44.76044 -132.46004,-67.22186 37.02878,-7.39921 74.5363,-12.96894 131.68864,56.53242 C 347.71978,658.96363 235.34648,711.59034 203.78751,557.80831 z"
+       id="path3101-2-0"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccscsccccc" />
+  </g>
+</svg>

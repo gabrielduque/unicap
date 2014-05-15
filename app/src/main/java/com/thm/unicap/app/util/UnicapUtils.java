@@ -2,6 +2,7 @@ package com.thm.unicap.app.util;
 
 public class UnicapUtils {
 
+    @SuppressWarnings("SpellCheckingInspection")
     private static String[][] exceptions = {
             {"A", "a"},
             {"Administracao", "Administração"},

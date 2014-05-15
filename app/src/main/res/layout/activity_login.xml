@@ -22,8 +22,7 @@
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
             <LinearLayout
                 android:id="@+id/registration_login_form"
@@ -31,12 +30,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <ImageView
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_unicap_with_text"/>
+
                 <EditText
                     android:id="@+id/registration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_registration"
-                    android:inputType="phone"
+                    android:inputType="number"
                     android:maxLines="1"
                     android:singleLine="true"/>
 
@@ -55,7 +60,6 @@
 
                 <Button
                     android:id="@+id/registration_sign_in_button"
-                    style="?android:textAppearanceSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
