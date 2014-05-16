@@ -5,14 +5,12 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,13 +19,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.activeandroid.query.Select;
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.github.johnpersano.supertoasts.util.Style;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
-import com.thm.unicap.app.connection.UnicapConnector;
-import com.thm.unicap.app.model.Student;
+import com.thm.unicap.app.connection.UnicapSync;
 import com.thm.unicap.app.util.UnicapUtils;
 
 
@@ -219,17 +215,16 @@ public class LoginActivity extends Activity {
         protected Boolean doInBackground(Void... params) {
 
             try {
-                UnicapConnector.prepareLoginRequest();
-                UnicapConnector.loginRequest(mRegistration, mPassword);
+                UnicapSync.loginRequest(mRegistration, mPassword);
 
-                UnicapConnector.cleanDatabase();
+                UnicapSync.cleanDatabase();
 
-                UnicapConnector.receivePersonalData();
-                UnicapConnector.receiveSubjectsPastData();
-                UnicapConnector.receiveSubjectsActualData();
-                UnicapConnector.receiveSubjectsPendingData();
-                UnicapConnector.receiveSubjectsCalendarData();
-                UnicapConnector.receiveSubjectsTestsData();
+                UnicapSync.receivePersonalData();
+                UnicapSync.receiveSubjectsPastData();
+                UnicapSync.receiveSubjectsActualData();
+                UnicapSync.receiveSubjectsPendingData();
+                UnicapSync.receiveSubjectsCalendarData();
+                UnicapSync.receiveSubjectsTestsData();
 
                 UnicapApplication.refreshStudent();
 

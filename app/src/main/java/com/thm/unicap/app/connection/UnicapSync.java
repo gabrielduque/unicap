@@ -15,15 +15,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
-public class UnicapConnector {
+public class UnicapSync {
 
-    private static String loginUrl;
-    private static String actionUrl;
+    private static String actionURL;
 
+    //TODO: port to use in UnicapSync
     public static void cleanDatabase() {
         new Delete().from(SubjectTest.class).execute();
         new Delete().from(SubjectStatus.class).execute();
@@ -31,21 +29,19 @@ public class UnicapConnector {
         new Delete().from(Student.class).execute();
     }
 
-    public static void prepareLoginRequest() throws IOException {
+    public static void loginRequest(String registration, String password) throws Exception {
+
+        Document document;
+
         // Request to get temporary session to be used on login request
-        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL)
+        document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL)
                 .timeout(RequestUtils.REQUEST_TIMEOUT)
                 .get();
 
-        loginUrl = document.select("form").first().attr("action");
-    }
-
-    public static void loginRequest(String registration, String password) throws Exception {
-
-        if (loginUrl == null) throw new Exception("Prepare login before trying to call this.");
+        String loginURL = document.select("form").first().attr("action");
 
         // Request to get permanent session to all future requests
-        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + loginUrl)
+        document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + loginURL)
                 .timeout(RequestUtils.REQUEST_TIMEOUT)
                 .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_LOGIN)
                 .data(RequestUtils.Params.REGISTRATION, registration.substring(0, 9))
@@ -53,45 +49,46 @@ public class UnicapConnector {
                 .data(RequestUtils.Params.PASSWORD, password)
                 .get();
 
-        actionUrl = document.select("form").first().attr("action");
+        actionURL = document.select("form").first().attr("action");
     }
 
     public static void receivePersonalData() throws Exception {
 
-        if (actionUrl == null) throw new Exception("Authenticate is required before any action.");
+        if (actionURL == null) throw new Exception("Authenticate is required before any action.");
 
         // Personal data request
-        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionUrl)
+        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
                 .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_PERSONAL)
                 .timeout(RequestUtils.REQUEST_TIMEOUT)
                 .get();
 
         String registration = document.select(".tab_texto").get(0).text();
+        String name = UnicapUtils.replaceNameExceptions(WordUtils.capitalizeFully(document.select(".tab_texto").get(1).text(), null));
+        String course = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(document.select(".tab_texto").get(2).text()).replace("Curso De ", ""));
+        String shift = document.select(".tab_texto").get(4).text();
+        String gender = WordUtils.capitalizeFully(document.select(".tab_texto").get(5).text(), null);
+        String birthday = WordUtils.capitalizeFully(document.select(".tab_texto").get(6).text(), null);
+        String email = document.select(".tab_texto").get(20).text();
 
-        Student student = new Select().from(Student.class).where("Registration = ?", registration).executeSingle();
-
-        if(student == null) {
-            student = new Student();
-            student.registration = document.select(".tab_texto").get(0).text();
-        }
-
-        student.name = UnicapUtils.replaceNameExceptions(WordUtils.capitalizeFully(document.select(".tab_texto").get(1).text(), null));
-        student.course = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(document.select(".tab_texto").get(2).text()).replace("Curso De ", ""));
-        student.shift = document.select(".tab_texto").get(4).text();
-        student.gender = WordUtils.capitalizeFully(document.select(".tab_texto").get(5).text(), null);
-        student.birthday = WordUtils.capitalizeFully(document.select(".tab_texto").get(6).text(), null);
-        student.email = document.select(".tab_texto").get(20).text();
-
-        student.save();
+        UnicapDataManager.persistPersonalData(
+                registration,
+                name,
+                course,
+                shift,
+                gender,
+                birthday,
+                email
+        );
 
     }
 
+    //TODO: port to use in UnicapSync
     public static void receiveSubjectsPastData() throws Exception {
 
-        if (actionUrl == null) throw new Exception("Authenticate is required before any action.");
+        if (actionURL == null) throw new Exception("Authenticate is required before any action.");
 
         // Subjects data request
-        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionUrl)
+        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
                 .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_PAST)
                 .timeout(RequestUtils.REQUEST_TIMEOUT)
                 .get();
@@ -100,6 +97,7 @@ public class UnicapConnector {
 
         subjectsTable.remove(0); // Removing header
 
+        //TODO: refactor to support multipls accounts
         Student student = new Select().from(Student.class).executeSingle();
 
         // Using transactions to speed up the process
@@ -144,12 +142,13 @@ public class UnicapConnector {
 
     }
 
+    //TODO: port to use in UnicapSync
     public static void receiveSubjectsActualData() throws Exception {
 
-        if (actionUrl == null) throw new Exception("Authenticate is required before any action.");
+        if (actionURL == null) throw new Exception("Authenticate is required before any action.");
 
         // Subjects data request
-        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionUrl)
+        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
                 .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_ACTUAL)
                 .timeout(RequestUtils.REQUEST_TIMEOUT)
                 .get();
@@ -160,6 +159,7 @@ public class UnicapConnector {
         subjectsTable.remove(0); // Removing header
         subjectsTable.remove(subjectsTable.size()-1); // Removing 'sum' row
 
+        //TODO: refactor to support multipls accounts
         Student student = new Select().from(Student.class).executeSingle();
 
         // Using transactions to speed up the process
@@ -204,12 +204,13 @@ public class UnicapConnector {
 
     }
 
+    //TODO: port to use in UnicapSync
     public static void receiveSubjectsPendingData() throws Exception {
 
-        if (actionUrl == null) throw new Exception("Authenticate is required before any action.");
+        if (actionURL == null) throw new Exception("Authenticate is required before any action.");
 
         // Subjects data request
-        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionUrl)
+        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
                 .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_PENDING)
                 .timeout(RequestUtils.REQUEST_TIMEOUT)
                 .get();
@@ -218,6 +219,7 @@ public class UnicapConnector {
 
         subjectsTable.remove(0); // Removing header
 
+        //TODO: refactor to support multipls accounts
         Student student = new Select().from(Student.class).executeSingle();
 
         // Using transactions to speed up the process
@@ -258,12 +260,13 @@ public class UnicapConnector {
 
     }
 
+    //TODO: port to use in UnicapSync
     public static void receiveSubjectsCalendarData() throws Exception {
 
-        if (actionUrl == null) throw new Exception("Authenticate is required before any action.");
+        if (actionURL == null) throw new Exception("Authenticate is required before any action.");
 
         // Subjects data request
-        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionUrl)
+        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
                 .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_CALENDAR)
                 .timeout(RequestUtils.REQUEST_TIMEOUT)
                 .get();
@@ -316,12 +319,13 @@ public class UnicapConnector {
 
     }
 
+    //TODO: port to use in UnicapSync
     public static void receiveSubjectsTestsData() throws Exception {
 
-        if (actionUrl == null) throw new Exception("Authenticate is required before any action.");
+        if (actionURL == null) throw new Exception("Authenticate is required before any action.");
 
         // Subjects data request
-        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionUrl)
+        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
                 .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_TESTS)
                 .timeout(RequestUtils.REQUEST_TIMEOUT)
                 .get();
