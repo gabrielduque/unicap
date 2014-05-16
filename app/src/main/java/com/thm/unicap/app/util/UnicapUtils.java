@@ -3,6 +3,13 @@ package com.thm.unicap.app.util;
 public class UnicapUtils {
 
     @SuppressWarnings("SpellCheckingInspection")
+    private static String[][] nameExceptions = {
+            {"Da", "da"},
+            {"De", "de"},
+            {"Do", "do"},
+    };
+
+    @SuppressWarnings("SpellCheckingInspection")
     private static String[][] exceptions = {
             {"A", "a"},
             {"Administracao", "Administração"},
@@ -22,6 +29,7 @@ public class UnicapUtils {
             {"Distribuidos", "Distribuídos"},
             {"Do", "do"},
             {"E", "e"},
+            {"Em", "em"},
             {"Eletronica", "Eletrônica"},
             {"Estatistica", "Estatística"},
             {"Estagio", "Estágio"},
@@ -75,6 +83,14 @@ public class UnicapUtils {
         }
 
         return true;
+    }
+
+    public static String replaceNameExceptions (String str) {
+
+        for (String[] exception : nameExceptions) {
+            str = str.replaceAll("(?i)\\b"+exception[0]+"\\b", exception[1]);
+        }
+        return str;
     }
 
     public static String replaceExceptions (String str) {

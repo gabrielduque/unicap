@@ -55,8 +55,7 @@ public class MainActivity extends ActionBarActivity
     protected void onResume() {
         super.onResume();
 
-        Student student = new Select().from(Student.class).executeSingle();
-        if(student == null) {
+        if(!UnicapApplication.isLogged()) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();

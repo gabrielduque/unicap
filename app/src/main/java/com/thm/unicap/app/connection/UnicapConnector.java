@@ -75,7 +75,7 @@ public class UnicapConnector {
             student.registration = document.select(".tab_texto").get(0).text();
         }
 
-        student.name = WordUtils.capitalizeFully(document.select(".tab_texto").get(1).text(), null);
+        student.name = UnicapUtils.replaceNameExceptions(WordUtils.capitalizeFully(document.select(".tab_texto").get(1).text(), null));
         student.course = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(document.select(".tab_texto").get(2).text()).replace("Curso De ", ""));
         student.shift = document.select(".tab_texto").get(4).text();
         student.gender = WordUtils.capitalizeFully(document.select(".tab_texto").get(5).text(), null);

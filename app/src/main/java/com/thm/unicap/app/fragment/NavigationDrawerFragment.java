@@ -19,11 +19,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import com.devspark.robototextview.widget.RobotoTextView;
+import com.squareup.picasso.Picasso;
 import com.thm.unicap.app.R;
+import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.activity.LoginActivity;
 import com.thm.unicap.app.adapter.NavigationAdapter;
 import com.thm.unicap.app.adapter.NavigationItem;
@@ -99,7 +101,22 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        mDrawerListView = (ListView) inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+
+        ImageView navHeaderPicture = (ImageView) rootView.findViewById(R.id.nav_header_picture);
+        RobotoTextView navHeaderCourse = (RobotoTextView) rootView.findViewById(R.id.nav_header_course);
+        RobotoTextView navHeaderName = (RobotoTextView) rootView.findViewById(R.id.nav_header_name);
+        RobotoTextView navHeaderEmail = (RobotoTextView) rootView.findViewById(R.id.nav_header_email);
+
+        if(UnicapApplication.isLogged()) {
+            Picasso.with(getActivity()).setDebugging(true);
+            Picasso.with(getActivity()).load(UnicapApplication.getStudent().getGravatarURL(100)).into(navHeaderPicture);
+            navHeaderCourse.setText(UnicapApplication.getStudent().course);
+            navHeaderName.setText(UnicapApplication.getStudent().name);
+            navHeaderEmail.setText(UnicapApplication.getStudent().email);
+        }
+
+        mDrawerListView = (ListView) rootView.findViewById(R.id.navigation_listview);
 
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -115,11 +132,15 @@ public class NavigationDrawerFragment extends Fragment {
         navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
         navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
         navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
+        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
+        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
+        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
 
         mDrawerListView.setAdapter(new NavigationAdapter(getActionBar().getThemedContext(), R.layout.navigation_item, navigationItems));
 
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        return mDrawerListView;
+
+        return rootView;
     }
 
     public boolean isDrawerOpen() {

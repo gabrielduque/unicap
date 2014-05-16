@@ -231,6 +231,8 @@ public class LoginActivity extends Activity {
                 UnicapConnector.receiveSubjectsCalendarData();
                 UnicapConnector.receiveSubjectsTestsData();
 
+                UnicapApplication.refreshStudent();
+
                 return true;
 
             } catch (Exception e) {
