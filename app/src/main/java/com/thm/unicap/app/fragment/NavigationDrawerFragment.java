@@ -29,6 +29,7 @@ import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.activity.LoginActivity;
 import com.thm.unicap.app.adapter.NavigationAdapter;
 import com.thm.unicap.app.adapter.NavigationItem;
+import com.thm.unicap.app.connection.UnicapDataManager;
 import com.thm.unicap.app.connection.UnicapSync;
 
 import java.util.ArrayList;
@@ -287,7 +288,7 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         if (item.getItemId() == R.id.action_logout) {
-            UnicapSync.cleanDatabase();
+            UnicapDataManager.cleanUserData(UnicapApplication.getStudent().registration);
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
             getActivity().finish();

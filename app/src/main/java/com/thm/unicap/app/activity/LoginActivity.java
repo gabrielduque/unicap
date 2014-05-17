@@ -23,6 +23,7 @@ import com.github.johnpersano.supertoasts.SuperToast;
 import com.github.johnpersano.supertoasts.util.Style;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
+import com.thm.unicap.app.connection.UnicapDataManager;
 import com.thm.unicap.app.connection.UnicapSync;
 import com.thm.unicap.app.connection.UnicapSyncException;
 import com.thm.unicap.app.util.UnicapUtils;
@@ -217,30 +218,20 @@ public class LoginActivity extends Activity {
         protected LoginResult doInBackground(Void... params) {
 
             try {
-                UnicapSync.loginRequest(getApplicationContext(), mRegistration, mPassword);
+                UnicapSync.loginRequest(mRegistration, mPassword);
 
-                UnicapSync.cleanDatabase();
-
-                UnicapSync.receivePersonalData();
-                UnicapSync.receivePastSubjectsData();
-                UnicapSync.receiveActualSubjectsData();
-                UnicapSync.receivePendingSubjectsData();
-                UnicapSync.receiveSubjectsCalendarData();
-                UnicapSync.receiveSubjectsGradesData();
+                UnicapSync.syncAll();
 
                 return new LoginResult(true);
 
             } catch (UnicapSyncException e) {
 
-                return new LoginResult(false, e.getMessage());
+                // Clean up to prevent broken data
+                UnicapDataManager.cleanUserData(mRegistration);
 
-            } catch (Exception e) {
-
-                e.printStackTrace();
-                return new LoginResult(false, getString(R.string.generic_error));
+                return new LoginResult(false, e.getMessageFromContext(getApplicationContext()));
 
             }
-
 
         }
 

@@ -11,4 +11,5 @@
     <string name="error_incorrect_registration">Matrícula incorreta.</string>
     <string name="error_incorrect_password">Senha incorreta.</string>
     <string name="error_max_tries_exceeded">Limite de tentativas excedido. Tente novamente amanhã.</string>
+    <string name="error_connection_failed">Não foi possível estabelecer uma conexão com o portal.</string>
 </resources>

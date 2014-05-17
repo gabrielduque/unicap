@@ -6,6 +6,7 @@ import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.thm.unicap.app.R;
+import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
@@ -18,6 +19,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -25,53 +28,64 @@ public class UnicapSync {
 
     private static String actionURL;
 
-    //TODO: port to use in UnicapSync
-    public static void cleanDatabase() {
-        new Delete().from(SubjectTest.class).execute();
-        new Delete().from(SubjectStatus.class).execute();
-        new Delete().from(Subject.class).execute();
-        new Delete().from(Student.class).execute();
+    public static void syncAll() throws UnicapSyncException {
+        receivePersonalData();
+        receivePastSubjectsData();
+        receiveActualSubjectsData();
+        receivePendingSubjectsData();
+        receiveSubjectsCalendarData();
+        receiveSubjectsGradesData();
     }
 
-    public static void loginRequest(Context context, String registration, String password) throws Exception {
+    public static void loginRequest(String registration, String password) throws UnicapSyncException {
 
         Document document;
 
         // Request to get temporary session to be used on login request
-        document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL)
-                .timeout(RequestUtils.REQUEST_TIMEOUT)
-                .get();
+        try {
+            document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL)
+                    .timeout(RequestUtils.REQUEST_TIMEOUT)
+                    .get();
 
-        String loginURL = document.select("form").first().attr("action");
+            String loginURL = document.select("form").first().attr("action");
 
-        // Request to get permanent session to all future requests
-        document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + loginURL)
-                .timeout(RequestUtils.REQUEST_TIMEOUT)
-                .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_LOGIN)
-                .data(RequestUtils.Params.REGISTRATION, registration.substring(0, 9))
-                .data(RequestUtils.Params.DIGIT, registration.substring(10))
-                .data(RequestUtils.Params.PASSWORD, password)
-                .get();
+            // Request to get permanent session to all future requests
+            document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + loginURL)
+                    .timeout(RequestUtils.REQUEST_TIMEOUT)
+                    .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_LOGIN)
+                    .data(RequestUtils.Params.REGISTRATION, registration.substring(0, 9))
+                    .data(RequestUtils.Params.DIGIT, registration.substring(10))
+                    .data(RequestUtils.Params.PASSWORD, password)
+                    .get();
+
+        } catch (IOException e) {
+            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION);
+        }
 
         if(document.select(".msg").text().matches(".*Matr.cula.*"))
-            throw new UnicapSyncException(context.getString(R.string.error_incorrect_registration));
+            throw new UnicapSyncException(UnicapSyncException.Code.REGISTRATION);
         else if(document.select(".msg").text().matches(".*Senha.*"))
-            throw new UnicapSyncException(context.getString(R.string.error_incorrect_password));
+            throw new UnicapSyncException(UnicapSyncException.Code.PASSWORD);
         else if(document.select(".msg").text().matches(".*limite.*"))
-            throw new UnicapSyncException(context.getString(R.string.error_max_tries_exceeded));
+            throw new UnicapSyncException(UnicapSyncException.Code.TRIES);
 
         actionURL = document.select("form").first().attr("action");
     }
 
-    public static void receivePersonalData() throws Exception {
+    public static void receivePersonalData() throws UnicapSyncException {
 
-        if (actionURL == null) throw new Exception("Authenticate is required before any action.");
+        if (actionURL == null) return;
 
         // Personal data request
-        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
-                .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_PERSONAL)
-                .timeout(RequestUtils.REQUEST_TIMEOUT)
-                .get();
+        Document document = null;
+        try {
+            document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
+                    .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_PERSONAL)
+                    .timeout(RequestUtils.REQUEST_TIMEOUT)
+                    .get();
+        } catch (IOException e) {
+            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION);
+        }
 
         String registration = document.select(".tab_texto").get(0).text();
         String name = UnicapUtils.replaceNameExceptions(WordUtils.capitalizeFully(document.select(".tab_texto").get(1).text(), null));
@@ -90,18 +104,22 @@ public class UnicapSync {
                 birthday,
                 email
         );
-
     }
 
-    public static void receivePastSubjectsData() throws Exception {
+    public static void receivePastSubjectsData() throws UnicapSyncException {
 
-        if (actionURL == null) throw new Exception("Authenticate is required before any action.");
+        if (actionURL == null) return;
 
         // Subjects data request
-        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
-                .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_PAST)
-                .timeout(RequestUtils.REQUEST_TIMEOUT)
-                .get();
+        Document document = null;
+        try {
+            document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
+                    .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_PAST)
+                    .timeout(RequestUtils.REQUEST_TIMEOUT)
+                    .get();
+        } catch (IOException e) {
+            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION);
+        }
 
         Elements subjectsTable = document.select("table").get(6).select("tr");
 
@@ -133,15 +151,20 @@ public class UnicapSync {
 
     }
 
-    public static void receiveActualSubjectsData() throws Exception {
+    public static void receiveActualSubjectsData() throws UnicapSyncException {
 
-        if (actionURL == null) throw new Exception("Authenticate is required before any action.");
+        if (actionURL == null) return;
 
         // Subjects data request
-        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
-                .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_ACTUAL)
-                .timeout(RequestUtils.REQUEST_TIMEOUT)
-                .get();
+        Document document = null;
+        try {
+            document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
+                    .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_ACTUAL)
+                    .timeout(RequestUtils.REQUEST_TIMEOUT)
+                    .get();
+        } catch (IOException e) {
+            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION);
+        }
 
         Elements subjectsTable = document.select("table").get(5).select("tr");
 
@@ -175,22 +198,26 @@ public class UnicapSync {
     }
 
     //TODO: port to use in UnicapSync
-    public static void receivePendingSubjectsData() throws Exception {
+    public static void receivePendingSubjectsData() throws UnicapSyncException {
 
-        if (actionURL == null) throw new Exception("Authenticate is required before any action.");
+        if (actionURL == null) return;
 
         // Subjects data request
-        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
-                .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_PENDING)
-                .timeout(RequestUtils.REQUEST_TIMEOUT)
-                .get();
+        Document document = null;
+        try {
+            document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
+                    .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_PENDING)
+                    .timeout(RequestUtils.REQUEST_TIMEOUT)
+                    .get();
+        } catch (IOException e) {
+            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION);
+        }
 
         Elements subjectsTable = document.select("table").get(6).select("tr");
 
         subjectsTable.remove(0); // Removing header
 
-        //TODO: refactor to support multiple accounts
-        Student student = new Select().from(Student.class).executeSingle();
+        Student student = UnicapApplication.getStudent();
 
         // Using transactions to speed up the process
         ActiveAndroid.beginTransaction();
@@ -200,28 +227,13 @@ public class UnicapSync {
             Elements subjectColumns = subjectRow.select(".tab_texto");
 
             String code = subjectColumns.get(2).text();
+            int period = Integer.parseInt(subjectColumns.get(0).text());
+            String name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(4).text()));
+            int credits = Integer.parseInt(subjectColumns.get(5).text());
+            int workload = Integer.parseInt(subjectColumns.get(6).text());
+            SubjectStatus.Situation situation = SubjectStatus.Situation.PENDING;
 
-            Subject subject = new Select().from(Subject.class).where("Code = ?", code).executeSingle();
-
-            if(subject == null) {
-                subject = new Subject();
-                subject.code = code;
-            }
-
-            subject.student = student;
-            subject.period = Integer.parseInt(subjectColumns.get(0).text());
-            subject.name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(4).text()));
-            subject.credits = Integer.parseInt(subjectColumns.get(5).text());
-            subject.workload = Integer.parseInt(subjectColumns.get(6).text());
-
-            subject.save();
-
-            SubjectStatus subjectStatus = new SubjectStatus();
-
-            subjectStatus.subject = subject;
-            subjectStatus.situation = SubjectStatus.Situation.PENDING;
-
-            subjectStatus.save();
+            UnicapDataManager.persistPendingSubject(code, period, name, credits, workload, situation);
 
         }
 
@@ -230,15 +242,20 @@ public class UnicapSync {
 
     }
 
-    public static void receiveSubjectsCalendarData() throws Exception {
+    public static void receiveSubjectsCalendarData() throws UnicapSyncException {
 
-        if (actionURL == null) throw new Exception("Authenticate is required before any action.");
+        if (actionURL == null) return;
 
         // Subjects data request
-        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
-                .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_CALENDAR)
-                .timeout(RequestUtils.REQUEST_TIMEOUT)
-                .get();
+        Document document = null;
+        try {
+            document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
+                    .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_CALENDAR)
+                    .timeout(RequestUtils.REQUEST_TIMEOUT)
+                    .get();
+        } catch (IOException e) {
+            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION);
+        }
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Elements subjectsTable = document.select("table").get(5).select("tr");
@@ -254,16 +271,24 @@ public class UnicapSync {
 
             String code = subjectColumns.get(0).text();
 
-            Date first_degree_date1 = simpleDateFormat.parse(subjectColumns.get(3).text());
-            Date first_degree_date2 = simpleDateFormat.parse(subjectColumns.get(4).text());
-            UnicapDataManager.persistSubjectCalendar(code, SubjectTest.Degree.FIRST_DEGREE, first_degree_date1, first_degree_date2);
+            try {
 
-            Date second_degree_date1 = simpleDateFormat.parse(subjectColumns.get(5).text());
-            UnicapDataManager.persistSubjectCalendar(code, SubjectTest.Degree.SECOND_DEGREE, second_degree_date1, null); // SECOND_DEGREE doesn't have date2
+                Date first_degree_date1 = simpleDateFormat.parse(subjectColumns.get(3).text());
+                Date first_degree_date2 = null;
+                first_degree_date2 = simpleDateFormat.parse(subjectColumns.get(4).text());
 
-            Date final_degree_date1 = simpleDateFormat.parse(subjectColumns.get(3).text());
-            Date final_degree_date2 = simpleDateFormat.parse(subjectColumns.get(4).text());
-            UnicapDataManager.persistSubjectCalendar(code, SubjectTest.Degree.FINAL_DEGREE, final_degree_date1, final_degree_date2);
+                UnicapDataManager.persistSubjectCalendar(code, SubjectTest.Degree.FIRST_DEGREE, first_degree_date1, first_degree_date2);
+
+                Date second_degree_date1 = simpleDateFormat.parse(subjectColumns.get(5).text());
+                UnicapDataManager.persistSubjectCalendar(code, SubjectTest.Degree.SECOND_DEGREE, second_degree_date1, null); // SECOND_DEGREE doesn't have date2
+
+                Date final_degree_date1 = simpleDateFormat.parse(subjectColumns.get(3).text());
+                Date final_degree_date2 = simpleDateFormat.parse(subjectColumns.get(4).text());
+                UnicapDataManager.persistSubjectCalendar(code, SubjectTest.Degree.FINAL_DEGREE, final_degree_date1, final_degree_date2);
+
+            } catch (ParseException e) {
+                throw new UnicapSyncException(UnicapSyncException.Code.PARSE);
+            }
 
         }
 
@@ -272,15 +297,20 @@ public class UnicapSync {
 
     }
 
-    public static void receiveSubjectsGradesData() throws Exception {
+    public static void receiveSubjectsGradesData() throws UnicapSyncException {
 
-        if (actionURL == null) throw new Exception("Authenticate is required before any action.");
+        if (actionURL == null) return;
 
         // Subjects data request
-        Document document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
-                .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_TESTS)
-                .timeout(RequestUtils.REQUEST_TIMEOUT)
-                .get();
+        Document document = null;
+        try {
+            document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
+                    .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_TESTS)
+                    .timeout(RequestUtils.REQUEST_TIMEOUT)
+                    .get();
+        } catch (IOException e) {
+            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION);
+        }
 
         Elements subjectsTable = document.select("table").get(7).select("tr");
 
