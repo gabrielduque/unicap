@@ -155,6 +155,7 @@ public class LoginActivity extends Activity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+            //TODO: Improve loading message
             showProgress(true);
             mAuthTask = new UserLoginTask(registration, password);
             mAuthTask.execute((Void) null);

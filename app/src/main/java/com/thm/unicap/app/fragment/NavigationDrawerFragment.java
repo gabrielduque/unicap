@@ -109,8 +109,11 @@ public class NavigationDrawerFragment extends Fragment {
         RobotoTextView navHeaderEmail = (RobotoTextView) rootView.findViewById(R.id.nav_header_email);
 
         if(UnicapApplication.isLogged()) {
-            Picasso.with(getActivity()).setDebugging(true);
-            Picasso.with(getActivity()).load(UnicapApplication.getStudent().getGravatarURL(100)).into(navHeaderPicture);
+//            Picasso.with(getActivity()).setDebugging(true);
+            Picasso.with(getActivity())
+                    .load(UnicapApplication.getStudent().getGravatarURL(100))
+                    .placeholder(R.drawable.mm)
+                    .into(navHeaderPicture);
             navHeaderCourse.setText(UnicapApplication.getStudent().course);
             navHeaderName.setText(UnicapApplication.getStudent().name);
             navHeaderEmail.setText(UnicapApplication.getStudent().email);
@@ -127,16 +130,19 @@ public class NavigationDrawerFragment extends Fragment {
 
         List<NavigationItem> navigationItems = new ArrayList<NavigationItem>();
 
+        //Main items
         navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
-        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
-        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
-        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
-        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
-        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
-        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
-        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
+        navigationItems.add(new NavigationItem(getString(R.string.subjects), R.drawable.ic_action_storage));
+        navigationItems.add(new NavigationItem(getString(R.string.calendar), R.drawable.ic_action_go_to_today));
+        navigationItems.add(new NavigationItem(getString(R.string.lessons), R.drawable.ic_action_view_as_grid));
+        navigationItems.add(new NavigationItem(getString(R.string.grades), R.drawable.ic_action_view_as_list));
 
-        mDrawerListView.setAdapter(new NavigationAdapter(getActionBar().getThemedContext(), R.layout.navigation_item, navigationItems));
+        //Extra items
+        navigationItems.add(new NavigationItem(getString(R.string.settings), R.drawable.ic_action_settings, NavigationItem.Size.SMALL));
+        navigationItems.add(new NavigationItem(getString(R.string.feedback), R.drawable.ic_action_email, NavigationItem.Size.SMALL));
+        navigationItems.add(new NavigationItem(getString(R.string.help), R.drawable.ic_action_help, NavigationItem.Size.SMALL));
+
+        mDrawerListView.setAdapter(new NavigationAdapter(getActionBar().getThemedContext(), R.layout.navigation_item_big, navigationItems));
 
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 

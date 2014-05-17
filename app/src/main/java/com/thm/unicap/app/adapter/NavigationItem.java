@@ -4,6 +4,17 @@ public class NavigationItem {
 
     private String title;
     private int imageResource;
+    private Size size = Size.BIG;
+
+    public enum Size {
+        SMALL, BIG
+    }
+
+    public NavigationItem(String title, int imageResource, Size size) {
+        this.title = title;
+        this.imageResource = imageResource;
+        this.size = size;
+    }
 
     public NavigationItem(String title, int imageResource) {
         this.title = title;
@@ -24,5 +35,13 @@ public class NavigationItem {
 
     public void setImageResource(int imageResource) {
         this.imageResource = imageResource;
+    }
+
+    public Size getSize() {
+        return size;
+    }
+
+    public void setSize(Size size) {
+        this.size = size;
     }
 }

@@ -19,13 +19,29 @@ public class NavigationAdapter extends ArrayAdapter<NavigationItem> {
     }
 
     @Override
+    public int getViewTypeCount() {
+        return NavigationItem.Size.values().length;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return getItem(position).getSize().ordinal();
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Keeps reference to avoid future findViewById()
         MenuItemViewHolder viewHolder;
+        int type = getItemViewType(position);
 
         if (convertView == null) {
             LayoutInflater li = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = li.inflate(R.layout.navigation_item, parent, false);
+
+            if(type == NavigationItem.Size.SMALL.ordinal()) {
+                convertView = li.inflate(R.layout.navigation_item_small, parent, false);
+            } else {
+                convertView = li.inflate(R.layout.navigation_item_big, parent, false);
+            }
 
             viewHolder = new MenuItemViewHolder();
             viewHolder.icon = (ImageView) convertView.findViewById(R.id.nav_icon);

@@ -15,7 +15,7 @@
         android:padding="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:src="@drawable/ic_launcher"
+        tools:src="@drawable/ic_action_settings"
         tools:ignore="ContentDescription" />
 
     <com.devspark.robototextview.widget.RobotoTextView
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="22sp"
-        tools:text="Navigation Item"
+        tools:text="Settings"
         app:typeface="roboto_thin"/>
 
 </LinearLayout>
