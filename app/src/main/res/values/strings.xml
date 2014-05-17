@@ -21,5 +21,6 @@
     <string name="help">Ajuda</string>
     <string name="settings">Configurações</string>
     <string name="feedback">Feedback</string>
+    <string name="welcome_format">Bem vindo(a), %s.</string>
 
 </resources>

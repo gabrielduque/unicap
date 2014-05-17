@@ -24,6 +24,7 @@ import com.github.johnpersano.supertoasts.util.Style;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.connection.UnicapSync;
+import com.thm.unicap.app.connection.UnicapSyncException;
 import com.thm.unicap.app.util.UnicapUtils;
 
 
@@ -202,7 +203,7 @@ public class LoginActivity extends Activity {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, LoginResult> {
 
         private final String mRegistration;
         private final String mPassword;
@@ -213,54 +214,57 @@ public class LoginActivity extends Activity {
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected LoginResult doInBackground(Void... params) {
 
             try {
-                UnicapSync.loginRequest(mRegistration, mPassword);
+                UnicapSync.loginRequest(getApplicationContext(), mRegistration, mPassword);
 
                 UnicapSync.cleanDatabase();
 
                 UnicapSync.receivePersonalData();
-                UnicapSync.receiveSubjectsPastData();
-                UnicapSync.receiveSubjectsActualData();
-                UnicapSync.receiveSubjectsPendingData();
+                UnicapSync.receivePastSubjectsData();
+                UnicapSync.receiveActualSubjectsData();
+                UnicapSync.receivePendingSubjectsData();
                 UnicapSync.receiveSubjectsCalendarData();
-                UnicapSync.receiveSubjectsTestsData();
+                UnicapSync.receiveSubjectsGradesData();
 
-                UnicapApplication.refreshStudent();
+                return new LoginResult(true);
 
-                return true;
+            } catch (UnicapSyncException e) {
+
+                return new LoginResult(false, e.getMessage());
 
             } catch (Exception e) {
+
                 e.printStackTrace();
-                return false;
+                return new LoginResult(false, getString(R.string.generic_error));
+
             }
 
 
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(final LoginResult loginResult) {
             mAuthTask = null;
 
-            if (success) {
+            if (loginResult.isSuccess()) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
 
                 SuperToast genericErrorMessage = new SuperToast(getApplicationContext(), Style.getStyle(Style.BLACK, SuperToast.Animations.SCALE));
-                genericErrorMessage.setText("Bem vindo."); //TODO: Add student name here
+                genericErrorMessage.setText(String.format(getString(R.string.welcome_format), UnicapApplication.getStudent().name));
                 genericErrorMessage.setDuration(SuperToast.Duration.EXTRA_LONG);
                 genericErrorMessage.show();
 
             } else {
                 showProgress(false);
 
-                //TODO: Show specific error instead of generic one
                 SuperToast genericErrorMessage = new SuperToast(getApplicationContext(), Style.getStyle(Style.RED, SuperToast.Animations.FLYIN));
-                genericErrorMessage.setText(getString(R.string.generic_error));
+                genericErrorMessage.setText(loginResult.getMessage());
                 genericErrorMessage.setDuration(SuperToast.Duration.EXTRA_LONG);
-                genericErrorMessage.setIcon(SuperToast.Icon.Dark.INFO, SuperToast.IconPosition.LEFT);
+                genericErrorMessage.setIcon(R.drawable.ic_action_warning, SuperToast.IconPosition.LEFT);
                 genericErrorMessage.show();
             }
         }
@@ -269,6 +273,36 @@ public class LoginActivity extends Activity {
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+    }
+
+    private class LoginResult {
+        private boolean success;
+        private String message;
+
+        private LoginResult(boolean success) {
+            this.success = success;
+        }
+
+        private LoginResult(boolean success, String message) {
+            this.success = success;
+            this.message = message;
+        }
+
+        public boolean isSuccess() {
+            return success;
+        }
+
+        public void setSuccess(boolean success) {
+            this.success = success;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
         }
     }
 }

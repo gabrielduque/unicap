@@ -1,8 +1,11 @@
 package com.thm.unicap.app.connection;
 
+import android.content.Context;
+
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.thm.unicap.app.R;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
@@ -16,6 +19,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class UnicapSync {
 
@@ -29,7 +33,7 @@ public class UnicapSync {
         new Delete().from(Student.class).execute();
     }
 
-    public static void loginRequest(String registration, String password) throws Exception {
+    public static void loginRequest(Context context, String registration, String password) throws Exception {
 
         Document document;
 
@@ -48,6 +52,13 @@ public class UnicapSync {
                 .data(RequestUtils.Params.DIGIT, registration.substring(10))
                 .data(RequestUtils.Params.PASSWORD, password)
                 .get();
+
+        if(document.select(".msg").text().matches(".*Matr.cula.*"))
+            throw new UnicapSyncException(context.getString(R.string.error_incorrect_registration));
+        else if(document.select(".msg").text().matches(".*Senha.*"))
+            throw new UnicapSyncException(context.getString(R.string.error_incorrect_password));
+        else if(document.select(".msg").text().matches(".*limite.*"))
+            throw new UnicapSyncException(context.getString(R.string.error_max_tries_exceeded));
 
         actionURL = document.select("form").first().attr("action");
     }
@@ -82,8 +93,7 @@ public class UnicapSync {
 
     }
 
-    //TODO: port to use in UnicapSync
-    public static void receiveSubjectsPastData() throws Exception {
+    public static void receivePastSubjectsData() throws Exception {
 
         if (actionURL == null) throw new Exception("Authenticate is required before any action.");
 
@@ -97,9 +107,6 @@ public class UnicapSync {
 
         subjectsTable.remove(0); // Removing header
 
-        //TODO: refactor to support multipls accounts
-        Student student = new Select().from(Student.class).executeSingle();
-
         // Using transactions to speed up the process
         ActiveAndroid.beginTransaction();
 
@@ -108,32 +115,16 @@ public class UnicapSync {
             Elements subjectColumns = subjectRow.select(".tab_texto");
 
             String code = subjectColumns.get(1).text();
+            String name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(2).text()));
+            String paidIn = subjectColumns.get(0).text();
+            Float average = Float.parseFloat(subjectColumns.get(3).text());
 
-            Subject subject = new Select().from(Subject.class).where("Code = ?", code).executeSingle();
+            SubjectStatus.Situation situation;
+            if (subjectColumns.get(4).text().equals("AP")) situation = SubjectStatus.Situation.APPROVED;
+            else if (subjectColumns.get(4).text().equals("RM")) situation = SubjectStatus.Situation.REPROVED;
+            else situation = SubjectStatus.Situation.UNKNOWN;
 
-            if(subject == null) {
-                subject = new Subject();
-                subject.code = code;
-            }
-
-            subject.student = student;
-            subject.name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(2).text()));
-
-            subject.save();
-
-            SubjectStatus subjectStatus = new SubjectStatus();
-
-            subjectStatus.subject = subject;
-            subjectStatus.paidIn = subjectColumns.get(0).text();
-            subjectStatus.average = Float.parseFloat(subjectColumns.get(3).text());
-
-            String situation = subjectColumns.get(4).text();
-
-            if (situation.equals("AP")) subjectStatus.situation = SubjectStatus.Situation.APPROVED;
-            else if (situation.equals("RM")) subjectStatus.situation = SubjectStatus.Situation.REPROVED;
-            else subjectStatus.situation = SubjectStatus.Situation.UNKNOWN;
-
-            subjectStatus.save();
+            UnicapDataManager.persistPastSubject(code, name, paidIn, average, situation);
 
         }
 
@@ -142,8 +133,7 @@ public class UnicapSync {
 
     }
 
-    //TODO: port to use in UnicapSync
-    public static void receiveSubjectsActualData() throws Exception {
+    public static void receiveActualSubjectsData() throws Exception {
 
         if (actionURL == null) throw new Exception("Authenticate is required before any action.");
 
@@ -153,14 +143,10 @@ public class UnicapSync {
                 .timeout(RequestUtils.REQUEST_TIMEOUT)
                 .get();
 
-        String paidIn = document.select("table").get(4).select("td").get(1).text();
         Elements subjectsTable = document.select("table").get(5).select("tr");
 
         subjectsTable.remove(0); // Removing header
         subjectsTable.remove(subjectsTable.size()-1); // Removing 'sum' row
-
-        //TODO: refactor to support multipls accounts
-        Student student = new Select().from(Student.class).executeSingle();
 
         // Using transactions to speed up the process
         ActiveAndroid.beginTransaction();
@@ -170,33 +156,17 @@ public class UnicapSync {
             Elements subjectColumns = subjectRow.select(".tab_texto");
 
             String code = subjectColumns.get(0).text();
+            String paidIn = document.select("table").get(4).select("td").get(1).text();
+            String name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(1).text()));
+            Integer workload = Integer.parseInt(subjectColumns.get(5).text());
+            Integer credits = Integer.parseInt(subjectColumns.get(6).text());
+            Integer period = Integer.parseInt(subjectColumns.get(7).text());
+            SubjectStatus.Situation situation = SubjectStatus.Situation.ACTUAL;
+            String team = subjectColumns.get(2).text();
+            String room = subjectColumns.get(3).text();
+            String schedule = subjectColumns.get(4).text();
 
-            Subject subject = new Select().from(Subject.class).where("Code = ?", code).executeSingle();
-
-            if(subject == null) {
-                subject = new Subject();
-                subject.code = code;
-            }
-
-            subject.student = student;
-            subject.name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(1).text()));
-            subject.workload = Integer.parseInt(subjectColumns.get(5).text());
-            subject.credits = Integer.parseInt(subjectColumns.get(6).text());
-            subject.period = Integer.parseInt(subjectColumns.get(7).text());
-
-            subject.save();
-
-            SubjectStatus subjectStatus = new SubjectStatus();
-
-            subjectStatus.subject = subject;
-            subjectStatus.situation = SubjectStatus.Situation.ACTUAL;
-            subjectStatus.team = subjectColumns.get(2).text();
-            subjectStatus.room = subjectColumns.get(3).text();
-            subjectStatus.schedule = subjectColumns.get(4).text();
-            subjectStatus.paidIn = paidIn;
-
-            subjectStatus.save();
-
+            UnicapDataManager.persistActualSubject(code, paidIn, name, workload, credits, period, situation, team, room, schedule);
         }
 
         ActiveAndroid.setTransactionSuccessful();
@@ -205,7 +175,7 @@ public class UnicapSync {
     }
 
     //TODO: port to use in UnicapSync
-    public static void receiveSubjectsPendingData() throws Exception {
+    public static void receivePendingSubjectsData() throws Exception {
 
         if (actionURL == null) throw new Exception("Authenticate is required before any action.");
 
@@ -219,7 +189,7 @@ public class UnicapSync {
 
         subjectsTable.remove(0); // Removing header
 
-        //TODO: refactor to support multipls accounts
+        //TODO: refactor to support multiple accounts
         Student student = new Select().from(Student.class).executeSingle();
 
         // Using transactions to speed up the process
@@ -260,7 +230,6 @@ public class UnicapSync {
 
     }
 
-    //TODO: port to use in UnicapSync
     public static void receiveSubjectsCalendarData() throws Exception {
 
         if (actionURL == null) throw new Exception("Authenticate is required before any action.");
@@ -271,6 +240,7 @@ public class UnicapSync {
                 .timeout(RequestUtils.REQUEST_TIMEOUT)
                 .get();
 
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Elements subjectsTable = document.select("table").get(5).select("tr");
 
         subjectsTable.remove(0); // Removing header
@@ -284,33 +254,16 @@ public class UnicapSync {
 
             String code = subjectColumns.get(0).text();
 
-            Subject subject = new Select().from(Subject.class).where("Code = ?", code).executeSingle();
+            Date first_degree_date1 = simpleDateFormat.parse(subjectColumns.get(3).text());
+            Date first_degree_date2 = simpleDateFormat.parse(subjectColumns.get(4).text());
+            UnicapDataManager.persistSubjectCalendar(code, SubjectTest.Degree.FIRST_DEGREE, first_degree_date1, first_degree_date2);
 
-            if(subject != null) {
+            Date second_degree_date1 = simpleDateFormat.parse(subjectColumns.get(5).text());
+            UnicapDataManager.persistSubjectCalendar(code, SubjectTest.Degree.SECOND_DEGREE, second_degree_date1, null); // SECOND_DEGREE doesn't have date2
 
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-                SubjectTest firstDegree = new SubjectTest();
-                firstDegree.subject = subject;
-                firstDegree.degree = SubjectTest.Degree.FIRST_DEGREE;
-                firstDegree.date1 = simpleDateFormat.parse(subjectColumns.get(3).text());
-                firstDegree.date2 = simpleDateFormat.parse(subjectColumns.get(4).text());
-                firstDegree.save();
-
-                SubjectTest secondDegree = new SubjectTest();
-                secondDegree.subject = subject;
-                secondDegree.degree = SubjectTest.Degree.SECOND_DEGREE;
-                secondDegree.date1 = simpleDateFormat.parse(subjectColumns.get(5).text());
-                secondDegree.save();
-
-                SubjectTest finalDegree = new SubjectTest();
-                finalDegree.subject = subject;
-                finalDegree.degree = SubjectTest.Degree.FINAL_DEGREE;
-                finalDegree.date1 = simpleDateFormat.parse(subjectColumns.get(6).text());
-                finalDegree.date2 = simpleDateFormat.parse(subjectColumns.get(7).text());
-                finalDegree.save();
-
-            }
+            Date final_degree_date1 = simpleDateFormat.parse(subjectColumns.get(3).text());
+            Date final_degree_date2 = simpleDateFormat.parse(subjectColumns.get(4).text());
+            UnicapDataManager.persistSubjectCalendar(code, SubjectTest.Degree.FINAL_DEGREE, final_degree_date1, final_degree_date2);
 
         }
 
@@ -319,8 +272,7 @@ public class UnicapSync {
 
     }
 
-    //TODO: port to use in UnicapSync
-    public static void receiveSubjectsTestsData() throws Exception {
+    public static void receiveSubjectsGradesData() throws Exception {
 
         if (actionURL == null) throw new Exception("Authenticate is required before any action.");
 
@@ -343,38 +295,20 @@ public class UnicapSync {
 
             String code = subjectColumns.get(0).text();
 
-            Subject subject = new Select().from(Subject.class).where("Code = ?", code).executeSingle();
+            SubjectTest.Degree first_degree = SubjectTest.Degree.FIRST_DEGREE;
+            String first_gradeText = subjectColumns.get(2).text();
+            if(!first_gradeText.equals("--"))
+                UnicapDataManager.persistSubjectGrade(code, first_degree, Float.parseFloat(first_gradeText));
 
-            if(subject != null) {
+            SubjectTest.Degree second_degree = SubjectTest.Degree.SECOND_DEGREE;
+            String second_gradeText = subjectColumns.get(3).text();
+            if(!second_gradeText.equals("--"))
+                UnicapDataManager.persistSubjectGrade(code, second_degree, Float.parseFloat(second_gradeText));
 
-                SubjectTest subjectTest;
-                String gradeText;
-
-                subjectTest = subject.getTestByDegree(SubjectTest.Degree.FIRST_DEGREE);
-                gradeText = subjectColumns.get(2).text();
-
-                if(subjectTest != null && !gradeText.equals("--")) {
-                    subjectTest.grade = Float.parseFloat(gradeText);
-                    subjectTest.save();
-                }
-
-                subjectTest = subject.getTestByDegree(SubjectTest.Degree.SECOND_DEGREE);
-                gradeText = subjectColumns.get(3).text();
-
-                if(subjectTest != null && !gradeText.equals("--")) {
-                    subjectTest.grade = Float.parseFloat(gradeText);
-                    subjectTest.save();
-                }
-
-                subjectTest = subject.getTestByDegree(SubjectTest.Degree.FINAL_DEGREE);
-                gradeText = subjectColumns.get(5).text();
-
-                if(subjectTest != null && !gradeText.equals("--")) {
-                    subjectTest.grade = Float.parseFloat(gradeText);
-                    subjectTest.save();
-                }
-
-            }
+            SubjectTest.Degree final_degree = SubjectTest.Degree.FINAL_DEGREE;
+            String final_gradeText = subjectColumns.get(5).text();
+            if(!final_gradeText.equals("--"))
+                UnicapDataManager.persistSubjectGrade(code, final_degree, Float.parseFloat(final_gradeText));
 
         }
 

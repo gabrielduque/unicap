@@ -1,9 +1,6 @@
 package com.thm.unicap.app;
 
-import android.content.Intent;
-
 import com.activeandroid.query.Select;
-import com.thm.unicap.app.activity.LoginActivity;
 import com.thm.unicap.app.model.Student;
 
 public class UnicapApplication extends com.activeandroid.app.Application {
@@ -17,10 +14,6 @@ public class UnicapApplication extends com.activeandroid.app.Application {
     public void onCreate() {
         super.onCreate();
 
-        student = new Select().from(Student.class).executeSingle();
-    }
-
-    public static void refreshStudent() {
         student = new Select().from(Student.class).executeSingle();
     }
 

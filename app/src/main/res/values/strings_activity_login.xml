@@ -7,4 +7,8 @@
     <string name="error_invalid_registration">Matrícula inválida</string>
     <string name="error_invalid_password">Senha inválida</string>
     <string name="error_field_required">Este campo é obrigatório</string>
+
+    <string name="error_incorrect_registration">Matrícula incorreta.</string>
+    <string name="error_incorrect_password">Senha incorreta.</string>
+    <string name="error_max_tries_exceeded">Limite de tentativas excedido. Tente novamente amanhã.</string>
 </resources>
