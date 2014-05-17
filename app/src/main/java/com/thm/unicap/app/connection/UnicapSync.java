@@ -1,14 +1,8 @@
 package com.thm.unicap.app.connection;
 
-import android.content.Context;
-
 import com.activeandroid.ActiveAndroid;
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.Select;
-import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.model.Student;
-import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
 import com.thm.unicap.app.model.SubjectTest;
 import com.thm.unicap.app.util.UnicapUtils;
@@ -59,22 +53,24 @@ public class UnicapSync {
                     .get();
 
         } catch (IOException e) {
-            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION);
+            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION_FAILED);
         }
 
         if(document.select(".msg").text().matches(".*Matr.cula.*"))
-            throw new UnicapSyncException(UnicapSyncException.Code.REGISTRATION);
+            throw new UnicapSyncException(UnicapSyncException.Code.INCORRECT_REGISTRATION);
         else if(document.select(".msg").text().matches(".*Senha.*"))
-            throw new UnicapSyncException(UnicapSyncException.Code.PASSWORD);
+            throw new UnicapSyncException(UnicapSyncException.Code.INCORRECT_PASSWORD);
         else if(document.select(".msg").text().matches(".*limite.*"))
-            throw new UnicapSyncException(UnicapSyncException.Code.TRIES);
+            throw new UnicapSyncException(UnicapSyncException.Code.MAX_TRIES_EXCEEDED);
 
         actionURL = document.select("form").first().attr("action");
+
+        UnicapDataManager.initStudent(registration, password);
     }
 
     public static void receivePersonalData() throws UnicapSyncException {
 
-        if (actionURL == null) return;
+        if (actionURL == null) throw new UnicapSyncException(UnicapSyncException.Code.AUTH_NEEDED);
 
         // Personal data request
         Document document = null;
@@ -84,7 +80,7 @@ public class UnicapSync {
                     .timeout(RequestUtils.REQUEST_TIMEOUT)
                     .get();
         } catch (IOException e) {
-            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION);
+            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION_FAILED);
         }
 
         String registration = document.select(".tab_texto").get(0).text();
@@ -108,7 +104,7 @@ public class UnicapSync {
 
     public static void receivePastSubjectsData() throws UnicapSyncException {
 
-        if (actionURL == null) return;
+        if (actionURL == null) throw new UnicapSyncException(UnicapSyncException.Code.AUTH_NEEDED);
 
         // Subjects data request
         Document document = null;
@@ -118,7 +114,7 @@ public class UnicapSync {
                     .timeout(RequestUtils.REQUEST_TIMEOUT)
                     .get();
         } catch (IOException e) {
-            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION);
+            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION_FAILED);
         }
 
         Elements subjectsTable = document.select("table").get(6).select("tr");
@@ -153,7 +149,7 @@ public class UnicapSync {
 
     public static void receiveActualSubjectsData() throws UnicapSyncException {
 
-        if (actionURL == null) return;
+        if (actionURL == null) throw new UnicapSyncException(UnicapSyncException.Code.AUTH_NEEDED);
 
         // Subjects data request
         Document document = null;
@@ -163,7 +159,7 @@ public class UnicapSync {
                     .timeout(RequestUtils.REQUEST_TIMEOUT)
                     .get();
         } catch (IOException e) {
-            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION);
+            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION_FAILED);
         }
 
         Elements subjectsTable = document.select("table").get(5).select("tr");
@@ -200,7 +196,7 @@ public class UnicapSync {
     //TODO: port to use in UnicapSync
     public static void receivePendingSubjectsData() throws UnicapSyncException {
 
-        if (actionURL == null) return;
+        if (actionURL == null) throw new UnicapSyncException(UnicapSyncException.Code.AUTH_NEEDED);
 
         // Subjects data request
         Document document = null;
@@ -210,7 +206,7 @@ public class UnicapSync {
                     .timeout(RequestUtils.REQUEST_TIMEOUT)
                     .get();
         } catch (IOException e) {
-            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION);
+            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION_FAILED);
         }
 
         Elements subjectsTable = document.select("table").get(6).select("tr");
@@ -244,7 +240,7 @@ public class UnicapSync {
 
     public static void receiveSubjectsCalendarData() throws UnicapSyncException {
 
-        if (actionURL == null) return;
+        if (actionURL == null) throw new UnicapSyncException(UnicapSyncException.Code.AUTH_NEEDED);
 
         // Subjects data request
         Document document = null;
@@ -254,7 +250,7 @@ public class UnicapSync {
                     .timeout(RequestUtils.REQUEST_TIMEOUT)
                     .get();
         } catch (IOException e) {
-            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION);
+            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION_FAILED);
         }
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -287,7 +283,7 @@ public class UnicapSync {
                 UnicapDataManager.persistSubjectCalendar(code, SubjectTest.Degree.FINAL_DEGREE, final_degree_date1, final_degree_date2);
 
             } catch (ParseException e) {
-                throw new UnicapSyncException(UnicapSyncException.Code.PARSE);
+                throw new UnicapSyncException(UnicapSyncException.Code.DATA_PARSE_EXCEPTION);
             }
 
         }
@@ -299,7 +295,7 @@ public class UnicapSync {
 
     public static void receiveSubjectsGradesData() throws UnicapSyncException {
 
-        if (actionURL == null) return;
+        if (actionURL == null) throw new UnicapSyncException(UnicapSyncException.Code.AUTH_NEEDED);
 
         // Subjects data request
         Document document = null;
@@ -309,7 +305,7 @@ public class UnicapSync {
                     .timeout(RequestUtils.REQUEST_TIMEOUT)
                     .get();
         } catch (IOException e) {
-            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION);
+            throw new UnicapSyncException(UnicapSyncException.Code.CONNECTION_FAILED);
         }
 
         Elements subjectsTable = document.select("table").get(7).select("tr");

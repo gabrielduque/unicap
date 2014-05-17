@@ -13,9 +13,6 @@ import java.util.Date;
 public class UnicapDataManager {
 
     public static void cleanDatabase() {
-        new Delete().from(SubjectTest.class).execute();
-        new Delete().from(SubjectStatus.class).execute();
-        new Delete().from(Subject.class).execute();
         new Delete().from(Student.class).execute();
     }
 
@@ -23,11 +20,19 @@ public class UnicapDataManager {
 
         Student student = new Select().from(Student.class).where("Registration = ?", registration).executeSingle();
 
-        new Delete().from(SubjectTest.class).where("Student = ?", student.getId()).execute();
-        new Delete().from(SubjectStatus.class).where("Student = ?", student.getId()).execute();
-        new Delete().from(Subject.class).where("Student = ?", student.getId()).execute();
+        student.delete(); // Models configured with cascade delete
+    }
 
-        student.delete();
+    public static void initStudent(String registration, String password) {
+        Student student = new Select().from(Student.class).where("Registration = ?", registration).executeSingle();
+
+        if(student == null) {
+            student = new Student();
+            student.registration = registration;
+            student.password = password;
+            student.save();
+        }
+
     }
 
     public static void persistPersonalData(String registration, String name, String course, String shift, String gender, String birthday, String email) {

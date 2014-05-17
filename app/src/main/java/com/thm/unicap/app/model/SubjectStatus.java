@@ -11,7 +11,7 @@ public class SubjectStatus extends Model {
         APPROVED, REPROVED, ACTUAL, PENDING, UNKNOWN
     }
 
-    @Column(name = "Subject")
+    @Column(name = "Subject", onDelete = Column.ForeignKeyAction.CASCADE)
     public Subject subject;
 
     @Column(name = "Situation")

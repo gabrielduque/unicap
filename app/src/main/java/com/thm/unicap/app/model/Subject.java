@@ -9,7 +9,7 @@ import java.util.List;
 @Table(name = "Subjects")
 public class Subject extends Model {
 
-    @Column(name = "Student")
+    @Column(name = "Student", onDelete = Column.ForeignKeyAction.CASCADE)
     public Student student;
 
     @Column(name = "Code", unique = true)

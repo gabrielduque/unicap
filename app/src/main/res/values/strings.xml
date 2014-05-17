@@ -12,6 +12,7 @@
     <string name="action_logout">Sair</string>
     <string name="unicap_full_name">Universidade Católica de Pernambuco</string>
     <string name="error_generic_message">Ops… Algo deu errado :/</string>
+    <string name="error_auth_needed">Usuário não autenticado.</string>
     <string name="dashboard">Painel</string>
     <string name="picture">Foto</string>
     <string name="subjects">Disciplinas</string>
@@ -22,5 +23,7 @@
     <string name="settings">Configurações</string>
     <string name="feedback">Feedback</string>
     <string name="welcome_format">Bem vindo(a), %s.</string>
+    <string name="sync">Sincronizar</string>
+    <string name="synchronizing">Sincronizando</string>
 
 </resources>

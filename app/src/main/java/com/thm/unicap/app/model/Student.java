@@ -34,6 +34,9 @@ public class Student extends Model {
     @Column(name = "Email")
     public String email;
 
+    @Column(name = "Password")
+    public String password;
+
     public List<Subject> getSubjects() {
         return getMany(Subject.class, "Student");
     }

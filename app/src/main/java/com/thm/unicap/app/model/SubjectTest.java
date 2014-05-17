@@ -13,7 +13,7 @@ public class SubjectTest extends Model {
         FIRST_DEGREE, SECOND_DEGREE, FINAL_DEGREE
     }
 
-    @Column(name = "Subject")
+    @Column(name = "Subject", onDelete = Column.ForeignKeyAction.CASCADE)
     public Subject subject;
 
     @Column(name = "Degree")

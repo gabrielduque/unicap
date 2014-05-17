@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.github.johnpersano.supertoasts.util.Style;
 import com.thm.unicap.app.R;
@@ -244,7 +245,7 @@ public class LoginActivity extends Activity {
                 startActivity(intent);
                 finish();
 
-                SuperToast genericErrorMessage = new SuperToast(getApplicationContext(), Style.getStyle(Style.BLACK, SuperToast.Animations.SCALE));
+                SuperActivityToast genericErrorMessage = new SuperActivityToast(LoginActivity.this, Style.getStyle(Style.BLACK, SuperToast.Animations.SCALE));
                 genericErrorMessage.setText(String.format(getString(R.string.welcome_format), UnicapApplication.getStudent().name));
                 genericErrorMessage.setDuration(SuperToast.Duration.EXTRA_LONG);
                 genericErrorMessage.show();
@@ -252,7 +253,7 @@ public class LoginActivity extends Activity {
             } else {
                 showProgress(false);
 
-                SuperToast genericErrorMessage = new SuperToast(getApplicationContext(), Style.getStyle(Style.RED, SuperToast.Animations.FLYIN));
+                SuperActivityToast genericErrorMessage = new SuperActivityToast(LoginActivity.this, Style.getStyle(Style.RED, SuperToast.Animations.FLYIN));
                 genericErrorMessage.setText(loginResult.getMessage());
                 genericErrorMessage.setDuration(SuperToast.Duration.EXTRA_LONG);
                 genericErrorMessage.setIcon(R.drawable.ic_action_warning, SuperToast.IconPosition.LEFT);

@@ -23,14 +23,18 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.devspark.robototextview.widget.RobotoTextView;
+import com.github.johnpersano.supertoasts.SuperActivityToast;
+import com.github.johnpersano.supertoasts.SuperToast;
 import com.squareup.picasso.Picasso;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.activity.LoginActivity;
 import com.thm.unicap.app.adapter.NavigationAdapter;
 import com.thm.unicap.app.adapter.NavigationItem;
+import com.thm.unicap.app.connection.UnicapAsyncTask;
 import com.thm.unicap.app.connection.UnicapDataManager;
 import com.thm.unicap.app.connection.UnicapSync;
+import com.thm.unicap.app.connection.UnicapSyncException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -287,15 +291,22 @@ public class NavigationDrawerFragment extends Fragment {
             return true;
         }
 
-        if (item.getItemId() == R.id.action_logout) {
-            UnicapDataManager.cleanUserData(UnicapApplication.getStudent().registration);
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
-            getActivity().finish();
-            return true;
-        }
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                UnicapDataManager.cleanUserData(UnicapApplication.getStudent().registration);
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+                return true;
+            case R.id.action_sync:
 
-        return super.onOptionsItemSelected(item);
+                new UnicapAsyncTask().setActivity(getActivity()).execute(UnicapApplication.getStudent());
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /**

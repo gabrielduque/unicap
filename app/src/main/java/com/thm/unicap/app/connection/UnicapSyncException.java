@@ -13,25 +13,28 @@ public class UnicapSyncException extends Exception {
     }
 
     public enum Code {
-        CONNECTION,
-        REGISTRATION,
-        PASSWORD,
-        TRIES,
-        PARSE,
+        CONNECTION_FAILED,
+        INCORRECT_REGISTRATION,
+        INCORRECT_PASSWORD,
+        MAX_TRIES_EXCEEDED,
+        DATA_PARSE_EXCEPTION,
+        AUTH_NEEDED,
     }
 
     public String getMessageFromContext(Context context) {
         switch (code) {
-            case CONNECTION:
+            case CONNECTION_FAILED:
                 return context.getString(R.string.error_connection_failed);
-            case REGISTRATION:
+            case INCORRECT_REGISTRATION:
                 return context.getString(R.string.error_incorrect_registration);
-            case PASSWORD:
+            case INCORRECT_PASSWORD:
                 return context.getString(R.string.error_incorrect_password);
-            case TRIES:
+            case MAX_TRIES_EXCEEDED:
                 return context.getString(R.string.error_max_tries_exceeded);
-            case PARSE:
+            case DATA_PARSE_EXCEPTION:
                 return context.getString(R.string.error_generic_message);
+            case AUTH_NEEDED:
+                return context.getString(R.string.error_auth_needed);
             default:
                 return context.getString(R.string.error_generic_message);
         }
