@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,12 +24,20 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.devspark.robototextview.widget.RobotoTextView;
+import com.github.johnpersano.supertoasts.SuperActivityToast;
+import com.github.johnpersano.supertoasts.SuperToast;
+import com.github.johnpersano.supertoasts.util.Style;
 import com.squareup.picasso.Picasso;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.activity.LoginActivity;
+import com.thm.unicap.app.activity.MainActivity;
 import com.thm.unicap.app.adapter.NavigationAdapter;
 import com.thm.unicap.app.adapter.NavigationItem;
+import com.thm.unicap.app.connection.OnTaskCancelled;
+import com.thm.unicap.app.connection.OnTaskCompleted;
+import com.thm.unicap.app.connection.OnTaskProgressUpdated;
+import com.thm.unicap.app.connection.UnicapSyncResult;
 import com.thm.unicap.app.connection.UnicapSyncTask;
 import com.thm.unicap.app.connection.UnicapDataManager;
 import com.thm.unicap.app.model.Student;
@@ -41,7 +50,7 @@ import java.util.List;
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class NavigationDrawerFragment extends Fragment {
+public class NavigationDrawerFragment extends Fragment implements OnTaskCompleted, OnTaskCancelled, OnTaskProgressUpdated {
 
     /**
      * Remember the position of the selected item.
@@ -71,6 +80,9 @@ public class NavigationDrawerFragment extends Fragment {
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+
+    private UnicapSyncTask mSyncTask;
+    private SuperActivityToast mSuperActivityToast;
 
     public NavigationDrawerFragment() {
     }
@@ -297,9 +309,20 @@ public class NavigationDrawerFragment extends Fragment {
                 return true;
             case R.id.action_sync:
 
+                if (mSyncTask != null) {
+                    return true;
+                }
+
+                mSuperActivityToast = new SuperActivityToast(getActivity(), SuperToast.Type.PROGRESS_HORIZONTAL);
+                mSuperActivityToast.setIndeterminate(true);
+                mSuperActivityToast.show();
+
                 Student student = UnicapApplication.getStudent();
-                UnicapSyncTask syncTask = new UnicapSyncTask(student.registration, student.password);
-                syncTask.execute((Void) null);
+                mSyncTask = new UnicapSyncTask(student.registration, student.password);
+                mSyncTask.setOnTaskCompletedListener(this);
+                mSyncTask.setOnTaskCancelledListener(this);
+                mSyncTask.setOnTaskProgressUpdatedListener(this);
+                mSyncTask.execute((Void) null);
 
                 return true;
 
@@ -321,6 +344,42 @@ public class NavigationDrawerFragment extends Fragment {
 
     private ActionBar getActionBar() {
         return ((ActionBarActivity) getActivity()).getSupportActionBar();
+    }
+
+    @Override
+    public void onTaskCompleted(UnicapSyncResult result) {
+
+        mSyncTask = null;
+
+        if(mSuperActivityToast != null) {
+            mSuperActivityToast.dismiss();
+        }
+
+        if (!result.isSuccess()) {
+
+            SuperToast superToast = new SuperToast(getActivity(), Style.getStyle(Style.RED, SuperToast.Animations.FLYIN));
+            superToast.setText(result.getExceptionMessage(getActivity()));
+            superToast.setDuration(SuperToast.Duration.EXTRA_LONG);
+            superToast.setIcon(R.drawable.ic_action_warning, SuperToast.IconPosition.LEFT);
+            superToast.show();
+        }
+    }
+
+    @Override
+    public void onTaskCancelled() {
+
+        mSyncTask = null;
+
+        if(mSuperActivityToast != null)
+            mSuperActivityToast.dismiss();
+    }
+
+    @Override
+    public void onTaskProgressUpdated(Pair<Integer, Integer> progress) {
+        if(mSuperActivityToast != null) {
+            mSuperActivityToast.setText(getString(progress.first));
+            mSuperActivityToast.setProgress(progress.second);
+        }
     }
 
     /**

@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.devspark.robototextview.widget.RobotoTextView;
 import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.github.johnpersano.supertoasts.util.Style;
@@ -49,8 +50,7 @@ public class LoginActivity extends Activity implements OnTaskCompleted, OnTaskCa
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
-    private SuperActivityToast mSuperActivityToast;
+    private RobotoTextView mProgressText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +102,7 @@ public class LoginActivity extends Activity implements OnTaskCompleted, OnTaskCa
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        mProgressText = (RobotoTextView) findViewById(R.id.login_progress_text);
     }
 
     /**
@@ -158,10 +159,6 @@ public class LoginActivity extends Activity implements OnTaskCompleted, OnTaskCa
             //TODO: Improve loading message
             showProgress(true);
 
-            mSuperActivityToast = new SuperActivityToast(this, SuperToast.Type.PROGRESS_HORIZONTAL);
-            mSuperActivityToast.setIndeterminate(true);
-            mSuperActivityToast.show();
-
             mAuthTask = new UnicapSyncTask(registration, password);
             mAuthTask.setOnTaskCompletedListener(this);
             mAuthTask.setOnTaskCancelledListener(this);
@@ -209,9 +206,6 @@ public class LoginActivity extends Activity implements OnTaskCompleted, OnTaskCa
     @Override
     public void onTaskCompleted(UnicapSyncResult result) {
 
-        if(mSuperActivityToast != null)
-            mSuperActivityToast.dismiss();
-
         String registration = mAuthTask.getRegistration();
 
         mAuthTask = null;
@@ -244,17 +238,11 @@ public class LoginActivity extends Activity implements OnTaskCompleted, OnTaskCa
     public void onTaskCancelled() {
         mAuthTask = null;
         showProgress(false);
-
-        if(mSuperActivityToast != null)
-            mSuperActivityToast.dismiss();
     }
 
     @Override
     public void onTaskProgressUpdated(Pair<Integer, Integer> progress) {
-        if(mSuperActivityToast != null) {
-            mSuperActivityToast.setText(getString(progress.first));
-            mSuperActivityToast.setProgress(progress.second);
-        }
+        mProgressText.setText(getString(progress.first));
     }
 }
 
