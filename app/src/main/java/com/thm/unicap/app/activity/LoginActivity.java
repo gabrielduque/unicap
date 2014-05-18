@@ -5,12 +5,12 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,9 +24,12 @@ import com.github.johnpersano.supertoasts.SuperToast;
 import com.github.johnpersano.supertoasts.util.Style;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
+import com.thm.unicap.app.connection.OnTaskCancelled;
+import com.thm.unicap.app.connection.OnTaskCompleted;
+import com.thm.unicap.app.connection.OnTaskProgressUpdated;
 import com.thm.unicap.app.connection.UnicapDataManager;
-import com.thm.unicap.app.connection.UnicapSync;
-import com.thm.unicap.app.connection.UnicapSyncException;
+import com.thm.unicap.app.connection.UnicapSyncResult;
+import com.thm.unicap.app.connection.UnicapSyncTask;
 import com.thm.unicap.app.util.UnicapUtils;
 
 
@@ -34,18 +37,20 @@ import com.thm.unicap.app.util.UnicapUtils;
  * A login screen that offers login via email/password.
 
  */
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements OnTaskCompleted, OnTaskCancelled, OnTaskProgressUpdated {
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    private UnicapSyncTask mAuthTask = null;
 
     // UI references.
     private EditText mRegistrationView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+
+    private SuperActivityToast mSuperActivityToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +67,6 @@ public class LoginActivity extends Activity {
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
 
                 if(dest.length() >= 11) return "";
-
-//                Log.d(UnicapApplication.TAG, "----------");
-//                Log.d(UnicapApplication.TAG, "source: "+source.toString());
-//                Log.d(UnicapApplication.TAG, "start: "+String.valueOf(start));
-//                Log.d(UnicapApplication.TAG, "end: "+String.valueOf(end));
-//                Log.d(UnicapApplication.TAG, "dest: "+dest.toString());
-//                Log.d(UnicapApplication.TAG, "dstart: "+String.valueOf(dstart));
-//                Log.d(UnicapApplication.TAG, "dend: "+String.valueOf(dend));
 
                 for (int i = start; i < end; i++) {
                     if (!Character.isDigit(source.charAt(i))) return "";
@@ -160,7 +157,15 @@ public class LoginActivity extends Activity {
             // perform the user login attempt.
             //TODO: Improve loading message
             showProgress(true);
-            mAuthTask = new UserLoginTask(registration, password);
+
+            mSuperActivityToast = new SuperActivityToast(this, SuperToast.Type.PROGRESS_HORIZONTAL);
+            mSuperActivityToast.setIndeterminate(true);
+            mSuperActivityToast.show();
+
+            mAuthTask = new UnicapSyncTask(registration, password);
+            mAuthTask.setOnTaskCompletedListener(this);
+            mAuthTask.setOnTaskCancelledListener(this);
+            mAuthTask.setOnTaskProgressUpdatedListener(this);
             mAuthTask.execute((Void) null);
         }
     }
@@ -201,100 +206,54 @@ public class LoginActivity extends Activity {
         }
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, LoginResult> {
+    @Override
+    public void onTaskCompleted(UnicapSyncResult result) {
 
-        private final String mRegistration;
-        private final String mPassword;
+        if(mSuperActivityToast != null)
+            mSuperActivityToast.dismiss();
 
-        UserLoginTask(String registration, String password) {
-            mRegistration = registration;
-            mPassword = password;
-        }
+        String registration = mAuthTask.getRegistration();
 
-        @Override
-        protected LoginResult doInBackground(Void... params) {
+        mAuthTask = null;
 
-            try {
-                UnicapSync.loginRequest(mRegistration, mPassword);
+        if (result.isSuccess()) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
 
-                UnicapSync.syncAll();
+            SuperToast superToast = new SuperToast(LoginActivity.this, Style.getStyle(Style.BLACK, SuperToast.Animations.SCALE));
+            superToast.setText(String.format(getString(R.string.welcome_format), UnicapApplication.getStudent().name));
+            superToast.setDuration(SuperToast.Duration.EXTRA_LONG);
+            superToast.show();
 
-                return new LoginResult(true);
+        } else {
+            // Clean up to prevent broken data
+            UnicapDataManager.cleanUserData(registration);
 
-            } catch (UnicapSyncException e) {
-
-                // Clean up to prevent broken data
-                UnicapDataManager.cleanUserData(mRegistration);
-
-                return new LoginResult(false, e.getMessageFromContext(getApplicationContext()));
-
-            }
-
-        }
-
-        @Override
-        protected void onPostExecute(final LoginResult loginResult) {
-            mAuthTask = null;
-
-            if (loginResult.isSuccess()) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                finish();
-
-                SuperActivityToast genericErrorMessage = new SuperActivityToast(LoginActivity.this, Style.getStyle(Style.BLACK, SuperToast.Animations.SCALE));
-                genericErrorMessage.setText(String.format(getString(R.string.welcome_format), UnicapApplication.getStudent().name));
-                genericErrorMessage.setDuration(SuperToast.Duration.EXTRA_LONG);
-                genericErrorMessage.show();
-
-            } else {
-                showProgress(false);
-
-                SuperActivityToast genericErrorMessage = new SuperActivityToast(LoginActivity.this, Style.getStyle(Style.RED, SuperToast.Animations.FLYIN));
-                genericErrorMessage.setText(loginResult.getMessage());
-                genericErrorMessage.setDuration(SuperToast.Duration.EXTRA_LONG);
-                genericErrorMessage.setIcon(R.drawable.ic_action_warning, SuperToast.IconPosition.LEFT);
-                genericErrorMessage.show();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
             showProgress(false);
+
+            SuperToast superToast = new SuperToast(LoginActivity.this, Style.getStyle(Style.RED, SuperToast.Animations.FLYIN));
+            superToast.setText(result.getExceptionMessage(LoginActivity.this));
+            superToast.setDuration(SuperToast.Duration.EXTRA_LONG);
+            superToast.setIcon(R.drawable.ic_action_warning, SuperToast.IconPosition.LEFT);
+            superToast.show();
         }
     }
 
-    private class LoginResult {
-        private boolean success;
-        private String message;
+    @Override
+    public void onTaskCancelled() {
+        mAuthTask = null;
+        showProgress(false);
 
-        private LoginResult(boolean success) {
-            this.success = success;
-        }
+        if(mSuperActivityToast != null)
+            mSuperActivityToast.dismiss();
+    }
 
-        private LoginResult(boolean success, String message) {
-            this.success = success;
-            this.message = message;
-        }
-
-        public boolean isSuccess() {
-            return success;
-        }
-
-        public void setSuccess(boolean success) {
-            this.success = success;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
+    @Override
+    public void onTaskProgressUpdated(Pair<Integer, Integer> progress) {
+        if(mSuperActivityToast != null) {
+            mSuperActivityToast.setText(getString(progress.first));
+            mSuperActivityToast.setProgress(progress.second);
         }
     }
 }

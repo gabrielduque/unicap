@@ -20,7 +20,8 @@ public class UnicapDataManager {
 
         Student student = new Select().from(Student.class).where("Registration = ?", registration).executeSingle();
 
-        student.delete(); // Models configured with cascade delete
+        if(student != null)
+            student.delete(); // Models configured with cascade delete
     }
 
     public static void initStudent(String registration, String password) {

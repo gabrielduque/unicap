@@ -23,18 +23,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.devspark.robototextview.widget.RobotoTextView;
-import com.github.johnpersano.supertoasts.SuperActivityToast;
-import com.github.johnpersano.supertoasts.SuperToast;
 import com.squareup.picasso.Picasso;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.activity.LoginActivity;
 import com.thm.unicap.app.adapter.NavigationAdapter;
 import com.thm.unicap.app.adapter.NavigationItem;
-import com.thm.unicap.app.connection.UnicapAsyncTask;
+import com.thm.unicap.app.connection.UnicapSyncTask;
 import com.thm.unicap.app.connection.UnicapDataManager;
-import com.thm.unicap.app.connection.UnicapSync;
-import com.thm.unicap.app.connection.UnicapSyncException;
+import com.thm.unicap.app.model.Student;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -300,7 +297,9 @@ public class NavigationDrawerFragment extends Fragment {
                 return true;
             case R.id.action_sync:
 
-                new UnicapAsyncTask().setActivity(getActivity()).execute(UnicapApplication.getStudent());
+                Student student = UnicapApplication.getStudent();
+                UnicapSyncTask syncTask = new UnicapSyncTask(student.registration, student.password);
+                syncTask.execute((Void) null);
 
                 return true;
 
