@@ -6,8 +6,6 @@ import com.thm.unicap.app.model.Student;
 public class UnicapApplication extends com.activeandroid.app.Application {
     public static final String TAG = "Unicap";
 
-    public static final int SESSION_DASHBOARD = 1;
-
     private static Student student;
 
     @Override

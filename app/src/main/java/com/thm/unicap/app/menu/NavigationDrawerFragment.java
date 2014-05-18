@@ -1,4 +1,4 @@
-package com.thm.unicap.app.fragment;
+package com.thm.unicap.app.menu;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -30,10 +30,7 @@ import com.github.johnpersano.supertoasts.util.Style;
 import com.squareup.picasso.Picasso;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
-import com.thm.unicap.app.activity.LoginActivity;
-import com.thm.unicap.app.activity.MainActivity;
-import com.thm.unicap.app.adapter.NavigationAdapter;
-import com.thm.unicap.app.adapter.NavigationItem;
+import com.thm.unicap.app.auth.LoginActivity;
 import com.thm.unicap.app.connection.OnTaskCancelled;
 import com.thm.unicap.app.connection.OnTaskCompleted;
 import com.thm.unicap.app.connection.OnTaskProgressUpdated;
@@ -51,6 +48,9 @@ import java.util.List;
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
 public class NavigationDrawerFragment extends Fragment implements OnTaskCompleted, OnTaskCancelled, OnTaskProgressUpdated {
+
+    public static final int SESSION_DASHBOARD = 0;
+    public static final int SESSION_SUBJECTS = 1;
 
     /**
      * Remember the position of the selected item.

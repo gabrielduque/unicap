@@ -1,26 +1,21 @@
 package com.thm.unicap.app.activity;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 
-import com.activeandroid.query.Select;
 import com.thm.unicap.app.UnicapApplication;
-import com.thm.unicap.app.fragment.DashboardFragment;
-import com.thm.unicap.app.fragment.NavigationDrawerFragment;
+import com.thm.unicap.app.dashboard.DashboardFragment;
+import com.thm.unicap.app.auth.LoginActivity;
+import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.R;
-import com.thm.unicap.app.model.Student;
+import com.thm.unicap.app.subject.SubjectsFragment;
 
 
 public class MainActivity extends ActionBarActivity
@@ -66,15 +61,33 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment;
+
+        switch (position) {
+            case NavigationDrawerFragment.SESSION_DASHBOARD:
+                fragment = new DashboardFragment();
+                break;
+            case NavigationDrawerFragment.SESSION_SUBJECTS:
+                fragment = new SubjectsFragment();
+                break;
+            default:
+                fragment = new DashboardFragment();
+                break;
+
+        }
+
         fragmentManager.beginTransaction()
-                .replace(R.id.container, new DashboardFragment())
+                .replace(R.id.container, fragment)
                 .commit();
     }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case UnicapApplication.SESSION_DASHBOARD:
+    public void onSectionAttached(int session) {
+        switch (session) {
+            case NavigationDrawerFragment.SESSION_DASHBOARD:
                 mTitle = getString(R.string.dashboard);
+                break;
+            case NavigationDrawerFragment.SESSION_SUBJECTS:
+                mTitle = getString(R.string.subjects);
                 break;
         }
     }

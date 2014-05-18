@@ -1,4 +1,4 @@
-package com.thm.unicap.app.adapter;
+package com.thm.unicap.app.menu;
 
 import android.content.Context;
 import android.view.LayoutInflater;

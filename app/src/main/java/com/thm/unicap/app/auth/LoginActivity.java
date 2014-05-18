@@ -1,4 +1,4 @@
-package com.thm.unicap.app.activity;
+package com.thm.unicap.app.auth;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -20,11 +20,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.devspark.robototextview.widget.RobotoTextView;
-import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.github.johnpersano.supertoasts.util.Style;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
+import com.thm.unicap.app.activity.MainActivity;
 import com.thm.unicap.app.connection.OnTaskCancelled;
 import com.thm.unicap.app.connection.OnTaskCompleted;
 import com.thm.unicap.app.connection.OnTaskProgressUpdated;

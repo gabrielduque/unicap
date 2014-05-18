@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- TODO: Organize strings by category -->
 
     <string name="app_name">Unicap</string>
@@ -24,11 +25,9 @@
     <string name="welcome_format">Bem vindo(a), %s.</string>
     <string name="sync">Sincronizar</string>
     <string name="synchronizing">Sincronizando</string>
-
     <string name="prompt_registration">Matrícula</string>
     <string name="prompt_password">Senha</string>
     <string name="action_sign_in">Entrar</string>
-
     <string name="error_generic_message">Ops… Algo deu errado :/</string>
     <string name="error_auth_needed">Usuário não autenticado.</string>
     <string name="error_invalid_registration">Matrícula inválida</string>
@@ -39,7 +38,7 @@
     <string name="error_max_tries_exceeded">Limite de tentativas excedido.</string>
     <string name="error_connection_failed">Não foi possível estabelecer uma conexão.</string>
 
-    <!--TODO: Put some humor on messages-->
+    <!-- TODO: Put some humor on messages -->
     <string name="progress_1">Autenticando…</string>
     <string name="progress_2">Sincronizando dados pessoais…</string>
     <string name="progress_3">Sincronizando disciplinas cursadas…</string>
@@ -48,5 +47,6 @@
     <string name="progress_6">Sincronizando calendário…</string>
     <string name="progress_7">Sincronizando notas…</string>
     <string name="progress_8">Sincronização concluída.</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
