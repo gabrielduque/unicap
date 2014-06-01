@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="base">#b8b98e</color>
+    <color name="unicap_base">#b8b98e</color>
 
-    <color name="dark_gray">#2d2d2d</color>
-    <color name="gray">#666666</color>
-    <color name="light_gray">#cccccc</color>
-    <color name="really_light_gray">#eeeeee</color>
+    <color name="unicap_dark_gray">#2d2d2d</color>
+    <color name="unicap_gray">#666666</color>
+    <color name="unicap_light_gray">#cccccc</color>
+    <color name="unicap_really_light_gray">#eeeeee</color>
 
-    <color name="card_title">#363636</color>
-    <color name="card_subtitle">#b0b0b0</color>
+    <color name="unicap_card_title">#363636</color>
+    <color name="unicap_card_subtitle">#b0b0b0</color>
 </resources>

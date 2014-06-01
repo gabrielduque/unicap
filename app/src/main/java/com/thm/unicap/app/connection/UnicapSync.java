@@ -193,7 +193,6 @@ public class UnicapSync {
 
     }
 
-    //TODO: port to use in UnicapSync
     public static void receivePendingSubjectsData() throws UnicapSyncException {
 
         if (actionURL == null) throw new UnicapSyncException(UnicapSyncException.Code.AUTH_NEEDED);
@@ -212,8 +211,6 @@ public class UnicapSync {
         Elements subjectsTable = document.select("table").get(6).select("tr");
 
         subjectsTable.remove(0); // Removing header
-
-        Student student = UnicapApplication.getStudent();
 
         // Using transactions to speed up the process
         ActiveAndroid.beginTransaction();
@@ -267,24 +264,37 @@ public class UnicapSync {
 
             String code = subjectColumns.get(0).text();
 
+            Date first_degree_date1, first_degree_date2, second_degree_date1, final_degree_date1, final_degree_date2;
+
             try {
-
-                Date first_degree_date1 = simpleDateFormat.parse(subjectColumns.get(3).text());
-                Date first_degree_date2 = null;
-                first_degree_date2 = simpleDateFormat.parse(subjectColumns.get(4).text());
-
-                UnicapDataManager.persistSubjectCalendar(code, SubjectTest.Degree.FIRST_DEGREE, first_degree_date1, first_degree_date2);
-
-                Date second_degree_date1 = simpleDateFormat.parse(subjectColumns.get(5).text());
-                UnicapDataManager.persistSubjectCalendar(code, SubjectTest.Degree.SECOND_DEGREE, second_degree_date1, null); // SECOND_DEGREE doesn't have date2
-
-                Date final_degree_date1 = simpleDateFormat.parse(subjectColumns.get(3).text());
-                Date final_degree_date2 = simpleDateFormat.parse(subjectColumns.get(4).text());
-                UnicapDataManager.persistSubjectCalendar(code, SubjectTest.Degree.FINAL_DEGREE, final_degree_date1, final_degree_date2);
-
+                first_degree_date1 = simpleDateFormat.parse(subjectColumns.get(3).text());
             } catch (ParseException e) {
-                throw new UnicapSyncException(UnicapSyncException.Code.DATA_PARSE_EXCEPTION);
+                first_degree_date1 = null;
             }
+            try {
+                first_degree_date2 = simpleDateFormat.parse(subjectColumns.get(4).text());
+            } catch (ParseException e) {
+                first_degree_date2 = null;
+            }
+            try {
+                second_degree_date1 = simpleDateFormat.parse(subjectColumns.get(5).text());
+            } catch (ParseException e) {
+                second_degree_date1 = null;
+            }
+            try {
+                final_degree_date1 = simpleDateFormat.parse(subjectColumns.get(6).text());
+            } catch (ParseException e) {
+                final_degree_date1 = null;
+            }
+            try {
+                final_degree_date2 = simpleDateFormat.parse(subjectColumns.get(7).text());
+            } catch (ParseException e) {
+                final_degree_date2 = null;
+            }
+
+            UnicapDataManager.persistSubjectCalendar(code, SubjectTest.Degree.FIRST_DEGREE, first_degree_date1, first_degree_date2);
+            UnicapDataManager.persistSubjectCalendar(code, SubjectTest.Degree.SECOND_DEGREE, second_degree_date1, null); // SECOND_DEGREE doesn't have date2
+            UnicapDataManager.persistSubjectCalendar(code, SubjectTest.Degree.FINAL_DEGREE, final_degree_date1, final_degree_date2);
 
         }
 
