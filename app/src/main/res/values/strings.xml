@@ -28,7 +28,7 @@
 
     <string name="past">Cursadas</string>
     <string name="actual">Cursando</string>
-    <string name="pending">A Cursar</string>
+    <string name="pending">Pendentes</string>
 
     <!-- Error messages -->
     <string name="error_generic_message">Ops… Algo deu errado :/</string>

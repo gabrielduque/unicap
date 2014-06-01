@@ -10,7 +10,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-@Table(name = "Students")
+@Table(name = "Student")
 public class Student extends Model {
 
     @Column(name = "Registration", unique = true)

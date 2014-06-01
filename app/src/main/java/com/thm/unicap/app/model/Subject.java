@@ -6,7 +6,7 @@ import com.activeandroid.annotation.Table;
 
 import java.util.List;
 
-@Table(name = "Subjects")
+@Table(name = "Subject")
 public class Subject extends Model {
 
     @Column(name = "Student", onDelete = Column.ForeignKeyAction.CASCADE)
