@@ -65,7 +65,7 @@ public class SubjectsPagerAdapter extends PagerAdapter {
                 .where("Subject.Student = ?", student.getId())
                 .orderBy("Subject.Period");
 
-//        TODO: Convert to CursorAdapter
+//        TODO: Convert to CursorLoader
         if(position == Session.PAST.ordinal()) {
             query.where("SubjectStatus.Situation = ?", SubjectStatus.Situation.APPROVED);
         } else if(position == Session.ACTUAL.ordinal()) {

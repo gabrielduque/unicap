@@ -4,6 +4,7 @@
     android:id="@+id/pager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/unicap_really_light_gray"
     tools:context="com.thm.unicap.app.subject.SubjectsFragment">
 
     <android.support.v4.view.PagerTitleStrip
@@ -11,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:background="@color/unicap_base"
+        android:background="@color/unicap_light_gray"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/black" />
 
 </android.support.v4.view.ViewPager>

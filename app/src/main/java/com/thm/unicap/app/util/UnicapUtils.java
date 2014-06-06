@@ -26,6 +26,7 @@ public class UnicapUtils {
             {"Da", "da"},
             {"De", "de"},
             {"Dif", "Diferencial"},
+            {"Dir", "Direito"},
             {"Distribuidos", "Distribuídos"},
             {"Do", "do"},
             {"E", "e"},
@@ -33,6 +34,7 @@ public class UnicapUtils {
             {"Eletronica", "Eletrônica"},
             {"Estatistica", "Estatística"},
             {"Estagio", "Estágio"},
+            {"Etica", "Ética"},
             {"Fil", "Filosofia"},
             {"Grafica", "Gráfica"},
             {"Ii", "II"},
@@ -44,6 +46,7 @@ public class UnicapUtils {
             {"Inteligencia", "Inteligência"},
             {"Introd", "Introdução"},
             {"Introducao", "Introdução"},
+            {"Jurid", "Jurídica"},
             {"Ling", "Linguagens"},
             {"Logica", "Lógica"},
             {"Matematica", "Matemática"},
@@ -54,9 +57,12 @@ public class UnicapUtils {
             {"Paradig", "Paradigmas"},
             {"Portugues", "Português"},
             {"Pratica", "Prática"},
+            {"Prat", "Prática"},
             {"Programacao", "Programação"},
+            {"Publico", "Público"},
             {"Tecnologico", "Tecnológico"},
             {"Transcendencia", "Transcendência"},
+            {"Tributario", "Tributário"},
     };
 
     public static boolean isRegistrationValid(String email) {

@@ -333,18 +333,27 @@ public class UnicapSync {
 
             SubjectTest.Degree first_degree = SubjectTest.Degree.FIRST_DEGREE;
             String first_gradeText = subjectColumns.get(2).text();
-            if(!first_gradeText.equals("--"))
+            try {
                 UnicapDataManager.persistSubjectGrade(code, first_degree, Float.parseFloat(first_gradeText));
+            } catch (Exception ignore) {
+                UnicapDataManager.persistSubjectGrade(code, first_degree, null);
+            }
 
             SubjectTest.Degree second_degree = SubjectTest.Degree.SECOND_DEGREE;
             String second_gradeText = subjectColumns.get(3).text();
-            if(!second_gradeText.equals("--"))
+            try {
                 UnicapDataManager.persistSubjectGrade(code, second_degree, Float.parseFloat(second_gradeText));
+            } catch (Exception ignore) {
+                UnicapDataManager.persistSubjectGrade(code, second_degree, null);
+            }
 
             SubjectTest.Degree final_degree = SubjectTest.Degree.FINAL_DEGREE;
             String final_gradeText = subjectColumns.get(5).text();
-            if(!final_gradeText.equals("--"))
+            try {
                 UnicapDataManager.persistSubjectGrade(code, final_degree, Float.parseFloat(final_gradeText));
+            } catch (Exception ignore) {
+                UnicapDataManager.persistSubjectGrade(code, final_degree, null);
+            }
 
         }
 

@@ -5,6 +5,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
 import java.util.List;
+import java.util.Random;
 
 @Table(name = "Subject")
 public class Subject extends Model {
@@ -44,4 +45,57 @@ public class Subject extends Model {
 
         return null;
     }
+
+    public String getNameAbbreviation() {
+        //TODO: Find a good logic to make this
+        String abbreviation = "";
+        String filteredName = removeExceptionsFromName(name);
+        String[] words = filteredName.split(" +");
+
+        for (String word : words) {
+            abbreviation += word.charAt(0);
+            if(abbreviation.length() >= 3) break;
+        }
+
+        return abbreviation.toUpperCase();
+    }
+
+    public int getColorResource() {
+
+        int colors[] = {
+                android.R.color.holo_blue_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_green_light,
+                android.R.color.holo_red_light,
+                android.R.color.holo_purple,
+        };
+        Random random = new Random();
+        return colors[random.nextInt(colors.length-1)];
+    }
+
+    //Todo: refactor this
+    public static String removeExceptionsFromName (String str) {
+        String[] exceptions = {
+                "da",
+                "de",
+                "do",
+                "à",
+                "e",
+                "a",
+                "ao",
+                "i",
+                "ii",
+                "iii",
+                "iv",
+                "v",
+                "vi",
+                "vii",
+        };
+
+        for (String exception : exceptions) {
+            str = str.replaceAll("(?i)\\b"+exception+"\\b", "");
+        }
+        return str;
+    }
+
 }
