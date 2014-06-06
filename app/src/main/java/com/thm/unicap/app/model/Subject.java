@@ -3,6 +3,7 @@ package com.thm.unicap.app.model;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.thm.unicap.app.R;
 
 import java.util.List;
 import java.util.Random;
@@ -62,6 +63,8 @@ public class Subject extends Model {
 
     public int getColorResource() {
 
+        int color = R.color.unicap_base;
+
         int colors[] = {
                 android.R.color.holo_blue_light,
                 android.R.color.holo_orange_light,
@@ -69,8 +72,11 @@ public class Subject extends Model {
                 android.R.color.holo_red_light,
                 android.R.color.holo_purple,
         };
-        Random random = new Random();
-        return colors[random.nextInt(colors.length-1)];
+
+        if(period != null)
+            color = colors[period % colors.length];
+
+        return color;
     }
 
     //Todo: refactor this

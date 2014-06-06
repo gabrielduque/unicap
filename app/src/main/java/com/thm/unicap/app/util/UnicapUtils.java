@@ -92,18 +92,18 @@ public class UnicapUtils {
     }
 
     public static String replaceNameExceptions (String str) {
-
-        for (String[] exception : nameExceptions) {
-            str = str.replaceAll("(?i)\\b"+exception[0]+"\\b", exception[1]);
-        }
-        return str;
+        return replaceFromDictionary(str, nameExceptions);
     }
 
     public static String replaceExceptions (String str) {
+        return replaceFromDictionary(str, exceptions);
+    }
 
-        for (String[] exception : exceptions) {
-            str = str.replaceAll("(?i)\\b"+exception[0]+"\\b", exception[1]);
-        }
+    public static String replaceFromDictionary (String str, String[][] replacePairs) {
+
+        for (String[] replacePair : replacePairs)
+            str = str.replaceAll("(?i)\\b"+replacePair[0]+"\\b", replacePair[1]);
+
         return str;
     }
 

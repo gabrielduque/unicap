@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-bf964ac67596b56e462aba6aae5ee1cc12a88744.jar"
+        jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.github.johnpersano/supertoasts/1.3.4/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="2e58dce1ec89cd4706295d355aaf920aee3d91c5"/>
+    <item
+        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/picasso-2.3.1-be3975ddce94416fd36552bb5fbe783e593532ae.jar"
+        jar="/home/tulio/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.3.1/7ed01353649330c692473b85d5c64db4218338db/picasso-2.3.1.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="7ed01353649330c692473b85d5c64db4218338db"/>
+    <item
+        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-c11801df910940e3eb8d06152934af994cf5797b.jar"
+        jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.github.johnkil.android-robototextview/robototextview/2.0.1/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="6b3038c2171e04f16014b8149dca9369f44a103c"/>
+    <item
+        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/jsoup-1.7.3-bd218b057e0b4e38c6d33792fdf772d67fd1f959.jar"
+        jar="/home/tulio/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.7.3/92568d7167ce1bf9eb1fd815b022d5a2c113547a/jsoup-1.7.3.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="92568d7167ce1bf9eb1fd815b022d5a2c113547a"/>
+    <item
+        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/ActiveAndroid-f55cda3141846225982a18f03be0209308215122.jar"
+        jar="/home/tulio/Projects/unicap/app/libs/ActiveAndroid.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="8f34f25d013e443b3887b443d80da0bd623ef5c3"/>
+    <item
+        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-95a363f7fadad141ffe290eb5375030e031abdb4.jar"
+        jar="/opt/android-sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
+    <item
+        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-477d054994d51e940b62d4c87b9fdc5334ec4896.jar"
+        jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library/1.6.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="dd59f15631a0446653bc4197a9afd6ee63eef42d"/>
+    <item
+        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-9680595c443fb48cfb2d19f87e085fcb447135cd.jar"
+        jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
+
+</pre-dex-items>
