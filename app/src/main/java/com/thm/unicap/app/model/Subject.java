@@ -48,6 +48,7 @@ public class Subject extends Model {
         return null;
     }
 
+    //TODO: Consider making this property static on sync progress
     public String getNameAbbreviation() {
         //TODO: Find a good logic to make this
         String abbreviation = "";

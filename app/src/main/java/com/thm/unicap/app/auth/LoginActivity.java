@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -38,7 +39,7 @@ import com.thm.unicap.app.util.UnicapUtils;
  * A login screen that offers login via email/password.
 
  */
-public class LoginActivity extends Activity implements OnTaskCompleted, OnTaskCancelled, OnTaskProgressUpdated {
+public class LoginActivity extends ActionBarActivity implements OnTaskCompleted, OnTaskCancelled, OnTaskProgressUpdated {
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
