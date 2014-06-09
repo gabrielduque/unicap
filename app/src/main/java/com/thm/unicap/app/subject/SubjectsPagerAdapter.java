@@ -6,11 +6,14 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.activeandroid.Model;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
+import com.github.johnpersano.supertoasts.SuperToast;
+import com.github.johnpersano.supertoasts.util.Style;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.model.Student;
@@ -58,14 +61,13 @@ public class SubjectsPagerAdapter extends PagerAdapter {
 
         Student student = UnicapApplication.getStudent();
 
-        From query = new Select()
+        From query = new Select("Subject.*")
                 .from(Subject.class)
                 .innerJoin(SubjectStatus.class)
                 .on("Subject.Id = SubjectStatus.Subject")
                 .where("Subject.Student = ?", student.getId())
                 .orderBy("Subject.Period");
 
-//        TODO: Convert to CursorLoader
         if(position == Session.PAST.ordinal()) {
             query.where("SubjectStatus.Situation = ?", SubjectStatus.Situation.APPROVED);
         } else if(position == Session.ACTUAL.ordinal()) {
@@ -83,7 +85,9 @@ public class SubjectsPagerAdapter extends PagerAdapter {
 
         CardListView cardListView = new CardListView(mContext);
 
-        cardListView.setAdapter(new CardArrayAdapter(mContext, cardArrayList));
+        CardArrayAdapter cardArrayAdapter = new CardArrayAdapter(mContext, cardArrayList);
+
+        cardListView.setAdapter(cardArrayAdapter);
 
         container.addView(cardListView);
 

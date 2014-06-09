@@ -1,18 +1,19 @@
 package com.thm.unicap.app.subject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.devspark.robototextview.widget.RobotoTextView;
+import com.github.johnpersano.supertoasts.SuperToast;
+import com.github.johnpersano.supertoasts.util.Style;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.model.Subject;
 
 import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.CardHeader;
 
-public class SubjectCard extends Card {
+public class SubjectCard extends Card implements Card.OnCardClickListener {
 
     private Subject mSubject;
 
@@ -23,6 +24,12 @@ public class SubjectCard extends Card {
     public SubjectCard(Context context, int innerLayout, Subject subject) {
         super(context, innerLayout);
         mSubject = subject;
+        init();
+    }
+
+    private void init() {
+        setClickable(true);
+        setOnClickListener(this);
     }
 
     @Override
@@ -40,6 +47,14 @@ public class SubjectCard extends Card {
         if (mSubject.period == null)
             subject_period.setText("");
         else
-            subject_period.setText(String.format("%dº Período", mSubject.period));
+            subject_period.setText(String.format(mContext.getString(R.string.period_formated_output), mSubject.period));
     }
+
+    @Override
+    public void onClick(Card card, View view) {
+        Intent intent = new Intent(mContext, SubjectActivity.class);
+        intent.putExtra("subject_id", mSubject.getId());
+        mContext.startActivity(intent);
+    }
+
 }

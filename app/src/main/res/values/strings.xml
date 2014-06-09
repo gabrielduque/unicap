@@ -50,5 +50,6 @@
     <string name="progress_6">Sincronizando calendário…</string>
     <string name="progress_7">Sincronizando notas…</string>
     <string name="progress_8">Sincronização concluída.</string>
+    <string name="period_formated_output">%dº Período</string>
 
 </resources>
