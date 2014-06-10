@@ -40,6 +40,10 @@ public class SubjectActivity extends ActionBarActivity {
         subjectListItemCard.setClickable(false);
         card_list_item.setCard(subjectListItemCard);
 
+        CardView card_schedule = (CardView) findViewById(R.id.card_schedule);
+        SubjectScheduleCard subjectScheduleCard = new SubjectScheduleCard(this, mSubject);
+        card_schedule.setCard(subjectScheduleCard);
+
         CardView card_info = (CardView) findViewById(R.id.card_info);
         SubjectInfoCard subjectInfoCard = new SubjectInfoCard(this, mSubject);
         card_info.setCard(subjectInfoCard);

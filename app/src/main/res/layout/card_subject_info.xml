@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="INF6542"
+            tools:text="INF6542"
             app:typeface="roboto_thin"/>
 
     </RelativeLayout>
@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="60 Horas"
+            tools:text="60 Horas"
             app:typeface="roboto_thin"/>
 
     </RelativeLayout>
@@ -115,7 +115,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="4 Créditos"
+            tools:text="4 Créditos"
             app:typeface="roboto_thin"/>
 
     </RelativeLayout>
@@ -152,7 +152,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="6º Período"
+            tools:text="6º Período"
             app:typeface="roboto_thin"/>
 
     </RelativeLayout>
