@@ -1,7 +1,8 @@
-package com.thm.unicap.app.activity;
+package com.thm.unicap.app;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
@@ -60,8 +61,8 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment;
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        final Fragment fragment;
 
         switch (position) {
             case NavigationDrawerFragment.SESSION_DASHBOARD:
@@ -76,9 +77,17 @@ public class MainActivity extends ActionBarActivity
 
         }
 
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
-                .commit();
+        //TODO: bug with actionbar on app launch
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        fragmentManager.beginTransaction()
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .replace(R.id.container, fragment)
+                                .commit();
+                    }
+                },
+                350);
     }
 
     public void onSectionAttached(int session) {

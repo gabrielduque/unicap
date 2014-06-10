@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.thm.unicap.app.R;
-import com.thm.unicap.app.activity.MainActivity;
+import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
 
 public class DashboardFragment extends Fragment {

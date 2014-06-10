@@ -6,22 +6,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.github.johnpersano.supertoasts.SuperToast;
-import com.github.johnpersano.supertoasts.util.Style;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.model.Subject;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
-public class SubjectCard extends Card implements Card.OnCardClickListener {
+public class SubjectListItemCard extends Card implements Card.OnCardClickListener {
 
     private Subject mSubject;
 
-    public SubjectCard(Context context, Subject subject) {
-        this(context, R.layout.card_subject_inner_base_main, subject);
+    public SubjectListItemCard(Context context, Subject subject) {
+        this(context, R.layout.card_subject_list_item, subject);
     }
 
-    public SubjectCard(Context context, int innerLayout, Subject subject) {
+    public SubjectListItemCard(Context context, int innerLayout, Subject subject) {
         super(context, innerLayout);
         mSubject = subject;
         init();
@@ -47,7 +45,7 @@ public class SubjectCard extends Card implements Card.OnCardClickListener {
         if (mSubject.period == null)
             subject_period.setText("");
         else
-            subject_period.setText(String.format(mContext.getString(R.string.period_formated_output), mSubject.period));
+            subject_period.setText(String.format(mContext.getString(R.string.period_format), mSubject.period));
     }
 
     @Override

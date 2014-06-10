@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="23sp"
+        android:text="@string/general_information"
+        app:typeface="roboto_condensed_regular"/>
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/code"
+            app:typeface="roboto_thin"/>
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/card_subject_info_code"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:drawableLeft="@drawable/ic_action_accounts"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="INF6542"
+            app:typeface="roboto_thin"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/unicap_really_light_gray"/>
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/workload"
+            app:typeface="roboto_thin"/>
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/card_subject_info_workload"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:drawableLeft="@drawable/ic_action_time"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="60 Horas"
+            app:typeface="roboto_thin"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/unicap_really_light_gray"/>
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/credits"
+            app:typeface="roboto_thin"/>
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/card_subject_info_credits"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:drawableLeft="@drawable/ic_action_important"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="4 Créditos"
+            app:typeface="roboto_thin"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/unicap_really_light_gray"/>
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/period"
+            app:typeface="roboto_thin"/>
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/card_subject_info_period"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:drawableLeft="@drawable/ic_action_go_to_today"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="6º Período"
+            app:typeface="roboto_thin"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

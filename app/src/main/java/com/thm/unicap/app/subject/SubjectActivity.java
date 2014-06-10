@@ -4,10 +4,14 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.activeandroid.query.Select;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.model.Subject;
+
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.view.CardView;
 
 public class SubjectActivity extends ActionBarActivity {
 
@@ -23,9 +27,22 @@ public class SubjectActivity extends ActionBarActivity {
 
         if(subject_id != -1) {
             mSubject = new Select().from(Subject.class).where("Subject.Id = ?", subject_id).executeSingle();
-            setTitle(mSubject.name);
+            init();
         }
 
+    }
+
+    private void init() {
+        setTitle(mSubject.name);
+
+        CardView card_list_item = (CardView) findViewById(R.id.card_list_item);
+        SubjectListItemCard subjectListItemCard = new SubjectListItemCard(this, mSubject);
+        subjectListItemCard.setClickable(false);
+        card_list_item.setCard(subjectListItemCard);
+
+        CardView card_info = (CardView) findViewById(R.id.card_info);
+        SubjectInfoCard subjectInfoCard = new SubjectInfoCard(this, mSubject);
+        card_info.setCard(subjectInfoCard);
     }
 
     @Override

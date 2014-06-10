@@ -50,6 +50,16 @@
     <string name="progress_6">Sincronizando calendário…</string>
     <string name="progress_7">Sincronizando notas…</string>
     <string name="progress_8">Sincronização concluída.</string>
-    <string name="period_formated_output">%dº Período</string>
+
+    <string name="period_format">%dº Período</string>
+    <string name="workload_format">%d Horas</string>
+    <string name="credits_format">%d Créditos</string>
+
+    <string name="general_information">Informações Gerais</string>
+    <string name="code">Código</string>
+    <string name="workload">Carga Horária</string>
+    <string name="credits">Créditos</string>
+    <string name="period">Período</string>
+    <string name="unavailable">Indisponível</string>
 
 </resources>

@@ -2,18 +2,11 @@ package com.thm.unicap.app.subject;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.TextView;
 
-import com.activeandroid.Model;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
-import com.github.johnpersano.supertoasts.SuperToast;
-import com.github.johnpersano.supertoasts.util.Style;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.model.Student;
@@ -25,8 +18,6 @@ import java.util.List;
 
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
-import it.gmariotti.cardslib.library.internal.CardExpand;
-import it.gmariotti.cardslib.library.internal.CardHeader;
 import it.gmariotti.cardslib.library.view.CardListView;
 
 public class SubjectsPagerAdapter extends PagerAdapter {
@@ -81,7 +72,7 @@ public class SubjectsPagerAdapter extends PagerAdapter {
         ArrayList<Card> cardArrayList = new ArrayList<Card>();
 
         for (Subject subject : subjects)
-            cardArrayList.add(new SubjectCard(mContext, subject));
+            cardArrayList.add(new SubjectListItemCard(mContext, subject));
 
         CardListView cardListView = new CardListView(mContext);
 
