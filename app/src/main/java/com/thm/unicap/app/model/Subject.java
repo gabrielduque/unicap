@@ -34,6 +34,32 @@ public class Subject extends Model {
         return getMany(SubjectStatus.class, "Subject");
     }
 
+    public SubjectStatus getActualSubjectStatus() {
+        List<SubjectStatus> subjectStatusList = getMany(SubjectStatus.class, "Subject");
+
+        for (SubjectStatus subjectStatus : subjectStatusList) {
+            if (subjectStatus.situation == SubjectStatus.Situation.ACTUAL)
+                return subjectStatus;
+        }
+
+        return null;
+    }
+
+    public boolean isActual() {
+        return getActualSubjectStatus() != null;
+    }
+
+    public boolean hasHistory() {
+        List<SubjectStatus> subjectStatusList = getSubjectStatus();
+
+        for (SubjectStatus subjectStatus : subjectStatusList) {
+            if (subjectStatus.situation != SubjectStatus.Situation.PENDING)
+                return true;
+        }
+
+        return false;
+    }
+
     public List<SubjectTest> getSubjectTests() {
         return getMany(SubjectTest.class, "Subject");
     }

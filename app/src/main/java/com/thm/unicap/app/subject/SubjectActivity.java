@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.activeandroid.query.Select;
@@ -40,9 +41,19 @@ public class SubjectActivity extends ActionBarActivity {
         subjectListItemCard.setClickable(false);
         card_list_item.setCard(subjectListItemCard);
 
-        CardView card_schedule = (CardView) findViewById(R.id.card_schedule);
-        SubjectScheduleCard subjectScheduleCard = new SubjectScheduleCard(this, mSubject);
-        card_schedule.setCard(subjectScheduleCard);
+        if(mSubject.isActual()) {
+            CardView card_schedule = (CardView) findViewById(R.id.card_schedule);
+            SubjectScheduleCard subjectScheduleCard = new SubjectScheduleCard(this, mSubject);
+            card_schedule.setCard(subjectScheduleCard);
+            card_schedule.setVisibility(View.VISIBLE);
+        }
+
+        if(mSubject.hasHistory()) {
+            CardView card_history = (CardView) findViewById(R.id.card_history);
+            SubjectHistoryCard subjectHistoryCard = new SubjectHistoryCard(this, mSubject);
+            card_history.setCard(subjectHistoryCard);
+            card_history.setVisibility(View.VISIBLE);
+        }
 
         CardView card_info = (CardView) findViewById(R.id.card_info);
         SubjectInfoCard subjectInfoCard = new SubjectInfoCard(this, mSubject);

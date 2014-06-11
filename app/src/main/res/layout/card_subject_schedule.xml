@@ -9,6 +9,7 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/card_subject_schedule_mon"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="40dp"
@@ -17,18 +18,9 @@
         android:background="@color/unicap_really_light_gray"
         android:textColor="@color/dark_gray"
         android:textSize="20sp"
-        android:text="S"/>
+        android:text="@string/mon_letter"/>
     <TextView
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="40dp"
-        android:layout_marginRight="5dp"
-        android:gravity="center"
-        android:background="@android:color/holo_purple"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:text="T"/>
-    <TextView
+        android:id="@+id/card_subject_schedule_tue"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="40dp"
@@ -37,18 +29,9 @@
         android:background="@color/unicap_really_light_gray"
         android:textColor="@color/dark_gray"
         android:textSize="20sp"
-        android:text="Q"/>
+        android:text="@string/tue_letter"/>
     <TextView
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="40dp"
-        android:layout_marginRight="5dp"
-        android:gravity="center"
-        android:background="@android:color/holo_purple"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:text="Q"/>
-    <TextView
+        android:id="@+id/card_subject_schedule_wed"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="40dp"
@@ -57,8 +40,9 @@
         android:background="@color/unicap_really_light_gray"
         android:textColor="@color/dark_gray"
         android:textSize="20sp"
-        android:text="S"/>
+        android:text="@string/wed_letter"/>
     <TextView
+        android:id="@+id/card_subject_schedule_thu"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="40dp"
@@ -67,15 +51,28 @@
         android:background="@color/unicap_really_light_gray"
         android:textColor="@color/dark_gray"
         android:textSize="20sp"
-        android:text="S"/>
+        android:text="@string/thu_letter"/>
     <TextView
+        android:id="@+id/card_subject_schedule_fri"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="40dp"
+        android:layout_marginRight="5dp"
         android:gravity="center"
         android:background="@color/unicap_really_light_gray"
         android:textColor="@color/dark_gray"
         android:textSize="20sp"
-        android:text="D"/>
+        android:text="@string/fri_letter"/>
+    <TextView
+        android:id="@+id/card_subject_schedule_sat"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="40dp"
+        android:layout_marginRight="5dp"
+        android:gravity="center"
+        android:background="@color/unicap_really_light_gray"
+        android:textColor="@color/dark_gray"
+        android:textSize="20sp"
+        android:text="@string/sat_letter"/>
 
 </LinearLayout>

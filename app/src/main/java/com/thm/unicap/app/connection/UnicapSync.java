@@ -130,7 +130,11 @@ public class UnicapSync {
 
             String code = subjectColumns.get(1).text();
             String name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(2).text()));
-            String paidIn = subjectColumns.get(0).text();
+            String paidIn = null;
+
+            if(!subjectColumns.get(0).text().isEmpty())
+                paidIn = new StringBuilder(subjectColumns.get(0).text()).insert(4, ".").toString();
+
             Float average = Float.parseFloat(subjectColumns.get(3).text());
 
             SubjectStatus.Situation situation;
@@ -175,7 +179,8 @@ public class UnicapSync {
             Elements subjectColumns = subjectRow.select(".tab_texto");
 
             String code = subjectColumns.get(0).text();
-            String paidIn = document.select("table").get(4).select("td").get(1).text();
+            String paidIn = new StringBuilder(document.select("table").get(4).select("td").get(1).text()).insert(4, ".").toString();
+
             String name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(1).text()));
             Integer workload = Integer.parseInt(subjectColumns.get(5).text());
             Integer credits = Integer.parseInt(subjectColumns.get(6).text());

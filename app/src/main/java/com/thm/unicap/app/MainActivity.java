@@ -78,6 +78,7 @@ public class MainActivity extends ActionBarActivity
         }
 
         //TODO: bug with actionbar on app launch
+        //TODO: bug with activity stop (login)
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {

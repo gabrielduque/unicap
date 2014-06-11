@@ -62,4 +62,14 @@
     <string name="period">Período</string>
     <string name="unavailable">Indisponível</string>
 
+    <string name="mon_letter">S</string>
+    <string name="tue_letter">T</string>
+    <string name="wed_letter">Q</string>
+    <string name="thu_letter">Q</string>
+    <string name="fri_letter">S</string>
+    <string name="sat_letter">S</string>
+    <string name="approved">Aprovado</string>
+    <string name="repproved">Reprovado</string>
+    <string name="unknown">Desconhecido</string>
+
 </resources>
