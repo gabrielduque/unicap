@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="10dp"
+    android:padding="@dimen/margin_normal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="23sp"
-        android:text="Histórico da Disciplina"
+        android:text="@string/subject_history"
         app:typeface="roboto_condensed_regular"/>
 
     <LinearLayout

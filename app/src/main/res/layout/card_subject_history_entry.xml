@@ -23,13 +23,13 @@
         android:id="@+id/card_subject_history_entry_status"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        tools:drawableRight="@drawable/ic_action_cancel"
         android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        tools:textColor="@android:color/holo_red_light"
-        tools:text="Reprovado"
+        tools:drawableRight="@drawable/ic_action_accept"
+        tools:textColor="@android:color/holo_green_light"
+        tools:text="Aprovado"
         app:typeface="roboto_thin"/>
 
 </RelativeLayout>

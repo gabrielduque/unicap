@@ -72,5 +72,6 @@
     <string name="repproved">Reprovado</string>
     <string name="unknown">Desconhecido</string>
     <string name="imported">Importada</string>
+    <string name="subject_history">Histórico da Disciplina</string>
 
 </resources>

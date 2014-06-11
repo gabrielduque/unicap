@@ -68,7 +68,6 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="40dp"
-        android:layout_marginRight="5dp"
         android:gravity="center"
         android:background="@color/unicap_really_light_gray"
         android:textColor="@color/dark_gray"
