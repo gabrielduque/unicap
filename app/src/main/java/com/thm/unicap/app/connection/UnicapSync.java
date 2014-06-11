@@ -131,15 +131,21 @@ public class UnicapSync {
             String code = subjectColumns.get(1).text();
             String name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(2).text()));
             String paidIn = null;
+            String rawPaidIn = subjectColumns.get(0).text();
 
-            if(!subjectColumns.get(0).text().isEmpty())
-                paidIn = new StringBuilder(subjectColumns.get(0).text()).insert(4, ".").toString();
+            if(!rawPaidIn.isEmpty()) {
+                if(rawPaidIn.length() == 5)
+                    paidIn = new StringBuilder(rawPaidIn).insert(4, ".").toString();
+                else
+                    paidIn = rawPaidIn;
+            }
 
             Float average = Float.parseFloat(subjectColumns.get(3).text());
 
             SubjectStatus.Situation situation;
             if (subjectColumns.get(4).text().equals("AP")) situation = SubjectStatus.Situation.APPROVED;
             else if (subjectColumns.get(4).text().equals("RM")) situation = SubjectStatus.Situation.REPROVED;
+            else if (subjectColumns.get(4).text().equals("CI")) situation = SubjectStatus.Situation.IMPORTED;
             else situation = SubjectStatus.Situation.UNKNOWN;
 
             UnicapDataManager.persistPastSubject(code, name, paidIn, average, situation);
@@ -185,12 +191,11 @@ public class UnicapSync {
             Integer workload = Integer.parseInt(subjectColumns.get(5).text());
             Integer credits = Integer.parseInt(subjectColumns.get(6).text());
             Integer period = Integer.parseInt(subjectColumns.get(7).text());
-            SubjectStatus.Situation situation = SubjectStatus.Situation.ACTUAL;
             String team = subjectColumns.get(2).text();
             String room = subjectColumns.get(3).text();
             String schedule = subjectColumns.get(4).text();
 
-            UnicapDataManager.persistActualSubject(code, paidIn, name, workload, credits, period, situation, team, room, schedule);
+            UnicapDataManager.persistActualSubject(code, paidIn, name, workload, credits, period, team, room, schedule);
         }
 
         ActiveAndroid.setTransactionSuccessful();
@@ -229,9 +234,8 @@ public class UnicapSync {
             String name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(4).text()));
             int credits = Integer.parseInt(subjectColumns.get(5).text());
             int workload = Integer.parseInt(subjectColumns.get(6).text());
-            SubjectStatus.Situation situation = SubjectStatus.Situation.PENDING;
 
-            UnicapDataManager.persistPendingSubject(code, period, name, credits, workload, situation);
+            UnicapDataManager.persistPendingSubject(code, period, name, credits, workload);
 
         }
 

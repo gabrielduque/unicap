@@ -1,6 +1,7 @@
 package com.thm.unicap.app;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
@@ -11,16 +12,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 
-import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.dashboard.DashboardFragment;
 import com.thm.unicap.app.auth.LoginActivity;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
-import com.thm.unicap.app.R;
 import com.thm.unicap.app.subject.SubjectsFragment;
 
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+
+    private Handler mHandler = new Handler();
+    private Runnable mSwitchFragmentRunnable;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -77,18 +79,25 @@ public class MainActivity extends ActionBarActivity
 
         }
 
-        //TODO: bug with actionbar on app launch
-        //TODO: bug with activity stop (login)
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        fragmentManager.beginTransaction()
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .replace(R.id.container, fragment)
-                                .commit();
-                    }
-                },
-                350);
+        mHandler.removeCallbacks(mSwitchFragmentRunnable);
+
+        mSwitchFragmentRunnable = new Runnable() {
+            public void run() {
+                fragmentManager.beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .replace(R.id.container, fragment)
+                        .commit();
+            }
+        };
+
+        mHandler.postDelayed(mSwitchFragmentRunnable, 350);
+
+    }
+
+    @Override
+    protected void onStop() {
+        mHandler.removeCallbacks(mSwitchFragmentRunnable);
+        super.onStop();
     }
 
     public void onSectionAttached(int session) {
@@ -100,6 +109,10 @@ public class MainActivity extends ActionBarActivity
                 mTitle = getString(R.string.subjects);
                 break;
         }
+
+        //TODO: supportInvalidateOptionsMenu being called twice (here and on onDrawerClosed)
+        //Call needed to change actionbar at startup
+        supportInvalidateOptionsMenu();
     }
 
     public void restoreActionBar() {

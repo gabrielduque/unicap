@@ -71,5 +71,6 @@
     <string name="approved">Aprovado</string>
     <string name="repproved">Reprovado</string>
     <string name="unknown">Desconhecido</string>
+    <string name="imported">Importada</string>
 
 </resources>

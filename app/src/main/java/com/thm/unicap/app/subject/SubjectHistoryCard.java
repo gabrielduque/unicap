@@ -52,6 +52,10 @@ public class SubjectHistoryCard extends Card {
                     entry_status.setText(mContext.getString(R.string.actual));
                     entry_status.setTextColor(mContext.getResources().getColor(android.R.color.holo_green_light));
                     entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, mContext.getResources().getDrawable(R.drawable.ic_action_forward), null);
+                } else if(subjectStatus.situation == SubjectStatus.Situation.IMPORTED) {
+                    entry_status.setText(mContext.getString(R.string.imported));
+                    entry_status.setTextColor(mContext.getResources().getColor(android.R.color.holo_green_light));
+                    entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, mContext.getResources().getDrawable(R.drawable.ic_action_download), null);
                 } else {
                     entry_status.setText(mContext.getString(R.string.unknown));
                     entry_status.setTextColor(mContext.getResources().getColor(android.R.color.black));

@@ -68,17 +68,24 @@ public class UnicapDataManager {
         if(subject == null) {
             subject = new Subject();
             subject.code = code;
+            subject.student = UnicapApplication.getStudent();
         }
 
-        subject.student = UnicapApplication.getStudent();
         subject.name = name;
 
         subject.save();
 
-        SubjectStatus subjectStatus = new SubjectStatus();
+        SubjectStatus subjectStatus = new Select().from(SubjectStatus.class)
+                .where("Subject = ?", subject.getId())
+                .where("PaidIn = ?", paidIn)
+                .executeSingle();
 
-        subjectStatus.subject = subject;
-        subjectStatus.paidIn = paidIn;
+        if(subjectStatus == null) {
+            subjectStatus = new SubjectStatus();
+            subjectStatus.subject = subject;
+            subjectStatus.paidIn = paidIn;
+        }
+
         subjectStatus.average = average;
         subjectStatus.situation = situation;
 
@@ -86,7 +93,7 @@ public class UnicapDataManager {
 
     }
 
-    public static void persistActualSubject(String code, String paidIn, String name, Integer workload, Integer credits, Integer period, SubjectStatus.Situation situation, String team, String room, String schedule) {
+    public static void persistActualSubject(String code, String paidIn, String name, Integer workload, Integer credits, Integer period, String team, String room, String schedule) {
 
         Subject subject = new Select().from(Subject.class)
                 .where("Code = ?", code)
@@ -96,9 +103,9 @@ public class UnicapDataManager {
         if(subject == null) {
             subject = new Subject();
             subject.code = code;
+            subject.student = UnicapApplication.getStudent();
         }
 
-        subject.student = UnicapApplication.getStudent();
         subject.name = name;
         subject.workload = workload;
         subject.credits = credits;
@@ -106,19 +113,26 @@ public class UnicapDataManager {
 
         subject.save();
 
-        SubjectStatus subjectStatus = new SubjectStatus();
+        SubjectStatus subjectStatus = new Select().from(SubjectStatus.class)
+                .where("Subject = ?", subject.getId())
+                .where("PaidIn = ?", paidIn)
+                .executeSingle();
 
-        subjectStatus.subject = subject;
+        if(subjectStatus == null) {
+            subjectStatus = new SubjectStatus();
+            subjectStatus.subject = subject;
+            subjectStatus.paidIn = paidIn;
+        }
+
         subjectStatus.situation = SubjectStatus.Situation.ACTUAL;
         subjectStatus.team = team;
         subjectStatus.room = room;
         subjectStatus.schedule = schedule;
-        subjectStatus.paidIn = paidIn;
 
         subjectStatus.save();
     }
 
-    public static void persistPendingSubject(String code, int period, String name, int credits, int workload, SubjectStatus.Situation situation) {
+    public static void persistPendingSubject(String code, int period, String name, int credits, int workload) {
 
         Subject subject = new Select().from(Subject.class)
                 .where("Code = ?", code)
@@ -128,9 +142,9 @@ public class UnicapDataManager {
         if(subject == null) {
             subject = new Subject();
             subject.code = code;
+            subject.student = UnicapApplication.getStudent();
         }
 
-        subject.student = UnicapApplication.getStudent();
         subject.period = period;
         subject.name = name;
         subject.credits = credits;
@@ -138,10 +152,18 @@ public class UnicapDataManager {
 
         subject.save();
 
-        SubjectStatus subjectStatus = new SubjectStatus();
+        SubjectStatus subjectStatus = new Select().from(SubjectStatus.class)
+                .where("Subject = ?", subject.getId())
+                .where("Situation = ?", SubjectStatus.Situation.PENDING)
+                .executeSingle();
+
+        if(subjectStatus == null) {
+            subjectStatus = new SubjectStatus();
+            subjectStatus.subject = subject;
+            subjectStatus.situation = SubjectStatus.Situation.PENDING;
+        }
 
         subjectStatus.subject = subject;
-        subjectStatus.situation = situation;
 
         subjectStatus.save();
     }

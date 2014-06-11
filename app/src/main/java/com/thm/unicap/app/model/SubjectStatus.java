@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class SubjectStatus extends Model {
 
     public enum Situation {
-        APPROVED, REPROVED, ACTUAL, PENDING, UNKNOWN
+        APPROVED, REPROVED, IMPORTED, ACTUAL, PENDING, UNKNOWN
     }
 
     public enum ScheduleWeekDay {

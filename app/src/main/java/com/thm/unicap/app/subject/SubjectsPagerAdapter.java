@@ -57,10 +57,12 @@ public class SubjectsPagerAdapter extends PagerAdapter {
                 .innerJoin(SubjectStatus.class)
                 .on("Subject.Id = SubjectStatus.Subject")
                 .where("Subject.Student = ?", student.getId())
-                .orderBy("Subject.Period");
+                .orderBy("Subject.Period, SubjectStatus.PaidIn, Subject.Name");
 
         if(position == Session.PAST.ordinal()) {
-            query.where("SubjectStatus.Situation = ?", SubjectStatus.Situation.APPROVED);
+            query.where("SubjectStatus.Situation = ?", SubjectStatus.Situation.APPROVED)
+                    .or("SubjectStatus.Situation = ?", SubjectStatus.Situation.IMPORTED)
+                    .or("SubjectStatus.Situation = ?", SubjectStatus.Situation.UNKNOWN);
         } else if(position == Session.ACTUAL.ordinal()) {
             query.where("SubjectStatus.Situation = ?", SubjectStatus.Situation.ACTUAL);
         } else if(position == Session.PENDING.ordinal()) {
