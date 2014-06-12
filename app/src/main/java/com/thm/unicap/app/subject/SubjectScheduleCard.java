@@ -54,6 +54,9 @@ public class SubjectScheduleCard extends Card {
                     case Fri:
                         tvWeekDay = (TextView) parent.findViewById(R.id.card_subject_schedule_fri);
                         break;
+                    case Sat:
+                        tvWeekDay = (TextView) parent.findViewById(R.id.card_subject_schedule_sat);
+                        break;
                 }
 
                 if (tvWeekDay != null) {

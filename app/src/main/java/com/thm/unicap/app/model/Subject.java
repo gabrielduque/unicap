@@ -4,10 +4,7 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.thm.unicap.app.R;
-
-import java.io.Serializable;
 import java.util.List;
-import java.util.Random;
 
 @Table(name = "Subject")
 public class Subject extends Model {
