@@ -2,6 +2,7 @@ package com.thm.unicap.app.grade;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -17,6 +18,7 @@ import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
+import com.thm.unicap.app.subject.SubjectActivity;
 import com.thm.unicap.app.subject.SubjectListItemCard;
 import com.thm.unicap.app.subject.SubjectsPagerAdapter;
 
@@ -28,7 +30,7 @@ import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
 
-public class GradesFragment extends Fragment {
+public class GradesFragment extends Fragment implements Card.OnCardClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,8 +49,12 @@ public class GradesFragment extends Fragment {
 
         ArrayList<Card> cardArrayList = new ArrayList<Card>();
 
-        for (Subject subject : subjects)
-            cardArrayList.add(new SubjectListItemCard(getActivity(), subject));
+        for (Subject subject : subjects) {
+            SubjectListItemCard subjectListItemCard = new SubjectListItemCard(getActivity(), subject);
+            subjectListItemCard.setClickable(true);
+            subjectListItemCard.setOnClickListener(this);
+            cardArrayList.add(subjectListItemCard);
+        }
 
         CardListView cardListView = (CardListView) rootView.findViewById(R.id.subjects_list);
 
@@ -63,5 +69,12 @@ public class GradesFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         ((MainActivity) activity).onSectionAttached(NavigationDrawerFragment.SESSION_GRADES);
+    }
+
+    @Override
+    public void onClick(Card card, View view) {
+        Intent intent = new Intent(getActivity(), GradesActivity.class);
+        intent.putExtra("subject_id", ((SubjectListItemCard)card).getSubject().getId());
+        getActivity().startActivity(intent);
     }
 }

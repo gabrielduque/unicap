@@ -9,6 +9,8 @@ import java.util.Date;
 @Table(name = "SubjectTest")
 public class SubjectTest extends Model {
 
+    public static final Float MIN_AVERAGE = 5.0f;
+
     public enum Degree {
         FIRST_DEGREE, SECOND_DEGREE, FINAL_DEGREE
     }
@@ -27,5 +29,18 @@ public class SubjectTest extends Model {
 
     @Column(name = "Grade")
     public Float grade;
+
+   public static Float calculateGrade(Float firstDegree, Float secondDegree, Float finalDegree) {
+
+       if(firstDegree == null || secondDegree == null) return null;
+
+       float average = (firstDegree * 2 + secondDegree * 3) / 5;
+
+       if(finalDegree == null) {
+           return average;
+       } else {
+           return (average + finalDegree) / 2;
+       }
+   }
 
 }

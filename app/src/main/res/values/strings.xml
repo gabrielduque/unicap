@@ -25,7 +25,6 @@
     <string name="prompt_registration">Matrícula</string>
     <string name="prompt_password">Senha</string>
     <string name="action_sign_in">Entrar</string>
-
     <string name="past">Cursadas</string>
     <string name="actual">Cursando</string>
     <string name="pending">Pendentes</string>
@@ -50,18 +49,15 @@
     <string name="progress_6">Sincronizando calendário…</string>
     <string name="progress_7">Sincronizando notas…</string>
     <string name="progress_8">Sincronização concluída.</string>
-
     <string name="period_format">%dº Período</string>
     <string name="workload_format">%d Horas</string>
     <string name="credits_format">%d Créditos</string>
-
     <string name="general_information">Informações Gerais</string>
     <string name="code">Código</string>
     <string name="workload">Carga Horária</string>
     <string name="credits">Créditos</string>
     <string name="period">Período</string>
     <string name="unavailable">Indisponível</string>
-
     <string name="mon_letter">S</string>
     <string name="tue_letter">T</string>
     <string name="wed_letter">Q</string>
@@ -73,5 +69,12 @@
     <string name="unknown">Desconhecido</string>
     <string name="imported">Importada</string>
     <string name="subject_history">Histórico da Disciplina</string>
+    <string name="evaluations">Avaliações</string>
+    <string name="final_degree">Exame Final</string>
+    <string name="second_degree">2º GQ</string>
+    <string name="first_degree">1º GQ</string>
+    <string name="situation">Situação</string>
+    <string name="average">Média</string>
+    <string name="waiting">Aguardando</string>
 
 </resources>
