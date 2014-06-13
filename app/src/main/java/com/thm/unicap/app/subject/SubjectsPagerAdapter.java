@@ -1,6 +1,7 @@
 package com.thm.unicap.app.subject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,16 @@ import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
 
-public class SubjectsPagerAdapter extends PagerAdapter {
+public class SubjectsPagerAdapter extends PagerAdapter implements Card.OnCardClickListener {
 
     private Context mContext;
+
+    @Override
+    public void onClick(Card card, View view) {
+        Intent intent = new Intent(mContext, SubjectActivity.class);
+        intent.putExtra("subject_id", ((SubjectListItemCard)card).getSubject().getId());
+        mContext.startActivity(intent);
+    }
 
     public static enum Session {
         PAST, ACTUAL, PENDING
@@ -73,8 +81,12 @@ public class SubjectsPagerAdapter extends PagerAdapter {
 
         ArrayList<Card> cardArrayList = new ArrayList<Card>();
 
-        for (Subject subject : subjects)
-            cardArrayList.add(new SubjectListItemCard(mContext, subject));
+        for (Subject subject : subjects) {
+            SubjectListItemCard subjectListItemCard = new SubjectListItemCard(mContext, subject);
+            subjectListItemCard.setClickable(true);
+            subjectListItemCard.setOnClickListener(this);
+            cardArrayList.add(subjectListItemCard);
+        }
 
         CardListView cardListView = new CardListView(mContext);
 

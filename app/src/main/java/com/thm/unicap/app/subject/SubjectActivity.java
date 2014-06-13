@@ -38,7 +38,6 @@ public class SubjectActivity extends ActionBarActivity {
 
         CardView card_list_item = (CardView) findViewById(R.id.card_list_item);
         SubjectListItemCard subjectListItemCard = new SubjectListItemCard(this, mSubject);
-        subjectListItemCard.setClickable(false);
         card_list_item.setCard(subjectListItemCard);
 
         if(mSubject.isActual()) {

@@ -51,6 +51,13 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
 
     public static final int SESSION_DASHBOARD = 0;
     public static final int SESSION_SUBJECTS = 1;
+    public static final int SESSION_CALENDAR = 2;
+    public static final int SESSION_LESSONS = 3;
+    public static final int SESSION_GRADES = 4;
+
+    public static final int SESSION_CONFIG = 5;
+    public static final int SESSION_FEEDBACK = 6;
+    public static final int SESSION_HELP = 7;
 
     /**
      * Remember the position of the selected item.

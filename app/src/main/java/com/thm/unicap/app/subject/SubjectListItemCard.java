@@ -11,7 +11,7 @@ import com.thm.unicap.app.model.Subject;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
-public class SubjectListItemCard extends Card implements Card.OnCardClickListener {
+public class SubjectListItemCard extends Card {
 
     private Subject mSubject;
 
@@ -22,12 +22,6 @@ public class SubjectListItemCard extends Card implements Card.OnCardClickListene
     public SubjectListItemCard(Context context, int innerLayout, Subject subject) {
         super(context, innerLayout);
         mSubject = subject;
-        init();
-    }
-
-    private void init() {
-        setClickable(true);
-        setOnClickListener(this);
     }
 
     @Override
@@ -48,11 +42,7 @@ public class SubjectListItemCard extends Card implements Card.OnCardClickListene
             subject_period.setText(String.format(mContext.getString(R.string.period_format), mSubject.period));
     }
 
-    @Override
-    public void onClick(Card card, View view) {
-        Intent intent = new Intent(mContext, SubjectActivity.class);
-        intent.putExtra("subject_id", mSubject.getId());
-        mContext.startActivity(intent);
+    public Subject getSubject() {
+        return mSubject;
     }
-
 }
