@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.model.Subject;
+import com.thm.unicap.app.model.SubjectStatus;
 import com.thm.unicap.app.model.SubjectTest;
 
 import it.gmariotti.cardslib.library.internal.Card;
@@ -44,21 +45,29 @@ public class SubjectGradesCard extends Card {
         Float averageTestGrade = SubjectTest.calculateGrade(firstDegreeTestGrade, secondDegreeTestGrade, finalDegreeTestGrade);
         setupGradeView(averageTestGrade, card_subject_grades_average);
 
-        //TODO: Organize and implement many other possibilities
-        if(averageTestGrade != null) {
-            if (averageTestGrade >= SubjectTest.MIN_AVERAGE) {
+        SubjectStatus.FlowSituation flowSituation = mSubject.getActualSubjectStatus().getFlowSituation();
+
+        switch (flowSituation) {
+            case APPROVED:
                 card_subject_grades_situation.setText(mContext.getString(R.string.approved));
                 card_subject_grades_situation.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.ic_action_accept), null, null, null);
                 card_subject_grades_situation.setTextColor(mContext.getResources().getColor(android.R.color.holo_green_light));
-            } else {
+                break;
+            case REPROVED:
                 card_subject_grades_situation.setText(mContext.getString(R.string.repproved));
                 card_subject_grades_situation.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.ic_action_cancel), null, null, null);
                 card_subject_grades_situation.setTextColor(mContext.getResources().getColor(android.R.color.holo_red_light));
-            }
-        } else {
-            card_subject_grades_situation.setText(mContext.getString(R.string.waiting));
-            card_subject_grades_situation.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.ic_action_help), null, null, null);
+                break;
+            case WAITING:
+                card_subject_grades_situation.setText(mContext.getString(R.string.waiting));
+                card_subject_grades_situation.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.ic_action_time), null, null, null);
+                break;
+            case WAITING_FINAL:
+                card_subject_grades_situation.setText(mContext.getString(R.string.waiting_final));
+                card_subject_grades_situation.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.ic_action_time), null, null, null);
+                break;
         }
+
     }
 
     private void setupGradeView(Float grade, TextView textView) {

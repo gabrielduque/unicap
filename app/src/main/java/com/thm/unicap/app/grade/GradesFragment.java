@@ -38,14 +38,7 @@ public class GradesFragment extends Fragment implements Card.OnCardClickListener
 
         Student student = UnicapApplication.getStudent();
 
-        List<Subject> subjects = new Select("Subject.*")
-                .from(Subject.class)
-                .innerJoin(SubjectStatus.class)
-                .on("Subject.Id = SubjectStatus.Subject")
-                .where("Subject.Student = ?", student.getId())
-                .orderBy("Subject.Period, SubjectStatus.PaidIn, Subject.Name")
-                .where("SubjectStatus.Situation = ?", SubjectStatus.Situation.ACTUAL)
-                .execute();
+        List<Subject> subjects = student.getActualSubjects();
 
         ArrayList<Card> cardArrayList = new ArrayList<Card>();
 

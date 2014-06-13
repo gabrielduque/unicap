@@ -31,15 +31,17 @@ public class SubjectTest extends Model {
     public Float grade;
 
    public static Float calculateGrade(Float firstDegree, Float secondDegree, Float finalDegree) {
-
-       if(firstDegree == null || secondDegree == null) return null;
-
-       float average = (firstDegree * 2 + secondDegree * 3) / 5;
-
-       if(finalDegree == null) {
-           return average;
+       if(firstDegree != null && secondDegree == null && finalDegree != null) {
+           //Final como segundo GQ
+           return (firstDegree * 2 + finalDegree * 3) / 5;
+       } else if(firstDegree != null && secondDegree != null && finalDegree == null) {
+           //Normal
+           return (firstDegree * 2 + secondDegree * 3) / 5;
+       } else if(firstDegree != null && secondDegree != null && finalDegree != null) {
+           //Final
+           return ((firstDegree * 2 + secondDegree * 3) / 5 + finalDegree) / 2;
        } else {
-           return (average + finalDegree) / 2;
+           return null;
        }
    }
 

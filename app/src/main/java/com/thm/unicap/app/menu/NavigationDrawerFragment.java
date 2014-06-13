@@ -84,7 +84,7 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
     private ListView mDrawerListView;
     private View mFragmentContainerView;
 
-    private int mCurrentSelectedPosition = SESSION_GRADES;
+    private int mCurrentSelectedPosition = SESSION_DASHBOARD;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 

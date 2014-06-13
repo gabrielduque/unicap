@@ -14,6 +14,10 @@ public class SubjectStatus extends Model {
         APPROVED, REPROVED, IMPORTED, ACTUAL, PENDING, UNKNOWN
     }
 
+    public enum FlowSituation {
+        APPROVED, REPROVED, WAITING, WAITING_FINAL
+    }
+
     public enum ScheduleWeekDay {
         Mon, Tue, Wed, Thu, Fri, Sat
     }
@@ -93,5 +97,27 @@ public class SubjectStatus extends Model {
         if(schedule.contains("7")) result.add(ScheduleWeekDay.Sat);
 
         return result;
+    }
+
+    public FlowSituation getFlowSituation() {
+
+        Float firstDegreeTestGrade = subject.getTestByDegree(SubjectTest.Degree.FIRST_DEGREE).grade;
+        Float secondDegreeTestGrade = subject.getTestByDegree(SubjectTest.Degree.SECOND_DEGREE).grade;
+        Float finalDegreeTestGrade = subject.getTestByDegree(SubjectTest.Degree.FINAL_DEGREE).grade;
+
+        Float averageTestGrade = SubjectTest.calculateGrade(firstDegreeTestGrade, secondDegreeTestGrade, finalDegreeTestGrade);
+
+        if(averageTestGrade != null) {
+            if (averageTestGrade >= SubjectTest.MIN_AVERAGE) {
+                return FlowSituation.APPROVED;
+            } else {
+                if(finalDegreeTestGrade != null)
+                    return FlowSituation.REPROVED;
+                else
+                    return FlowSituation.WAITING_FINAL;
+            }
+        } else {
+            return FlowSituation.WAITING;
+        }
     }
 }

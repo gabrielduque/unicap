@@ -26,12 +26,6 @@
         revision="19.1.0"
         sha1="92568d7167ce1bf9eb1fd815b022d5a2c113547a"/>
     <item
-        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-9680595c443fb48cfb2d19f87e085fcb447135cd.jar"
-        jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
-    <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/ActiveAndroid-f55cda3141846225982a18f03be0209308215122.jar"
         jar="/home/tulio/Projects/unicap/app/libs/ActiveAndroid.jar"
         jumboMode="false"
@@ -44,10 +38,22 @@
         revision="19.1.0"
         sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
     <item
+        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-86012dcc0cf1d2c3666136fb54278d60c65d5947.jar"
+        jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/unicap/HoloGraphLibrary/unspecified/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="e3dddcac39991fbff3f345f8ab3c2f1e24d59187"/>
+    <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-477d054994d51e940b62d4c87b9fdc5334ec4896.jar"
         jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library/1.6.0/classes.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="dd59f15631a0446653bc4197a9afd6ee63eef42d"/>
+    <item
+        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-9680595c443fb48cfb2d19f87e085fcb447135cd.jar"
+        jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
 
 </pre-dex-items>

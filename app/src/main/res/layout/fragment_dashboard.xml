@@ -8,9 +8,9 @@
     android:paddingBottom="@dimen/margin_normal"
     tools:context="com.thm.unicap.app.MainActivity$PlaceholderFragment">
 
-    <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <it.gmariotti.cardslib.library.view.CardView
+        android:id="@+id/card_status_graph"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

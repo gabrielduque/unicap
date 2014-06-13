@@ -3,6 +3,8 @@ package com.thm.unicap.app.model;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
+import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.util.HashUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -51,5 +53,17 @@ public class Student extends Model {
         if(md5Hash == null) md5Hash = "";
 
         return String.format("http://www.gravatar.com/avatar/%s?s=%s&d=%s", md5Hash, String.valueOf(pictureSize), fallbackImage);
+    }
+
+    public List<Subject> getActualSubjects() {
+
+        return new Select("Subject.*")
+                .from(Subject.class)
+                .innerJoin(SubjectStatus.class)
+                .on("Subject.Id = SubjectStatus.Subject")
+                .where("Subject.Student = ?", getId())
+                .orderBy("Subject.Period, SubjectStatus.PaidIn, Subject.Name")
+                .where("SubjectStatus.Situation = ?", SubjectStatus.Situation.ACTUAL)
+                .execute();
     }
 }
