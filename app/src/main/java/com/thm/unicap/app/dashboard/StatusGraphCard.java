@@ -18,6 +18,8 @@ import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import it.gmariotti.cardslib.library.internal.Card;
@@ -35,13 +37,41 @@ public class StatusGraphCard extends Card implements PieGraph.OnSliceClickedList
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
 
-//        Student student = UnicapApplication.getStudent();
-//
-//        List<Subject> subjects = student.getActualSubjects();
-//
-//        for (Subject subject : subjects) {
-//            SubjectStatus actualSubjectStatus = subject.getActualSubjectStatus();
-//        }
+        Student student = UnicapApplication.getStudent();
+
+        List<Subject> subjects = student.getActualSubjects();
+
+        float approvedCount = 0f;
+        float repprovedCount = 0f;
+        float waitingCount = 0f;
+
+        float totalCount = 0f;
+
+        for (Subject subject : subjects) {
+            SubjectStatus actualSubjectStatus = subject.getActualSubjectStatus();
+
+            switch (actualSubjectStatus.getFlowSituation()) {
+                case APPROVED:
+                    approvedCount++;
+                    break;
+                case REPROVED:
+                    repprovedCount++;
+                    break;
+                case WAITING:
+                case WAITING_FINAL:
+                    waitingCount++;
+                    break;
+            }
+        }
+
+        totalCount = approvedCount + repprovedCount + waitingCount;
+
+        if(approvedCount >= repprovedCount && approvedCount >= waitingCount)
+            mActiveSlice = 0;
+        else if(repprovedCount >= approvedCount && repprovedCount >= waitingCount)
+            mActiveSlice = 1;
+        else if(waitingCount >= approvedCount && waitingCount >= repprovedCount)
+            mActiveSlice = 2;
 
         mPieGraph = (PieGraph)parent.findViewById(R.id.graph);
         mStatusPercentage = (TextView) parent.findViewById(R.id.status_percentage);
@@ -51,25 +81,28 @@ public class StatusGraphCard extends Card implements PieGraph.OnSliceClickedList
         slice.setColor(mContext.getResources().getColor(android.R.color.holo_green_light));
         slice.setSelectedColor(Utils.darkenColor(mContext.getResources().getColor(android.R.color.holo_green_light)));
         slice.setTitle(mContext.getString(R.string.approved));
-        slice.setValue((4f / 7f) * 100f);
+        slice.setValue((approvedCount / totalCount) * 100f);
         mPieGraph.addSlice(slice);
 
         slice = new PieSlice();
         slice.setColor(mContext.getResources().getColor(android.R.color.holo_red_light));
         slice.setSelectedColor(Utils.darkenColor(mContext.getResources().getColor(android.R.color.holo_red_light)));
         slice.setTitle(mContext.getString(R.string.repproved));
-        slice.setValue((1f / 7f) * 100f);
+        slice.setValue((repprovedCount / totalCount) * 100f);
         mPieGraph.addSlice(slice);
 
         slice = new PieSlice();
         slice.setColor(mContext.getResources().getColor(R.color.unicap_light_gray));
         slice.setSelectedColor(Utils.darkenColor(mContext.getResources().getColor(R.color.unicap_light_gray)));
         slice.setTitle(mContext.getString(R.string.waiting));
-        slice.setValue((2f / 7f) * 100f);
+        slice.setValue((waitingCount / totalCount) * 100f);
         mPieGraph.addSlice(slice);
 
         mPieGraph.setOnSliceClickedListener(this);
         mPieGraph.setInnerCircleRatio(100);
+
+        //Workaround to fix PieGraph bug
+        mPieGraph.setPadding(1);
 
         onClick(mActiveSlice);
 
