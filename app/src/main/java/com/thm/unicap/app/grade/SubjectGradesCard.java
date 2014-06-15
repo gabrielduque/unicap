@@ -29,8 +29,9 @@ public class SubjectGradesCard extends Card {
     public void setupInnerViewElements(ViewGroup parent, View view) {
         TextView card_subject_grades_first_degree = (TextView) parent.findViewById(R.id.card_subject_grades_first_degree);
         TextView card_subject_grades_second_degree = (TextView) parent.findViewById(R.id.card_subject_grades_second_degree);
-        TextView card_subject_grades_final_degree = (TextView) parent.findViewById(R.id.card_subject_grades_final_degree);
         TextView card_subject_grades_average = (TextView) parent.findViewById(R.id.card_subject_grades_average);
+        TextView card_subject_grades_final_degree = (TextView) parent.findViewById(R.id.card_subject_grades_final_degree);
+        TextView card_subject_grades_final_average = (TextView) parent.findViewById(R.id.card_subject_grades_final_average);
         TextView card_subject_grades_situation = (TextView) parent.findViewById(R.id.card_subject_grades_situation);
 
         Float firstDegreeTestGrade = mSubject.getTestByDegree(SubjectTest.Degree.FIRST_DEGREE).grade;
@@ -39,11 +40,14 @@ public class SubjectGradesCard extends Card {
         Float secondDegreeTestGrade = mSubject.getTestByDegree(SubjectTest.Degree.SECOND_DEGREE).grade;
         setupGradeView(secondDegreeTestGrade, card_subject_grades_second_degree);
 
+        Float averageTestGrade = mSubject.getActualSubjectStatus().average;
+        setupGradeView(averageTestGrade, card_subject_grades_average);
+
         Float finalDegreeTestGrade = mSubject.getTestByDegree(SubjectTest.Degree.FINAL_DEGREE).grade;
         setupGradeView(finalDegreeTestGrade, card_subject_grades_final_degree);
 
-        Float averageTestGrade = SubjectTest.calculateGrade(firstDegreeTestGrade, secondDegreeTestGrade, finalDegreeTestGrade);
-        setupGradeView(averageTestGrade, card_subject_grades_average);
+        Float finalAverageTestGrade = mSubject.getActualSubjectStatus().final_average;
+        setupGradeView(finalAverageTestGrade, card_subject_grades_final_average);
 
         SubjectStatus.FlowSituation flowSituation = mSubject.getActualSubjectStatus().getFlowSituation();
 

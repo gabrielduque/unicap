@@ -356,6 +356,13 @@ public class UnicapSync {
                 UnicapDataManager.persistSubjectGrade(code, second_degree, null);
             }
 
+            String averageText = subjectColumns.get(4).text();
+            try {
+                UnicapDataManager.persistSubjectAverage(code, Float.parseFloat(averageText));
+            } catch (Exception ignore) {
+                UnicapDataManager.persistSubjectAverage(code, null);
+            }
+
             SubjectTest.Degree final_degree = SubjectTest.Degree.FINAL_DEGREE;
             String final_gradeText = subjectColumns.get(5).text();
             try {
@@ -363,6 +370,14 @@ public class UnicapSync {
             } catch (Exception ignore) {
                 UnicapDataManager.persistSubjectGrade(code, final_degree, null);
             }
+
+            String final_averageText = subjectColumns.get(6).text();
+            try {
+                UnicapDataManager.persistSubjectFinalAverage(code, Float.parseFloat(final_averageText));
+            } catch (Exception ignore) {
+                UnicapDataManager.persistSubjectFinalAverage(code, null);
+            }
+
 
         }
 

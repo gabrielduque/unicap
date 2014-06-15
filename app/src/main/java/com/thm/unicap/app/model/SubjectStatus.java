@@ -47,6 +47,9 @@ public class SubjectStatus extends Model {
     @Column(name = "Average")
     public Float average;
 
+    @Column(name = "FinalAverage")
+    public Float final_average;
+
     public HashMap<ScheduleWeekDay, ScheduleHour> getFullSchedule() {
         if(schedule == null || schedule.isEmpty()) return null;
 
@@ -101,23 +104,28 @@ public class SubjectStatus extends Model {
 
     public FlowSituation getFlowSituation() {
 
-        Float firstDegreeTestGrade = subject.getTestByDegree(SubjectTest.Degree.FIRST_DEGREE).grade;
-        Float secondDegreeTestGrade = subject.getTestByDegree(SubjectTest.Degree.SECOND_DEGREE).grade;
-        Float finalDegreeTestGrade = subject.getTestByDegree(SubjectTest.Degree.FINAL_DEGREE).grade;
+        Float averageGrade = subject.getActualSubjectStatus().average;
+        Float finalAverageGrade = subject.getActualSubjectStatus().final_average;
 
-        Float averageTestGrade = SubjectTest.calculateGrade(firstDegreeTestGrade, secondDegreeTestGrade, finalDegreeTestGrade);
-
-        if(averageTestGrade != null) {
-            if (averageTestGrade >= SubjectTest.MIN_AVERAGE) {
-                return FlowSituation.APPROVED;
-            } else {
-                if(finalDegreeTestGrade != null)
-                    return FlowSituation.REPROVED;
-                else
-                    return FlowSituation.WAITING_FINAL;
-            }
-        } else {
+        if(averageGrade == null && finalAverageGrade == null) {
             return FlowSituation.WAITING;
+        } else if(averageGrade == null && finalAverageGrade != null) {
+            if(finalAverageGrade >= SubjectTest.MIN_AVERAGE)
+                return FlowSituation.APPROVED;
+            else
+                return FlowSituation.REPROVED;
+        } else if(averageGrade != null && finalAverageGrade == null) {
+            if(averageGrade >= SubjectTest.MIN_AVERAGE)
+                return FlowSituation.APPROVED;
+            else
+                return FlowSituation.WAITING_FINAL;
+        } else if(averageGrade != null && finalAverageGrade != null) {
+            if(finalAverageGrade >= SubjectTest.MIN_AVERAGE)
+                return FlowSituation.APPROVED;
+            else
+                return FlowSituation.REPROVED;
         }
+
+        return FlowSituation.WAITING;
     }
 }

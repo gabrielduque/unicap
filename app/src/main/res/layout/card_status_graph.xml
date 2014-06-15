@@ -33,6 +33,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
+                android:textColor="@android:color/darker_gray"
+                android:drawableLeft="@drawable/ic_action_time"
+                android:text="@string/waiting"
+                app:typeface="roboto_regular"/>
+
+            <com.devspark.robototextview.widget.RobotoTextView
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
                 android:textColor="@android:color/holo_green_light"
                 android:drawableLeft="@drawable/ic_action_accept"
                 android:text="@string/approved"
@@ -46,16 +56,6 @@
                 android:textColor="@android:color/holo_red_light"
                 android:drawableLeft="@drawable/ic_action_cancel"
                 android:text="@string/repproved"
-                app:typeface="roboto_regular"/>
-
-            <com.devspark.robototextview.widget.RobotoTextView
-                android:gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="@android:color/darker_gray"
-                android:drawableLeft="@drawable/ic_action_time"
-                android:text="@string/waiting"
                 app:typeface="roboto_regular"/>
 
         </LinearLayout>

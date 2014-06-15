@@ -205,4 +205,40 @@ public class UnicapDataManager {
         }
 
     }
+
+    public static void persistSubjectAverage(String code, Float grade) {
+
+        Subject subject = new Select().from(Subject.class)
+                .where("Code = ?", code)
+                .where("Student = ?", UnicapApplication.getStudent().getId())
+                .executeSingle();
+
+        if(subject != null) {
+            SubjectStatus actualSubjectStatus = subject.getActualSubjectStatus();
+
+            if (actualSubjectStatus != null) {
+                actualSubjectStatus.average = grade;
+                actualSubjectStatus.save();
+            }
+        }
+
+    }
+
+    public static void persistSubjectFinalAverage(String code, Float grade) {
+
+        Subject subject = new Select().from(Subject.class)
+                .where("Code = ?", code)
+                .where("Student = ?", UnicapApplication.getStudent().getId())
+                .executeSingle();
+
+        if(subject != null) {
+            SubjectStatus actualSubjectStatus = subject.getActualSubjectStatus();
+
+            if (actualSubjectStatus != null) {
+                actualSubjectStatus.final_average = grade;
+                actualSubjectStatus.save();
+            }
+        }
+
+    }
 }
