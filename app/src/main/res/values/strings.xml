@@ -78,5 +78,6 @@
     <string name="waiting">Aguardando</string>
     <string name="waiting_final">Aguardando Final</string>
     <string name="final_average">Média Final</string>
+    <string name="evolution">Evolução</string>
 
 </resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginLeft="@dimen/margin_normal"
+        android:layout_marginRight="@dimen/margin_normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="23sp"
+        android:text="@string/evolution"
+        app:typeface="roboto_condensed_regular"/>
+
+    <com.echo.holographlibrary.LineGraph
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/linegraph"
+        android:layout_margin="@dimen/margin_normal"
+        app:lineStrokeColor="@color/unicap_really_light_gray"
+        app:lineAxisColor="@android:color/transparent"
+        app:lineStrokeWidth="1dp"
+        app:lineStrokeSpacing="10dp"
+        app:lineUseDip="true"/>
+
+</LinearLayout>

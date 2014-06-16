@@ -44,9 +44,13 @@ public class GradesActivity extends ActionBarActivity {
         SubjectListItemCard subjectListItemCard = new SubjectListItemCard(this, mSubject);
         card_list_item.setCard(subjectListItemCard);
 
-        CardView card_schedule = (CardView) findViewById(R.id.card_grades);
+        CardView card_grades = (CardView) findViewById(R.id.card_grades);
         SubjectGradesCard subjectGradesCard = new SubjectGradesCard(this, mSubject);
-        card_schedule.setCard(subjectGradesCard);
+        card_grades.setCard(subjectGradesCard);
+
+        CardView card_grades_progress = (CardView) findViewById(R.id.card_grades_progress);
+        SubjectGradesProgressCard subjectGradesProgressCard = new SubjectGradesProgressCard(this, mSubject);
+        card_grades_progress.setCard(subjectGradesProgressCard);
     }
 
     @Override
