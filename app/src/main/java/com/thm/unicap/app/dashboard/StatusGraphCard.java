@@ -1,11 +1,14 @@
 package com.thm.unicap.app.dashboard;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import com.activeandroid.query.Select;
@@ -81,21 +84,24 @@ public class StatusGraphCard extends Card implements PieGraph.OnSliceClickedList
         slice.setColor(mContext.getResources().getColor(android.R.color.holo_green_light));
         slice.setSelectedColor(Utils.darkenColor(mContext.getResources().getColor(android.R.color.holo_green_light)));
         slice.setTitle(mContext.getString(R.string.approved));
-        slice.setValue((approvedCount / totalCount) * 100f);
+        slice.setValue(1);
+        slice.setGoalValue((approvedCount / totalCount) * 100f);
         mPieGraph.addSlice(slice);
 
         slice = new PieSlice();
         slice.setColor(mContext.getResources().getColor(android.R.color.holo_red_light));
         slice.setSelectedColor(Utils.darkenColor(mContext.getResources().getColor(android.R.color.holo_red_light)));
         slice.setTitle(mContext.getString(R.string.repproved));
-        slice.setValue((repprovedCount / totalCount) * 100f);
+        slice.setValue(1);
+        slice.setGoalValue((repprovedCount / totalCount) * 100f);
         mPieGraph.addSlice(slice);
 
         slice = new PieSlice();
         slice.setColor(mContext.getResources().getColor(R.color.unicap_light_gray));
         slice.setSelectedColor(Utils.darkenColor(mContext.getResources().getColor(R.color.unicap_light_gray)));
         slice.setTitle(mContext.getString(R.string.waiting));
-        slice.setValue((waitingCount / totalCount) * 100f);
+        slice.setValue(100);
+        slice.setGoalValue((waitingCount / totalCount) * 100f);
         mPieGraph.addSlice(slice);
 
         mPieGraph.setOnSliceClickedListener(this);
@@ -108,6 +114,10 @@ public class StatusGraphCard extends Card implements PieGraph.OnSliceClickedList
 
         Animation rotation = AnimationUtils.loadAnimation(mContext, R.anim.clockwise_rotation);
         mPieGraph.startAnimation(rotation);
+
+        mPieGraph.setDuration(1000);//default if unspecified is 300 ms
+        mPieGraph.setInterpolator(new DecelerateInterpolator());//default if unspecified is linear
+        mPieGraph.animateToGoalValues();
     }
 
     @Override
@@ -115,7 +125,7 @@ public class StatusGraphCard extends Card implements PieGraph.OnSliceClickedList
         mActiveSlice = index;
         PieSlice slice = mPieGraph.getSlice(index);
 
-        mStatusPercentage.setText(String.valueOf((int)slice.getValue())+"%");
+        mStatusPercentage.setText(String.valueOf((int)slice.getGoalValue())+"%");
         mStatusPercentage.setTextColor(slice.getColor());
     }
 
