@@ -43,10 +43,10 @@ public class GradesFragment extends Fragment implements Card.OnCardClickListener
         ArrayList<Card> cardArrayList = new ArrayList<Card>();
 
         for (Subject subject : subjects) {
-            SubjectListItemCard subjectListItemCard = new SubjectListItemCard(getActivity(), subject);
-            subjectListItemCard.setClickable(true);
-            subjectListItemCard.setOnClickListener(this);
-            cardArrayList.add(subjectListItemCard);
+            SubjectGradesListItemCard subjectGradesListItemCard = new SubjectGradesListItemCard(getActivity(), subject);
+            subjectGradesListItemCard.setClickable(true);
+            subjectGradesListItemCard.setOnClickListener(this);
+            cardArrayList.add(subjectGradesListItemCard);
         }
 
         CardListView cardListView = (CardListView) rootView.findViewById(R.id.subjects_list);
@@ -67,7 +67,7 @@ public class GradesFragment extends Fragment implements Card.OnCardClickListener
     @Override
     public void onClick(Card card, View view) {
         Intent intent = new Intent(getActivity(), GradesActivity.class);
-        intent.putExtra("subject_id", ((SubjectListItemCard)card).getSubject().getId());
+        intent.putExtra("subject_id", ((SubjectGradesListItemCard)card).getSubject().getId());
         getActivity().startActivity(intent);
     }
 }
