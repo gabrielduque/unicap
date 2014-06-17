@@ -3,14 +3,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/margin_normal"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <com.devspark.robototextview.widget.RobotoTextView
-        android:layout_marginTop="@dimen/margin_normal"
-        android:layout_marginLeft="@dimen/margin_normal"
-        android:layout_marginRight="@dimen/margin_normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -19,10 +17,8 @@
         app:typeface="roboto_condensed_regular"/>
 
     <RelativeLayout
-        android:layout_marginLeft="@dimen/margin_normal"
-        android:layout_marginRight="@dimen/margin_normal"
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_normal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -52,17 +48,13 @@
     </RelativeLayout>
 
     <View
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginBottom="@dimen/margin_small"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/unicap_really_light_gray"/>
 
     <RelativeLayout
-        android:layout_marginLeft="@dimen/margin_normal"
-        android:layout_marginRight="@dimen/margin_normal"
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_normal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -92,17 +84,13 @@
     </RelativeLayout>
 
     <View
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginBottom="@dimen/margin_small"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/unicap_really_light_gray"/>
 
     <RelativeLayout
-        android:layout_marginLeft="@dimen/margin_normal"
-        android:layout_marginRight="@dimen/margin_normal"
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_normal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -132,17 +120,13 @@
     </RelativeLayout>
 
     <View
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginBottom="@dimen/margin_small"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/unicap_really_light_gray"/>
 
     <RelativeLayout
-        android:layout_marginLeft="@dimen/margin_normal"
-        android:layout_marginRight="@dimen/margin_normal"
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_normal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -171,17 +155,12 @@
     </RelativeLayout>
 
     <View
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginBottom="@dimen/margin_small"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/unicap_really_light_gray"/>
 
     <RelativeLayout
-        android:layout_marginLeft="@dimen/margin_normal"
-        android:layout_marginRight="@dimen/margin_normal"
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_normal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

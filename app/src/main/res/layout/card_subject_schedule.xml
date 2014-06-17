@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:padding="10dp"
+    android:padding="@dimen/margin_small"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
+    <com.devspark.robototextview.widget.RobotoTextView
+        app:typeface="roboto_regular"
         android:id="@+id/card_subject_schedule_mon"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -19,7 +20,8 @@
         android:textColor="@color/dark_gray"
         android:textSize="20sp"
         android:text="@string/mon_letter"/>
-    <TextView
+    <com.devspark.robototextview.widget.RobotoTextView
+        app:typeface="roboto_regular"
         android:id="@+id/card_subject_schedule_tue"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -30,7 +32,8 @@
         android:textColor="@color/dark_gray"
         android:textSize="20sp"
         android:text="@string/tue_letter"/>
-    <TextView
+    <com.devspark.robototextview.widget.RobotoTextView
+        app:typeface="roboto_regular"
         android:id="@+id/card_subject_schedule_wed"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -41,7 +44,8 @@
         android:textColor="@color/dark_gray"
         android:textSize="20sp"
         android:text="@string/wed_letter"/>
-    <TextView
+    <com.devspark.robototextview.widget.RobotoTextView
+        app:typeface="roboto_regular"
         android:id="@+id/card_subject_schedule_thu"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -52,7 +56,8 @@
         android:textColor="@color/dark_gray"
         android:textSize="20sp"
         android:text="@string/thu_letter"/>
-    <TextView
+    <com.devspark.robototextview.widget.RobotoTextView
+        app:typeface="roboto_regular"
         android:id="@+id/card_subject_schedule_fri"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -63,7 +68,8 @@
         android:textColor="@color/dark_gray"
         android:textSize="20sp"
         android:text="@string/fri_letter"/>
-    <TextView
+    <com.devspark.robototextview.widget.RobotoTextView
+        app:typeface="roboto_regular"
         android:id="@+id/card_subject_schedule_sat"
         android:layout_width="0dp"
         android:layout_weight="1"
