@@ -153,9 +153,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:drawableLeft="@drawable/ic_action_view_as_list"
             android:text="@string/average"
-            app:typeface="roboto_thin"/>
+            app:typeface="roboto_regular"/>
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/card_subject_grades_average"
@@ -193,9 +192,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:drawableLeft="@drawable/ic_action_view_as_list"
             android:text="@string/final_average"
-            app:typeface="roboto_thin"/>
+            app:typeface="roboto_regular"/>
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:id="@+id/card_subject_grades_final_average"
@@ -207,40 +205,6 @@
             android:textSize="20sp"
             tools:textColor="@android:color/holo_green_light"
             tools:text="8.0"
-            app:typeface="roboto_regular"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/card_subject_grades_situation_container"
-        android:padding="@dimen/margin_normal"
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_width="match_parent"
-        tools:background="@android:color/holo_green_light"
-        android:layout_height="wrap_content">
-
-        <com.devspark.robototextview.widget.RobotoTextView
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="@string/situation"
-            android:textColor="@android:color/white"
-            app:typeface="roboto_thin"/>
-
-        <com.devspark.robototextview.widget.RobotoTextView
-            android:id="@+id/card_subject_grades_situation"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
-            tools:drawableLeft="@drawable/ic_action_accept_light"
-            tools:text="Aprovado"
             app:typeface="roboto_regular"/>
 
     </RelativeLayout>

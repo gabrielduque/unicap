@@ -1,17 +1,13 @@
 package com.thm.unicap.app.dashboard;
 
-import android.animation.Animator;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
-import com.activeandroid.query.Select;
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
 import com.echo.holographlibrary.Utils;
@@ -21,20 +17,18 @@ import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
-public class StatusGraphCard extends Card implements PieGraph.OnSliceClickedListener {
+public class SituationGraphCard extends Card implements PieGraph.OnSliceClickedListener {
 
     private PieGraph mPieGraph;
     private TextView mStatusPercentage;
     private int mActiveSlice = 0;
 
-    public StatusGraphCard(Context context) {
-        super(context, R.layout.card_status_graph);
+    public SituationGraphCard(Context context) {
+        super(context, R.layout.card_situation_graph);
     }
 
     @Override
@@ -112,7 +106,7 @@ public class StatusGraphCard extends Card implements PieGraph.OnSliceClickedList
 
         onClick(mActiveSlice);
 
-        Animation rotation = AnimationUtils.loadAnimation(mContext, R.anim.clockwise_rotation);
+        Animation rotation = AnimationUtils.loadAnimation(mContext, R.anim.clockwise_scale_rotation);
         mPieGraph.startAnimation(rotation);
 
         mPieGraph.setDuration(1000);//default if unspecified is 300 ms

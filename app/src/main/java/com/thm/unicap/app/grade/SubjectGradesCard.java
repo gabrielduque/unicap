@@ -34,9 +34,6 @@ public class SubjectGradesCard extends Card {
         TextView card_subject_grades_average = (TextView) parent.findViewById(R.id.card_subject_grades_average);
         TextView card_subject_grades_final_degree = (TextView) parent.findViewById(R.id.card_subject_grades_final_degree);
         TextView card_subject_grades_final_average = (TextView) parent.findViewById(R.id.card_subject_grades_final_average);
-        TextView card_subject_grades_situation = (TextView) parent.findViewById(R.id.card_subject_grades_situation);
-
-        ViewGroup card_subject_grades_situation_container = (ViewGroup) parent.findViewById(R.id.card_subject_grades_situation_container);
 
         Float firstDegreeTestGrade = mSubject.getTestByDegree(SubjectTest.Degree.FIRST_DEGREE).grade;
         setupGradeView(firstDegreeTestGrade, card_subject_grades_first_degree);
@@ -52,32 +49,6 @@ public class SubjectGradesCard extends Card {
 
         Float finalAverageTestGrade = mSubject.getActualSubjectStatus().final_average;
         setupGradeView(finalAverageTestGrade, card_subject_grades_final_average);
-
-        SubjectStatus.FlowSituation flowSituation = mSubject.getActualSubjectStatus().getFlowSituation();
-
-        switch (flowSituation) {
-            case APPROVED:
-                card_subject_grades_situation.setText(mContext.getString(R.string.approved));
-                card_subject_grades_situation.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.ic_action_accept_light), null, null, null);
-                card_subject_grades_situation_container.setBackgroundColor(mContext.getResources().getColor(android.R.color.holo_green_light));
-                break;
-            case REPROVED:
-                card_subject_grades_situation.setText(mContext.getString(R.string.repproved));
-                card_subject_grades_situation.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.ic_action_cancel_light), null, null, null);
-                card_subject_grades_situation_container.setBackgroundColor(mContext.getResources().getColor(android.R.color.holo_red_light));
-                break;
-            case WAITING:
-                card_subject_grades_situation.setText(mContext.getString(R.string.waiting));
-                card_subject_grades_situation.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.ic_action_time_light), null, null, null);
-                card_subject_grades_situation_container.setBackgroundColor(mContext.getResources().getColor(android.R.color.darker_gray));
-                break;
-            case WAITING_FINAL:
-                card_subject_grades_situation.setText(mContext.getString(R.string.waiting_final));
-                card_subject_grades_situation.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.ic_action_time_light), null, null, null);
-                card_subject_grades_situation_container.setBackgroundColor(mContext.getResources().getColor(android.R.color.darker_gray));
-                break;
-        }
-
     }
 
     private void setupGradeView(Float grade, TextView textView) {

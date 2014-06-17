@@ -333,6 +333,7 @@ public class LineGraph extends View {
 
         mCanvas.drawColor(Color.WHITE);
         mPaint.reset();
+        mPaint.setAntiAlias(true);
         float bottomPadding = 10, topPadding = 10;
         float sidePadding = 10;
         if (mUseDips) {
@@ -367,6 +368,7 @@ public class LineGraph extends View {
 
                 // Erase lines above the line
                 mPaint.reset();
+                mPaint.setAntiAlias(true);
                 mPaint.setXfermode(mXfermode);
                 for (LinePoint p : line.getPoints()) {
                     float yPercent = (p.getY() - minY) / (maxY - minY);
@@ -420,6 +422,7 @@ public class LineGraph extends View {
                 sidePadding, getHeight() - bottomPadding,
                 getWidth() - sidePadding, getHeight() - bottomPadding, mPaint);
         mPaint.reset();
+        mPaint.setAntiAlias(true);
 
         // Draw lines
         for (Line line : mLines) {

@@ -14,6 +14,8 @@ import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
 import com.thm.unicap.app.model.SubjectTest;
 
+import java.util.ArrayList;
+
 import it.gmariotti.cardslib.library.internal.Card;
 
 public class SubjectGradesProgressCard extends Card {
@@ -27,31 +29,20 @@ public class SubjectGradesProgressCard extends Card {
 
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
+
+        Float firstDegreeTestGrade = mSubject.getTestByDegree(SubjectTest.Degree.FIRST_DEGREE).grade;
+        Float secondDegreeTestGrade = mSubject.getTestByDegree(SubjectTest.Degree.SECOND_DEGREE).grade;
+        Float finalDegreeTestGrade = mSubject.getTestByDegree(SubjectTest.Degree.FINAL_DEGREE).grade;
+
+        ArrayList<Float> floatPoints = new ArrayList<Float>();
+        floatPoints.add(firstDegreeTestGrade);
+        floatPoints.add(secondDegreeTestGrade);
+        floatPoints.add(finalDegreeTestGrade);
+
         Line line = new Line();
         LinePoint point;
         line.setUsingDips(true);
         line.setColor(mContext.getResources().getColor(R.color.unicap_base));
-
-        point = new LinePoint();
-        point.setX(0.0);
-        point.setY(3.5);
-        point.setColor(mContext.getResources().getColor(android.R.color.holo_red_light));
-        point.setSelectedColor(mContext.getResources().getColor(android.R.color.holo_red_dark));
-        line.addPoint(point);
-
-        point = new LinePoint();
-        point.setX(1.0);
-        point.setY(8.0);
-        point.setColor(mContext.getResources().getColor(android.R.color.holo_green_light));
-        point.setSelectedColor(mContext.getResources().getColor(android.R.color.holo_green_dark));
-        line.addPoint(point);
-
-        point = new LinePoint();
-        point.setX(2.0);
-        point.setY(6.0);
-        point.setColor(mContext.getResources().getColor(android.R.color.holo_green_light));
-        point.setSelectedColor(mContext.getResources().getColor(android.R.color.holo_green_dark));
-        line.addPoint(point);
 
         Line averageLine = new Line();
         averageLine.setColor(mContext.getResources().getColor(android.R.color.darker_gray));
@@ -59,13 +50,30 @@ public class SubjectGradesProgressCard extends Card {
         averageLine.setStrokeWidth(1);
         averageLine.setShowingPoints(false);
 
+        float nextPointIndex = 0;
+        for (Float floatPoint : floatPoints) {
+            if(floatPoint != null) {
+                point = new LinePoint();
+                point.setX(nextPointIndex++);
+                point.setY(floatPoint);
+                if(floatPoint >= SubjectTest.MIN_AVERAGE) {
+                    point.setColor(mContext.getResources().getColor(android.R.color.holo_green_light));
+                    point.setSelectedColor(mContext.getResources().getColor(android.R.color.holo_green_dark));
+                } else {
+                    point.setColor(mContext.getResources().getColor(android.R.color.holo_red_light));
+                    point.setSelectedColor(mContext.getResources().getColor(android.R.color.holo_red_dark));
+                }
+                line.addPoint(point);
+            }
+        }
+
         point = new LinePoint();
         point.setX(0.0);
         point.setY(SubjectTest.MIN_AVERAGE);
         averageLine.addPoint(point);
 
         point = new LinePoint();
-        point.setX(2.0);
+        point.setX(nextPointIndex-1);
         point.setY(SubjectTest.MIN_AVERAGE);
         averageLine.addPoint(point);
 
@@ -76,13 +84,6 @@ public class SubjectGradesProgressCard extends Card {
         lineGraph.setRangeY(0, 10);
         lineGraph.setLineToFill(0);
 
-        lineGraph.setOnPointClickedListener(new LineGraph.OnPointClickedListener() {
-
-            @Override
-            public void onClick(int lineIndex, int pointIndex) {
-                //TODO: implement label on graph
-            }
-        });
     }
 
 }
