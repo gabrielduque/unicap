@@ -50,14 +50,52 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"/>
 
-            <com.devspark.robototextview.widget.RobotoTextView
-                android:id="@+id/subject_code1"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="INF1125"
-                app:typeface="roboto_thin"
-                android:layout_below="@+id/subject_name1"
-                android:layout_alignParentLeft="true"/>
+                android:layout_above="@+id/bar1"
+                android:gravity="center_vertical"
+                android:layout_alignParentRight="true">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_action_place"/>
+
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A601"
+                    android:layout_marginRight="@dimen/margin_small"
+                    app:typeface="roboto_thin"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_action_time"/>
+
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="18:30"
+                    app:typeface="roboto_thin"/>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/bar1"
+                android:background="@color/unicap_really_light_gray"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <View
+                android:background="@color/unicap_base"
+                android:layout_alignParentBottom="true"
+                android:layout_width="100dp"
+                android:layout_height="10dp"/>
 
         </RelativeLayout>
 
@@ -97,14 +135,52 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"/>
 
-            <com.devspark.robototextview.widget.RobotoTextView
-                android:id="@+id/subject_code2"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="INF1023"
-                app:typeface="roboto_thin"
-                android:layout_below="@+id/subject_name2"
-                android:layout_alignParentLeft="true"/>
+                android:layout_above="@+id/bar2"
+                android:gravity="center_vertical"
+                android:layout_alignParentRight="true">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_action_place"/>
+
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A602"
+                    android:layout_marginRight="@dimen/margin_small"
+                    app:typeface="roboto_thin"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_action_time"/>
+
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="18:30"
+                    app:typeface="roboto_thin"/>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/bar2"
+                android:background="@color/unicap_really_light_gray"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <View
+                android:background="@color/unicap_base"
+                android:layout_alignParentBottom="true"
+                android:layout_width="0dp"
+                android:layout_height="10dp"/>
 
         </RelativeLayout>
 
