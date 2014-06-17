@@ -15,8 +15,6 @@ import it.gmariotti.cardslib.library.view.CardView;
 
 public class DashboardFragment extends Fragment {
 
-    private SituationGraphCard mSituationGraphCard;
-
     public DashboardFragment() {
     }
 
@@ -24,9 +22,13 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
+        CardView card_today_lessons = (CardView) rootView.findViewById(R.id.card_today_lessons);
+        TodayLessonsCard todayLessonsCard = new TodayLessonsCard(getActivity());
+        card_today_lessons.setCard(todayLessonsCard);
+
         CardView card_status_graph = (CardView) rootView.findViewById(R.id.card_status_graph);
-        mSituationGraphCard = new SituationGraphCard(getActivity());
-        card_status_graph.setCard(mSituationGraphCard);
+        SituationGraphCard situationGraphCard = new SituationGraphCard(getActivity());
+        card_status_graph.setCard(situationGraphCard);
 
         return rootView;
     }

@@ -79,5 +79,6 @@
     <string name="waiting_final">Aguardando Final</string>
     <string name="final_average">Média Final</string>
     <string name="evolution">Evolução</string>
+    <string name="today">Hoje</string>
 
 </resources>
