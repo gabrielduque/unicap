@@ -19,7 +19,7 @@ public class SubjectStatus extends Model {
     }
 
     public enum ScheduleWeekDay {
-        Mon, Tue, Wed, Thu, Fri, Sat
+        Sun, Mon, Tue, Wed, Thu, Fri, Sat
     }
 
     public enum ScheduleHour {
@@ -64,7 +64,8 @@ public class SubjectStatus extends Model {
             ScheduleWeekDay weekDay = null;
             ScheduleHour hour = null;
 
-            if(rawWeekDay.equals("2")) weekDay = ScheduleWeekDay.Mon;
+            if(rawWeekDay.equals("1")) weekDay = ScheduleWeekDay.Sun;
+            else if(rawWeekDay.equals("2")) weekDay = ScheduleWeekDay.Mon;
             else if(rawWeekDay.equals("3")) weekDay = ScheduleWeekDay.Tue;
             else if(rawWeekDay.equals("4")) weekDay = ScheduleWeekDay.Wed;
             else if(rawWeekDay.equals("5")) weekDay = ScheduleWeekDay.Thu;

@@ -1,5 +1,9 @@
 package com.thm.unicap.app.util;
 
+import com.thm.unicap.app.model.SubjectStatus;
+
+import java.util.Calendar;
+
 public class UnicapUtils {
 
     @SuppressWarnings("SpellCheckingInspection")
@@ -105,6 +109,31 @@ public class UnicapUtils {
             str = str.replaceAll("(?i)\\b"+replacePair[0]+"\\b", replacePair[1]);
 
         return str;
+    }
+
+    public static SubjectStatus.ScheduleWeekDay getCurrentScheduleWeek() {
+        Calendar c = Calendar.getInstance();
+
+        int day_of_week = c.get(Calendar.DAY_OF_WEEK);
+
+        switch (day_of_week) {
+            case 1:
+                return SubjectStatus.ScheduleWeekDay.Sun;
+            case 2:
+                return SubjectStatus.ScheduleWeekDay.Mon;
+            case 3:
+                return SubjectStatus.ScheduleWeekDay.Tue;
+            case 4:
+                return SubjectStatus.ScheduleWeekDay.Wed;
+            case 5:
+                return SubjectStatus.ScheduleWeekDay.Thu;
+            case 6:
+                return SubjectStatus.ScheduleWeekDay.Fri;
+            case 7:
+                return SubjectStatus.ScheduleWeekDay.Sat;
+            default:
+                return null;
+        }
     }
 
 }

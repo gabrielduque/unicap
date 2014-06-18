@@ -13,7 +13,10 @@ import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
+import com.thm.unicap.app.model.SubjectStatus;
+import com.thm.unicap.app.util.UnicapUtils;
 
+import java.util.HashMap;
 import java.util.List;
 
 import it.gmariotti.cardslib.library.internal.Card;
@@ -29,14 +32,23 @@ public class TodayLessonsCard extends Card {
 
         Student student = UnicapApplication.getStudent();
 
+        SubjectStatus.ScheduleWeekDay currentScheduleWeek = UnicapUtils.getCurrentScheduleWeek();
+
         List<Subject> subjects = student.getActualSubjects();
-        subjects = subjects.subList(0,2);
 
         ViewGroup lessonsContainer = (ViewGroup) parent.findViewById(R.id.card_today_lessons_container);
         LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Animation expand = AnimationUtils.loadAnimation(mContext, R.anim.expand_from_left_to_right);
 
         for (Subject subject : subjects) {
+
+            HashMap<SubjectStatus.ScheduleWeekDay, SubjectStatus.ScheduleHour> fullSchedule = subject.getActualSubjectStatus().getFullSchedule();
+
+            if(!fullSchedule.containsKey(currentScheduleWeek))
+                 continue;
+
+            SubjectStatus.ScheduleHour scheduleHour = fullSchedule.get(currentScheduleWeek);
+
             View lessonsEntry = layoutInflater.inflate(R.layout.card_today_lessons_entry, lessonsContainer, false);
 
             TextView subject_name_abbreviation = (TextView) lessonsEntry.findViewById(R.id.subject_name_abbreviation);
