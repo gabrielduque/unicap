@@ -29,6 +29,7 @@ public class DashboardFragment extends Fragment {
 
         CardView card_today_lessons = (CardView) rootView.findViewById(R.id.card_today_lessons);
         mTodayLessonsCard = new TodayLessonsCard(getActivity());
+        mTodayLessonsCard.init();
         card_today_lessons.setCard(mTodayLessonsCard);
 
         CardView card_status_graph = (CardView) rootView.findViewById(R.id.card_status_graph);
