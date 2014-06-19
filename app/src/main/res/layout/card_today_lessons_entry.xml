@@ -112,7 +112,7 @@
 
                 <View
                     android:id="@+id/subject_progress"
-                    android:background="@color/unicap_base"
+                    tools:background="@android:color/holo_blue_light"
                     android:layout_width="0dp"
                     tools:layout_weight="30"
                     android:layout_height="match_parent"/>

@@ -11,9 +11,14 @@ import com.thm.unicap.app.R;
 import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import it.gmariotti.cardslib.library.view.CardView;
 
 public class DashboardFragment extends Fragment {
+
+    private TodayLessonsCard mTodayLessonsCard;
 
     public DashboardFragment() {
     }
@@ -23,8 +28,8 @@ public class DashboardFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         CardView card_today_lessons = (CardView) rootView.findViewById(R.id.card_today_lessons);
-        TodayLessonsCard todayLessonsCard = new TodayLessonsCard(getActivity());
-        card_today_lessons.setCard(todayLessonsCard);
+        mTodayLessonsCard = new TodayLessonsCard(getActivity());
+        card_today_lessons.setCard(mTodayLessonsCard);
 
         CardView card_status_graph = (CardView) rootView.findViewById(R.id.card_status_graph);
         SituationGraphCard situationGraphCard = new SituationGraphCard(getActivity());
@@ -32,6 +37,18 @@ public class DashboardFragment extends Fragment {
 
         return rootView;
     }
+
+//    @Override
+//    public void onActivityCreated(Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//        Timer t = new Timer();
+//        t.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                mTodayLessonsCard.initTodayLessons();
+//            }
+//        }, 0, 10000);
+//    }
 
     @Override
     public void onAttach(Activity activity) {

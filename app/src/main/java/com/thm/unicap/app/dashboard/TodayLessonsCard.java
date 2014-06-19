@@ -18,15 +18,18 @@ import com.thm.unicap.app.util.UnicapUtils;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
 public class TodayLessonsCard extends Card {
+
+    private ViewGroup mParent;
+    private List<View> mProgressViews;
 
     public TodayLessonsCard(Context context) {
         super(context, R.layout.card_today_lessons);
@@ -34,6 +37,13 @@ public class TodayLessonsCard extends Card {
 
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
+        mParent = parent;
+        initTodayLessons();
+        animateProgressViews();
+    }
+
+    private void initTodayLessons(){
+        mProgressViews = new ArrayList<View>();
 
         Student student = UnicapApplication.getStudent();
 
@@ -41,9 +51,9 @@ public class TodayLessonsCard extends Card {
 
         List<Subject> todaySubjects = student.getSubjectsFromWeekDay(currentScheduleWeekDay);
 
-        ViewGroup lessonsContainer = (ViewGroup) parent.findViewById(R.id.card_today_lessons_container);
+        ViewGroup lessonsContainer = (ViewGroup) mParent.findViewById(R.id.card_today_lessons_container);
         LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        Animation expand = AnimationUtils.loadAnimation(mContext, R.anim.expand_from_left_to_right);
+
         long currentTime = Calendar.getInstance().getTimeInMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
@@ -90,9 +100,14 @@ public class TodayLessonsCard extends Card {
 
             lessonsContainer.addView(lessonsEntry);
 
-            subject_progress.startAnimation(expand);
+            mProgressViews.add(subject_progress);
         }
+    }
 
+    private void animateProgressViews(){
+        Animation expand = AnimationUtils.loadAnimation(mContext, R.anim.expand_from_left_to_right);
+        for (View progress : mProgressViews)
+            progress.startAnimation(expand);
     }
 
 }
