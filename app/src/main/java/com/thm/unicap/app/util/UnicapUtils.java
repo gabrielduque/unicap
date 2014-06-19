@@ -2,7 +2,9 @@ package com.thm.unicap.app.util;
 
 import com.thm.unicap.app.model.SubjectStatus;
 
+import java.sql.Time;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 public class UnicapUtils {
 
@@ -111,7 +113,7 @@ public class UnicapUtils {
         return str;
     }
 
-    public static SubjectStatus.ScheduleWeekDay getCurrentScheduleWeek() {
+    public static SubjectStatus.ScheduleWeekDay getCurrentScheduleWeekDay() {
         Calendar c = Calendar.getInstance();
 
         int day_of_week = c.get(Calendar.DAY_OF_WEEK);
@@ -131,6 +133,94 @@ public class UnicapUtils {
                 return SubjectStatus.ScheduleWeekDay.Fri;
             case 7:
                 return SubjectStatus.ScheduleWeekDay.Sat;
+            default:
+                return null;
+        }
+    }
+
+    public static Time[] getTimesFromScheduleHour(SubjectStatus.ScheduleHour hour) {
+
+        Calendar begin = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+
+        begin.set(Calendar.SECOND, 0);
+        begin.set(Calendar.MILLISECOND, 0);
+        end.set(Calendar.SECOND, 0);
+        end.set(Calendar.MILLISECOND, 0);
+
+        switch (hour) {
+            case AB:
+                begin.set(Calendar.HOUR_OF_DAY, 7);
+                begin.set(Calendar.MINUTE, 30);
+                end.set(Calendar.HOUR_OF_DAY, 9);
+                end.set(Calendar.MINUTE, 10);
+                return new Time[]{
+                    new Time(begin.getTimeInMillis()),
+                    new Time(end.getTimeInMillis())
+                };
+            case CD:
+                begin.set(Calendar.HOUR_OF_DAY, 9);
+                begin.set(Calendar.MINUTE, 20);
+                end.set(Calendar.HOUR_OF_DAY, 11);
+                end.set(Calendar.MINUTE, 0);
+                return new Time[]{
+                        new Time(begin.getTimeInMillis()),
+                        new Time(end.getTimeInMillis())
+                };
+            case EF:
+                begin.set(Calendar.HOUR_OF_DAY, 11);
+                begin.set(Calendar.MINUTE, 10);
+                end.set(Calendar.HOUR_OF_DAY, 12);
+                end.set(Calendar.MINUTE, 50);
+                return new Time[]{
+                        new Time(begin.getTimeInMillis()),
+                        new Time(end.getTimeInMillis())
+                };
+            case GH:
+                begin.set(Calendar.HOUR_OF_DAY, 13);
+                begin.set(Calendar.MINUTE, 0);
+                end.set(Calendar.HOUR_OF_DAY, 14);
+                end.set(Calendar.MINUTE, 40);
+                return new Time[]{
+                        new Time(begin.getTimeInMillis()),
+                        new Time(end.getTimeInMillis())
+                };
+            case IJ:
+                begin.set(Calendar.HOUR_OF_DAY, 14);
+                begin.set(Calendar.MINUTE, 50);
+                end.set(Calendar.HOUR_OF_DAY, 16);
+                end.set(Calendar.MINUTE, 30);
+                return new Time[]{
+                        new Time(begin.getTimeInMillis()),
+                        new Time(end.getTimeInMillis())
+                };
+            case LM:
+                begin.set(Calendar.HOUR_OF_DAY, 16);
+                begin.set(Calendar.MINUTE, 40);
+                end.set(Calendar.HOUR_OF_DAY, 18);
+                end.set(Calendar.MINUTE, 20);
+                return new Time[]{
+                        new Time(begin.getTimeInMillis()),
+                        new Time(end.getTimeInMillis())
+                };
+            case NO:
+                begin.set(Calendar.HOUR_OF_DAY, 18);
+                begin.set(Calendar.MINUTE, 30);
+                end.set(Calendar.HOUR_OF_DAY, 20);
+                end.set(Calendar.MINUTE, 10);
+                return new Time[]{
+                        new Time(begin.getTimeInMillis()),
+                        new Time(end.getTimeInMillis())
+                };
+            case PQ:
+                begin.set(Calendar.HOUR_OF_DAY, 20);
+                begin.set(Calendar.MINUTE, 20);
+                end.set(Calendar.HOUR_OF_DAY, 22);
+                end.set(Calendar.MINUTE, 0);
+                return new Time[]{
+                        new Time(begin.getTimeInMillis()),
+                        new Time(end.getTimeInMillis())
+                };
             default:
                 return null;
         }

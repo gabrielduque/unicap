@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.activeandroid.query.Select;
+import com.nhaarman.listviewanimations.swinginadapters.AnimationAdapter;
+import com.nhaarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
@@ -53,7 +55,9 @@ public class GradesFragment extends Fragment implements Card.OnCardClickListener
 
         CardArrayAdapter cardArrayAdapter = new CardArrayAdapter(getActivity(), cardArrayList);
 
-        cardListView.setAdapter(cardArrayAdapter);
+        AnimationAdapter animCardArrayAdapter = new SwingBottomInAnimationAdapter(cardArrayAdapter);
+        animCardArrayAdapter.setAbsListView(cardListView);
+        cardListView.setExternalAdapter(animCardArrayAdapter, cardArrayAdapter);
 
         return rootView;
     }

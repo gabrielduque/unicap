@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
+import com.nhaarman.listviewanimations.swinginadapters.AnimationAdapter;
+import com.nhaarman.listviewanimations.swinginadapters.prepared.AlphaInAnimationAdapter;
+import com.nhaarman.listviewanimations.swinginadapters.prepared.ScaleInAnimationAdapter;
+import com.nhaarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.model.Student;
@@ -92,7 +96,9 @@ public class SubjectsPagerAdapter extends PagerAdapter implements Card.OnCardCli
 
         CardArrayAdapter cardArrayAdapter = new CardArrayAdapter(mContext, cardArrayList);
 
-        cardListView.setAdapter(cardArrayAdapter);
+        AnimationAdapter animCardArrayAdapter = new SwingBottomInAnimationAdapter(cardArrayAdapter);
+        animCardArrayAdapter.setAbsListView(cardListView);
+        cardListView.setExternalAdapter(animCardArrayAdapter,cardArrayAdapter);
 
         container.addView(cardListView);
 
