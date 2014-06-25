@@ -41,7 +41,7 @@ public class TodayLessonsCard extends CardWithList {
 
     @Override
     protected void initCard() {
-
+        setEmptyViewViewStubLayoutId(R.layout.cardwithlist_empty_layout);
     }
 
     @Override

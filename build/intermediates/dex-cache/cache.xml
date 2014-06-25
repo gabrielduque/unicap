@@ -66,7 +66,7 @@
         jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/unicap/HoloGraphLibrary/unspecified/classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="e16a80f278e0451b5f64db5b802aacf2195a68a3"/>
+        sha1="28056a9b6b3c20eb144bd86e5103cf8311c32c08"/>
     <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-d8706a509f92d290de46f86dd22197483a958d95.jar"
         jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library/1.7.2/classes.jar"
