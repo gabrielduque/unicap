@@ -5,6 +5,9 @@
       <root url="file://$PROJECT_DIR$/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library/1.7.2/res" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Downloads/cardslib-master.zip!/cardslib-master/library/src/main/java" />
+      <root url="jar://$USER_HOME$/Downloads/cardslib-master.zip!/cardslib-master/library-extra/src/main/java" />
+    </SOURCES>
   </library>
 </component>

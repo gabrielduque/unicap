@@ -1,5 +1,8 @@
 package com.thm.unicap.app.util;
 
+import android.content.Context;
+
+import com.thm.unicap.app.R;
 import com.thm.unicap.app.model.SubjectStatus;
 
 import java.sql.Time;
@@ -223,6 +226,27 @@ public class UnicapUtils {
                 };
             default:
                 return null;
+        }
+    }
+
+    public static String scheduleWeekDayToString(Context context, SubjectStatus.ScheduleWeekDay scheduleWeekDay) {
+        switch (scheduleWeekDay) {
+            case Sun:
+                return context.getString(R.string.sunday);
+            case Mon:
+                return context.getString(R.string.monday);
+            case Tue:
+                return context.getString(R.string.tuesday);
+            case Wed:
+                return context.getString(R.string.wednesday);
+            case Thu:
+                return context.getString(R.string.thusday);
+            case Fri:
+                return context.getString(R.string.friday);
+            case Sat:
+                return context.getString(R.string.saturday);
+            default:
+                return "";
         }
     }
 

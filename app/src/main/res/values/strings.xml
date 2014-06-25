@@ -80,5 +80,12 @@
     <string name="final_average">Média Final</string>
     <string name="evolution">Evolução</string>
     <string name="today">Hoje</string>
+    <string name="sunday">Domingo</string>
+    <string name="monday">Segunda-feira</string>
+    <string name="tuesday">Terça-feira</string>
+    <string name="wednesday">Quarta-feira</string>
+    <string name="thusday">Quinta-feira</string>
+    <string name="friday">Sexta-feira</string>
+    <string name="saturday">Sábado</string>
 
 </resources>

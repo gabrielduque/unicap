@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import com.thm.unicap.app.dashboard.DashboardFragment;
 import com.thm.unicap.app.auth.LoginActivity;
 import com.thm.unicap.app.grade.GradesFragment;
+import com.thm.unicap.app.lessons.LessonsFragment;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.subject.SubjectsFragment;
 
@@ -73,6 +74,9 @@ public class MainActivity extends ActionBarActivity
                 break;
             case NavigationDrawerFragment.SESSION_SUBJECTS:
                 fragment = new SubjectsFragment();
+                break;
+            case NavigationDrawerFragment.SESSION_LESSONS:
+                fragment = new LessonsFragment();
                 break;
             case NavigationDrawerFragment.SESSION_GRADES:
                 fragment = new GradesFragment();

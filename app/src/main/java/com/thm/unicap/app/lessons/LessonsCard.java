@@ -1,7 +1,6 @@
-package com.thm.unicap.app.dashboard;
+package com.thm.unicap.app.lessons;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -28,15 +27,20 @@ import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardHeader;
 import it.gmariotti.cardslib.library.prototypes.CardWithList;
 
-public class TodayLessonsCard extends CardWithList {
+public class LessonsCard extends CardWithList {
 
-    public TodayLessonsCard(Context context) {
-        super(context, R.layout.card_today_lessons);
+    private SubjectStatus.ScheduleWeekDay mScheduleWeekDay;
+
+    public LessonsCard(Context context, SubjectStatus.ScheduleWeekDay scheduleWeekDay) {
+        super(context, R.layout.card_lessons);
+        mScheduleWeekDay = scheduleWeekDay;
     }
 
     @Override
     protected CardHeader initCardHeader() {
-        return null;
+        CardHeader header = new CardHeader(getContext(), R.layout.card_header);
+        header.setTitle(UnicapUtils.scheduleWeekDayToString(mContext, mScheduleWeekDay)); //should use R.string.
+        return header;
     }
 
     @Override
@@ -47,8 +51,8 @@ public class TodayLessonsCard extends CardWithList {
     @Override
     protected List<ListObject> initChildren() {
         Student student = UnicapApplication.getStudent();
-        SubjectStatus.ScheduleWeekDay currentScheduleWeekDay = UnicapUtils.getCurrentScheduleWeekDay();
-        List<Subject> subjectsFromWeekDay = student.getSubjectsFromWeekDay(currentScheduleWeekDay);
+
+        List<Subject> subjectsFromWeekDay = student.getSubjectsFromWeekDay(mScheduleWeekDay);
 
         List<ListObject> result = new ArrayList<ListObject>();
         for (Subject subject : subjectsFromWeekDay) {
@@ -61,14 +65,13 @@ public class TodayLessonsCard extends CardWithList {
     public View setupChildView(int i, ListObject listObject, View view, ViewGroup viewGroup) {
 
         Subject subject = ((SubjectListObject)listObject).getSubject();
-        SubjectStatus.ScheduleWeekDay currentScheduleWeekDay = UnicapUtils.getCurrentScheduleWeekDay();
         long currentTime = Calendar.getInstance().getTimeInMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         Animation expand = AnimationUtils.loadAnimation(mContext, R.anim.expand_from_left_to_right);
 
         HashMap<SubjectStatus.ScheduleWeekDay, SubjectStatus.ScheduleHour> fullSchedule = subject.getActualSubjectStatus().getFullSchedule();
 
-        SubjectStatus.ScheduleHour scheduleHour = fullSchedule.get(currentScheduleWeekDay);
+        SubjectStatus.ScheduleHour scheduleHour = fullSchedule.get(mScheduleWeekDay);
 
         Time[] timesFromScheduleHour = UnicapUtils.getTimesFromScheduleHour(scheduleHour);
 
@@ -90,7 +93,9 @@ public class TodayLessonsCard extends CardWithList {
         subject_schedule_begin.setText(sdf.format(new Date(beginTime)));
         subject_schedule_end.setText(sdf.format(new Date(endTime)));
 
-        if(currentTime <  beginTime) {
+        SubjectStatus.ScheduleWeekDay currentScheduleWeekDay = UnicapUtils.getCurrentScheduleWeekDay();
+
+        if(mScheduleWeekDay != currentScheduleWeekDay || currentTime <  beginTime) {
             subject_progress.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 0f));
         } else if (currentTime > endTime) {
             subject_progress.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 100f));
