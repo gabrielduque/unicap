@@ -20,12 +20,12 @@ public class NavigationAdapter extends ArrayAdapter<NavigationItem> {
 
     @Override
     public int getViewTypeCount() {
-        return NavigationItem.Size.values().length;
+        return NavigationItem.Type.values().length;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return getItem(position).getSize().ordinal();
+        return getItem(position).getType().ordinal();
     }
 
     @Override
@@ -37,7 +37,7 @@ public class NavigationAdapter extends ArrayAdapter<NavigationItem> {
         if (convertView == null) {
             LayoutInflater li = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            if(type == NavigationItem.Size.SMALL.ordinal()) {
+            if(type == NavigationItem.Type.EXTRA.ordinal()) {
                 convertView = li.inflate(R.layout.navigation_item_small, parent, false);
             } else {
                 convertView = li.inflate(R.layout.navigation_item_big, parent, false);

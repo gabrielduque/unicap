@@ -8,7 +8,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
     <com.devspark.robototextview.widget.RobotoTextView
         android:id="@+id/subject_name_abbreviation"
         android:layout_width="70dp"

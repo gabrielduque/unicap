@@ -8,10 +8,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:id="@+id/card_lessons_weekday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="23sp"
+        tools:text="@string/monday"
+        app:typeface="roboto_condensed_regular"/>
+
     <it.gmariotti.cardslib.library.prototypes.LinearListView
         android:id="@+id/card_inner_base_main_cardwithlist"
         style="@style/cardwithlist"
-        android:layout_marginTop="0dp"
         android:showDividers="middle"
         app:card_list_item_dividerHeight="@dimen/margin_normal"/>
 

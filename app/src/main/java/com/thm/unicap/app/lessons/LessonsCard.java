@@ -37,10 +37,15 @@ public class LessonsCard extends CardWithList {
     }
 
     @Override
+    public void setupInnerViewElements(ViewGroup parent, View view) {
+        TextView titleView = (TextView) parent.findViewById(R.id.card_lessons_weekday);
+        titleView.setText(UnicapUtils.scheduleWeekDayToString(mContext, mScheduleWeekDay));
+        super.setupInnerViewElements(parent, view);
+    }
+
+    @Override
     protected CardHeader initCardHeader() {
-        CardHeader header = new CardHeader(getContext(), R.layout.card_header);
-        header.setTitle(UnicapUtils.scheduleWeekDayToString(mContext, mScheduleWeekDay)); //should use R.string.
-        return header;
+        return null;
     }
 
     @Override

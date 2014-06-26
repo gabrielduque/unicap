@@ -57,7 +57,7 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
 
     public static final int SESSION_CONFIG = 5;
     public static final int SESSION_FEEDBACK = 6;
-    public static final int SESSION_HELP = 7;
+    public static final int SESSION_ABOUT = 7;
 
     /**
      * Remember the position of the selected item.
@@ -159,9 +159,9 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
         navigationItems.add(new NavigationItem(getString(R.string.grades), R.drawable.ic_action_view_as_list));
 
         //Extra items
-        navigationItems.add(new NavigationItem(getString(R.string.settings), R.drawable.ic_action_settings, NavigationItem.Size.SMALL));
-        navigationItems.add(new NavigationItem(getString(R.string.feedback), R.drawable.ic_action_email, NavigationItem.Size.SMALL));
-        navigationItems.add(new NavigationItem(getString(R.string.help), R.drawable.ic_action_help, NavigationItem.Size.SMALL));
+        navigationItems.add(new NavigationItem(getString(R.string.settings), R.drawable.ic_action_settings, NavigationItem.Type.EXTRA));
+        navigationItems.add(new NavigationItem(getString(R.string.feedback), R.drawable.ic_action_email, NavigationItem.Type.EXTRA));
+        navigationItems.add(new NavigationItem(getString(R.string.about), R.drawable.ic_action_about, NavigationItem.Type.EXTRA));
 
         mDrawerListView.setAdapter(new NavigationAdapter(getActionBar().getThemedContext(), R.layout.navigation_item_big, navigationItems));
 

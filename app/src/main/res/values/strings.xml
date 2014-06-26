@@ -49,6 +49,7 @@
     <string name="progress_6">Sincronizando calendário…</string>
     <string name="progress_7">Sincronizando notas…</string>
     <string name="progress_8">Sincronização concluída.</string>
+
     <string name="period_format">%dº Período</string>
     <string name="workload_format">%d Horas</string>
     <string name="credits_format">%d Créditos</string>
@@ -79,6 +80,9 @@
     <string name="waiting_final">Aguardando Final</string>
     <string name="final_average">Média Final</string>
     <string name="evolution">Evolução</string>
+    <string name="about">Sobre</string>
+
+    <!-- Weekdays -->
     <string name="today">Hoje</string>
     <string name="sunday">Domingo</string>
     <string name="monday">Segunda-feira</string>
