@@ -70,6 +70,20 @@ public class Student extends Model {
                 .execute();
     }
 
+    public List<SubjectTest> getSubjectTestsOrdered() {
+
+        return new Select("SubjectTest.*")
+                .from(SubjectTest.class)
+                .innerJoin(Subject.class)
+                .on("Subject.Id = SubjectTest.Subject")
+                .innerJoin(SubjectStatus.class)
+                .on("Subject.Id = SubjectStatus.Subject")
+                .where("Subject.Student = ?", getId())
+                .orderBy("SubjectTest.Date1, SubjectTest.Date2, Subject.Period, Subject.Name")
+                .where("SubjectStatus.Situation = ?", SubjectStatus.Situation.ACTUAL)
+                .execute();
+    }
+
     //TODO: Completely refactor this :x
     public List<Subject> getSubjectsFromWeekDay(SubjectStatus.ScheduleWeekDay scheduleWeekDay) {
         List<Subject> actualSubjects = getActualSubjects();

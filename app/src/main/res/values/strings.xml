@@ -91,5 +91,9 @@
     <string name="thusday">Quinta-feira</string>
     <string name="friday">Sexta-feira</string>
     <string name="saturday">Sábado</string>
+    <string name="first_call">1ª chamada</string>
+    <string name="second_call">2ª chamada</string>
+    <string name="date_format">dd/MM/yyyy</string>
+    <string name="hour_format">HH:mm</string>
 
 </resources>

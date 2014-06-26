@@ -71,7 +71,7 @@ public class LessonsCard extends CardWithList {
 
         Subject subject = ((SubjectListObject)listObject).getSubject();
         long currentTime = Calendar.getInstance().getTimeInMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat(mContext.getString(R.string.hour_format));
         Animation expand = AnimationUtils.loadAnimation(mContext, R.anim.expand_from_left_to_right);
 
         HashMap<SubjectStatus.ScheduleWeekDay, SubjectStatus.ScheduleHour> fullSchedule = subject.getActualSubjectStatus().getFullSchedule();

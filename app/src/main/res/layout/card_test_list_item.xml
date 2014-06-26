@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:padding="@dimen/margin_small"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.devspark.robototextview.widget.RobotoTextView
+        android:id="@+id/subject_name_abbreviation"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginRight="@dimen/margin_small"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:textSize="30sp"
+        tools:text="PLP"
+        tools:background="@android:color/holo_blue_light"
+        app:typeface="roboto_bold"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/subject_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Paradigmas de Linguagens de Programação"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:typeface="roboto_thin"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"/>
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/subject_degree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="1º GQ"
+            app:typeface="roboto_thin"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/first_call"
+                    android:layout_marginRight="@dimen/margin_very_small"
+                    app:typeface="roboto_thin"/>
+
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:id="@+id/subject_date1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="12/01/2014"
+                    app:typeface="roboto_regular"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/second_call"
+                    android:layout_marginRight="@dimen/margin_very_small"
+                    app:typeface="roboto_thin"/>
+
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:id="@+id/subject_date2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="12/01/2014"
+                    app:typeface="roboto_regular"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+</LinearLayout>

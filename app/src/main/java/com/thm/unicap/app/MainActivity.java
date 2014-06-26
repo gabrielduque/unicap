@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 
+import com.thm.unicap.app.calendar.CalendarFragment;
 import com.thm.unicap.app.dashboard.DashboardFragment;
 import com.thm.unicap.app.auth.LoginActivity;
 import com.thm.unicap.app.grade.GradesFragment;
@@ -74,6 +75,9 @@ public class MainActivity extends ActionBarActivity
                 break;
             case NavigationDrawerFragment.SESSION_SUBJECTS:
                 fragment = new SubjectsFragment();
+                break;
+            case NavigationDrawerFragment.SESSION_CALENDAR:
+                fragment = new CalendarFragment();
                 break;
             case NavigationDrawerFragment.SESSION_LESSONS:
                 fragment = new LessonsFragment();
