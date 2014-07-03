@@ -9,15 +9,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 
+import com.thm.unicap.app.about.AboutFragment;
 import com.thm.unicap.app.calendar.CalendarFragment;
 import com.thm.unicap.app.dashboard.DashboardFragment;
 import com.thm.unicap.app.auth.LoginActivity;
 import com.thm.unicap.app.grade.GradesFragment;
 import com.thm.unicap.app.lessons.LessonsFragment;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
+import com.thm.unicap.app.feedback.FeedbackFragment;
 import com.thm.unicap.app.subject.SubjectsFragment;
 
 
@@ -85,6 +86,12 @@ public class MainActivity extends ActionBarActivity
             case NavigationDrawerFragment.SESSION_GRADES:
                 fragment = new GradesFragment();
                 break;
+            case NavigationDrawerFragment.SESSION_FEEDBACK:
+                fragment = new FeedbackFragment();
+                break;
+            case NavigationDrawerFragment.SESSION_ABOUT:
+                fragment = new AboutFragment();
+                break;
             default:
                 fragment = new DashboardFragment();
                 break;
@@ -129,6 +136,15 @@ public class MainActivity extends ActionBarActivity
             case NavigationDrawerFragment.SESSION_GRADES:
                 mTitle = getString(R.string.grades);
                 break;
+            case NavigationDrawerFragment.SESSION_SETTINGS:
+                mTitle = getString(R.string.settings);
+                break;
+            case NavigationDrawerFragment.SESSION_FEEDBACK:
+                mTitle = getString(R.string.feedback);
+                break;
+            case NavigationDrawerFragment.SESSION_ABOUT:
+                mTitle = getString(R.string.about);
+                break;
         }
 
         //TODO: supportInvalidateOptionsMenu being called twice (here and on onDrawerClosed)
@@ -150,23 +166,14 @@ public class MainActivity extends ActionBarActivity
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
+            getMenuInflater().inflate(R.menu.activity_main, menu);
             restoreActionBar();
             return true;
         }
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public NavigationDrawerFragment getNavigationDrawerFragment() {
+        return mNavigationDrawerFragment;
     }
-
 }

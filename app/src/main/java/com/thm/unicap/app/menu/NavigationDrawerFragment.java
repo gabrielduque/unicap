@@ -55,7 +55,7 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
     public static final int SESSION_LESSONS = 3;
     public static final int SESSION_GRADES = 4;
 
-    public static final int SESSION_CONFIG = 5;
+    public static final int SESSION_SETTINGS = 5;
     public static final int SESSION_FEEDBACK = 6;
     public static final int SESSION_ABOUT = 7;
 
@@ -294,7 +294,7 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // If the drawer is open, show the global app actions in the action bar. See also
         // showGlobalContextActionBar, which controls the top-left area of the action bar.
-        if (mDrawerLayout != null && isDrawerOpen()) {
+        if (isDrawerOpen()) {
             inflater.inflate(R.menu.global, menu);
             showGlobalContextActionBar();
         }
@@ -310,6 +310,7 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
         switch (item.getItemId()) {
             case R.id.action_logout:
                 UnicapDataManager.cleanUserData(UnicapApplication.getStudent().registration);
+                UnicapApplication.setStudent(null);
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
                 getActivity().finish();

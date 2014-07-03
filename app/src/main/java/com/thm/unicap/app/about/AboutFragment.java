@@ -1,22 +1,24 @@
-package com.thm.unicap.app.subject;
-
-
+package com.thm.unicap.app.about;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.thm.unicap.app.R;
 import com.thm.unicap.app.MainActivity;
+import com.thm.unicap.app.R;
+import com.thm.unicap.app.dashboard.SituationGraphCard;
+import com.thm.unicap.app.lessons.LessonsCard;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
+import com.thm.unicap.app.util.UnicapUtils;
 
-public class SubjectsFragment extends Fragment {
+import it.gmariotti.cardslib.library.view.CardView;
+
+public class AboutFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,18 +31,14 @@ public class SubjectsFragment extends Fragment {
         NavigationDrawerFragment navigationDrawerFragment = ((MainActivity) getActivity()).getNavigationDrawerFragment();
 
         if(navigationDrawerFragment != null && !navigationDrawerFragment.isDrawerOpen()) {
-            inflater.inflate(R.menu.fragment_subjects, menu);
+            inflater.inflate(R.menu.fragment_about, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_subjects, container, false);
-
-        ViewPager mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
-        mViewPager.setAdapter(new SubjectsPagerAdapter(getActivity()));
-        mViewPager.setCurrentItem(SubjectsPagerAdapter.Session.ACTUAL.ordinal());
+        View rootView = inflater.inflate(R.layout.fragment_about, container, false);
 
         return rootView;
     }
@@ -48,6 +46,6 @@ public class SubjectsFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(NavigationDrawerFragment.SESSION_SUBJECTS);
+        ((MainActivity) activity).onSectionAttached(NavigationDrawerFragment.SESSION_ABOUT);
     }
 }

@@ -5,13 +5,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import com.activeandroid.query.Select;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.model.Subject;
 
-import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.view.CardView;
 
 public class SubjectActivity extends ActionBarActivity {
@@ -62,7 +60,7 @@ public class SubjectActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.subject, menu);
+        getMenuInflater().inflate(R.menu.activity_subject, menu);
         return true;
     }
 
@@ -73,8 +71,6 @@ public class SubjectActivity extends ActionBarActivity {
         switch (id) {
             case android.R.id.home:
                 finish();
-                return true;
-            case R.id.action_settings:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
