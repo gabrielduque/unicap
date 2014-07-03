@@ -16,7 +16,9 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class UnicapSync {
 
@@ -221,6 +223,24 @@ public class UnicapSync {
         Elements subjectsTable = document.select("table").get(6).select("tr");
 
         subjectsTable.remove(0); // Removing header
+
+        //TODO: refactor and improve
+        //Fixing cases with repeated subject codes (Using pattern: ABC, ABC-2, ABC-3, ..., ABC-N)
+        HashMap<String, Integer> codeCounts = new HashMap<String, Integer>();
+        for (Element subjectRow : subjectsTable) {
+            Elements subjectColumns = subjectRow.select(".tab_texto");
+            String code = subjectColumns.get(2).text();
+            Integer count = 1;
+
+            if(codeCounts.containsKey(code)) {
+                codeCounts.put(code, codeCounts.get(code)+1);
+                subjectColumns.get(2).text(code + "-" + codeCounts.get(code).toString());
+                count = codeCounts.get(code);
+            }
+
+            codeCounts.put(code, count);
+        }
+
 
         // Using transactions to speed up the process
         ActiveAndroid.beginTransaction();
