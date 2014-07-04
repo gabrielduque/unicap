@@ -30,6 +30,9 @@ public class SubjectTest extends Model {
     @Column(name = "Grade")
     public Float grade;
 
+    @Column(name = "Notify")
+    public boolean notify;
+
    public static Float calculateGrade(Float firstDegree, Float secondDegree, Float finalDegree) {
        if(firstDegree != null && secondDegree == null && finalDegree != null) {
            //Final como segundo GQ

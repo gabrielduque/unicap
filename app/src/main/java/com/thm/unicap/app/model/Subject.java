@@ -76,7 +76,6 @@ public class Subject extends Model {
 
     //TODO: Consider making this property static on sync progress
     public String getNameAbbreviation() {
-        //TODO: Find a good logic to make this
         String abbreviation = "";
         String filteredName = removeExceptionsFromName(name);
         String[] words = filteredName.split(" +");

@@ -35,20 +35,14 @@
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/library-2.4.0-cee9c7549b9104e105ffde7dcce4b61b40be7517.jar"
         jar="/home/tulio/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
         jumboMode="false"
-        revision="20.0.0"
+        revision="19.1.0"
         sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb"/>
     <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/library-2.4.0-cee9c7549b9104e105ffde7dcce4b61b40be7517.jar"
         jar="/home/tulio/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
         jumboMode="false"
-        revision="19.1.0"
-        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb"/>
-    <item
-        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/picasso-2.3.1-be3975ddce94416fd36552bb5fbe783e593532ae.jar"
-        jar="/home/tulio/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.3.1/7ed01353649330c692473b85d5c64db4218338db/picasso-2.3.1.jar"
-        jumboMode="false"
         revision="20.0.0"
-        sha1="7ed01353649330c692473b85d5c64db4218338db"/>
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb"/>
     <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-86012dcc0cf1d2c3666136fb54278d60c65d5947.jar"
         jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/unicap/HoloGraphLibrary/unspecified/classes.jar"
@@ -80,11 +74,11 @@
         revision="19.1.0"
         sha1="2e58dce1ec89cd4706295d355aaf920aee3d91c5"/>
     <item
-        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/picasso-2.3.1-be3975ddce94416fd36552bb5fbe783e593532ae.jar"
-        jar="/home/tulio/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.3.1/7ed01353649330c692473b85d5c64db4218338db/picasso-2.3.1.jar"
+        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/picasso-2.3.2-3aa32a90400926ccf0c9f0789940683bf1d11a94.jar"
+        jar="/home/tulio/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.3.2/d6b7f0093cec6c9faf65dbfd6a6a345d0ed25e27/picasso-2.3.2.jar"
         jumboMode="false"
-        revision="19.1.0"
-        sha1="7ed01353649330c692473b85d5c64db4218338db"/>
+        revision="20.0.0"
+        sha1="d6b7f0093cec6c9faf65dbfd6a6a345d0ed25e27"/>
     <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-9ecc452666d6b1ab941e96f4d63ea9c508cc8d10.jar"
         jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.etsy.android.grid/library/1.0.5/classes.jar"

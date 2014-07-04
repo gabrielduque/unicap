@@ -7,6 +7,7 @@ import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
 import com.thm.unicap.app.model.SubjectTest;
+import com.thm.unicap.app.util.UnicapUtils;
 
 import java.util.Date;
 
@@ -197,7 +198,9 @@ public class UnicapDataManager {
             SubjectTest subjectTest = subject.getTestByDegree(degree);
 
             if(subjectTest != null) {
-                //TODO: Notify user about new grade (except in login)
+//                if(!UnicapUtils.equalsWithNulls(subjectTest.grade, grade)) {
+//                    subjectTest.notify = true;
+//                }
                 subjectTest.grade = grade;
                 subjectTest.save();
             }

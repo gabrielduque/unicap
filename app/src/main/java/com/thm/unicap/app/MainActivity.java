@@ -1,9 +1,14 @@
 package com.thm.unicap.app;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
@@ -15,11 +20,16 @@ import com.thm.unicap.app.about.AboutFragment;
 import com.thm.unicap.app.calendar.CalendarFragment;
 import com.thm.unicap.app.dashboard.DashboardFragment;
 import com.thm.unicap.app.auth.LoginActivity;
+import com.thm.unicap.app.grade.GradesActivity;
 import com.thm.unicap.app.grade.GradesFragment;
+import com.thm.unicap.app.grade.SubjectGradesListItemCard;
 import com.thm.unicap.app.lessons.LessonsFragment;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.feedback.FeedbackFragment;
+import com.thm.unicap.app.model.SubjectTest;
 import com.thm.unicap.app.subject.SubjectsFragment;
+
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity
@@ -61,7 +71,10 @@ public class MainActivity extends ActionBarActivity
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
+        } else {
+//            notifyNewGrades();
         }
+
     }
 
     @Override
@@ -176,4 +189,56 @@ public class MainActivity extends ActionBarActivity
     public NavigationDrawerFragment getNavigationDrawerFragment() {
         return mNavigationDrawerFragment;
     }
+
+//    private void notifyNewGrades() {
+//        List<SubjectTest> newSubjectTests = UnicapApplication.getStudent().getNewSubjectTests();
+//
+//        for (SubjectTest subjectTest : newSubjectTests) {
+//
+//            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+//                    .setSmallIcon(R.drawable.ic_stat_unicap)
+//                    .setContentTitle(subjectTest.subject.name)
+//                    .setAutoCancel(true);
+//
+//            switch (subjectTest.degree) {
+//                case FIRST_DEGREE:
+//                    builder.setContentText("Primeiro GQ disponível");
+//                    break;
+//                case SECOND_DEGREE:
+//                    builder.setContentText("Segundo GQ disponível");
+//                    break;
+//                case FINAL_DEGREE:
+//                    builder.setContentText("Avaliação final disponível");
+//                    break;
+//            }
+//
+//// Creates an explicit intent for an Activity in your app
+//            Intent resultIntent = new Intent(this, GradesActivity.class);
+//            resultIntent.putExtra("subject_id", subjectTest.subject.getId());
+//
+//// The stack builder object will contain an artificial back stack for the
+//// started Activity.
+//// This ensures that navigating backward from the Activity leads out of
+//// your application to the Home screen.
+//            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+//// Adds the back stack for the Intent (but not the Intent itself)
+//            stackBuilder.addParentStack(MainActivity.class);
+//// Adds the Intent that starts the Activity to the top of the stack
+//            stackBuilder.addNextIntent(resultIntent);
+//            PendingIntent resultPendingIntent =
+//                    stackBuilder.getPendingIntent(
+//                            0,
+//                            PendingIntent.FLAG_UPDATE_CURRENT
+//                    );
+//            builder.setContentIntent(resultPendingIntent);
+//            NotificationManager mNotificationManager =
+//                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//// mId allows you to update the notification later on.
+//
+//            int mId = 78135;
+//            mNotificationManager.notify(mId, builder.build());
+////                subjectTest.notify = false;
+////                subjectTest.save();
+//        }
+//    }
 }
