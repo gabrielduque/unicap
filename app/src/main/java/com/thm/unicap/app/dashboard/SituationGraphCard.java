@@ -91,8 +91,8 @@ public class SituationGraphCard extends Card implements PieGraph.OnSliceClickedL
         mPieGraph.addSlice(slice);
 
         slice = new PieSlice();
-        slice.setColor(mContext.getResources().getColor(R.color.unicap_light_gray));
-        slice.setSelectedColor(Utils.darkenColor(mContext.getResources().getColor(R.color.unicap_light_gray)));
+        slice.setColor(mContext.getResources().getColor(R.color.unicap_gray_level_2));
+        slice.setSelectedColor(Utils.darkenColor(mContext.getResources().getColor(R.color.unicap_gray_level_2)));
         slice.setTitle(mContext.getString(R.string.waiting));
         slice.setValue(100);
         slice.setGoalValue((waitingCount / totalCount) * 100f);

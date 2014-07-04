@@ -103,7 +103,7 @@
 
             <LinearLayout
                 android:id="@+id/bar"
-                android:background="@color/unicap_really_light_gray"
+                android:background="@color/unicap_gray_level_1"
                 android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
                 android:weightSum="100"

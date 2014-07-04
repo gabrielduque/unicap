@@ -16,7 +16,7 @@
         android:layout_height="40dp"
         android:layout_marginRight="5dp"
         android:gravity="center"
-        android:background="@color/unicap_really_light_gray"
+        android:background="@color/unicap_gray_level_1"
         android:textColor="@color/dark_gray"
         android:textSize="20sp"
         android:text="@string/mon_letter"/>
@@ -28,7 +28,7 @@
         android:layout_height="40dp"
         android:layout_marginRight="5dp"
         android:gravity="center"
-        android:background="@color/unicap_really_light_gray"
+        android:background="@color/unicap_gray_level_1"
         android:textColor="@color/dark_gray"
         android:textSize="20sp"
         android:text="@string/tue_letter"/>
@@ -40,7 +40,7 @@
         android:layout_height="40dp"
         android:layout_marginRight="5dp"
         android:gravity="center"
-        android:background="@color/unicap_really_light_gray"
+        android:background="@color/unicap_gray_level_1"
         android:textColor="@color/dark_gray"
         android:textSize="20sp"
         android:text="@string/wed_letter"/>
@@ -52,7 +52,7 @@
         android:layout_height="40dp"
         android:layout_marginRight="5dp"
         android:gravity="center"
-        android:background="@color/unicap_really_light_gray"
+        android:background="@color/unicap_gray_level_1"
         android:textColor="@color/dark_gray"
         android:textSize="20sp"
         android:text="@string/thu_letter"/>
@@ -64,7 +64,7 @@
         android:layout_height="40dp"
         android:layout_marginRight="5dp"
         android:gravity="center"
-        android:background="@color/unicap_really_light_gray"
+        android:background="@color/unicap_gray_level_1"
         android:textColor="@color/dark_gray"
         android:textSize="20sp"
         android:text="@string/fri_letter"/>
@@ -75,7 +75,7 @@
         android:layout_weight="1"
         android:layout_height="40dp"
         android:gravity="center"
-        android:background="@color/unicap_really_light_gray"
+        android:background="@color/unicap_gray_level_1"
         android:textColor="@color/dark_gray"
         android:textSize="20sp"
         android:text="@string/sat_letter"/>

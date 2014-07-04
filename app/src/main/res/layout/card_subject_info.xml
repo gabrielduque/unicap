@@ -51,7 +51,7 @@
         android:layout_marginBottom="@dimen/margin_small"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/unicap_really_light_gray"/>
+        android:background="@color/unicap_gray_level_1"/>
 
     <RelativeLayout
         android:layout_marginTop="@dimen/margin_small"
@@ -88,7 +88,7 @@
         android:layout_marginBottom="@dimen/margin_small"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/unicap_really_light_gray"/>
+        android:background="@color/unicap_gray_level_1"/>
 
     <RelativeLayout
         android:layout_marginTop="@dimen/margin_small"
@@ -125,7 +125,7 @@
         android:layout_marginBottom="@dimen/margin_small"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/unicap_really_light_gray"/>
+        android:background="@color/unicap_gray_level_1"/>
 
     <RelativeLayout
         android:layout_marginTop="@dimen/margin_small"
@@ -140,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:drawableLeft="@drawable/ic_action_go_to_today"
+            android:drawableLeft="@drawable/ic_action_calendar"
             android:text="@string/period"
             app:typeface="roboto_thin"/>
 

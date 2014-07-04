@@ -152,18 +152,18 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
         List<NavigationItem> navigationItems = new ArrayList<NavigationItem>();
 
         //Main items
-        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_data_usage));
-        navigationItems.add(new NavigationItem(getString(R.string.subjects), R.drawable.ic_action_storage));
-        navigationItems.add(new NavigationItem(getString(R.string.calendar), R.drawable.ic_action_go_to_today));
-        navigationItems.add(new NavigationItem(getString(R.string.lessons), R.drawable.ic_action_view_as_grid));
-        navigationItems.add(new NavigationItem(getString(R.string.grades), R.drawable.ic_action_view_as_list));
+        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_dashboard));
+        navigationItems.add(new NavigationItem(getString(R.string.subjects), R.drawable.ic_action_subjects));
+        navigationItems.add(new NavigationItem(getString(R.string.calendar), R.drawable.ic_action_calendar));
+        navigationItems.add(new NavigationItem(getString(R.string.lessons), R.drawable.ic_action_lessons));
+        navigationItems.add(new NavigationItem(getString(R.string.grades), R.drawable.ic_action_grades));
 
         //Extra items
         navigationItems.add(new NavigationItem(getString(R.string.settings), R.drawable.ic_action_settings, NavigationItem.Type.EXTRA));
-        navigationItems.add(new NavigationItem(getString(R.string.feedback), R.drawable.ic_action_email, NavigationItem.Type.EXTRA));
+        navigationItems.add(new NavigationItem(getString(R.string.feedback), R.drawable.ic_action_feedback, NavigationItem.Type.EXTRA));
         navigationItems.add(new NavigationItem(getString(R.string.about), R.drawable.ic_action_about, NavigationItem.Type.EXTRA));
 
-        mDrawerListView.setAdapter(new NavigationAdapter(getActionBar().getThemedContext(), R.layout.navigation_item_big, navigationItems));
+        mDrawerListView.setAdapter(new NavigationAdapter(getActionBar().getThemedContext(), R.layout.navigation_item_normal, navigationItems));
 
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 

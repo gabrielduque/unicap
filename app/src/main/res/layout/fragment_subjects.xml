@@ -4,7 +4,7 @@
     android:id="@+id/pager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/unicap_really_light_gray"
+    android:background="@color/unicap_gray_level_1"
     tools:context="com.thm.unicap.app.subject.SubjectsFragment">
 
     <android.support.v4.view.PagerTitleStrip

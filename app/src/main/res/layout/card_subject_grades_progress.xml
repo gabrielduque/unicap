@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:id="@+id/linegraph"
-        app:lineStrokeColor="@color/unicap_really_light_gray"
+        app:lineStrokeColor="@color/unicap_gray_level_1"
         app:lineAxisColor="@android:color/transparent"
         app:lineStrokeWidth="1dp"
         app:lineStrokeSpacing="10dp"

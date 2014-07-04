@@ -10,7 +10,7 @@
 
     <item android:top="0dp" android:left="10dp" android:bottom="0dp" android:right="0dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/unicap_really_light_gray"/>
+            <solid android:color="@color/unicap_gray_level_1"/>
         </shape>
     </item>
 

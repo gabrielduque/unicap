@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/unicap_really_light_gray">
+    android:background="@color/unicap_gray_level_1">
 
     <LinearLayout
         android:gravity="center_horizontal"
@@ -31,7 +31,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/unicap_light_gray" />
+            android:background="@color/unicap_gray_level_2" />
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
             android:layout_margin="@dimen/margin_normal"
             android:gravity="center_horizontal"
             app:typeface="roboto_thin"
-            android:textColor="@color/unicap_dark_gray"
+            android:textColor="@color/unicap_gray_level_4"
             android:textSize="18sp"
             android:text="Entre em contato conosco para sugestões e/ou críticas através do email tuliohmendes@gmail.com"/>
 

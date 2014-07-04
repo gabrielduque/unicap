@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/unicap_really_light_gray">
+    android:background="@color/unicap_gray_level_1">
 
     <LinearLayout
         android:gravity="center_horizontal"
@@ -24,9 +24,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
             app:typeface="roboto_regular"
-            android:textColor="@color/unicap_dark_gray"
+            android:textColor="@color/unicap_gray_level_4"
             android:textSize="18sp"
-            android:text="Version 1.0.0.0"/>
+            android:text="@string/about_version"/>
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:layout_width="wrap_content"
@@ -35,22 +35,22 @@
             android:layout_marginBottom="@dimen/margin_normal"
             app:typeface="roboto_thin"
             android:textSize="18sp"
-            android:text="(c)2014 Túlio Hoffimann Mendes"/>
+            android:text="@string/about_copyright"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/unicap_light_gray" />
+            android:background="@color/unicap_gray_level_2" />
 
         <com.devspark.robototextview.widget.RobotoTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_normal"
             android:gravity="center_horizontal"
-            app:typeface="roboto_regular"
-            android:textColor="@color/unicap_dark_gray"
+            app:typeface="roboto_thin"
+            android:textColor="@color/unicap_gray_level_4"
             android:textSize="18sp"
-            android:text="O aplicativo Unicap permite que você acesse a maioria das informações presentes no portal do aluno de graduação da Universidade Católica de Pernambuco."/>
+            android:text="@string/about_description"/>
 
     </LinearLayout>
 

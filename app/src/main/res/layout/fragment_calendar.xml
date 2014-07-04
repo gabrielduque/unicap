@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.thm.unicap.app.subject.GradesFragment"
-    android:background="@color/unicap_really_light_gray"
+    android:background="@color/unicap_gray_level_1"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">

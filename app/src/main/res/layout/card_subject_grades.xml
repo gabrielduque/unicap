@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:drawableLeft="@drawable/ic_action_view_as_list"
+            android:drawableLeft="@drawable/ic_action_grades"
             android:text="@string/first_degree"
             app:typeface="roboto_thin"/>
 
@@ -50,7 +50,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/unicap_really_light_gray"/>
+        android:background="@color/unicap_gray_level_1"/>
 
     <RelativeLayout
         android:layout_marginTop="@dimen/margin_normal"
@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:drawableLeft="@drawable/ic_action_view_as_list"
+            android:drawableLeft="@drawable/ic_action_grades"
             android:text="@string/second_degree"
             app:typeface="roboto_thin"/>
 
@@ -86,7 +86,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/unicap_really_light_gray"/>
+        android:background="@color/unicap_gray_level_1"/>
 
     <RelativeLayout
         android:layout_marginTop="@dimen/margin_normal"
@@ -101,7 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:drawableLeft="@drawable/ic_action_view_as_list"
+            android:drawableLeft="@drawable/ic_action_grades"
             android:text="@string/final_degree"
             app:typeface="roboto_thin"/>
 
@@ -122,7 +122,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/unicap_really_light_gray"/>
+        android:background="@color/unicap_gray_level_1"/>
 
     <RelativeLayout
         android:layout_marginTop="@dimen/margin_normal"
@@ -157,7 +157,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/unicap_really_light_gray"/>
+        android:background="@color/unicap_gray_level_1"/>
 
     <RelativeLayout
         android:layout_marginTop="@dimen/margin_normal"

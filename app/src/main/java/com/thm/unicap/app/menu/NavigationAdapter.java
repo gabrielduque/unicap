@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.devspark.robototextview.widget.RobotoTextView;
 import com.thm.unicap.app.R;
 
 import java.util.List;
@@ -38,14 +38,14 @@ public class NavigationAdapter extends ArrayAdapter<NavigationItem> {
             LayoutInflater li = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             if(type == NavigationItem.Type.EXTRA.ordinal()) {
-                convertView = li.inflate(R.layout.navigation_item_small, parent, false);
+                convertView = li.inflate(R.layout.navigation_item_extra, parent, false);
             } else {
-                convertView = li.inflate(R.layout.navigation_item_big, parent, false);
+                convertView = li.inflate(R.layout.navigation_item_normal, parent, false);
             }
 
             viewHolder = new MenuItemViewHolder();
             viewHolder.icon = (ImageView) convertView.findViewById(R.id.nav_icon);
-            viewHolder.title = (RobotoTextView) convertView.findViewById(R.id.nav_title);
+            viewHolder.title = (TextView) convertView.findViewById(R.id.nav_title);
 
             convertView.setTag(viewHolder);
         } else {
@@ -62,7 +62,7 @@ public class NavigationAdapter extends ArrayAdapter<NavigationItem> {
 
     static class MenuItemViewHolder {
         ImageView icon;
-        RobotoTextView title;
+        TextView title;
     }
 
 }
