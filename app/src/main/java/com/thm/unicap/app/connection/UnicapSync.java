@@ -33,7 +33,7 @@ public class UnicapSync {
         receiveSubjectsGradesData();
     }
 
-    public static void loginRequest(String registration, String password) throws UnicapSyncException {
+    public static String loginRequest(String registration, String password) throws UnicapSyncException {
 
         Document document;
 
@@ -68,6 +68,8 @@ public class UnicapSync {
         actionURL = document.select("form").first().attr("action");
 
         UnicapDataManager.initStudent(registration, password);
+
+        return actionURL.split("=")[1];
     }
 
     public static void receivePersonalData() throws UnicapSyncException {

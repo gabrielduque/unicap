@@ -25,6 +25,7 @@ import com.thm.unicap.app.model.SubjectStatus;
 import com.thm.unicap.app.subject.SubjectActivity;
 import com.thm.unicap.app.subject.SubjectListItemCard;
 import com.thm.unicap.app.subject.SubjectsPagerAdapter;
+import com.thm.unicap.app.util.StudentListener;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -34,7 +35,9 @@ import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
 
-public class GradesFragment extends Fragment implements Card.OnCardClickListener {
+public class GradesFragment extends Fragment implements Card.OnCardClickListener, StudentListener {
+
+    private View mRootView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,8 +57,24 @@ public class GradesFragment extends Fragment implements Card.OnCardClickListener
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_grades, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_grades, container, false);
+        if(UnicapApplication.isLogged()) init();
+        return mRootView;
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        UnicapApplication.addStudentListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        UnicapApplication.removeStudentListener(this);
+    }
+
+    private void init() {
         Student student = UnicapApplication.getStudent();
 
         List<Subject> subjects = student.getActualSubjects();
@@ -69,15 +88,13 @@ public class GradesFragment extends Fragment implements Card.OnCardClickListener
             cardArrayList.add(subjectGradesListItemCard);
         }
 
-        CardListView cardListView = (CardListView) rootView.findViewById(R.id.subjects_list);
+        CardListView cardListView = (CardListView) mRootView.findViewById(R.id.subjects_list);
 
         CardArrayAdapter cardArrayAdapter = new CardArrayAdapter(getActivity(), cardArrayList);
 
         AnimationAdapter animCardArrayAdapter = new SwingBottomInAnimationAdapter(cardArrayAdapter);
         animCardArrayAdapter.setAbsListView(cardListView);
         cardListView.setExternalAdapter(animCardArrayAdapter, cardArrayAdapter);
-
-        return rootView;
     }
 
     @Override
@@ -91,5 +108,10 @@ public class GradesFragment extends Fragment implements Card.OnCardClickListener
         Intent intent = new Intent(getActivity(), GradesActivity.class);
         intent.putExtra("subject_id", ((SubjectGradesListItemCard)card).getSubject().getId());
         getActivity().startActivity(intent);
+    }
+
+    @Override
+    public void studentChanged() {
+        init();
     }
 }

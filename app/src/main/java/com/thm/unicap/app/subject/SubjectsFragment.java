@@ -1,7 +1,5 @@
 package com.thm.unicap.app.subject;
 
-
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,9 +12,13 @@ import android.view.ViewGroup;
 
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.MainActivity;
+import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
+import com.thm.unicap.app.util.StudentListener;
 
-public class SubjectsFragment extends Fragment {
+public class SubjectsFragment extends Fragment implements StudentListener {
+
+    private View mRootView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,20 +36,39 @@ public class SubjectsFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_subjects, container, false);
-
-        ViewPager mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
+    private void init() {
+        ViewPager mViewPager = (ViewPager) mRootView.findViewById(R.id.pager);
         mViewPager.setAdapter(new SubjectsPagerAdapter(getActivity()));
         mViewPager.setCurrentItem(SubjectsPagerAdapter.Session.ACTUAL.ordinal());
+    }
 
-        return rootView;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mRootView = inflater.inflate(R.layout.fragment_subjects, container, false);
+        if(UnicapApplication.isLogged()) init();
+        return mRootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        UnicapApplication.addStudentListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        UnicapApplication.removeStudentListener(this);
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         ((MainActivity) activity).onSectionAttached(NavigationDrawerFragment.SESSION_SUBJECTS);
+    }
+
+    @Override
+    public void studentChanged() {
+        init();
     }
 }

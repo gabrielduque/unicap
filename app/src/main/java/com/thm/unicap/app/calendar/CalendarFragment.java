@@ -18,6 +18,7 @@ import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.SubjectTest;
+import com.thm.unicap.app.util.StudentListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,9 @@ import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
 
-public class CalendarFragment extends Fragment {
+public class CalendarFragment extends Fragment implements StudentListener {
+
+    private View mRootView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,8 +49,24 @@ public class CalendarFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_calendar, container, false);
+        if(UnicapApplication.isLogged()) init();
+        return mRootView;
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        UnicapApplication.addStudentListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        UnicapApplication.removeStudentListener(this);
+    }
+
+    private void init() {
         Student student = UnicapApplication.getStudent();
 
         List<SubjectTest> subjectTests = student.getSubjectTestsOrdered();
@@ -59,15 +78,13 @@ public class CalendarFragment extends Fragment {
             cardArrayList.add(calendarListItemCard);
         }
 
-        CardListView cardListView = (CardListView) rootView.findViewById(R.id.calendar_list);
+        CardListView cardListView = (CardListView) mRootView.findViewById(R.id.calendar_list);
 
         CardArrayAdapter cardArrayAdapter = new CardArrayAdapter(getActivity(), cardArrayList);
 
         AnimationAdapter animCardArrayAdapter = new SwingBottomInAnimationAdapter(cardArrayAdapter);
         animCardArrayAdapter.setAbsListView(cardListView);
         cardListView.setExternalAdapter(animCardArrayAdapter, cardArrayAdapter);
-
-        return rootView;
     }
 
     @Override
@@ -76,4 +93,8 @@ public class CalendarFragment extends Fragment {
         ((MainActivity) activity).onSectionAttached(NavigationDrawerFragment.SESSION_CALENDAR);
     }
 
+    @Override
+    public void studentChanged() {
+        init();
+    }
 }

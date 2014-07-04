@@ -11,15 +11,29 @@ import android.view.ViewGroup;
 
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.MainActivity;
+import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.lessons.LessonsCard;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
+import com.thm.unicap.app.util.StudentListener;
 import com.thm.unicap.app.util.UnicapUtils;
 
 import it.gmariotti.cardslib.library.view.CardView;
 
-public class DashboardFragment extends Fragment {
+public class DashboardFragment extends Fragment implements StudentListener {
 
     private LessonsCard mLessonsCard;
+    private View mRootView;
+
+    private void init() {
+        CardView card_today_lessons = (CardView) mRootView.findViewById(R.id.card_today_lessons);
+        mLessonsCard = new LessonsCard(getActivity(), UnicapUtils.getCurrentScheduleWeekDay());
+        mLessonsCard.init();
+        card_today_lessons.setCard(mLessonsCard);
+
+        CardView card_status_graph = (CardView) mRootView.findViewById(R.id.card_status_graph);
+        SituationGraphCard situationGraphCard = new SituationGraphCard(getActivity());
+        card_status_graph.setCard(situationGraphCard);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,23 +53,31 @@ public class DashboardFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        if(UnicapApplication.isLogged()) init();
+        return mRootView;
+    }
 
-        CardView card_today_lessons = (CardView) rootView.findViewById(R.id.card_today_lessons);
-        mLessonsCard = new LessonsCard(getActivity(), UnicapUtils.getCurrentScheduleWeekDay());
-        mLessonsCard.init();
-        card_today_lessons.setCard(mLessonsCard);
+    @Override
+    public void onResume() {
+        super.onResume();
+        UnicapApplication.addStudentListener(this);
+    }
 
-        CardView card_status_graph = (CardView) rootView.findViewById(R.id.card_status_graph);
-        SituationGraphCard situationGraphCard = new SituationGraphCard(getActivity());
-        card_status_graph.setCard(situationGraphCard);
-
-        return rootView;
+    @Override
+    public void onPause() {
+        super.onPause();
+        UnicapApplication.removeStudentListener(this);
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         ((MainActivity) activity).onSectionAttached(NavigationDrawerFragment.SESSION_DASHBOARD);
+    }
+
+    @Override
+    public void studentChanged() {
+        init();
     }
 }

@@ -9,6 +9,7 @@ public class UnicapSyncTask extends AsyncTask<Void, Pair<Integer, Integer>, Unic
 
     private String registration;
     private String password;
+    private String authToken;
 
     private OnTaskCompleted onTaskCompleted;
     private OnTaskCancelled onTaskCancelled;
@@ -25,7 +26,7 @@ public class UnicapSyncTask extends AsyncTask<Void, Pair<Integer, Integer>, Unic
 
         try {
             publishProgress(new Pair<Integer, Integer>(R.string.progress_1, 0));
-            UnicapSync.loginRequest(registration, password);
+            authToken = UnicapSync.loginRequest(registration, password);
             publishProgress(new Pair<Integer, Integer>(R.string.progress_2, 15));
             UnicapSync.receivePersonalData();
             publishProgress(new Pair<Integer, Integer>(R.string.progress_3, 30));
@@ -89,4 +90,7 @@ public class UnicapSyncTask extends AsyncTask<Void, Pair<Integer, Integer>, Unic
         return password;
     }
 
+    public String getAuthToken() {
+        return authToken;
+    }
 }

@@ -1,39 +1,39 @@
 package com.thm.unicap.app;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
-import android.os.Bundle;
-import android.view.Menu;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.Menu;
+import android.widget.Toast;
 
+import com.activeandroid.Model;
+import com.activeandroid.query.Select;
 import com.thm.unicap.app.about.AboutFragment;
+import com.thm.unicap.app.auth.AccountGeneral;
 import com.thm.unicap.app.calendar.CalendarFragment;
 import com.thm.unicap.app.dashboard.DashboardFragment;
-import com.thm.unicap.app.auth.LoginActivity;
-import com.thm.unicap.app.grade.GradesActivity;
+import com.thm.unicap.app.feedback.FeedbackFragment;
 import com.thm.unicap.app.grade.GradesFragment;
-import com.thm.unicap.app.grade.SubjectGradesListItemCard;
 import com.thm.unicap.app.lessons.LessonsFragment;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
-import com.thm.unicap.app.feedback.FeedbackFragment;
-import com.thm.unicap.app.model.SubjectTest;
+import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.subject.SubjectsFragment;
-
-import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+
+    private AccountManager mAccountManager;
 
     private Handler mHandler = new Handler();
     private Runnable mSwitchFragmentRunnable;
@@ -53,6 +53,8 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mAccountManager = AccountManager.get(this);
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -68,9 +70,7 @@ public class MainActivity extends ActionBarActivity
         super.onResume();
 
         if(!UnicapApplication.isLogged()) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            finish();
+            getTokenForAccountCreateIfNeeded(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
         } else {
 //            notifyNewGrades();
         }
@@ -190,6 +190,7 @@ public class MainActivity extends ActionBarActivity
         return mNavigationDrawerFragment;
     }
 
+//    TODO: Organize method and uncomment
 //    private void notifyNewGrades() {
 //        List<SubjectTest> newSubjectTests = UnicapApplication.getStudent().getNewSubjectTests();
 //
@@ -241,4 +242,30 @@ public class MainActivity extends ActionBarActivity
 ////                subjectTest.save();
 //        }
 //    }
+
+    private void getTokenForAccountCreateIfNeeded(String accountType, String authTokenType) {
+        final AccountManagerFuture<Bundle> future = mAccountManager.getAuthTokenByFeatures(accountType, authTokenType, null, this, null, null,
+                new AccountManagerCallback<Bundle>() {
+                    @Override
+                    public void run(AccountManagerFuture<Bundle> future) {
+                        try {
+                            Bundle bundle = future.getResult();
+
+                            Student student = new Select().from(Student.class).where("Student.Registration = ?", bundle.getString(AccountManager.KEY_ACCOUNT_NAME)).executeSingle();
+
+                            if(student != null)
+                                UnicapApplication.setStudent(student);
+                            else
+                                //TODO: Force sync
+                                finish();
+
+                        } catch (Exception e) {
+                            //TODO: Friendly message
+                            finish();
+                        }
+                    }
+                }
+                , null);
+    }
+
 }

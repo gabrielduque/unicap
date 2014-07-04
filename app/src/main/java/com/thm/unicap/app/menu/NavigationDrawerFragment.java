@@ -1,5 +1,9 @@
 package com.thm.unicap.app.menu;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
@@ -28,8 +32,10 @@ import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.github.johnpersano.supertoasts.util.Style;
 import com.squareup.picasso.Picasso;
+import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
+import com.thm.unicap.app.auth.AccountGeneral;
 import com.thm.unicap.app.auth.LoginActivity;
 import com.thm.unicap.app.connection.OnTaskCancelled;
 import com.thm.unicap.app.connection.OnTaskCompleted;
@@ -38,6 +44,7 @@ import com.thm.unicap.app.connection.UnicapSyncResult;
 import com.thm.unicap.app.connection.UnicapSyncTask;
 import com.thm.unicap.app.connection.UnicapDataManager;
 import com.thm.unicap.app.model.Student;
+import com.thm.unicap.app.util.StudentListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +54,7 @@ import java.util.List;
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class NavigationDrawerFragment extends Fragment implements OnTaskCompleted, OnTaskCancelled, OnTaskProgressUpdated {
+public class NavigationDrawerFragment extends Fragment implements OnTaskCompleted, OnTaskCancelled, OnTaskProgressUpdated, StudentListener {
 
     public static final int SESSION_DASHBOARD = 0;
     public static final int SESSION_SUBJECTS = 1;
@@ -91,8 +98,7 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
     private UnicapSyncTask mSyncTask;
     private SuperActivityToast mSuperActivityToast;
 
-    public NavigationDrawerFragment() {
-    }
+    private View mRootView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -121,26 +127,38 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mRootView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        if(UnicapApplication.isLogged()) init();
+        return mRootView;
+    }
 
-        View rootView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+    @Override
+    public void onResume() {
+        super.onResume();
+        UnicapApplication.addStudentListener(this);
+    }
 
-        ImageView navHeaderPicture = (ImageView) rootView.findViewById(R.id.nav_header_picture);
-        RobotoTextView navHeaderCourse = (RobotoTextView) rootView.findViewById(R.id.nav_header_course);
-        RobotoTextView navHeaderName = (RobotoTextView) rootView.findViewById(R.id.nav_header_name);
-        RobotoTextView navHeaderEmail = (RobotoTextView) rootView.findViewById(R.id.nav_header_email);
+    @Override
+    public void onPause() {
+        super.onPause();
+        UnicapApplication.removeStudentListener(this);
+    }
 
-        if(UnicapApplication.isLogged()) {
-//            Picasso.with(getActivity()).setDebugging(true);
-            Picasso.with(getActivity())
-                    .load(UnicapApplication.getStudent().getGravatarURL(100))
-                    .placeholder(R.drawable.mm)
-                    .into(navHeaderPicture);
-            navHeaderCourse.setText(UnicapApplication.getStudent().course);
-            navHeaderName.setText(UnicapApplication.getStudent().name);
-            navHeaderEmail.setText(UnicapApplication.getStudent().email);
-        }
+    private void init() {
+        ImageView navHeaderPicture = (ImageView) mRootView.findViewById(R.id.nav_header_picture);
+        RobotoTextView navHeaderCourse = (RobotoTextView) mRootView.findViewById(R.id.nav_header_course);
+        RobotoTextView navHeaderName = (RobotoTextView) mRootView.findViewById(R.id.nav_header_name);
+        RobotoTextView navHeaderEmail = (RobotoTextView) mRootView.findViewById(R.id.nav_header_email);
 
-        mDrawerListView = (ListView) rootView.findViewById(R.id.navigation_listview);
+        Picasso.with(getActivity())
+                .load(UnicapApplication.getStudent().getGravatarURL(100))
+                .placeholder(R.drawable.mm)
+                .into(navHeaderPicture);
+        navHeaderCourse.setText(UnicapApplication.getStudent().course);
+        navHeaderName.setText(UnicapApplication.getStudent().name);
+        navHeaderEmail.setText(UnicapApplication.getStudent().email);
+
+        mDrawerListView = (ListView) mRootView.findViewById(R.id.navigation_listview);
 
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -166,8 +184,6 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
         mDrawerListView.setAdapter(new NavigationAdapter(getActionBar().getThemedContext(), R.layout.navigation_item_normal, navigationItems));
 
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-
-        return rootView;
     }
 
     public boolean isDrawerOpen() {
@@ -309,11 +325,19 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
 
         switch (item.getItemId()) {
             case R.id.action_logout:
-                UnicapDataManager.cleanUserData(UnicapApplication.getStudent().registration);
-                UnicapApplication.setStudent(null);
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
-                getActivity().finish();
+
+                AccountManager accountManager = AccountManager.get(getActivity());
+                final Account account = new Account(UnicapApplication.getStudent().registration, AccountGeneral.ACCOUNT_TYPE);
+
+                accountManager.removeAccount(account, new AccountManagerCallback<Boolean>() {
+                    @Override
+                    public void run(AccountManagerFuture<Boolean> future) {
+                        UnicapDataManager.cleanUserData(UnicapApplication.getStudent().registration);
+                        UnicapApplication.setStudent(null);
+                        getActivity().finish();
+                    }
+                }, null);
+
                 return true;
             case R.id.action_sync:
 
@@ -388,6 +412,11 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
             mSuperActivityToast.setText(getString(progress.first));
             mSuperActivityToast.setProgress(progress.second);
         }
+    }
+
+    @Override
+    public void studentChanged() {
+        init();
     }
 
     /**

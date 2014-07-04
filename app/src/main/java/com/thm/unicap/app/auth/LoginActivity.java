@@ -1,15 +1,18 @@
 package com.thm.unicap.app.auth;
 
+import android.accounts.Account;
+import android.accounts.AccountAuthenticatorActivity;
+import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.View;
@@ -23,8 +26,6 @@ import com.devspark.robototextview.widget.RobotoTextView;
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.github.johnpersano.supertoasts.util.Style;
 import com.thm.unicap.app.R;
-import com.thm.unicap.app.UnicapApplication;
-import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.connection.OnTaskCancelled;
 import com.thm.unicap.app.connection.OnTaskCompleted;
 import com.thm.unicap.app.connection.OnTaskProgressUpdated;
@@ -33,12 +34,26 @@ import com.thm.unicap.app.connection.UnicapSyncResult;
 import com.thm.unicap.app.connection.UnicapSyncTask;
 import com.thm.unicap.app.util.UnicapUtils;
 
-
 /**
  * A login screen that offers login via email/password.
 
  */
-public class LoginActivity extends ActionBarActivity implements OnTaskCompleted, OnTaskCancelled, OnTaskProgressUpdated {
+public class LoginActivity extends AccountAuthenticatorActivity implements OnTaskCompleted, OnTaskCancelled, OnTaskProgressUpdated {
+
+    public final static String ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE";
+    public final static String ARG_AUTH_TYPE = "AUTH_TYPE";
+    public final static String ARG_ACCOUNT_NAME = "ACCOUNT_NAME";
+
+    public final static String ARG_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_ACCOUNT";
+
+    public static final String KEY_ERROR_MESSAGE = "ERR_MSG";
+
+    public final static String PARAM_USER_PASS = "USER_PASS";
+
+    private final String TAG = "LoginActivity";
+
+    private AccountManager mAccountManager;
+    private String mAuthTokenType;
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -56,6 +71,12 @@ public class LoginActivity extends ActionBarActivity implements OnTaskCompleted,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        mAccountManager = AccountManager.get(getBaseContext());
+
+        mAuthTokenType = getIntent().getStringExtra(ARG_AUTH_TYPE);
+        if (mAuthTokenType == null)
+            mAuthTokenType = AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS;
 
         // Set up the login form.
         mRegistrationView = (EditText) findViewById(R.id.registration);
@@ -206,18 +227,27 @@ public class LoginActivity extends ActionBarActivity implements OnTaskCompleted,
     public void onTaskCompleted(UnicapSyncResult result) {
 
         String registration = mAuthTask.getRegistration();
+        String password = mAuthTask.getPassword();
+        String authToken = mAuthTask.getAuthToken();
 
         mAuthTask = null;
 
         if (result.isSuccess()) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            finish();
 
-            SuperToast superToast = new SuperToast(LoginActivity.this, Style.getStyle(Style.BLACK, SuperToast.Animations.SCALE));
-            superToast.setText(String.format(getString(R.string.welcome_format), UnicapApplication.getStudent().name));
-            superToast.setDuration(SuperToast.Duration.EXTRA_LONG);
-            superToast.show();
+            Bundle data = new Bundle();
+            data.putString(AccountManager.KEY_ACCOUNT_NAME, registration);
+            data.putString(AccountManager.KEY_ACCOUNT_TYPE, AccountGeneral.ACCOUNT_TYPE);
+            data.putString(AccountManager.KEY_AUTHTOKEN, authToken);
+            data.putString(PARAM_USER_PASS, password);
+
+            Intent intent = new Intent();
+            intent.putExtras(data);
+            finishLogin(intent);
+
+//            SuperToast superToast = new SuperToast(LoginActivity.this, Style.getStyle(Style.BLACK, SuperToast.Animations.SCALE));
+//            superToast.setText(String.format(getString(R.string.welcome_format), UnicapApplication.getStudent().name));
+//            superToast.setDuration(SuperToast.Duration.EXTRA_LONG);
+//            superToast.show();
 
         } else {
             // Clean up to prevent broken data
@@ -242,6 +272,32 @@ public class LoginActivity extends ActionBarActivity implements OnTaskCompleted,
     @Override
     public void onTaskProgressUpdated(Pair<Integer, Integer> progress) {
         mProgressText.setText(getString(progress.first));
+    }
+
+    private void finishLogin(Intent intent) {
+        Log.d("authentication", TAG + "> finishLogin");
+
+        String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+        String accountPassword = intent.getStringExtra(PARAM_USER_PASS);
+        final Account account = new Account(accountName, intent.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE));
+
+        if (getIntent().getBooleanExtra(ARG_IS_ADDING_NEW_ACCOUNT, false)) {
+            Log.d("authentication", TAG + "> finishLogin > addAccountExplicitly");
+            String authtoken = intent.getStringExtra(AccountManager.KEY_AUTHTOKEN);
+            String authtokenType = mAuthTokenType;
+
+            // Creating the account on the device and setting the auth token we got
+            // (Not setting the auth token will cause another call to the server to authenticate the user)
+            mAccountManager.addAccountExplicitly(account, accountPassword, null);
+            mAccountManager.setAuthToken(account, authtokenType, authtoken);
+        } else {
+            Log.d("authentication", TAG + "> finishLogin > setPassword");
+            mAccountManager.setPassword(account, accountPassword);
+        }
+
+        setAccountAuthenticatorResult(intent.getExtras());
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }
 
