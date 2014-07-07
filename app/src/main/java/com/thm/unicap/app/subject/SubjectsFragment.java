@@ -69,6 +69,11 @@ public class SubjectsFragment extends Fragment implements StudentListener {
 
     @Override
     public void studentChanged() {
-        init();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                init();
+            }
+        });
     }
 }

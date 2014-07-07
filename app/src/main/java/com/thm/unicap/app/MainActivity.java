@@ -253,11 +253,13 @@ public class MainActivity extends ActionBarActivity
 
                             Student student = new Select().from(Student.class).where("Student.Registration = ?", bundle.getString(AccountManager.KEY_ACCOUNT_NAME)).executeSingle();
 
-                            if(student != null)
+                            if(student != null) {
                                 UnicapApplication.setStudent(student);
-                            else
+                                UnicapApplication.notifyStudentChanged();
+                            } else {
                                 //TODO: Force sync
                                 finish();
+                            }
 
                         } catch (Exception e) {
                             //TODO: Friendly message

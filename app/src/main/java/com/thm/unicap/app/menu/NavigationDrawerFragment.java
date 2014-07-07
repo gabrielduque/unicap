@@ -387,7 +387,9 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
             mSuperActivityToast.dismiss();
         }
 
-        if (!result.isSuccess()) {
+        if (result.isSuccess()) {
+            UnicapApplication.notifyStudentChanged();
+        } else {
 
             SuperToast superToast = new SuperToast(getActivity(), Style.getStyle(Style.RED, SuperToast.Animations.FLYIN));
             superToast.setText(result.getExceptionMessage(getActivity()));
@@ -416,7 +418,12 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
 
     @Override
     public void studentChanged() {
-        init();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                init();
+            }
+        });
     }
 
     /**

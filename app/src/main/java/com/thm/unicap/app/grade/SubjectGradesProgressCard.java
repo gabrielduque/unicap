@@ -73,13 +73,21 @@ public class SubjectGradesProgressCard extends Card {
         averageLine.addPoint(point);
 
         point = new LinePoint();
-        point.setX(nextPointIndex-1);
+
+        if(nextPointIndex > 0)
+            point.setX(nextPointIndex-1);
+        else
+            point.setX(1);
+
         point.setY(SubjectTest.MIN_AVERAGE);
         averageLine.addPoint(point);
 
         LineGraph lineGraph = (LineGraph) parent.findViewById(R.id.linegraph);
         lineGraph.setUsingDips(true);
-        lineGraph.addLine(line);
+
+        if(nextPointIndex > 0)
+            lineGraph.addLine(line);
+
         lineGraph.addLine(averageLine);
         lineGraph.setRangeY(0, 10);
         lineGraph.setLineToFill(0);

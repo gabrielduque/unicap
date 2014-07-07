@@ -61,40 +61,82 @@ public class LessonsFragment extends Fragment implements StudentListener {
         CardView card_lessons;
         LessonsCard lessonsCard;
 
+        // Card: Mon
+
         card_lessons = (CardView) mRootView.findViewById(R.id.card_lessons_mon);
         lessonsCard = new LessonsCard(getActivity(), SubjectStatus.ScheduleWeekDay.Mon);
         lessonsCard.init();
-        card_lessons.setCard(lessonsCard);
+
+        if(card_lessons.getCard() != null)
+            card_lessons.replaceCard(lessonsCard);
+        else
+            card_lessons.setCard(lessonsCard);
+
         card_lessons.setVisibility(View.VISIBLE);
+
+        // Card: Tue
 
         card_lessons = (CardView) mRootView.findViewById(R.id.card_lessons_tue);
         lessonsCard = new LessonsCard(getActivity(), SubjectStatus.ScheduleWeekDay.Tue);
         lessonsCard.init();
-        card_lessons.setCard(lessonsCard);
+
+        if(card_lessons.getCard() != null)
+            card_lessons.replaceCard(lessonsCard);
+        else
+            card_lessons.setCard(lessonsCard);
+
         card_lessons.setVisibility(View.VISIBLE);
+
+        // Card: Wed
 
         card_lessons = (CardView) mRootView.findViewById(R.id.card_lessons_wed);
         lessonsCard = new LessonsCard(getActivity(), SubjectStatus.ScheduleWeekDay.Wed);
         lessonsCard.init();
-        card_lessons.setCard(lessonsCard);
+
+        if(card_lessons.getCard() != null)
+            card_lessons.replaceCard(lessonsCard);
+        else
+            card_lessons.setCard(lessonsCard);
+
         card_lessons.setVisibility(View.VISIBLE);
+
+        // Card: Thu
 
         card_lessons = (CardView) mRootView.findViewById(R.id.card_lessons_thu);
         lessonsCard = new LessonsCard(getActivity(), SubjectStatus.ScheduleWeekDay.Thu);
         lessonsCard.init();
-        card_lessons.setCard(lessonsCard);
+
+        if(card_lessons.getCard() != null)
+            card_lessons.replaceCard(lessonsCard);
+        else
+            card_lessons.setCard(lessonsCard);
+
         card_lessons.setVisibility(View.VISIBLE);
+
+        // Card: Fri
 
         card_lessons = (CardView) mRootView.findViewById(R.id.card_lessons_fri);
         lessonsCard = new LessonsCard(getActivity(), SubjectStatus.ScheduleWeekDay.Fri);
         lessonsCard.init();
-        card_lessons.setCard(lessonsCard);
+
+        if(card_lessons.getCard() != null)
+            card_lessons.replaceCard(lessonsCard);
+        else
+            card_lessons.setCard(lessonsCard);
+
         card_lessons.setVisibility(View.VISIBLE);
+
+        // Card: Sat
 
         card_lessons = (CardView) mRootView.findViewById(R.id.card_lessons_sat);
         lessonsCard = new LessonsCard(getActivity(), SubjectStatus.ScheduleWeekDay.Sat);
         lessonsCard.init();
-        card_lessons.setCard(lessonsCard);
+
+        if(card_lessons.getCard() != null)
+            card_lessons.replaceCard(lessonsCard);
+        else
+            card_lessons.setCard(lessonsCard);
+
         card_lessons.setVisibility(View.VISIBLE);
     }
 
@@ -106,6 +148,11 @@ public class LessonsFragment extends Fragment implements StudentListener {
 
     @Override
     public void studentChanged() {
-        init();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                init();
+            }
+        });
     }
 }

@@ -35,20 +35,33 @@ public class SubjectGradesCard extends Card {
         TextView card_subject_grades_final_degree = (TextView) parent.findViewById(R.id.card_subject_grades_final_degree);
         TextView card_subject_grades_final_average = (TextView) parent.findViewById(R.id.card_subject_grades_final_average);
 
-        Float firstDegreeTestGrade = mSubject.getTestByDegree(SubjectTest.Degree.FIRST_DEGREE).grade;
-        setupGradeView(firstDegreeTestGrade, card_subject_grades_first_degree);
+        SubjectTest firstDegreeTest = mSubject.getTestByDegree(SubjectTest.Degree.FIRST_DEGREE);
+        if(firstDegreeTest != null) {
+            Float firstDegreeTestGrade = firstDegreeTest.grade;
+            setupGradeView(firstDegreeTestGrade, card_subject_grades_first_degree);
+        }
 
-        Float secondDegreeTestGrade = mSubject.getTestByDegree(SubjectTest.Degree.SECOND_DEGREE).grade;
-        setupGradeView(secondDegreeTestGrade, card_subject_grades_second_degree);
+        SubjectTest secondDegreeTest = mSubject.getTestByDegree(SubjectTest.Degree.SECOND_DEGREE);
+        if(secondDegreeTest != null) {
+            Float secondDegreeTestGrade = secondDegreeTest.grade;
+            setupGradeView(secondDegreeTestGrade, card_subject_grades_second_degree);
+        }
 
-        Float finalDegreeTestGrade = mSubject.getTestByDegree(SubjectTest.Degree.FINAL_DEGREE).grade;
-        setupGradeView(finalDegreeTestGrade, card_subject_grades_final_degree);
+        SubjectTest finalDegreeTest = mSubject.getTestByDegree(SubjectTest.Degree.FINAL_DEGREE);
+        if(finalDegreeTest != null) {
+            Float finalDegreeTestGrade = finalDegreeTest.grade;
+            setupGradeView(finalDegreeTestGrade, card_subject_grades_final_degree);
+        }
 
-        Float averageTestGrade = mSubject.getActualSubjectStatus().average;
-        setupGradeView(averageTestGrade, card_subject_grades_average);
+        SubjectStatus actualSubjectStatus = mSubject.getActualSubjectStatus();
 
-        Float finalAverageTestGrade = mSubject.getActualSubjectStatus().final_average;
-        setupGradeView(finalAverageTestGrade, card_subject_grades_final_average);
+        if(actualSubjectStatus != null) {
+            Float averageTestGrade = actualSubjectStatus.average;
+            setupGradeView(averageTestGrade, card_subject_grades_average);
+
+            Float finalAverageTestGrade = actualSubjectStatus.final_average;
+            setupGradeView(finalAverageTestGrade, card_subject_grades_final_average);
+        }
     }
 
     private void setupGradeView(Float grade, TextView textView) {

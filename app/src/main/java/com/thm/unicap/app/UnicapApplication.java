@@ -22,12 +22,7 @@ public class UnicapApplication extends com.activeandroid.app.Application {
     }
 
     public static void setStudent(Student student) {
-
         UnicapApplication.student = student;
-
-        if(student != null)
-            for (StudentListener listener : mStudentListeners)
-                listener.studentChanged();
     }
 
     public static boolean isLogged() {
@@ -41,5 +36,13 @@ public class UnicapApplication extends com.activeandroid.app.Application {
 
     public static void removeStudentListener(StudentListener listener) {
         mStudentListeners.remove(listener);
+    }
+
+    public static void notifyStudentChanged() {
+        if(student != null) {
+            for (StudentListener listener : mStudentListeners) {
+                listener.studentChanged();
+            }
+        }
     }
 }

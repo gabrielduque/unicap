@@ -21,18 +21,25 @@ import it.gmariotti.cardslib.library.view.CardView;
 
 public class DashboardFragment extends Fragment implements StudentListener {
 
-    private LessonsCard mLessonsCard;
     private View mRootView;
 
     private void init() {
         CardView card_today_lessons = (CardView) mRootView.findViewById(R.id.card_today_lessons);
-        mLessonsCard = new LessonsCard(getActivity(), UnicapUtils.getCurrentScheduleWeekDay());
-        mLessonsCard.init();
-        card_today_lessons.setCard(mLessonsCard);
-
         CardView card_status_graph = (CardView) mRootView.findViewById(R.id.card_status_graph);
+
         SituationGraphCard situationGraphCard = new SituationGraphCard(getActivity());
-        card_status_graph.setCard(situationGraphCard);
+        LessonsCard lessonsCard = new LessonsCard(getActivity(), UnicapUtils.getCurrentScheduleWeekDay());
+        lessonsCard.init();
+
+        if(card_today_lessons.getCard() != null)
+            card_today_lessons.replaceCard(lessonsCard);
+        else
+            card_today_lessons.setCard(lessonsCard);
+
+        if (card_status_graph.getCard() != null)
+            card_status_graph.replaceCard(situationGraphCard);
+        else
+            card_status_graph.setCard(situationGraphCard);
     }
 
     @Override
@@ -78,6 +85,11 @@ public class DashboardFragment extends Fragment implements StudentListener {
 
     @Override
     public void studentChanged() {
-        init();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                init();
+            }
+        });
     }
 }

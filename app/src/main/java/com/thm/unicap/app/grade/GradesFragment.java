@@ -112,6 +112,11 @@ public class GradesFragment extends Fragment implements Card.OnCardClickListener
 
     @Override
     public void studentChanged() {
-        init();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                init();
+            }
+        });
     }
 }
