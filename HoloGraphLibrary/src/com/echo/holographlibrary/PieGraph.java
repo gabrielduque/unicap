@@ -28,6 +28,7 @@ import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -56,6 +57,16 @@ public class PieGraph extends View implements  HoloGraphAnimate {
     private OnSliceClickedListener mListener;
     private boolean mDrawCompleted = false;
     private RectF mRectF = new RectF();
+    private Bitmap mBackgroundImage = null;
+    private Point mBackgroundImageAnchor = new Point(0,0);
+    private boolean mBackgroundImageCenter = false;
+
+
+
+    private int mDuration = 300;//in ms
+    private Interpolator mInterpolator;
+    private Animator.AnimatorListener mAnimationListener;
+    private ValueAnimator mValueAnimator;
 
     public PieGraph(Context context) {
         this(context, null);
@@ -79,6 +90,15 @@ public class PieGraph extends View implements  HoloGraphAnimate {
         canvas.drawColor(Color.TRANSPARENT);
         mPaint.reset();
         mPaint.setAntiAlias(true);
+
+        if(mBackgroundImage != null) {
+            if(mBackgroundImageCenter)
+                mBackgroundImageAnchor.set(
+                        getWidth() / 2 - mBackgroundImage.getWidth() / 2,
+                        getHeight() / 2 - mBackgroundImage.getHeight() / 2
+                );
+            canvas.drawBitmap(mBackgroundImage, mBackgroundImageAnchor.x, mBackgroundImageAnchor.y, mPaint);
+        }
 
         float currentAngle = 270;
         float currentSweep = 0;
@@ -164,6 +184,12 @@ public class PieGraph extends View implements  HoloGraphAnimate {
                 count++;
             }
         }
+        // Case we click somewhere else, also get feedback!
+        if(MotionEvent.ACTION_UP == event.getAction()
+                && mSelectedIndex == -1
+                && mListener != null) {
+            mListener.onClick(mSelectedIndex);
+        }
         // Reset selection
         if (MotionEvent.ACTION_UP == event.getAction()
                 || MotionEvent.ACTION_CANCEL == event.getAction()) {
@@ -171,6 +197,22 @@ public class PieGraph extends View implements  HoloGraphAnimate {
             postInvalidate();
         }
         return true;
+    }
+
+    public Bitmap getBackgroundBitmap() {
+        return mBackgroundImage;
+    }
+
+    public void setBackgroundBitmap(Bitmap backgroundBitmap, int pos_x, int pos_y) {
+        mBackgroundImage = backgroundBitmap;
+        mBackgroundImageAnchor.set(pos_x, pos_y);
+        postInvalidate();
+    }
+
+    public void setBackgroundBitmap(Bitmap backgroundBitmap) {
+        mBackgroundImageCenter = true;
+        mBackgroundImage = backgroundBitmap;
+        postInvalidate();
     }
 
     /**
@@ -214,9 +256,6 @@ public class PieGraph extends View implements  HoloGraphAnimate {
         postInvalidate();
     }
 
-    int mDuration = 300;
-    Interpolator mInterpolator;
-    Animator.AnimatorListener mAnimationListener;
     @Override
     public int getDuration() {
         return mDuration;
@@ -233,6 +272,29 @@ public class PieGraph extends View implements  HoloGraphAnimate {
     @Override
     public void setInterpolator(Interpolator interpolator) {mInterpolator = interpolator;}
 
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
+    @Override
+    public boolean isAnimating() {
+        if(mValueAnimator != null)
+            return mValueAnimator.isRunning();
+        return false;
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
+    @Override
+    public boolean cancelAnimating() {
+        if (mValueAnimator != null)
+            mValueAnimator.cancel();
+        return false;
+    }
+
+
+    /**
+     * Stops running animation and starts a new one, animating each slice from their current to goal value.
+     * If removing a slice, consider animating to 0 then removing in onAnimationEnd listener.
+     * Default inerpolator is linear; constant speed.
+     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
     @Override
     public void animateToGoalValues() {
@@ -240,9 +302,13 @@ public class PieGraph extends View implements  HoloGraphAnimate {
             Log.e("HoloGraphLibrary compatibility error", "Animation not supported on api level 12 and below. Returning without animating.");
             return;
         }
+        if (mValueAnimator != null)
+            mValueAnimator.cancel();
+
         for (PieSlice s : mSlices)
             s.setOldValue(s.getValue());
         ValueAnimator va = ValueAnimator.ofFloat(0,1);
+        mValueAnimator = va;
         va.setDuration(getDuration());
         if (mInterpolator == null) mInterpolator = new LinearInterpolator();
         va.setInterpolator(mInterpolator);
@@ -257,8 +323,8 @@ public class PieGraph extends View implements  HoloGraphAnimate {
                     s.setValue(s.getOldValue() + (x * f));
                 }
                 postInvalidate();
-        }});
-        va.start();
+            }});
+            va.start();
 
         }
 
