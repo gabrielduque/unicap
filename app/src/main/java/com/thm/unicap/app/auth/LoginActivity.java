@@ -244,11 +244,6 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
             intent.putExtras(data);
             finishLogin(intent);
 
-//            SuperToast superToast = new SuperToast(LoginActivity.this, Style.getStyle(Style.BLACK, SuperToast.Animations.SCALE));
-//            superToast.setText(String.format(getString(R.string.welcome_format), UnicapApplication.getStudent().name));
-//            superToast.setDuration(SuperToast.Duration.EXTRA_LONG);
-//            superToast.show();
-
         } else {
             // Clean up to prevent broken data
             UnicapDataManager.cleanUserData(registration);

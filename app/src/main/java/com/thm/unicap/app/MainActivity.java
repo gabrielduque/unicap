@@ -1,8 +1,11 @@
 package com.thm.unicap.app;
 
+import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
+import android.content.ContentResolver;
+import android.content.SyncStatusObserver;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -11,13 +14,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
-import android.widget.Toast;
 
-import com.activeandroid.Model;
 import com.activeandroid.query.Select;
+import com.github.johnpersano.supertoasts.SuperActivityToast;
+import com.github.johnpersano.supertoasts.SuperToast;
 import com.thm.unicap.app.about.AboutFragment;
 import com.thm.unicap.app.auth.AccountGeneral;
 import com.thm.unicap.app.calendar.CalendarFragment;
@@ -28,10 +30,11 @@ import com.thm.unicap.app.lessons.LessonsFragment;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.subject.SubjectsFragment;
+import com.thm.unicap.app.sync.UnicapContentProvider;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, SyncStatusObserver {
 
     private AccountManager mAccountManager;
 
@@ -47,6 +50,8 @@ public class MainActivity extends ActionBarActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+    private SuperActivityToast mSuperActivityToast;
+    private Object mStatusChangedHandle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,26 +60,14 @@ public class MainActivity extends ActionBarActivity
 
         mAccountManager = AccountManager.get(this);
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+        mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
         // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
-    }
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if(!UnicapApplication.isLogged()) {
-            getTokenForAccountCreateIfNeeded(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
-        } else {
-//            notifyNewGrades();
-        }
-
+        if(!UnicapApplication.isLogged())
+            getStudentFromAccountCreateIfNeeded(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
     }
 
     @Override
@@ -192,7 +185,7 @@ public class MainActivity extends ActionBarActivity
 
 //    TODO: Organize method and uncomment
 //    private void notifyNewGrades() {
-//        List<SubjectTest> newSubjectTests = UnicapApplication.getStudent().getNewSubjectTests();
+//        List<SubjectTest> newSubjectTests = UnicapApplication.getCurrentStudent().getNewSubjectTests();
 //
 //        for (SubjectTest subjectTest : newSubjectTests) {
 //
@@ -243,7 +236,7 @@ public class MainActivity extends ActionBarActivity
 //        }
 //    }
 
-    private void getTokenForAccountCreateIfNeeded(String accountType, String authTokenType) {
+    private void getStudentFromAccountCreateIfNeeded(String accountType, String authTokenType) {
         final AccountManagerFuture<Bundle> future = mAccountManager.getAuthTokenByFeatures(accountType, authTokenType, null, this, null, null,
                 new AccountManagerCallback<Bundle>() {
                     @Override
@@ -251,18 +244,21 @@ public class MainActivity extends ActionBarActivity
                         try {
                             Bundle bundle = future.getResult();
 
-                            Student student = new Select().from(Student.class).where("Student.Registration = ?", bundle.getString(AccountManager.KEY_ACCOUNT_NAME)).executeSingle();
+                            Account currentAccount = new Account(bundle.getString(AccountManager.KEY_ACCOUNT_NAME), AccountGeneral.ACCOUNT_TYPE);
+                            UnicapApplication.setCurrentAccount(currentAccount);
+
+                            Student student = new Select().from(Student.class).where("Student.Registration = ?", UnicapApplication.getCurrentAccount().name).executeSingle();
 
                             if(student != null) {
-                                UnicapApplication.setStudent(student);
-                                UnicapApplication.notifyStudentChanged();
+                                UnicapApplication.setCurrentStudent(student);
+                                UnicapApplication.notifyDatabaseChanged();
                             } else {
-                                //TODO: Force sync
-                                finish();
+                                forceSync(UnicapApplication.getCurrentAccount().name);
                             }
 
                         } catch (Exception e) {
                             //TODO: Friendly message
+                            Log.d("UNICAP", String.valueOf(e));
                             finish();
                         }
                     }
@@ -270,4 +266,45 @@ public class MainActivity extends ActionBarActivity
                 , null);
     }
 
+    public void forceSync(String registration) {
+
+        mSuperActivityToast = new SuperActivityToast(this, SuperToast.Type.PROGRESS);
+        mSuperActivityToast.setText(getString(R.string.synchronizing));
+        mSuperActivityToast.setIndeterminate(true);
+        mSuperActivityToast.show();
+
+        mStatusChangedHandle = ContentResolver.addStatusChangeListener(ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE, this);
+
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+
+        ContentResolver.requestSync(UnicapApplication.getCurrentAccount(), UnicapContentProvider.AUTHORITY, settingsBundle);
+    }
+
+    @Override
+    public void onStatusChanged(int which) {
+
+        if(!ContentResolver.isSyncActive(UnicapApplication.getCurrentAccount(), UnicapContentProvider.AUTHORITY)) {
+            ContentResolver.removeStatusChangeListener(mStatusChangedHandle);
+
+            Student student = new Select().from(Student.class).where("Student.Registration = ?", UnicapApplication.getCurrentAccount().name).executeSingle();
+
+            if(student != null) {
+                UnicapApplication.setCurrentStudent(student);
+                UnicapApplication.notifyDatabaseChanged();
+            } else {
+                //TODO: Friendly message
+                finish();
+            }
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mSuperActivityToast != null)
+                        mSuperActivityToast.dismiss();
+                }
+            });
+        }
+    }
 }

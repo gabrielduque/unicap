@@ -14,9 +14,9 @@ import com.thm.unicap.app.R;
 import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
-import com.thm.unicap.app.util.StudentListener;
+import com.thm.unicap.app.util.DatabaseListener;
 
-public class SubjectsFragment extends Fragment implements StudentListener {
+public class SubjectsFragment extends Fragment implements DatabaseListener {
 
     private View mRootView;
 
@@ -68,7 +68,7 @@ public class SubjectsFragment extends Fragment implements StudentListener {
     }
 
     @Override
-    public void studentChanged() {
+    public void databaseChanged() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

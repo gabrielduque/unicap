@@ -8,7 +8,9 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
 
     <application
         android:name=".UnicapApplication"
@@ -44,12 +46,25 @@
             android:label="@string/grades" >
         </activity>
 
-        <service android:name=".auth.UnicapAuthenticatorService">
+        <service android:name=".auth.UnicapAuthenticatorService" android:exported="true">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
             <meta-data android:name="android.accounts.AccountAuthenticator" android:resource="@xml/authenticator" />
         </service>
+
+        <service android:name=".sync.UnicapSyncService" android:process=":sync" android:exported="true">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data android:name="android.content.SyncAdapter" android:resource="@xml/syncadapter" />
+        </service>
+
+        <provider
+            android:name=".sync.UnicapContentProvider"
+            android:authorities="com.thm.unicap.app.provider"
+            android:exported="false"
+            android:syncable="true"/>
 
     </application>
 

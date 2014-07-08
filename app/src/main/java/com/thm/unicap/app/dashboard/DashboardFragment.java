@@ -14,12 +14,12 @@ import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.lessons.LessonsCard;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
-import com.thm.unicap.app.util.StudentListener;
+import com.thm.unicap.app.util.DatabaseListener;
 import com.thm.unicap.app.util.UnicapUtils;
 
 import it.gmariotti.cardslib.library.view.CardView;
 
-public class DashboardFragment extends Fragment implements StudentListener {
+public class DashboardFragment extends Fragment implements DatabaseListener {
 
     private View mRootView;
 
@@ -84,7 +84,7 @@ public class DashboardFragment extends Fragment implements StudentListener {
     }
 
     @Override
-    public void studentChanged() {
+    public void databaseChanged() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.nhaarman.listviewanimations.swinginadapters.AnimationAdapter;
-import com.nhaarman.listviewanimations.swinginadapters.prepared.AlphaInAnimationAdapter;
-import com.nhaarman.listviewanimations.swinginadapters.prepared.ScaleInAnimationAdapter;
 import com.nhaarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
@@ -62,7 +60,7 @@ public class SubjectsPagerAdapter extends PagerAdapter implements Card.OnCardCli
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
 
-        Student student = UnicapApplication.getStudent();
+        Student student = UnicapApplication.getCurrentStudent();
 
         From query = new Select("Subject.*")
                 .from(Subject.class)

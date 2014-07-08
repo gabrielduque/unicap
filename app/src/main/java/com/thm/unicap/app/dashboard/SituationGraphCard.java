@@ -34,7 +34,7 @@ public class SituationGraphCard extends Card implements PieGraph.OnSliceClickedL
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
 
-        Student student = UnicapApplication.getStudent();
+        Student student = UnicapApplication.getCurrentStudent();
 
         List<Subject> subjects = student.getActualSubjects();
 

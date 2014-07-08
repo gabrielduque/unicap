@@ -7,7 +7,6 @@ import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
 import com.thm.unicap.app.model.SubjectTest;
-import com.thm.unicap.app.util.UnicapUtils;
 
 import java.util.Date;
 
@@ -55,7 +54,7 @@ public class UnicapDataManager {
 
         student.save();
 
-        UnicapApplication.setStudent(student);
+        UnicapApplication.setCurrentStudent(student);
 
     }
 
@@ -63,13 +62,13 @@ public class UnicapDataManager {
 
         Subject subject = new Select().from(Subject.class)
                 .where("Code = ?", code)
-                .where("Student = ?", UnicapApplication.getStudent().getId())
+                .where("Student = ?", UnicapApplication.getCurrentStudent().getId())
                 .executeSingle();
 
         if(subject == null) {
             subject = new Subject();
             subject.code = code;
-            subject.student = UnicapApplication.getStudent();
+            subject.student = UnicapApplication.getCurrentStudent();
         }
 
         subject.name = name;
@@ -98,13 +97,13 @@ public class UnicapDataManager {
 
         Subject subject = new Select().from(Subject.class)
                 .where("Code = ?", code)
-                .where("Student = ?", UnicapApplication.getStudent().getId())
+                .where("Student = ?", UnicapApplication.getCurrentStudent().getId())
                 .executeSingle();
 
         if(subject == null) {
             subject = new Subject();
             subject.code = code;
-            subject.student = UnicapApplication.getStudent();
+            subject.student = UnicapApplication.getCurrentStudent();
         }
 
         subject.name = name;
@@ -137,13 +136,13 @@ public class UnicapDataManager {
 
         Subject subject = new Select().from(Subject.class)
                 .where("Code = ?", code)
-                .where("Student = ?", UnicapApplication.getStudent().getId())
+                .where("Student = ?", UnicapApplication.getCurrentStudent().getId())
                 .executeSingle();
 
         if(subject == null) {
             subject = new Subject();
             subject.code = code;
-            subject.student = UnicapApplication.getStudent();
+            subject.student = UnicapApplication.getCurrentStudent();
         }
 
         subject.period = period;
@@ -173,7 +172,7 @@ public class UnicapDataManager {
 
         Subject subject = new Select().from(Subject.class)
                 .where("Code = ?", code)
-                .where("Student = ?", UnicapApplication.getStudent().getId())
+                .where("Student = ?", UnicapApplication.getCurrentStudent().getId())
                 .executeSingle();
 
         if(subject != null) {
@@ -191,7 +190,7 @@ public class UnicapDataManager {
 
         Subject subject = new Select().from(Subject.class)
                 .where("Code = ?", code)
-                .where("Student = ?", UnicapApplication.getStudent().getId())
+                .where("Student = ?", UnicapApplication.getCurrentStudent().getId())
                 .executeSingle();
 
         if(subject != null) {
@@ -213,7 +212,7 @@ public class UnicapDataManager {
 
         Subject subject = new Select().from(Subject.class)
                 .where("Code = ?", code)
-                .where("Student = ?", UnicapApplication.getStudent().getId())
+                .where("Student = ?", UnicapApplication.getCurrentStudent().getId())
                 .executeSingle();
 
         if(subject != null) {
@@ -231,7 +230,7 @@ public class UnicapDataManager {
 
         Subject subject = new Select().from(Subject.class)
                 .where("Code = ?", code)
-                .where("Student = ?", UnicapApplication.getStudent().getId())
+                .where("Student = ?", UnicapApplication.getCurrentStudent().getId())
                 .executeSingle();
 
         if(subject != null) {

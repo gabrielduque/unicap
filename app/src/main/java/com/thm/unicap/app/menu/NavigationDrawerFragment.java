@@ -4,7 +4,6 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -16,7 +15,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Pair;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,23 +27,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.devspark.robototextview.widget.RobotoTextView;
-import com.github.johnpersano.supertoasts.SuperActivityToast;
-import com.github.johnpersano.supertoasts.SuperToast;
-import com.github.johnpersano.supertoasts.util.Style;
 import com.squareup.picasso.Picasso;
 import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.auth.AccountGeneral;
-import com.thm.unicap.app.auth.LoginActivity;
-import com.thm.unicap.app.connection.OnTaskCancelled;
-import com.thm.unicap.app.connection.OnTaskCompleted;
-import com.thm.unicap.app.connection.OnTaskProgressUpdated;
-import com.thm.unicap.app.connection.UnicapSyncResult;
-import com.thm.unicap.app.connection.UnicapSyncTask;
 import com.thm.unicap.app.connection.UnicapDataManager;
-import com.thm.unicap.app.model.Student;
-import com.thm.unicap.app.util.StudentListener;
+import com.thm.unicap.app.util.DatabaseListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +43,7 @@ import java.util.List;
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class NavigationDrawerFragment extends Fragment implements OnTaskCompleted, OnTaskCancelled, OnTaskProgressUpdated, StudentListener {
+public class NavigationDrawerFragment extends Fragment implements DatabaseListener {
 
     public static final int SESSION_DASHBOARD = 0;
     public static final int SESSION_SUBJECTS = 1;
@@ -94,9 +83,6 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
     private int mCurrentSelectedPosition = SESSION_DASHBOARD;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
-
-    private UnicapSyncTask mSyncTask;
-    private SuperActivityToast mSuperActivityToast;
 
     private View mRootView;
 
@@ -151,12 +137,12 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
         RobotoTextView navHeaderEmail = (RobotoTextView) mRootView.findViewById(R.id.nav_header_email);
 
         Picasso.with(getActivity())
-                .load(UnicapApplication.getStudent().getGravatarURL(100))
+                .load(UnicapApplication.getCurrentStudent().getGravatarURL(100))
                 .placeholder(R.drawable.mm)
                 .into(navHeaderPicture);
-        navHeaderCourse.setText(UnicapApplication.getStudent().course);
-        navHeaderName.setText(UnicapApplication.getStudent().name);
-        navHeaderEmail.setText(UnicapApplication.getStudent().email);
+        navHeaderCourse.setText(UnicapApplication.getCurrentStudent().course);
+        navHeaderName.setText(UnicapApplication.getCurrentStudent().name);
+        navHeaderEmail.setText(UnicapApplication.getCurrentStudent().email);
 
         mDrawerListView = (ListView) mRootView.findViewById(R.id.navigation_listview);
 
@@ -327,35 +313,20 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
             case R.id.action_logout:
 
                 AccountManager accountManager = AccountManager.get(getActivity());
-                final Account account = new Account(UnicapApplication.getStudent().registration, AccountGeneral.ACCOUNT_TYPE);
+                Account account = new Account(UnicapApplication.getCurrentStudent().registration, AccountGeneral.ACCOUNT_TYPE);
 
                 accountManager.removeAccount(account, new AccountManagerCallback<Boolean>() {
                     @Override
                     public void run(AccountManagerFuture<Boolean> future) {
-                        UnicapDataManager.cleanUserData(UnicapApplication.getStudent().registration);
-                        UnicapApplication.setStudent(null);
+                        UnicapDataManager.cleanUserData(UnicapApplication.getCurrentStudent().registration);
+                        UnicapApplication.setCurrentStudent(null);
                         getActivity().finish();
                     }
                 }, null);
 
                 return true;
             case R.id.action_sync:
-
-                if (mSyncTask != null) {
-                    return true;
-                }
-
-                mSuperActivityToast = new SuperActivityToast(getActivity(), SuperToast.Type.PROGRESS_HORIZONTAL);
-                mSuperActivityToast.setIndeterminate(true);
-                mSuperActivityToast.show();
-
-                Student student = UnicapApplication.getStudent();
-                mSyncTask = new UnicapSyncTask(student.registration, student.password);
-                mSyncTask.setOnTaskCompletedListener(this);
-                mSyncTask.setOnTaskCancelledListener(this);
-                mSyncTask.setOnTaskProgressUpdatedListener(this);
-                mSyncTask.execute((Void) null);
-
+                ((MainActivity)getActivity()).forceSync(UnicapApplication.getCurrentAccount().name);
                 return true;
 
             default:
@@ -379,45 +350,7 @@ public class NavigationDrawerFragment extends Fragment implements OnTaskComplete
     }
 
     @Override
-    public void onTaskCompleted(UnicapSyncResult result) {
-
-        mSyncTask = null;
-
-        if(mSuperActivityToast != null) {
-            mSuperActivityToast.dismiss();
-        }
-
-        if (result.isSuccess()) {
-            UnicapApplication.notifyStudentChanged();
-        } else {
-
-            SuperToast superToast = new SuperToast(getActivity(), Style.getStyle(Style.RED, SuperToast.Animations.FLYIN));
-            superToast.setText(result.getExceptionMessage(getActivity()));
-            superToast.setDuration(SuperToast.Duration.EXTRA_LONG);
-            superToast.setIcon(R.drawable.ic_action_warning, SuperToast.IconPosition.LEFT);
-            superToast.show();
-        }
-    }
-
-    @Override
-    public void onTaskCancelled() {
-
-        mSyncTask = null;
-
-        if(mSuperActivityToast != null)
-            mSuperActivityToast.dismiss();
-    }
-
-    @Override
-    public void onTaskProgressUpdated(Pair<Integer, Integer> progress) {
-        if(mSuperActivityToast != null) {
-            mSuperActivityToast.setText(getString(progress.first));
-            mSuperActivityToast.setProgress(progress.second);
-        }
-    }
-
-    @Override
-    public void studentChanged() {
+    public void databaseChanged() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

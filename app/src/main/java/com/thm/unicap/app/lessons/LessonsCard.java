@@ -55,7 +55,7 @@ public class LessonsCard extends CardWithList {
 
     @Override
     protected List<ListObject> initChildren() {
-        Student student = UnicapApplication.getStudent();
+        Student student = UnicapApplication.getCurrentStudent();
 
         List<Subject> subjectsFromWeekDay = student.getSubjectsFromWeekDay(mScheduleWeekDay);
 

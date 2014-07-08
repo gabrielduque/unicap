@@ -18,7 +18,7 @@ import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.SubjectTest;
-import com.thm.unicap.app.util.StudentListener;
+import com.thm.unicap.app.util.DatabaseListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
 
-public class CalendarFragment extends Fragment implements StudentListener {
+public class CalendarFragment extends Fragment implements DatabaseListener {
 
     private View mRootView;
 
@@ -67,7 +67,7 @@ public class CalendarFragment extends Fragment implements StudentListener {
     }
 
     private void init() {
-        Student student = UnicapApplication.getStudent();
+        Student student = UnicapApplication.getCurrentStudent();
 
         List<SubjectTest> subjectTests = student.getSubjectTestsOrdered();
 
@@ -94,7 +94,7 @@ public class CalendarFragment extends Fragment implements StudentListener {
     }
 
     @Override
-    public void studentChanged() {
+    public void databaseChanged() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
