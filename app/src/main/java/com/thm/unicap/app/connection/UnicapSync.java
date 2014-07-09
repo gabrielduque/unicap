@@ -67,7 +67,7 @@ public class UnicapSync {
 
         actionURL = document.select("form").first().attr("action");
 
-        UnicapDataManager.initStudent(registration, password);
+//        UnicapDataManager.initStudent(registration, password);
 
         return actionURL.split("=")[1];
     }

@@ -68,12 +68,6 @@ public class UnicapAuthenticator extends AbstractAccountAuthenticator {
                     Log.d("authenticator", TAG + "> re-authenticating with the existing password");
 
                     authToken = UnicapSync.loginRequest(account.name, password);
-                    UnicapSync.receivePersonalData();
-                    UnicapSync.receivePastSubjectsData();
-                    UnicapSync.receiveActualSubjectsData();
-                    UnicapSync.receivePendingSubjectsData();
-                    UnicapSync.receiveSubjectsCalendarData();
-                    UnicapSync.receiveSubjectsGradesData();
 
                 } catch (Exception e) {
                     e.printStackTrace();

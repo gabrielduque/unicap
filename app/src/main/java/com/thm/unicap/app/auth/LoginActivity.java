@@ -6,6 +6,7 @@ import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,17 +29,17 @@ import com.github.johnpersano.supertoasts.util.Style;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.connection.OnTaskCancelled;
 import com.thm.unicap.app.connection.OnTaskCompleted;
-import com.thm.unicap.app.connection.OnTaskProgressUpdated;
 import com.thm.unicap.app.connection.UnicapDataManager;
 import com.thm.unicap.app.connection.UnicapSyncResult;
-import com.thm.unicap.app.connection.UnicapSyncTask;
+import com.thm.unicap.app.sync.UnicapContentProvider;
+import com.thm.unicap.app.sync.UnicapSyncAdapter;
 import com.thm.unicap.app.util.UnicapUtils;
 
 /**
  * A login screen that offers login via email/password.
 
  */
-public class LoginActivity extends AccountAuthenticatorActivity implements OnTaskCompleted, OnTaskCancelled, OnTaskProgressUpdated {
+public class LoginActivity extends AccountAuthenticatorActivity implements OnTaskCompleted, OnTaskCancelled {
 
     public final static String ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE";
     public final static String ARG_AUTH_TYPE = "AUTH_TYPE";
@@ -58,7 +59,7 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UnicapSyncTask mAuthTask = null;
+    private UnicapAuthTask mAuthTask = null;
 
     // UI references.
     private EditText mRegistrationView;
@@ -179,48 +180,33 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
             // perform the user login attempt.
             showProgress(true);
 
-            mAuthTask = new UnicapSyncTask(registration, password);
+            mAuthTask = new UnicapAuthTask(registration, password);
             mAuthTask.setOnTaskCompletedListener(this);
             mAuthTask.setOnTaskCancelledListener(this);
-            mAuthTask.setOnTaskProgressUpdatedListener(this);
             mAuthTask.execute((Void) null);
         }
     }
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
+        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            }
+        });
 
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
+        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        mProgressView.animate().setDuration(shortAnimTime).alpha(
+                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 
     @Override
@@ -264,11 +250,6 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
         showProgress(false);
     }
 
-    @Override
-    public void onTaskProgressUpdated(Pair<Integer, Integer> progress) {
-        mProgressText.setText(getString(progress.first));
-    }
-
     private void finishLogin(Intent intent) {
         Log.d("authentication", TAG + "> finishLogin");
 
@@ -285,6 +266,7 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
             // (Not setting the auth token will cause another call to the server to authenticate the user)
             mAccountManager.addAccountExplicitly(account, accountPassword, null);
             mAccountManager.setAuthToken(account, authtokenType, authtoken);
+            ContentResolver.setSyncAutomatically(account, UnicapContentProvider.AUTHORITY, true);
         } else {
             Log.d("authentication", TAG + "> finishLogin > setPassword");
             mAccountManager.setPassword(account, accountPassword);
