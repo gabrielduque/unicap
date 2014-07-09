@@ -41,7 +41,7 @@ public class UnicapApplication extends Application {
         UnicapApplication.mCurrentStudent = student;
     }
 
-    public static boolean isLogged() {
+    public static boolean hasStudentData() {
         return mCurrentStudent != null;
     }
 

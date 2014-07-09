@@ -114,7 +114,9 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-        if(UnicapApplication.isLogged()) init();
+        initDataIndependentViews();
+
+        if(UnicapApplication.hasStudentData()) init();
         return mRootView;
     }
 
@@ -143,7 +145,9 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
         navHeaderCourse.setText(UnicapApplication.getCurrentStudent().course);
         navHeaderName.setText(UnicapApplication.getCurrentStudent().name);
         navHeaderEmail.setText(UnicapApplication.getCurrentStudent().email);
+    }
 
+    private void initDataIndependentViews() {
         mDrawerListView = (ListView) mRootView.findViewById(R.id.navigation_listview);
 
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

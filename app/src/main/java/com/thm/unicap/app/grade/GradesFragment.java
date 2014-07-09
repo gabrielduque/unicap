@@ -4,13 +4,12 @@ package com.thm.unicap.app.grade;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
+import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
+import com.devspark.progressfragment.ProgressFragment;
 import com.nhaarman.listviewanimations.swinginadapters.AnimationAdapter;
 import com.nhaarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.thm.unicap.app.MainActivity;
@@ -28,9 +27,7 @@ import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
 
-public class GradesFragment extends Fragment implements Card.OnCardClickListener, DatabaseListener {
-
-    private View mRootView;
+public class GradesFragment extends ProgressFragment implements Card.OnCardClickListener, DatabaseListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,10 +46,14 @@ public class GradesFragment extends Fragment implements Card.OnCardClickListener
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.fragment_grades, container, false);
-        if(UnicapApplication.isLogged()) init();
-        return mRootView;
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setContentView(R.layout.fragment_grades);
+
+        if(UnicapApplication.hasStudentData())
+            init();
+        else
+            setContentShown(false);
     }
 
     @Override
@@ -81,13 +82,15 @@ public class GradesFragment extends Fragment implements Card.OnCardClickListener
             cardArrayList.add(subjectGradesListItemCard);
         }
 
-        CardListView cardListView = (CardListView) mRootView.findViewById(R.id.subjects_list);
+        CardListView cardListView = (CardListView) getContentView().findViewById(R.id.subjects_list);
 
         CardArrayAdapter cardArrayAdapter = new CardArrayAdapter(getActivity(), cardArrayList);
 
         AnimationAdapter animCardArrayAdapter = new SwingBottomInAnimationAdapter(cardArrayAdapter);
         animCardArrayAdapter.setAbsListView(cardListView);
         cardListView.setExternalAdapter(animCardArrayAdapter, cardArrayAdapter);
+
+        setContentShown(true);
     }
 
     @Override

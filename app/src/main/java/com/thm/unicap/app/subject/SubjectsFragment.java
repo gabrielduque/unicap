@@ -2,28 +2,35 @@ package com.thm.unicap.app.subject;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
+import com.devspark.progressfragment.ProgressFragment;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.util.DatabaseListener;
 
-public class SubjectsFragment extends Fragment implements DatabaseListener {
-
-    private View mRootView;
+public class SubjectsFragment extends ProgressFragment implements DatabaseListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setContentView(R.layout.fragment_subjects);
+
+        if(UnicapApplication.hasStudentData())
+            init();
+        else
+            setContentShown(false);
     }
 
     @Override
@@ -37,16 +44,10 @@ public class SubjectsFragment extends Fragment implements DatabaseListener {
     }
 
     private void init() {
-        ViewPager mViewPager = (ViewPager) mRootView.findViewById(R.id.pager);
+        ViewPager mViewPager = (ViewPager) getContentView().findViewById(R.id.pager);
         mViewPager.setAdapter(new SubjectsPagerAdapter(getActivity()));
         mViewPager.setCurrentItem(SubjectsPagerAdapter.Session.ACTUAL.ordinal());
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.fragment_subjects, container, false);
-        if(UnicapApplication.isLogged()) init();
-        return mRootView;
+        setContentShown(true);
     }
 
     @Override

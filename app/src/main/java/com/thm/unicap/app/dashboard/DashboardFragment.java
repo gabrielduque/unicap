@@ -2,13 +2,11 @@ package com.thm.unicap.app.dashboard;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
+import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
+import com.devspark.progressfragment.ProgressFragment;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.UnicapApplication;
@@ -19,13 +17,11 @@ import com.thm.unicap.app.util.UnicapUtils;
 
 import it.gmariotti.cardslib.library.view.CardView;
 
-public class DashboardFragment extends Fragment implements DatabaseListener {
-
-    private View mRootView;
+public class DashboardFragment extends ProgressFragment implements DatabaseListener {
 
     private void init() {
-        CardView card_today_lessons = (CardView) mRootView.findViewById(R.id.card_today_lessons);
-        CardView card_status_graph = (CardView) mRootView.findViewById(R.id.card_status_graph);
+        CardView card_today_lessons = (CardView) getContentView().findViewById(R.id.card_today_lessons);
+        CardView card_status_graph = (CardView) getContentView().findViewById(R.id.card_status_graph);
 
         SituationGraphCard situationGraphCard = new SituationGraphCard(getActivity());
         LessonsCard lessonsCard = new LessonsCard(getActivity(), UnicapUtils.getCurrentScheduleWeekDay());
@@ -40,6 +36,8 @@ public class DashboardFragment extends Fragment implements DatabaseListener {
             card_status_graph.replaceCard(situationGraphCard);
         else
             card_status_graph.setCard(situationGraphCard);
+
+        setContentShown(true);
     }
 
     @Override
@@ -59,10 +57,14 @@ public class DashboardFragment extends Fragment implements DatabaseListener {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        if(UnicapApplication.isLogged()) init();
-        return mRootView;
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setContentView(R.layout.fragment_dashboard);
+
+        if(UnicapApplication.hasStudentData())
+            init();
+        else
+            setContentShown(false);
     }
 
     @Override

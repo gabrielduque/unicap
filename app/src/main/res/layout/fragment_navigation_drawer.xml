@@ -20,7 +20,7 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/picture"
             android:background="@color/white"
-            tools:src="@drawable/ic_launcher"/>
+            android:src="@drawable/mm"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,7 +69,7 @@
         android:id="@+id/navigation_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ccc"
+        android:background="@color/unicap_gray_level_2"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"/>

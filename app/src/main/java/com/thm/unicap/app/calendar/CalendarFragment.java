@@ -3,13 +3,11 @@ package com.thm.unicap.app.calendar;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
+import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
+import com.devspark.progressfragment.ProgressFragment;
 import com.nhaarman.listviewanimations.swinginadapters.AnimationAdapter;
 import com.nhaarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.thm.unicap.app.MainActivity;
@@ -27,9 +25,7 @@ import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
 
-public class CalendarFragment extends Fragment implements DatabaseListener {
-
-    private View mRootView;
+public class CalendarFragment extends ProgressFragment implements DatabaseListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,10 +44,14 @@ public class CalendarFragment extends Fragment implements DatabaseListener {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.fragment_calendar, container, false);
-        if(UnicapApplication.isLogged()) init();
-        return mRootView;
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setContentView(R.layout.fragment_calendar);
+
+        if(UnicapApplication.hasStudentData())
+            init();
+        else
+            setContentShown(false);
     }
 
     @Override
@@ -78,13 +78,15 @@ public class CalendarFragment extends Fragment implements DatabaseListener {
             cardArrayList.add(calendarListItemCard);
         }
 
-        CardListView cardListView = (CardListView) mRootView.findViewById(R.id.calendar_list);
+        CardListView cardListView = (CardListView) getContentView().findViewById(R.id.calendar_list);
 
         CardArrayAdapter cardArrayAdapter = new CardArrayAdapter(getActivity(), cardArrayList);
 
         AnimationAdapter animCardArrayAdapter = new SwingBottomInAnimationAdapter(cardArrayAdapter);
         animCardArrayAdapter.setAbsListView(cardListView);
         cardListView.setExternalAdapter(animCardArrayAdapter, cardArrayAdapter);
+
+        setContentShown(true);
     }
 
     @Override

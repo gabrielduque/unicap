@@ -35,13 +35,13 @@
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/library-2.4.0-cee9c7549b9104e105ffde7dcce4b61b40be7517.jar"
         jar="/home/tulio/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
         jumboMode="false"
-        revision="19.1.0"
+        revision="20.0.0"
         sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb"/>
     <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/library-2.4.0-cee9c7549b9104e105ffde7dcce4b61b40be7517.jar"
         jar="/home/tulio/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
         jumboMode="false"
-        revision="20.0.0"
+        revision="19.1.0"
         sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb"/>
     <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-86012dcc0cf1d2c3666136fb54278d60c65d5947.jar"
@@ -97,6 +97,12 @@
         jumboMode="false"
         revision="19.1.0"
         sha1="59351ccb0a1631d30358f6a92749a072f2df7602"/>
+    <item
+        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-2b718923193b2cfb3decdab00b0d298e31996e79.jar"
+        jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.github.johnkil.android-progressfragment/progressfragment/1.4.0/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="8de4e8b73125d261ce4ab4a369a49c3fb4a7ab1d"/>
     <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-d8706a509f92d290de46f86dd22197483a958d95.jar"
         jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library/1.7.2/classes.jar"
