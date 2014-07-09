@@ -4,11 +4,11 @@ import android.content.Context;
 
 import com.thm.unicap.app.R;
 
-public class UnicapSyncException extends Exception {
+public class UnicapRequestException extends Exception {
 
     private Code code;
 
-    public UnicapSyncException(Code code) {
+    public UnicapRequestException(Code code) {
         this.code = code;
     }
 

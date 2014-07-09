@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.thm.unicap.app.connection.UnicapSync;
+import com.thm.unicap.app.connection.UnicapRequest;
 
 import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
 import static com.thm.unicap.app.auth.AccountGeneral.*;
@@ -67,7 +67,7 @@ public class UnicapAuthenticator extends AbstractAccountAuthenticator {
                 try {
                     Log.d("authenticator", TAG + "> re-authenticating with the existing password");
 
-                    authToken = UnicapSync.loginRequest(account.name, password);
+                    authToken = UnicapRequest.loginRequest(account.name, password);
 
                 } catch (Exception e) {
                     e.printStackTrace();

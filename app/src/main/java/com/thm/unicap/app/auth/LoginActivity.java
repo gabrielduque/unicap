@@ -5,16 +5,13 @@ import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,9 +27,8 @@ import com.thm.unicap.app.R;
 import com.thm.unicap.app.connection.OnTaskCancelled;
 import com.thm.unicap.app.connection.OnTaskCompleted;
 import com.thm.unicap.app.connection.UnicapDataManager;
-import com.thm.unicap.app.connection.UnicapSyncResult;
+import com.thm.unicap.app.connection.UnicapRequestResult;
 import com.thm.unicap.app.sync.UnicapContentProvider;
-import com.thm.unicap.app.sync.UnicapSyncAdapter;
 import com.thm.unicap.app.util.UnicapUtils;
 
 /**
@@ -210,7 +206,7 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
     }
 
     @Override
-    public void onTaskCompleted(UnicapSyncResult result) {
+    public void onTaskCompleted(UnicapRequestResult result) {
 
         String registration = mAuthTask.getRegistration();
         String password = mAuthTask.getPassword();
@@ -264,9 +260,10 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
 
             // Creating the account on the device and setting the auth token we got
             // (Not setting the auth token will cause another call to the server to authenticate the user)
-            mAccountManager.addAccountExplicitly(account, accountPassword, null);
-            mAccountManager.setAuthToken(account, authtokenType, authtoken);
-            ContentResolver.setSyncAutomatically(account, UnicapContentProvider.AUTHORITY, true);
+            if(mAccountManager.addAccountExplicitly(account, accountPassword, null)) {
+                mAccountManager.setAuthToken(account, authtokenType, authtoken);
+                ContentResolver.setSyncAutomatically(account, UnicapContentProvider.AUTHORITY, true);
+            }
         } else {
             Log.d("authentication", TAG + "> finishLogin > setPassword");
             mAccountManager.setPassword(account, accountPassword);

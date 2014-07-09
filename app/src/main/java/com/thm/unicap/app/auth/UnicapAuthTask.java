@@ -5,11 +5,11 @@ import android.util.Pair;
 
 import com.thm.unicap.app.connection.OnTaskCancelled;
 import com.thm.unicap.app.connection.OnTaskCompleted;
-import com.thm.unicap.app.connection.UnicapSync;
-import com.thm.unicap.app.connection.UnicapSyncException;
-import com.thm.unicap.app.connection.UnicapSyncResult;
+import com.thm.unicap.app.connection.UnicapRequest;
+import com.thm.unicap.app.connection.UnicapRequestException;
+import com.thm.unicap.app.connection.UnicapRequestResult;
 
-public class UnicapAuthTask extends AsyncTask<Void, Pair<Integer, Integer>, UnicapSyncResult> {
+public class UnicapAuthTask extends AsyncTask<Void, Pair<Integer, Integer>, UnicapRequestResult> {
 
     private String registration;
     private String password;
@@ -25,19 +25,19 @@ public class UnicapAuthTask extends AsyncTask<Void, Pair<Integer, Integer>, Unic
 
     @SuppressWarnings("unchecked")
     @Override
-    protected UnicapSyncResult doInBackground(Void... params) {
+    protected UnicapRequestResult doInBackground(Void... params) {
 
         try {
-            authToken = UnicapSync.loginRequest(registration, password);
-        } catch (UnicapSyncException e) {
-            return new UnicapSyncResult(false, e);
+            authToken = UnicapRequest.loginRequest(registration, password);
+        } catch (UnicapRequestException e) {
+            return new UnicapRequestResult(false, e);
         }
 
-        return new UnicapSyncResult(true);
+        return new UnicapRequestResult(true);
     }
 
     @Override
-    protected void onPostExecute(UnicapSyncResult result) {
+    protected void onPostExecute(UnicapRequestResult result) {
 
         if(onTaskCompleted != null)
             onTaskCompleted.onTaskCompleted(result);

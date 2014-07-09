@@ -1,5 +1,7 @@
 package com.thm.unicap.app.connection;
 
+import android.util.Log;
+
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.thm.unicap.app.UnicapApplication;
@@ -182,6 +184,7 @@ public class UnicapDataManager {
             subjectTest.degree = degree;
             subjectTest.date1 = date1;
             subjectTest.date2 = date2;
+            subjectTest.first_time = true;
             subjectTest.save();
         }
 
@@ -198,10 +201,11 @@ public class UnicapDataManager {
             SubjectTest subjectTest = subject.getTestByDegree(degree);
 
             if(subjectTest != null) {
-                if(!UnicapUtils.equalsWithNulls(subjectTest.grade, grade)) {
+                if(grade != null && !grade.equals(subjectTest.grade) && !subjectTest.first_time) {
                     subjectTest.notify = true;
                 }
                 subjectTest.grade = grade;
+                subjectTest.first_time = false;
                 subjectTest.save();
             }
 

@@ -30,6 +30,9 @@ public class SubjectTest extends Model {
     @Column(name = "Grade")
     public Float grade;
 
+    @Column(name = "FirstTime")
+    public boolean first_time;
+
     @Column(name = "Notify")
     public boolean notify;
 

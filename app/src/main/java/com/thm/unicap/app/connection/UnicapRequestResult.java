@@ -2,15 +2,15 @@ package com.thm.unicap.app.connection;
 
 import android.content.Context;
 
-public class UnicapSyncResult {
+public class UnicapRequestResult {
     private boolean success;
-    private UnicapSyncException exception;
+    private UnicapRequestException exception;
 
-    public UnicapSyncResult(boolean success) {
+    public UnicapRequestResult(boolean success) {
         this.success = success;
     }
 
-    public UnicapSyncResult(boolean success, UnicapSyncException exception) {
+    public UnicapRequestResult(boolean success, UnicapRequestException exception) {
         this.success = success;
         this.exception = exception;
     }
@@ -23,11 +23,11 @@ public class UnicapSyncResult {
         this.success = success;
     }
 
-    public UnicapSyncException getException() {
+    public UnicapRequestException getException() {
         return exception;
     }
 
-    public void setException(UnicapSyncException exception) {
+    public void setException(UnicapRequestException exception) {
         this.exception = exception;
     }
 

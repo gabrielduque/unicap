@@ -15,15 +15,12 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
-import com.activeandroid.Model;
-import com.activeandroid.query.Select;
 import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
-import com.thm.unicap.app.connection.UnicapSync;
-import com.thm.unicap.app.connection.UnicapSyncException;
+import com.thm.unicap.app.connection.UnicapRequest;
+import com.thm.unicap.app.connection.UnicapRequestException;
 import com.thm.unicap.app.grade.GradesActivity;
-import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.SubjectTest;
 
 import java.util.List;
@@ -50,24 +47,24 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
 
             Log.d("UNICAP", "SYNC - Begin");
             Log.d("UNICAP", "SYNC - loginRequest");
-            UnicapSync.loginRequest(account.name, mAccountManager.getPassword(account));
+            UnicapRequest.loginRequest(account.name, mAccountManager.getPassword(account));
             Log.d("UNICAP", "SYNC - receivePersonalData");
-            UnicapSync.receivePersonalData();
+            UnicapRequest.receivePersonalData();
             Log.d("UNICAP", "SYNC - receivePastSubjectsData");
-            UnicapSync.receivePastSubjectsData();
+            UnicapRequest.receivePastSubjectsData();
             Log.d("UNICAP", "SYNC - receiveActualSubjectsData");
-            UnicapSync.receiveActualSubjectsData();
+            UnicapRequest.receiveActualSubjectsData();
             Log.d("UNICAP", "SYNC - receivePendingSubjectsData");
-            UnicapSync.receivePendingSubjectsData();
+            UnicapRequest.receivePendingSubjectsData();
             Log.d("UNICAP", "SYNC - receiveSubjectsCalendarData");
-            UnicapSync.receiveSubjectsCalendarData();
+            UnicapRequest.receiveSubjectsCalendarData();
             Log.d("UNICAP", "SYNC - receiveSubjectsGradesData");
-            UnicapSync.receiveSubjectsGradesData();
+            UnicapRequest.receiveSubjectsGradesData();
             Log.d("UNICAP", "SYNC - Finish");
 
             notifyNewGrades();
 
-        } catch (UnicapSyncException e) {
+        } catch (UnicapRequestException e) {
             Log.e("UNICAP", "SYNC - "+e.getMessageFromContext(getContext()));
         }
     }
