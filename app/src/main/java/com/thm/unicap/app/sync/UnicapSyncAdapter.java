@@ -15,6 +15,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
+import com.activeandroid.ActiveAndroid;
 import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
@@ -49,34 +50,38 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
 
         try {
 
-            Log.d("UNICAP", "SYNC - Begin");
-            Log.d("UNICAP", "SYNC - loginRequest");
+            ActiveAndroid.beginTransaction();
+
+            Log.d("UNICAP", "SYNC - 1/7 - loginRequest");
             UnicapRequest.loginRequest(account.name, mAccountManager.getPassword(account));
-            Log.d("UNICAP", "SYNC - receivePersonalData");
+            Log.d("UNICAP", "SYNC - 2/7 - receivePersonalData");
             UnicapRequest.receivePersonalData();
-            Log.d("UNICAP", "SYNC - receivePastSubjectsData");
+            Log.d("UNICAP", "SYNC - 3/7 - receivePastSubjectsData");
             UnicapRequest.receivePastSubjectsData();
-            Log.d("UNICAP", "SYNC - receiveActualSubjectsData");
+            Log.d("UNICAP", "SYNC - 4/7 - receiveActualSubjectsData");
             UnicapRequest.receiveActualSubjectsData();
-            Log.d("UNICAP", "SYNC - receivePendingSubjectsData");
+            Log.d("UNICAP", "SYNC - 5/7 - receivePendingSubjectsData");
             UnicapRequest.receivePendingSubjectsData();
-            Log.d("UNICAP", "SYNC - receiveSubjectsCalendarData");
+            Log.d("UNICAP", "SYNC - 6/7 - receiveSubjectsCalendarData");
             UnicapRequest.receiveSubjectsCalendarData();
-            Log.d("UNICAP", "SYNC - receiveSubjectsGradesData");
+            Log.d("UNICAP", "SYNC - 7/7 - receiveSubjectsGradesData");
             UnicapRequest.receiveSubjectsGradesData();
-            Log.d("UNICAP", "SYNC - Finish");
+
+            ActiveAndroid.setTransactionSuccessful();
 
             intent.putExtra(UnicapSyncReceiver.SYNC_STATUS_PARAM, UnicapSyncReceiver.SYNC_STATUS_OK);
 
-            notifyNewGrades();
-
         } catch (UnicapRequestException e) {
+
             Log.e("UNICAP", "SYNC - "+e.getMessageFromContext(getContext()));
 
             intent.putExtra(UnicapSyncReceiver.SYNC_STATUS_PARAM, UnicapSyncReceiver.SYNC_STATUS_FAIL);
             intent.putExtra(UnicapSyncReceiver.SYNC_MESSAGE_PARAM, e.getMessageFromContext(getContext()));
+        } finally {
+            ActiveAndroid.endTransaction();
         }
 
+        notifyNewGrades();
         getContext().sendBroadcast(intent);
     }
 

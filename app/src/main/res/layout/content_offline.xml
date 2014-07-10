@@ -9,13 +9,13 @@
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_unicap"
+        android:src="@drawable/ic_no_connection"
         android:id="@+id/logo" />
 
     <com.devspark.robototextview.widget.RobotoTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="offline"
+        android:text="@string/offline_message"
         android:textSize="18sp"
         app:typeface="roboto_thin"
         android:layout_below="@+id/logo"

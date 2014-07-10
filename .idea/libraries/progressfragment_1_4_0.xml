@@ -5,8 +5,6 @@
       <root url="file://$PROJECT_DIR$/build/intermediates/exploded-aar/com.github.johnkil.android-progressfragment/progressfragment/1.4.0/res" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES>
-      <root url="jar://$USER_HOME$/Downloads/Android-ProgressFragment-master.zip!/Android-ProgressFragment-master/progressfragment/src" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>

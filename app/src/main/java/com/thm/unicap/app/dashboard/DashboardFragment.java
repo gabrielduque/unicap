@@ -64,11 +64,8 @@ public class DashboardFragment extends ProgressFragment implements DatabaseListe
         super.onActivityCreated(savedInstanceState);
 
         if(UnicapApplication.hasStudentData()) { // Show offline data
-            setContentView(R.layout.fragment_dashboard);
-            initDatabaseDependentViews();
-        } else if (NetworkUtils.isNetworkConnected(getActivity())) { // Show progress and wait to sync
-            setContentShown(false);
-        } else { // Show layout for offline error
+            databaseUpdated();
+        } else if (!NetworkUtils.isNetworkConnected(getActivity())) { // Show layout for offline error
             setContentView(R.layout.content_offline);
             setContentShown(true);
         }
