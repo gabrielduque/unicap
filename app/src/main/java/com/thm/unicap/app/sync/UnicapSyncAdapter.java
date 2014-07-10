@@ -45,6 +45,7 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
 
+        boolean successful = false;
         Intent intent = new Intent();
         intent.setAction(UnicapSyncReceiver.SYNC_ACTION);
 
@@ -68,6 +69,7 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
             UnicapRequest.receiveSubjectsGradesData();
 
             ActiveAndroid.setTransactionSuccessful();
+            successful = true;
 
             intent.putExtra(UnicapSyncReceiver.SYNC_STATUS_PARAM, UnicapSyncReceiver.SYNC_STATUS_OK);
 
@@ -81,11 +83,15 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
             ActiveAndroid.endTransaction();
         }
 
-        notifyNewGrades();
+        if(successful) notifyNewGrades();
+
         getContext().sendBroadcast(intent);
     }
 
     private void notifyNewGrades() {
+
+        if(UnicapApplication.getCurrentStudent() == null) return;
+
         List<SubjectTest> newSubjectTests = UnicapApplication.getCurrentStudent().getNewSubjectTests();
 
         for (SubjectTest subjectTest : newSubjectTests) {

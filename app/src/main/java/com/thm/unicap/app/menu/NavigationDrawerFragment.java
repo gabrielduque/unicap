@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
+import android.animation.ObjectAnimator;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -24,15 +25,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.devspark.robototextview.widget.RobotoTextView;
 import com.squareup.picasso.Picasso;
 import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.auth.AccountGeneral;
 import com.thm.unicap.app.connection.UnicapDataManager;
-import com.thm.unicap.app.connection.UnicapRequestException;
 import com.thm.unicap.app.util.DatabaseDependentFragment;
 import com.thm.unicap.app.util.DatabaseListener;
 
@@ -135,10 +135,11 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
 
     @Override
     public void initDatabaseDependentViews() {
+        ViewGroup navHeaderContainer = (ViewGroup) mRootView.findViewById(R.id.nav_header_container);
         ImageView navHeaderPicture = (ImageView) mRootView.findViewById(R.id.nav_header_picture);
-        RobotoTextView navHeaderCourse = (RobotoTextView) mRootView.findViewById(R.id.nav_header_course);
-        RobotoTextView navHeaderName = (RobotoTextView) mRootView.findViewById(R.id.nav_header_name);
-        RobotoTextView navHeaderEmail = (RobotoTextView) mRootView.findViewById(R.id.nav_header_email);
+        TextView navHeaderCourse = (TextView) mRootView.findViewById(R.id.nav_header_course);
+        TextView navHeaderName = (TextView) mRootView.findViewById(R.id.nav_header_name);
+        TextView navHeaderEmail = (TextView) mRootView.findViewById(R.id.nav_header_email);
 
         Picasso.with(getActivity())
                 .load(UnicapApplication.getCurrentStudent().getGravatarURL(100))
@@ -147,6 +148,9 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
         navHeaderCourse.setText(UnicapApplication.getCurrentStudent().course);
         navHeaderName.setText(UnicapApplication.getCurrentStudent().name);
         navHeaderEmail.setText(UnicapApplication.getCurrentStudent().email);
+
+        ObjectAnimator.ofFloat(navHeaderContainer, "translationY", 0).setDuration(300).start();
+        ObjectAnimator.ofFloat(mDrawerListView, "translationY", 0).setDuration(300).start();
     }
 
     private void initDataIndependentViews() {
@@ -332,7 +336,7 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
 
                 return true;
             case R.id.action_sync:
-                ((MainActivity)getActivity()).forceSync(UnicapApplication.getCurrentAccount().name);
+                ((MainActivity)getActivity()).forceSync();
                 return true;
 
             default:

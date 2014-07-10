@@ -18,6 +18,7 @@ import android.view.Menu;
 
 import com.activeandroid.query.Select;
 import com.github.johnpersano.supertoasts.SuperActivityToast;
+import com.github.johnpersano.supertoasts.SuperToast;
 import com.thm.unicap.app.about.AboutFragment;
 import com.thm.unicap.app.auth.AccountGeneral;
 import com.thm.unicap.app.calendar.CalendarFragment;
@@ -29,10 +30,11 @@ import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.subject.SubjectsFragment;
 import com.thm.unicap.app.sync.UnicapContentProvider;
+import com.thm.unicap.app.util.DatabaseListener;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, DatabaseListener {
 
     private AccountManager mAccountManager;
 
@@ -49,7 +51,6 @@ public class MainActivity extends ActionBarActivity
      */
     private CharSequence mTitle;
     private SuperActivityToast mSuperActivityToast;
-    private Object mStatusChangedHandle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,18 @@ public class MainActivity extends ActionBarActivity
 
         if(!UnicapApplication.hasStudentData())
             getStudentFromAccountCreateIfNeeded(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        UnicapApplication.addStudentListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        UnicapApplication.removeStudentListener(this);
     }
 
     @Override
@@ -198,7 +211,7 @@ public class MainActivity extends ActionBarActivity
                                 UnicapApplication.setCurrentStudent(student);
                                 UnicapApplication.notifyDatabaseUpdated();
                             } else {
-                                forceSync(UnicapApplication.getCurrentAccount().name);
+                                forceSync();
                             }
 
                         } catch (Exception e) {
@@ -211,47 +224,41 @@ public class MainActivity extends ActionBarActivity
                 , null);
     }
 
-    public void forceSync(String registration) {
+    public void forceSync() {
 
-//        mSuperActivityToast = new SuperActivityToast(this, SuperToast.Type.PROGRESS);
-//        mSuperActivityToast.setText(getString(R.string.synchronizing));
-//        mSuperActivityToast.setIndeterminate(true);
-//        mSuperActivityToast.show();
+        mSuperActivityToast = new SuperActivityToast(this, SuperToast.Type.PROGRESS);
+        mSuperActivityToast.setText(getString(R.string.synchronizing));
+        mSuperActivityToast.setIndeterminate(true);
+        mSuperActivityToast.show();
 
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
 
-//        mStatusChangedHandle = ContentResolver.addStatusChangeListener(ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE, this);
         ContentResolver.requestSync(UnicapApplication.getCurrentAccount(), UnicapContentProvider.AUTHORITY, settingsBundle);
 
     }
 
-//    @Override
-//    public void onStatusChanged(int which) {
-//        //TODO: Implement this using broadcast receivers and move to application
-//        //TODO: This is being miss called
-//
-//        if(!ContentResolver.isSyncActive(UnicapApplication.getCurrentAccount(), UnicapContentProvider.AUTHORITY)) {
-//            ContentResolver.removeStatusChangeListener(mStatusChangedHandle);
-//
-//            Student student = new Select().from(Student.class).where("Student.Registration = ?", UnicapApplication.getCurrentAccount().name).executeSingle();
-//
-//            if(student != null) {
-//                UnicapApplication.setCurrentStudent(student);
-//                UnicapApplication.notifyDatabaseUpdated();
-//            } else {
-//                //TODO: Friendly message
-////                finish();
-//            }
-//
-//            runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    if (mSuperActivityToast != null)
-//                        mSuperActivityToast.dismiss();
-//                }
-//            });
-//        }
-//    }
+    @Override
+    public void databaseUpdated() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mSuperActivityToast != null)
+                    mSuperActivityToast.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void databaseUnreachable(String message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mSuperActivityToast != null)
+                    mSuperActivityToast.dismiss();
+            }
+        });
+    }
+
 }
