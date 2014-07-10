@@ -11,13 +11,16 @@ import com.devspark.progressfragment.ProgressFragment;
 import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
+import com.thm.unicap.app.connection.UnicapRequestException;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.model.SubjectStatus;
+import com.thm.unicap.app.util.DatabaseDependentFragment;
 import com.thm.unicap.app.util.DatabaseListener;
+import com.thm.unicap.app.util.NetworkUtils;
 
 import it.gmariotti.cardslib.library.view.CardView;
 
-public class LessonsFragment extends ProgressFragment implements DatabaseListener {
+public class LessonsFragment extends ProgressFragment implements DatabaseListener, DatabaseDependentFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,12 +41,16 @@ public class LessonsFragment extends ProgressFragment implements DatabaseListene
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setContentView(R.layout.fragment_lessons);
 
-        if(UnicapApplication.hasStudentData())
-            init();
-        else
+        if(UnicapApplication.hasStudentData()) { // Show offline data
+            setContentView(R.layout.fragment_lessons);
+            initDatabaseDependentViews();
+        } else if (NetworkUtils.isNetworkConnected(getActivity())) { // Show progress and wait to sync
             setContentShown(false);
+        } else { // Show layout for offline error
+            setContentView(R.layout.content_offline);
+            setContentShown(true);
+        }
     }
 
     @Override
@@ -58,7 +65,8 @@ public class LessonsFragment extends ProgressFragment implements DatabaseListene
         UnicapApplication.removeStudentListener(this);
     }
 
-    private void init() {
+    @Override
+    public void initDatabaseDependentViews() {
         CardView card_lessons;
         LessonsCard lessonsCard;
 
@@ -140,7 +148,6 @@ public class LessonsFragment extends ProgressFragment implements DatabaseListene
 
         card_lessons.setVisibility(View.VISIBLE);
 
-        setContentShown(true);
     }
 
     @Override
@@ -150,11 +157,24 @@ public class LessonsFragment extends ProgressFragment implements DatabaseListene
     }
 
     @Override
-    public void databaseChanged() {
+    public void databaseUpdated() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                init();
+                setContentView(R.layout.fragment_lessons);
+                initDatabaseDependentViews();
+                setContentShown(true);
+            }
+        });
+    }
+
+    @Override
+    public void databaseUnreachable(String message) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setContentView(R.layout.content_unreachable);
+                setContentShown(true);
             }
         });
     }

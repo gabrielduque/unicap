@@ -1,21 +1,11 @@
 package com.thm.unicap.app;
 
 import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.accounts.AccountManagerCallback;
-import android.accounts.AccountManagerFuture;
-import android.content.ContentResolver;
-import android.content.SyncStatusObserver;
-import android.os.Bundle;
-import android.util.Log;
+import android.content.IntentFilter;
 
 import com.activeandroid.app.Application;
-import com.activeandroid.query.Select;
-import com.github.johnpersano.supertoasts.SuperActivityToast;
-import com.github.johnpersano.supertoasts.SuperToast;
-import com.thm.unicap.app.auth.AccountGeneral;
 import com.thm.unicap.app.model.Student;
-import com.thm.unicap.app.sync.UnicapContentProvider;
+import com.thm.unicap.app.sync.UnicapSyncReceiver;
 import com.thm.unicap.app.util.DatabaseListener;
 
 import java.util.ArrayList;
@@ -31,6 +21,7 @@ public class UnicapApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mDatabaseListeners = new ArrayList<DatabaseListener>();
+        registerReceiver(new UnicapSyncReceiver(), new IntentFilter(UnicapSyncReceiver.SYNC_ACTION));
     }
 
     public static Student getCurrentStudent() {
@@ -54,11 +45,18 @@ public class UnicapApplication extends Application {
         mDatabaseListeners.remove(listener);
     }
 
-    public static void notifyDatabaseChanged() {
-        Log.d("UNICAP", "CHANGED!");
+    public static void notifyDatabaseUpdated() {
         if(mCurrentStudent != null) {
             for (DatabaseListener listener : mDatabaseListeners) {
-                listener.databaseChanged();
+                listener.databaseUpdated();
+            }
+        }
+    }
+
+    public static void notifyDatabaseUnreachable(String message) {
+        if(mCurrentStudent == null) {
+            for (DatabaseListener listener : mDatabaseListeners) {
+                listener.databaseUnreachable(message);
             }
         }
     }

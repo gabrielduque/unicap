@@ -18,7 +18,9 @@ import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
+import com.thm.unicap.app.util.DatabaseDependentFragment;
 import com.thm.unicap.app.util.DatabaseListener;
+import com.thm.unicap.app.util.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,7 @@ import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
 
-public class GradesFragment extends ProgressFragment implements Card.OnCardClickListener, DatabaseListener {
+public class GradesFragment extends ProgressFragment implements Card.OnCardClickListener, DatabaseListener, DatabaseDependentFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,12 +50,16 @@ public class GradesFragment extends ProgressFragment implements Card.OnCardClick
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setContentView(R.layout.fragment_grades);
 
-        if(UnicapApplication.hasStudentData())
-            init();
-        else
+        if(UnicapApplication.hasStudentData()) { // Show offline data
+            setContentView(R.layout.fragment_grades);
+            initDatabaseDependentViews();
+        } else if (NetworkUtils.isNetworkConnected(getActivity())) { // Show progress and wait to sync
             setContentShown(false);
+        } else { // Show layout for offline error
+            setContentView(R.layout.content_offline);
+            setContentShown(true);
+        }
     }
 
     @Override
@@ -68,7 +74,8 @@ public class GradesFragment extends ProgressFragment implements Card.OnCardClick
         UnicapApplication.removeStudentListener(this);
     }
 
-    private void init() {
+    @Override
+    public void initDatabaseDependentViews() {
         Student student = UnicapApplication.getCurrentStudent();
 
         List<Subject> subjects = student.getActualSubjects();
@@ -89,8 +96,6 @@ public class GradesFragment extends ProgressFragment implements Card.OnCardClick
         AnimationAdapter animCardArrayAdapter = new SwingBottomInAnimationAdapter(cardArrayAdapter);
         animCardArrayAdapter.setAbsListView(cardListView);
         cardListView.setExternalAdapter(animCardArrayAdapter, cardArrayAdapter);
-
-        setContentShown(true);
     }
 
     @Override
@@ -107,11 +112,24 @@ public class GradesFragment extends ProgressFragment implements Card.OnCardClick
     }
 
     @Override
-    public void databaseChanged() {
+    public void databaseUpdated() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                init();
+                setContentView(R.layout.fragment_grades);
+                initDatabaseDependentViews();
+                setContentShown(true);
+            }
+        });
+    }
+
+    @Override
+    public void databaseUnreachable(String message) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setContentView(R.layout.content_unreachable);
+                setContentShown(true);
             }
         });
     }

@@ -5,7 +5,6 @@ import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.content.ContentResolver;
-import android.content.SyncStatusObserver;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -19,7 +18,6 @@ import android.view.Menu;
 
 import com.activeandroid.query.Select;
 import com.github.johnpersano.supertoasts.SuperActivityToast;
-import com.github.johnpersano.supertoasts.SuperToast;
 import com.thm.unicap.app.about.AboutFragment;
 import com.thm.unicap.app.auth.AccountGeneral;
 import com.thm.unicap.app.calendar.CalendarFragment;
@@ -34,7 +32,7 @@ import com.thm.unicap.app.sync.UnicapContentProvider;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, SyncStatusObserver {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     private AccountManager mAccountManager;
 
@@ -198,7 +196,7 @@ public class MainActivity extends ActionBarActivity
 
                             if(student != null) {
                                 UnicapApplication.setCurrentStudent(student);
-                                UnicapApplication.notifyDatabaseChanged();
+                                UnicapApplication.notifyDatabaseUpdated();
                             } else {
                                 forceSync(UnicapApplication.getCurrentAccount().name);
                             }
@@ -215,44 +213,45 @@ public class MainActivity extends ActionBarActivity
 
     public void forceSync(String registration) {
 
-        mSuperActivityToast = new SuperActivityToast(this, SuperToast.Type.PROGRESS);
-        mSuperActivityToast.setText(getString(R.string.synchronizing));
-        mSuperActivityToast.setIndeterminate(true);
-        mSuperActivityToast.show();
+//        mSuperActivityToast = new SuperActivityToast(this, SuperToast.Type.PROGRESS);
+//        mSuperActivityToast.setText(getString(R.string.synchronizing));
+//        mSuperActivityToast.setIndeterminate(true);
+//        mSuperActivityToast.show();
 
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
 
-        mStatusChangedHandle = ContentResolver.addStatusChangeListener(ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE, this);
+//        mStatusChangedHandle = ContentResolver.addStatusChangeListener(ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE, this);
         ContentResolver.requestSync(UnicapApplication.getCurrentAccount(), UnicapContentProvider.AUTHORITY, settingsBundle);
 
     }
 
-    @Override
-    public void onStatusChanged(int which) {
-        //TODO: This is being miss called
-
-        if(!ContentResolver.isSyncActive(UnicapApplication.getCurrentAccount(), UnicapContentProvider.AUTHORITY)) {
-            ContentResolver.removeStatusChangeListener(mStatusChangedHandle);
-
-            Student student = new Select().from(Student.class).where("Student.Registration = ?", UnicapApplication.getCurrentAccount().name).executeSingle();
-
-            if(student != null) {
-                UnicapApplication.setCurrentStudent(student);
-                UnicapApplication.notifyDatabaseChanged();
-            } else {
-                //TODO: Friendly message
-//                finish();
-            }
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (mSuperActivityToast != null)
-                        mSuperActivityToast.dismiss();
-                }
-            });
-        }
-    }
+//    @Override
+//    public void onStatusChanged(int which) {
+//        //TODO: Implement this using broadcast receivers and move to application
+//        //TODO: This is being miss called
+//
+//        if(!ContentResolver.isSyncActive(UnicapApplication.getCurrentAccount(), UnicapContentProvider.AUTHORITY)) {
+//            ContentResolver.removeStatusChangeListener(mStatusChangedHandle);
+//
+//            Student student = new Select().from(Student.class).where("Student.Registration = ?", UnicapApplication.getCurrentAccount().name).executeSingle();
+//
+//            if(student != null) {
+//                UnicapApplication.setCurrentStudent(student);
+//                UnicapApplication.notifyDatabaseUpdated();
+//            } else {
+//                //TODO: Friendly message
+////                finish();
+//            }
+//
+//            runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if (mSuperActivityToast != null)
+//                        mSuperActivityToast.dismiss();
+//                }
+//            });
+//        }
+//    }
 }

@@ -43,6 +43,10 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+
+        Intent intent = new Intent();
+        intent.setAction(UnicapSyncReceiver.SYNC_ACTION);
+
         try {
 
             Log.d("UNICAP", "SYNC - Begin");
@@ -62,11 +66,18 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
             UnicapRequest.receiveSubjectsGradesData();
             Log.d("UNICAP", "SYNC - Finish");
 
+            intent.putExtra(UnicapSyncReceiver.SYNC_STATUS_PARAM, UnicapSyncReceiver.SYNC_STATUS_OK);
+
             notifyNewGrades();
 
         } catch (UnicapRequestException e) {
             Log.e("UNICAP", "SYNC - "+e.getMessageFromContext(getContext()));
+
+            intent.putExtra(UnicapSyncReceiver.SYNC_STATUS_PARAM, UnicapSyncReceiver.SYNC_STATUS_FAIL);
+            intent.putExtra(UnicapSyncReceiver.SYNC_MESSAGE_PARAM, e.getMessageFromContext(getContext()));
         }
+
+        getContext().sendBroadcast(intent);
     }
 
     private void notifyNewGrades() {

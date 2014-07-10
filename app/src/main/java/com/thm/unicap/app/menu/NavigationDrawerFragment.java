@@ -15,7 +15,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +32,8 @@ import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.auth.AccountGeneral;
 import com.thm.unicap.app.connection.UnicapDataManager;
+import com.thm.unicap.app.connection.UnicapRequestException;
+import com.thm.unicap.app.util.DatabaseDependentFragment;
 import com.thm.unicap.app.util.DatabaseListener;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ import java.util.List;
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class NavigationDrawerFragment extends Fragment implements DatabaseListener {
+public class NavigationDrawerFragment extends Fragment implements DatabaseListener, DatabaseDependentFragment {
 
     public static final int SESSION_DASHBOARD = 0;
     public static final int SESSION_SUBJECTS = 1;
@@ -116,7 +117,7 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
         mRootView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         initDataIndependentViews();
 
-        if(UnicapApplication.hasStudentData()) init();
+        if(UnicapApplication.hasStudentData()) initDatabaseDependentViews();
         return mRootView;
     }
 
@@ -132,7 +133,8 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
         UnicapApplication.removeStudentListener(this);
     }
 
-    private void init() {
+    @Override
+    public void initDatabaseDependentViews() {
         ImageView navHeaderPicture = (ImageView) mRootView.findViewById(R.id.nav_header_picture);
         RobotoTextView navHeaderCourse = (RobotoTextView) mRootView.findViewById(R.id.nav_header_course);
         RobotoTextView navHeaderName = (RobotoTextView) mRootView.findViewById(R.id.nav_header_name);
@@ -354,13 +356,18 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
     }
 
     @Override
-    public void databaseChanged() {
+    public void databaseUpdated() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                init();
+                initDatabaseDependentViews();
             }
         });
+    }
+
+    @Override
+    public void databaseUnreachable(String message) {
+        //TODO: implement this
     }
 
     /**
