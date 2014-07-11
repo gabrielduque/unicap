@@ -59,19 +59,19 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
 
             ActiveAndroid.beginTransaction();
 
-            Log.d("UNICAP", "SYNC - 1/7 - loginRequest");
+            Log.d("UNICAP", "SYNC - 1/7 [====>                              ] - loginRequest");
             UnicapRequest.loginRequest(account.name, mAccountManager.getPassword(account));
-            Log.d("UNICAP", "SYNC - 2/7 - receivePersonalData");
+            Log.d("UNICAP", "SYNC - 2/7 [=========>                         ] - receivePersonalData");
             UnicapRequest.receivePersonalData();
-            Log.d("UNICAP", "SYNC - 3/7 - receivePastSubjectsData");
+            Log.d("UNICAP", "SYNC - 3/7 [==============>                    ] - receivePastSubjectsData");
             UnicapRequest.receivePastSubjectsData();
-            Log.d("UNICAP", "SYNC - 4/7 - receiveActualSubjectsData");
+            Log.d("UNICAP", "SYNC - 4/7 [===================>               ] - receiveActualSubjectsData");
             UnicapRequest.receiveActualSubjectsData();
-            Log.d("UNICAP", "SYNC - 5/7 - receivePendingSubjectsData");
+            Log.d("UNICAP", "SYNC - 5/7 [========================>          ] - receivePendingSubjectsData");
             UnicapRequest.receivePendingSubjectsData();
-            Log.d("UNICAP", "SYNC - 6/7 - receiveSubjectsCalendarData");
+            Log.d("UNICAP", "SYNC - 6/7 [=============================>     ] - receiveSubjectsCalendarData");
             UnicapRequest.receiveSubjectsCalendarData();
-            Log.d("UNICAP", "SYNC - 7/7 - receiveSubjectsGradesData");
+            Log.d("UNICAP", "SYNC - 7/7 [===================================] - receiveSubjectsGradesData");
             UnicapRequest.receiveSubjectsGradesData();
 
             ActiveAndroid.setTransactionSuccessful();
