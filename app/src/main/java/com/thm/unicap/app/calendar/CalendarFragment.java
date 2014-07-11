@@ -73,6 +73,7 @@ public class CalendarFragment extends ProgressFragment implements DatabaseListen
     public void initDatabaseDependentViews() {
         Student student = UnicapApplication.getCurrentStudent();
 
+        //TODO: Duplicated subjectTests
         List<SubjectTest> subjectTests = student.getSubjectTestsOrdered();
 
         ArrayList<Card> cardArrayList = new ArrayList<Card>();

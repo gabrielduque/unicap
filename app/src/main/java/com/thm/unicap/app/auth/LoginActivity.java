@@ -8,6 +8,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.FragmentTransaction;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -20,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.dd.CircularProgressButton;
 import com.devspark.robototextview.widget.RobotoTextView;
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.github.johnpersano.supertoasts.util.Style;
@@ -60,9 +63,8 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
     // UI references.
     private EditText mRegistrationView;
     private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
-    private RobotoTextView mProgressText;
+    private CircularProgressButton mRegistrationSignInButton;
+    private boolean isLoginInProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +112,7 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
             }
         });
 
-        Button mRegistrationSignInButton = (Button) findViewById(R.id.registration_sign_in_button);
+        mRegistrationSignInButton = (CircularProgressButton) findViewById(R.id.registration_sign_in_button);
         mRegistrationSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,9 +120,6 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
             }
         });
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
-        mProgressText = (RobotoTextView) findViewById(R.id.login_progress_text);
     }
 
     /**
@@ -129,9 +128,9 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
      * errors are presented and no actual login attempt is made.
      */
     public void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
+        if (isLoginInProgress) return;
+
+        isLoginInProgress = true;
 
         // Reset errors.
         mRegistrationView.setError(null);
@@ -174,8 +173,10 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
+            mRegistrationSignInButton.setIndeterminateProgressMode(true);
+            mRegistrationSignInButton.setProgress(1);
 
+            Log.d("UNICAP", "ATTEMPT");
             mAuthTask = new UnicapAuthTask(registration, password);
             mAuthTask.setOnTaskCompletedListener(this);
             mAuthTask.setOnTaskCancelledListener(this);
@@ -183,54 +184,38 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
         }
     }
 
-    public void showProgress(final boolean show) {
-        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            }
-        });
-
-        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-        mProgressView.animate().setDuration(shortAnimTime).alpha(
-                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            }
-        });
-    }
-
     @Override
     public void onTaskCompleted(UnicapRequestResult result) {
 
-        String registration = mAuthTask.getRegistration();
-        String password = mAuthTask.getPassword();
-        String authToken = mAuthTask.getAuthToken();
-
-        mAuthTask = null;
+        final String registration = mAuthTask.getRegistration();
+        final String password = mAuthTask.getPassword();
+        final String authToken = mAuthTask.getAuthToken();
 
         if (result.isSuccess()) {
 
-            Bundle data = new Bundle();
-            data.putString(AccountManager.KEY_ACCOUNT_NAME, registration);
-            data.putString(AccountManager.KEY_ACCOUNT_TYPE, AccountGeneral.ACCOUNT_TYPE);
-            data.putString(AccountManager.KEY_AUTHTOKEN, authToken);
-            data.putString(PARAM_USER_PASS, password);
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+            mRegistrationSignInButton.animate().setDuration(shortAnimTime).alpha(0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    Bundle data = new Bundle();
+                    data.putString(AccountManager.KEY_ACCOUNT_NAME, registration);
+                    data.putString(AccountManager.KEY_ACCOUNT_TYPE, AccountGeneral.ACCOUNT_TYPE);
+                    data.putString(AccountManager.KEY_AUTHTOKEN, authToken);
+                    data.putString(PARAM_USER_PASS, password);
 
-            Intent intent = new Intent();
-            intent.putExtras(data);
-            finishLogin(intent);
+                    Intent intent = new Intent();
+                    intent.putExtras(data);
+                    finishLogin(intent);
+                }
+            });
 
         } else {
+
+            onTaskCancelled();
+
+            //TODO: review this
             // Clean up to prevent broken data
             UnicapDataManager.cleanUserData(registration);
-
-            showProgress(false);
 
             SuperToast superToast = new SuperToast(LoginActivity.this, Style.getStyle(Style.RED, SuperToast.Animations.FLYIN));
             superToast.setText(result.getExceptionMessage(LoginActivity.this));
@@ -238,12 +223,26 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
             superToast.setIcon(R.drawable.ic_action_warning, SuperToast.IconPosition.LEFT);
             superToast.show();
         }
+
+        isLoginInProgress = false;
     }
 
     @Override
     public void onTaskCancelled() {
-        mAuthTask = null;
-        showProgress(false);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mRegistrationSignInButton.setProgress(-1);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mRegistrationSignInButton.setProgress(0);
+                        isLoginInProgress = false;
+                    }
+                }, 1000);
+            }
+        }, 1000);
     }
 
     private void finishLogin(Intent intent) {

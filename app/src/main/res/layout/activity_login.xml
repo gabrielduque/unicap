@@ -11,31 +11,6 @@
     android:paddingTop="@dimen/margin_normal"
     tools:context="com.thm.unicap.app.auth.LoginActivity">
 
-    <!-- Login progress -->
-    <LinearLayout
-        android:id="@+id/login_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp" />
-
-        <com.devspark.robototextview.widget.RobotoTextView
-            android:id="@+id/login_progress_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:text="@string/progress_1"
-            app:typeface="roboto_thin"/>
-
-    </LinearLayout>
-
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
@@ -76,13 +51,20 @@
                     android:maxLength="6"
                     android:singleLine="true"/>
 
-                <Button
+                <com.dd.CircularProgressButton
                     android:id="@+id/registration_sign_in_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="@string/sign_in"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:cpb_colorComplete="@color/unicap_base"
+                    app:cpb_colorError="@color/unicap_base"
+                    app:cpb_colorIdle="@color/unicap_base"
+                    app:cpb_colorIndicator="@color/unicap_base"
+                    app:cpb_textComplete="@string/sign_in"
+                    app:cpb_textError="@string/sign_in"
+                    app:cpb_textIdle="@string/sign_in" />
 
             </LinearLayout>
     </ScrollView>

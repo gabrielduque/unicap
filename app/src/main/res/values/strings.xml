@@ -33,7 +33,7 @@
     <string name="error_incorrect_registration">Matrícula incorreta.</string>
     <string name="error_incorrect_password">Senha incorreta.</string>
     <string name="error_max_tries_exceeded">Limite de tentativas excedido.</string>
-    <string name="error_connection_failed">Não foi possível estabelecer uma conexão.</string>
+    <string name="error_connection_failed">Impossível estabelecer a conexão.</string>
 
     <!-- Progress messages -->
     <string name="progress_1">Autenticando…</string>
