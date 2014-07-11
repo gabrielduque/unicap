@@ -50,14 +50,9 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
 
     public final static String PARAM_USER_PASS = "USER_PASS";
 
-    private final String TAG = "LoginActivity";
-
     private AccountManager mAccountManager;
     private String mAuthTokenType;
 
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
     private UnicapAuthTask mAuthTask = null;
 
     // UI references.
@@ -176,7 +171,6 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
             mRegistrationSignInButton.setIndeterminateProgressMode(true);
             mRegistrationSignInButton.setProgress(1);
 
-            Log.d("UNICAP", "ATTEMPT");
             mAuthTask = new UnicapAuthTask(registration, password);
             mAuthTask.setOnTaskCompletedListener(this);
             mAuthTask.setOnTaskCancelledListener(this);
@@ -197,6 +191,9 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
             mRegistrationSignInButton.animate().setDuration(shortAnimTime).alpha(0).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
+
+                    mRegistrationSignInButton.setVisibility(View.GONE);
+
                     Bundle data = new Bundle();
                     data.putString(AccountManager.KEY_ACCOUNT_NAME, registration);
                     data.putString(AccountManager.KEY_ACCOUNT_TYPE, AccountGeneral.ACCOUNT_TYPE);
@@ -230,6 +227,8 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
     @Override
     public void onTaskCancelled() {
 
+        // Circular Progress Button has a bug that cannot handle [progress -> idle] directly
+        // Workaround: [progress -> error -> idle]
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -246,14 +245,12 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
     }
 
     private void finishLogin(Intent intent) {
-        Log.d("authentication", TAG + "> finishLogin");
 
         String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
         String accountPassword = intent.getStringExtra(PARAM_USER_PASS);
         final Account account = new Account(accountName, intent.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE));
 
         if (getIntent().getBooleanExtra(ARG_IS_ADDING_NEW_ACCOUNT, false)) {
-            Log.d("authentication", TAG + "> finishLogin > addAccountExplicitly");
             String authtoken = intent.getStringExtra(AccountManager.KEY_AUTHTOKEN);
             String authtokenType = mAuthTokenType;
 
@@ -264,7 +261,6 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
                 ContentResolver.setSyncAutomatically(account, UnicapContentProvider.AUTHORITY, true);
             }
         } else {
-            Log.d("authentication", TAG + "> finishLogin > setPassword");
             mAccountManager.setPassword(account, accountPassword);
         }
 

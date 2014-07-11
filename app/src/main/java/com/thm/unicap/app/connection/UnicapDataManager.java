@@ -179,12 +179,16 @@ public class UnicapDataManager {
                 .executeSingle();
 
         if(subject != null) {
-            SubjectTest subjectTest = new SubjectTest();
-            subjectTest.subject = subject;
-            subjectTest.degree = degree;
+            SubjectTest subjectTest = subject.getTestByDegree(degree);
+
+            if(subjectTest == null) {
+                subjectTest = new SubjectTest();
+                subjectTest.subject = subject;
+                subjectTest.degree = degree;
+                subjectTest.first_time = true;
+            }
             subjectTest.date1 = date1;
             subjectTest.date2 = date2;
-            subjectTest.first_time = true;
             subjectTest.save();
         }
 

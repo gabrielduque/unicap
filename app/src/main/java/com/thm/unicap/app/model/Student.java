@@ -3,6 +3,7 @@ package com.thm.unicap.app.model;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.thm.unicap.app.util.HashUtils;
 import com.thm.unicap.app.util.UnicapUtils;
@@ -77,7 +78,7 @@ public class Student extends Model {
                 .innerJoin(Subject.class)
                 .on("Subject.Id = SubjectTest.Subject")
                 .innerJoin(SubjectStatus.class)
-                .on("Subject.Id = SubjectStatus.Subject")
+                .on("SubjectStatus.Subject = SubjectTest.Subject")
                 .where("Subject.Student = ?", getId())
                 .orderBy("SubjectTest.Date1, SubjectTest.Date2, Subject.Period, Subject.Name")
                 .where("SubjectStatus.Situation = ?", SubjectStatus.Situation.ACTUAL)

@@ -2,6 +2,7 @@ package com.thm.unicap.app;
 
 import android.accounts.Account;
 import android.content.IntentFilter;
+import android.util.Log;
 
 import com.activeandroid.app.Application;
 import com.thm.unicap.app.model.Student;
@@ -67,6 +68,10 @@ public class UnicapApplication extends Application {
 
     public static void setCurrentAccount(Account account) {
         UnicapApplication.mCurrentAccount = account;
+    }
+
+    public static void log(String message) {
+        Log.d(TAG, message);
     }
 
 }
