@@ -56,19 +56,24 @@ public class SubjectsFragment extends ProgressFragment implements DatabaseListen
     @Override
     public void onResume() {
         super.onResume();
-        UnicapApplication.addStudentListener(this);
+        UnicapApplication.addDatabaseListener(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        UnicapApplication.removeStudentListener(this);
+        UnicapApplication.removeDatabaseListener(this);
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         ((MainActivity) activity).onSectionAttached(NavigationDrawerFragment.SESSION_SUBJECTS);
+    }
+
+    @Override
+    public void databaseSyncing() {
+
     }
 
     @Override

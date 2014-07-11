@@ -3,7 +3,6 @@ package com.thm.unicap.app.dashboard;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 
@@ -69,24 +68,25 @@ public class DashboardFragment extends ProgressFragment implements DatabaseListe
             setContentView(R.layout.content_offline);
             setContentShown(true);
         }
+
+        UnicapApplication.addDatabaseListener(this);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        UnicapApplication.addStudentListener(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        UnicapApplication.removeStudentListener(this);
+    public void onStop() {
+        super.onStop();
+        UnicapApplication.removeDatabaseListener(this);
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         ((MainActivity) activity).onSectionAttached(NavigationDrawerFragment.SESSION_DASHBOARD);
+    }
+
+    @Override
+    public void databaseSyncing() {
+
     }
 
     @Override

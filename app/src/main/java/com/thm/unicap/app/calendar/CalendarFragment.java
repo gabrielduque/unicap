@@ -55,18 +55,14 @@ public class CalendarFragment extends ProgressFragment implements DatabaseListen
             setContentView(R.layout.content_offline);
             setContentShown(true);
         }
+
+        UnicapApplication.addDatabaseListener(this);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        UnicapApplication.addStudentListener(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        UnicapApplication.removeStudentListener(this);
+    public void onStop() {
+        super.onStop();
+        UnicapApplication.removeDatabaseListener(this);
     }
 
     @Override
@@ -96,6 +92,11 @@ public class CalendarFragment extends ProgressFragment implements DatabaseListen
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         ((MainActivity) activity).onSectionAttached(NavigationDrawerFragment.SESSION_CALENDAR);
+    }
+
+    @Override
+    public void databaseSyncing() {
+
     }
 
     @Override

@@ -57,18 +57,14 @@ public class GradesFragment extends ProgressFragment implements Card.OnCardClick
             setContentView(R.layout.content_offline);
             setContentShown(true);
         }
+
+        UnicapApplication.addDatabaseListener(this);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        UnicapApplication.addStudentListener(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        UnicapApplication.removeStudentListener(this);
+    public void onStop() {
+        super.onStop();
+        UnicapApplication.removeDatabaseListener(this);
     }
 
     @Override
@@ -106,6 +102,11 @@ public class GradesFragment extends ProgressFragment implements Card.OnCardClick
         Intent intent = new Intent(getActivity(), GradesActivity.class);
         intent.putExtra("subject_id", ((SubjectGradesListItemCard)card).getSubject().getId());
         getActivity().startActivity(intent);
+    }
+
+    @Override
+    public void databaseSyncing() {
+
     }
 
     @Override

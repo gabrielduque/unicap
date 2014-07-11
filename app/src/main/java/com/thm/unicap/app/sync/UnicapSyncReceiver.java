@@ -17,6 +17,7 @@ public class UnicapSyncReceiver extends BroadcastReceiver {
     public static final String SYNC_MESSAGE_PARAM = "sync_message";
     public static final String SYNC_STATUS_OK = "ok";
     public static final String SYNC_STATUS_FAIL = "fail";
+    public static final String SYNC_STATUS_STARTED = "started";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -39,6 +40,8 @@ public class UnicapSyncReceiver extends BroadcastReceiver {
                     String sync_message = extras.getString(SYNC_MESSAGE_PARAM);
 
                     UnicapApplication.notifyDatabaseUnreachable(sync_message);
+                } else if(sync_status.equals(SYNC_STATUS_STARTED)) {
+                    UnicapApplication.notifyDatabaseSyncing();
                 }
             }
         }

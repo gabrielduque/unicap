@@ -46,8 +46,14 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
 
         boolean successful = false;
-        Intent intent = new Intent();
-        intent.setAction(UnicapSyncReceiver.SYNC_ACTION);
+
+        Intent startIntent = new Intent();
+        startIntent.setAction(UnicapSyncReceiver.SYNC_ACTION);
+        startIntent.putExtra(UnicapSyncReceiver.SYNC_STATUS_PARAM, UnicapSyncReceiver.SYNC_STATUS_STARTED);
+        getContext().sendBroadcast(startIntent);
+
+        Intent resultIntent = new Intent();
+        resultIntent.setAction(UnicapSyncReceiver.SYNC_ACTION);
 
         try {
 
@@ -71,21 +77,21 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
             ActiveAndroid.setTransactionSuccessful();
             successful = true;
 
-            intent.putExtra(UnicapSyncReceiver.SYNC_STATUS_PARAM, UnicapSyncReceiver.SYNC_STATUS_OK);
+            resultIntent.putExtra(UnicapSyncReceiver.SYNC_STATUS_PARAM, UnicapSyncReceiver.SYNC_STATUS_OK);
 
         } catch (UnicapRequestException e) {
 
             Log.e("UNICAP", "SYNC - "+e.getMessageFromContext(getContext()));
 
-            intent.putExtra(UnicapSyncReceiver.SYNC_STATUS_PARAM, UnicapSyncReceiver.SYNC_STATUS_FAIL);
-            intent.putExtra(UnicapSyncReceiver.SYNC_MESSAGE_PARAM, e.getMessageFromContext(getContext()));
+            resultIntent.putExtra(UnicapSyncReceiver.SYNC_STATUS_PARAM, UnicapSyncReceiver.SYNC_STATUS_FAIL);
+            resultIntent.putExtra(UnicapSyncReceiver.SYNC_MESSAGE_PARAM, e.getMessageFromContext(getContext()));
         } finally {
             ActiveAndroid.endTransaction();
         }
 
         if(successful) notifyNewGrades();
 
-        getContext().sendBroadcast(intent);
+        getContext().sendBroadcast(resultIntent);
     }
 
     private void notifyNewGrades() {

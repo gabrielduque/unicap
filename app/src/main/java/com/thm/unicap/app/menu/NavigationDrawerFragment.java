@@ -110,27 +110,25 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
         super.onActivityCreated(savedInstanceState);
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
+
+        if(UnicapApplication.hasStudentData()) { // Show offline data
+            databaseUpdated();
+        }
+
+        UnicapApplication.addDatabaseListener(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-        initDataIndependentViews();
-
-        if(UnicapApplication.hasStudentData()) initDatabaseDependentViews();
+        initDatabaseIndependentViews();
         return mRootView;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        UnicapApplication.addStudentListener(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        UnicapApplication.removeStudentListener(this);
+    public void onStop() {
+        super.onStop();
+        UnicapApplication.removeDatabaseListener(this);
     }
 
     @Override
@@ -151,9 +149,17 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
 
         ObjectAnimator.ofFloat(navHeaderContainer, "translationY", 0).setDuration(300).start();
         ObjectAnimator.ofFloat(mDrawerListView, "translationY", 0).setDuration(300).start();
+
+        navHeaderContainer.setClickable(true);
+        navHeaderContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).selectAccountCreateIfNeeded();
+            }
+        });
     }
 
-    private void initDataIndependentViews() {
+    private void initDatabaseIndependentViews() {
         mDrawerListView = (ListView) mRootView.findViewById(R.id.navigation_listview);
 
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -329,6 +335,7 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
                     @Override
                     public void run(AccountManagerFuture<Boolean> future) {
                         UnicapDataManager.cleanUserData(UnicapApplication.getCurrentStudent().registration);
+                        UnicapApplication.setCurrentAccount(null);
                         UnicapApplication.setCurrentStudent(null);
                         getActivity().finish();
                     }
@@ -336,7 +343,7 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
 
                 return true;
             case R.id.action_sync:
-                ((MainActivity)getActivity()).forceSync();
+                UnicapApplication.forceSync();
                 return true;
 
             default:
@@ -360,6 +367,11 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
     }
 
     @Override
+    public void databaseSyncing() {
+
+    }
+
+    @Override
     public void databaseUpdated() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -371,7 +383,7 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
 
     @Override
     public void databaseUnreachable(String message) {
-        //TODO: implement this
+
     }
 
     /**

@@ -15,7 +15,7 @@ public class Subject extends Model {
     @Column(name = "Student", onDelete = Column.ForeignKeyAction.CASCADE)
     public Student student;
 
-    @Column(name = "Code", unique = true)
+    @Column(name = "Code")
     public String code;
 
     @Column(name = "Name")

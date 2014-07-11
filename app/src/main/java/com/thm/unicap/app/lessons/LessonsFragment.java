@@ -11,7 +11,6 @@ import com.devspark.progressfragment.ProgressFragment;
 import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
-import com.thm.unicap.app.connection.UnicapRequestException;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.model.SubjectStatus;
 import com.thm.unicap.app.util.DatabaseDependentFragment;
@@ -48,18 +47,14 @@ public class LessonsFragment extends ProgressFragment implements DatabaseListene
             setContentView(R.layout.content_offline);
             setContentShown(true);
         }
+
+        UnicapApplication.addDatabaseListener(this);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        UnicapApplication.addStudentListener(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        UnicapApplication.removeStudentListener(this);
+    public void onStop() {
+        super.onStop();
+        UnicapApplication.removeDatabaseListener(this);
     }
 
     @Override
@@ -151,6 +146,11 @@ public class LessonsFragment extends ProgressFragment implements DatabaseListene
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         ((MainActivity) activity).onSectionAttached(NavigationDrawerFragment.SESSION_LESSONS);
+    }
+
+    @Override
+    public void databaseSyncing() {
+
     }
 
     @Override

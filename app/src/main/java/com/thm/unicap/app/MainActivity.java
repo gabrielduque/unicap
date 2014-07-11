@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
+import android.accounts.OperationCanceledException;
 import android.content.ContentResolver;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,7 +14,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 
 import com.activeandroid.query.Select;
@@ -72,15 +72,23 @@ public class MainActivity extends ActionBarActivity
         super.onResume();
 
         if(!UnicapApplication.hasStudentData())
-            getStudentFromAccountCreateIfNeeded(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(!UnicapApplication.hasCurrentAccount())
+                        selectAccountCreateIfNeeded();
+                }
+            }, 500);
 
-        UnicapApplication.addStudentListener(this);
+        UnicapApplication.addDatabaseListener(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        UnicapApplication.removeStudentListener(this);
+
+        UnicapApplication.removeDatabaseListener(this);
+        mHandler.removeCallbacks(mSwitchFragmentRunnable);
     }
 
     @Override
@@ -130,12 +138,6 @@ public class MainActivity extends ActionBarActivity
 
         mHandler.postDelayed(mSwitchFragmentRunnable, 350);
 
-    }
-
-    @Override
-    protected void onStop() {
-        mHandler.removeCallbacks(mSwitchFragmentRunnable);
-        super.onStop();
     }
 
     public void onSectionAttached(int session) {
@@ -196,8 +198,8 @@ public class MainActivity extends ActionBarActivity
         return mNavigationDrawerFragment;
     }
 
-    private void getStudentFromAccountCreateIfNeeded(String accountType, String authTokenType) {
-        final AccountManagerFuture<Bundle> future = mAccountManager.getAuthTokenByFeatures(accountType, authTokenType, null, this, null, null,
+    public void selectAccountCreateIfNeeded() {
+        mAccountManager.getAuthTokenByFeatures(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, this, null, null,
                 new AccountManagerCallback<Bundle>() {
                     @Override
                     public void run(AccountManagerFuture<Bundle> future) {
@@ -213,32 +215,28 @@ public class MainActivity extends ActionBarActivity
                                 UnicapApplication.setCurrentStudent(student);
                                 UnicapApplication.notifyDatabaseUpdated();
                             } else {
-                                forceSync();
+                                UnicapApplication.forceSync();
                             }
 
                         } catch (Exception e) {
-                            //TODO: Friendly message
-                            Log.d("UNICAP", String.valueOf(e));
-                            finish();
+                            if(!UnicapApplication.hasStudentData()) finish();
                         }
                     }
                 }
                 , null);
     }
 
-    public void forceSync() {
-
-        mSuperActivityToast = new SuperActivityToast(this, SuperToast.Type.PROGRESS);
-        mSuperActivityToast.setText(getString(R.string.synchronizing));
-        mSuperActivityToast.setIndeterminate(true);
-        mSuperActivityToast.show();
-
-        Bundle settingsBundle = new Bundle();
-        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-
-        ContentResolver.requestSync(UnicapApplication.getCurrentAccount(), UnicapContentProvider.AUTHORITY, settingsBundle);
-
+    @Override
+    public void databaseSyncing() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mSuperActivityToast = new SuperActivityToast(MainActivity.this, SuperToast.Type.PROGRESS);
+                mSuperActivityToast.setText(getString(R.string.synchronizing));
+                mSuperActivityToast.setIndeterminate(true);
+                mSuperActivityToast.show();
+            }
+        });
     }
 
     @Override
