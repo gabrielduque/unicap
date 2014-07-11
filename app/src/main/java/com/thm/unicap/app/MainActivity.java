@@ -65,13 +65,15 @@ public class MainActivity extends ActionBarActivity
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        if(!UnicapApplication.hasStudentData())
-            getStudentFromAccountCreateIfNeeded(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        if(!UnicapApplication.hasStudentData())
+            getStudentFromAccountCreateIfNeeded(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS);
+
         UnicapApplication.addStudentListener(this);
     }
 
