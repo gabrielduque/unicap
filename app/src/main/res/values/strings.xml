@@ -99,5 +99,11 @@
     <string name="about_copyright">\u00A9 2014 Túlio Hoffimann Mendes</string>
     <string name="offline_message">Você está offline</string>
     <string name="generic_error">Ops... Algo deu errado.</string>
+    <string name="unicap_preferences">Preferências Unicap</string>
+    <string name="debug_logs">Debugar Logs</string>
+    <string name="debug_logs_summary">Mostrar logs de debug no LogCat</string>
+    <string name="first_degree_available">Primeiro GQ disponível</string>
+    <string name="second_degree_available">Segundo GQ disponível</string>
+    <string name="final_degree_available">Avaliação final disponível</string>
 
 </resources>

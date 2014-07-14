@@ -55,23 +55,21 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
         Intent resultIntent = new Intent();
         resultIntent.setAction(UnicapSyncReceiver.SYNC_ACTION);
 
+        ActiveAndroid.beginTransaction();
         try {
-
-            ActiveAndroid.beginTransaction();
-
-            Log.d("UNICAP", "SYNC - 1/7 [====>                              ] - loginRequest");
+            UnicapApplication.log("SYNC - 1/7 [====>                              ] - loginRequest");
             UnicapRequest.loginRequest(account.name, mAccountManager.getPassword(account));
-            Log.d("UNICAP", "SYNC - 2/7 [=========>                         ] - receivePersonalData");
+            UnicapApplication.log("SYNC - 2/7 [=========>                         ] - receivePersonalData");
             UnicapRequest.receivePersonalData();
-            Log.d("UNICAP", "SYNC - 3/7 [==============>                    ] - receivePastSubjectsData");
+            UnicapApplication.log("SYNC - 3/7 [==============>                    ] - receivePastSubjectsData");
             UnicapRequest.receivePastSubjectsData();
-            Log.d("UNICAP", "SYNC - 4/7 [===================>               ] - receiveActualSubjectsData");
+            UnicapApplication.log("SYNC - 4/7 [===================>               ] - receiveActualSubjectsData");
             UnicapRequest.receiveActualSubjectsData();
-            Log.d("UNICAP", "SYNC - 5/7 [========================>          ] - receivePendingSubjectsData");
+            UnicapApplication.log("SYNC - 5/7 [========================>          ] - receivePendingSubjectsData");
             UnicapRequest.receivePendingSubjectsData();
-            Log.d("UNICAP", "SYNC - 6/7 [=============================>     ] - receiveSubjectsCalendarData");
+            UnicapApplication.log("SYNC - 6/7 [=============================>     ] - receiveSubjectsCalendarData");
             UnicapRequest.receiveSubjectsCalendarData();
-            Log.d("UNICAP", "SYNC - 7/7 [===================================] - receiveSubjectsGradesData");
+            UnicapApplication.log("SYNC - 7/7 [===================================] - receiveSubjectsGradesData");
             UnicapRequest.receiveSubjectsGradesData();
 
             ActiveAndroid.setTransactionSuccessful();
@@ -81,7 +79,7 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
 
         } catch (UnicapRequestException e) {
 
-            Log.e("UNICAP", "SYNC - "+e.getMessageFromContext(getContext()));
+            UnicapApplication.error("SYNC - " + e.getMessageFromContext(getContext()));
 
             resultIntent.putExtra(UnicapSyncReceiver.SYNC_STATUS_PARAM, UnicapSyncReceiver.SYNC_STATUS_FAIL);
             resultIntent.putExtra(UnicapSyncReceiver.SYNC_MESSAGE_PARAM, e.getMessageFromContext(getContext()));
@@ -110,13 +108,13 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
 
             switch (subjectTest.degree) {
                 case FIRST_DEGREE:
-                    builder.setContentText("Primeiro GQ disponível");
+                    builder.setContentText(getContext().getString(R.string.first_degree_available));
                     break;
                 case SECOND_DEGREE:
-                    builder.setContentText("Segundo GQ disponível");
+                    builder.setContentText(getContext().getString(R.string.second_degree_available));
                     break;
                 case FINAL_DEGREE:
-                    builder.setContentText("Avaliação final disponível");
+                    builder.setContentText(getContext().getString(R.string.final_degree_available));
                     break;
             }
 

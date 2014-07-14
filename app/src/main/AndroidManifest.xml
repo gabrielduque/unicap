@@ -54,7 +54,7 @@
             <meta-data android:name="android.accounts.AccountAuthenticator" android:resource="@xml/authenticator" />
         </service>
 
-        <service android:name=".sync.UnicapSyncService" android:process=":sync" android:exported="true">
+        <service android:name=".sync.UnicapSyncService" android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>
             </intent-filter>

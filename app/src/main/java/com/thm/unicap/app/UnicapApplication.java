@@ -1,19 +1,13 @@
 package com.thm.unicap.app;
 
 import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.accounts.AccountManagerCallback;
-import android.accounts.AccountManagerFuture;
-import android.app.Activity;
+import android.app.Application;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.activeandroid.app.Application;
-import com.activeandroid.query.Select;
-import com.thm.unicap.app.auth.AccountGeneral;
+import com.activeandroid.ActiveAndroid;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.sync.UnicapContentProvider;
 import com.thm.unicap.app.sync.UnicapSyncReceiver;
@@ -31,8 +25,15 @@ public class UnicapApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        ActiveAndroid.initialize(this);
         mDatabaseListeners = new ArrayList<DatabaseListener>();
         registerReceiver(new UnicapSyncReceiver(), new IntentFilter(UnicapSyncReceiver.SYNC_ACTION));
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        ActiveAndroid.dispose();
     }
 
     public static Student getCurrentStudent() {
@@ -92,6 +93,10 @@ public class UnicapApplication extends Application {
 
     public static void log(String message) {
         Log.d(TAG, message);
+    }
+
+    public static void error(String message) {
+        Log.e(TAG, message);
     }
 
     public static void forceSync() {
