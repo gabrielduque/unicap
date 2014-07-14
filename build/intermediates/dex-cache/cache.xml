@@ -20,17 +20,17 @@
         revision="20.0.0"
         sha1="9d9013e9ff35fc3756411e62873c363c70c638fa"/>
     <item
-        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-ff6ac77e6918a32bf337fa88c57ba8b2fbc3405d.jar"
-        jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library-extra/1.7.2/classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="01772169ec992c2c7ba511978406a0e0f6954a78"/>
-    <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-b78c454814f50d506be74c69242f93fab7cffd73.jar"
         jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/classes.jar"
         jumboMode="false"
         revision="20.0.0"
         sha1="f21927d22fe31889ecce94dd697a2e75b137e0ef"/>
+    <item
+        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-03d9b95328632887a1a8a26736abff7e7fb8cae8.jar"
+        jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library/1.8.0/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="332683f886584a5be900eb08d202e209738d5269"/>
     <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/library-2.4.0-cee9c7549b9104e105ffde7dcce4b61b40be7517.jar"
         jar="/home/tulio/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
@@ -55,12 +55,6 @@
         jumboMode="false"
         revision="20.0.0"
         sha1="f4c3fa9224fa85778778adf5c02d131e301925e9"/>
-    <item
-        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-d8706a509f92d290de46f86dd22197483a958d95.jar"
-        jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library/1.7.2/classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="00cbf5ebb34e47c1019421d59f4d19a61eed736a"/>
     <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-9ecc452666d6b1ab941e96f4d63ea9c508cc8d10.jar"
         jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.etsy.android.grid/library/1.0.5/classes.jar"
@@ -116,12 +110,6 @@
         revision="20.0.0"
         sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d"/>
     <item
-        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-d8706a509f92d290de46f86dd22197483a958d95.jar"
-        jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library/1.7.2/classes.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="00cbf5ebb34e47c1019421d59f4d19a61eed736a"/>
-    <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/ActiveAndroid-f55cda3141846225982a18f03be0209308215122.jar"
         jar="/home/tulio/Projects/unicap/app/libs/ActiveAndroid.jar"
         jumboMode="false"
@@ -134,17 +122,17 @@
         revision="20.0.0"
         sha1="59351ccb0a1631d30358f6a92749a072f2df7602"/>
     <item
-        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-ff6ac77e6918a32bf337fa88c57ba8b2fbc3405d.jar"
-        jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library-extra/1.7.2/classes.jar"
-        jumboMode="false"
-        revision="20.0.0"
-        sha1="01772169ec992c2c7ba511978406a0e0f6954a78"/>
-    <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-86012dcc0cf1d2c3666136fb54278d60c65d5947.jar"
         jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/unicap/HoloGraphLibrary/unspecified/classes.jar"
         jumboMode="false"
         revision="20.0.0"
         sha1="cc857456bfa027602f7b3658f6afed8b223e2901"/>
+    <item
+        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-cd95d647c00c366b4b0c3f507da3490213a9bce5.jar"
+        jar="/home/tulio/Projects/unicap/build/intermediates/exploded-aar/com.github.gabrielemariotti.cards/library-extra/1.8.0/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="0364dd50bb025a9b1f2438c411910e31cf8b3842"/>
     <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/jsoup-1.7.3-bd218b057e0b4e38c6d33792fdf772d67fd1f959.jar"
         jar="/home/tulio/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.7.3/92568d7167ce1bf9eb1fd815b022d5a2c113547a/jsoup-1.7.3.jar"

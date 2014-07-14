@@ -25,6 +25,8 @@ import java.util.List;
 
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
+import it.gmariotti.cardslib.library.prototypes.CardSection;
+import it.gmariotti.cardslib.library.prototypes.SectionedCardAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
 
 public class CalendarFragment extends ProgressFragment implements DatabaseListener, DatabaseDependentFragment {
@@ -69,21 +71,46 @@ public class CalendarFragment extends ProgressFragment implements DatabaseListen
     public void initDatabaseDependentViews() {
         Student student = UnicapApplication.getCurrentStudent();
 
-        //TODO: Duplicated subjectTests
         List<SubjectTest> subjectTests = student.getSubjectTestsOrdered();
 
-        ArrayList<Card> cardArrayList = new ArrayList<Card>();
+        ArrayList<Card> cards = new ArrayList<Card>();
+        ArrayList<CardSection> cardSections = new ArrayList<CardSection>();
 
-        for (SubjectTest subjectTest : subjectTests) {
-            CalendarListItemCard calendarListItemCard = new CalendarListItemCard(getActivity(), subjectTest);
-            cardArrayList.add(calendarListItemCard);
+        boolean found_first_position = false;
+        boolean found_second_position = false;
+        boolean found_final_position = false;
+
+        for (int i = 0; i < subjectTests.size(); i++) {
+
+            if(!found_first_position && subjectTests.get(i).degree == SubjectTest.Degree.FIRST_DEGREE) {
+                cardSections.add(new CardSection(i, getString(R.string.first_degree)));
+                found_first_position = true;
+            }
+
+            if(!found_second_position && subjectTests.get(i).degree == SubjectTest.Degree.SECOND_DEGREE) {
+                cardSections.add(new CardSection(i, getString(R.string.second_degree)));
+                found_second_position = true;
+            }
+
+            if(!found_final_position && subjectTests.get(i).degree == SubjectTest.Degree.FINAL_DEGREE) {
+                cardSections.add(new CardSection(i, getString(R.string.final_degree)));
+                found_final_position = true;
+            }
+
+            CalendarListItemCard calendarListItemCard = new CalendarListItemCard(getActivity(), subjectTests.get(i));
+            cards.add(calendarListItemCard);
         }
 
         CardListView cardListView = (CardListView) getContentView().findViewById(R.id.calendar_list);
 
-        CardArrayAdapter cardArrayAdapter = new CardArrayAdapter(getActivity(), cardArrayList);
+        CardArrayAdapter cardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
 
-        AnimationAdapter animCardArrayAdapter = new SwingBottomInAnimationAdapter(cardArrayAdapter);
+        SectionedCardAdapter sectionedCardAdapter = new SectionedCardAdapter(getActivity(), R.layout.card_section, cardArrayAdapter);
+
+        CardSection[] sections = new CardSection[cardSections.size()];
+        sectionedCardAdapter.setCardSections(cardSections.toArray(sections));
+
+        AnimationAdapter animCardArrayAdapter = new SwingBottomInAnimationAdapter(sectionedCardAdapter);
         animCardArrayAdapter.setAbsListView(cardListView);
         cardListView.setExternalAdapter(animCardArrayAdapter, cardArrayAdapter);
     }
