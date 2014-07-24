@@ -6,6 +6,7 @@ import com.activeandroid.annotation.Table;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 @Table(name = "SubjectStatus")
 public class SubjectStatus extends Model {
@@ -31,6 +32,9 @@ public class SubjectStatus extends Model {
 
     @Column(name = "Situation")
     public Situation situation;
+
+    @Column(name = "FlowSituation")
+    public FlowSituation flowSituation;
 
     @Column(name = "Team")
     public String team;
@@ -104,6 +108,10 @@ public class SubjectStatus extends Model {
     }
 
     public FlowSituation getFlowSituation() {
+        return flowSituation;
+    }
+
+    public FlowSituation calculateFlowSituation() {
 
         Float averageGrade = subject.getActualSubjectStatus().average;
         Float finalAverageGrade = subject.getActualSubjectStatus().final_average;

@@ -252,4 +252,20 @@ public class UnicapDataManager {
         }
 
     }
+
+    public static void setSubjectFlowSituation(String code, SubjectStatus.FlowSituation flowSituation) {
+        Subject subject = new Select().from(Subject.class)
+                .where("Code = ?", code)
+                .where("Student = ?", UnicapApplication.getCurrentStudent().getId())
+                .executeSingle();
+
+        if(subject != null) {
+            SubjectStatus actualSubjectStatus = subject.getActualSubjectStatus();
+
+            if (actualSubjectStatus != null) {
+                actualSubjectStatus.flowSituation = flowSituation;
+                actualSubjectStatus.save();
+            }
+        }
+    }
 }

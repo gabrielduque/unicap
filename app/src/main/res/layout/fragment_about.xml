@@ -52,6 +52,16 @@
             android:textSize="18sp"
             android:text="@string/about_description"/>
 
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_normal"
+            android:gravity="center_horizontal"
+            app:typeface="roboto_bold"
+            android:textColor="@color/unicap_gray_level_4"
+            android:textSize="18sp"
+            android:text="@string/about_warranty"/>
+
     </LinearLayout>
 
 </ScrollView>

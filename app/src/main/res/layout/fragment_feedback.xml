@@ -26,7 +26,7 @@
             android:layout_marginBottom="@dimen/margin_normal"
             app:typeface="roboto_thin"
             android:textSize="18sp"
-            android:text="Sua opinião é importante."/>
+            android:text="@string/feedback_title"/>
 
         <View
             android:layout_width="match_parent"
@@ -34,6 +34,7 @@
             android:background="@color/unicap_gray_level_2" />
 
         <com.devspark.robototextview.widget.RobotoTextView
+            android:autoLink="all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_normal"
@@ -41,7 +42,18 @@
             app:typeface="roboto_thin"
             android:textColor="@color/unicap_gray_level_4"
             android:textSize="18sp"
-            android:text="Entre em contato conosco para sugestões e/ou críticas através do email tuliohmendes@gmail.com"/>
+            android:text="@string/feedback_description"/>
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:autoLink="all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_normal"
+            android:gravity="center_horizontal"
+            app:typeface="roboto_thin"
+            android:textColor="@color/unicap_gray_level_4"
+            android:textSize="18sp"
+            android:text="@string/feedback_testers"/>
 
     </LinearLayout>
 

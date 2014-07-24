@@ -95,6 +95,7 @@
     <string name="first_call">1ª chamada</string>
     <string name="second_call">2ª chamada</string>
     <string name="about_description">O aplicativo Unicap permite que você acesse as informações presentes no portal do aluno de graduação da Universidade Católica de Pernambuco.</string>
+    <string name="about_warranty">Todo o desenvolvimento foi feito de maneira independente e não possui nenhum vínculo com a instituição.</string>
     <string name="about_version">Version 1.0.0.0</string>
     <string name="about_copyright">\u00A9 2014 Túlio Hoffimann Mendes</string>
     <string name="offline_message">Você está offline</string>
@@ -105,5 +106,8 @@
     <string name="first_degree_available">Primeiro GQ disponível</string>
     <string name="second_degree_available">Segundo GQ disponível</string>
     <string name="final_degree_available">Avaliação final disponível</string>
+    <string name="feedback_title">Sua opinião é importante.</string>
+    <string name="feedback_description">Entre em contato conosco para sugestões, críticas ou elogios através do email unicap.app@gmail.com</string>
+    <string name="feedback_testers">Interessado em se tornar um testador e receber atualizações antes da maioria? Entre na comunidade de testadores e siga as instruções: http://goo.gl/L0clQo</string>
 
 </resources>

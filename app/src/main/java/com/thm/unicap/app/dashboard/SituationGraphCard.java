@@ -38,6 +38,7 @@ public class SituationGraphCard extends Card implements PieGraph.OnSliceClickedL
 
         List<Subject> subjects = student.getActualSubjects();
 
+        //TODO: use enum values instead of static variables
         float approvedCount = 0f;
         float repprovedCount = 0f;
         float waitingCount = 0f;

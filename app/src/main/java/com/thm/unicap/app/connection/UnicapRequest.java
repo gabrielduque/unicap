@@ -397,6 +397,16 @@ public class UnicapRequest {
                 UnicapDataManager.persistSubjectFinalAverage(code, null);
             }
 
+            String situationText = subjectColumns.get(7).text();
+            if(situationText.equals("APROVADO")) {
+                UnicapDataManager.setSubjectFlowSituation(code, SubjectStatus.FlowSituation.APPROVED);
+            } else if(situationText.equals("REPROVADO POR MEDIA")) {
+                UnicapDataManager.setSubjectFlowSituation(code, SubjectStatus.FlowSituation.REPROVED);
+            } else if(situationText.equals("AGUARDANDO FINAL")) {
+                UnicapDataManager.setSubjectFlowSituation(code, SubjectStatus.FlowSituation.WAITING_FINAL);
+            } else {
+                UnicapDataManager.setSubjectFlowSituation(code, SubjectStatus.FlowSituation.WAITING);
+            }
 
         }
 
