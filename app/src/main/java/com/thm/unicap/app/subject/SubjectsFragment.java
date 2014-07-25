@@ -25,18 +25,6 @@ public class SubjectsFragment extends ProgressFragment implements DatabaseListen
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        if(UnicapApplication.hasStudentData()) { // Show offline data
-            databaseUpdated();
-        } else if (!NetworkUtils.isNetworkConnected(getActivity())) { // Show layout for offline error
-            setContentView(R.layout.content_offline);
-            setContentShown(true);
-        }
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         NavigationDrawerFragment navigationDrawerFragment = ((MainActivity) getActivity()).getNavigationDrawerFragment();
 
@@ -56,6 +44,14 @@ public class SubjectsFragment extends ProgressFragment implements DatabaseListen
     @Override
     public void onResume() {
         super.onResume();
+
+        if(UnicapApplication.hasStudentData()) { // Show offline data
+            databaseUpdated();
+        } else if (!NetworkUtils.isNetworkConnected(getActivity())) { // Show layout for offline error
+            setContentView(R.layout.content_offline);
+            setContentShown(true);
+        }
+
         UnicapApplication.addDatabaseListener(this);
     }
 

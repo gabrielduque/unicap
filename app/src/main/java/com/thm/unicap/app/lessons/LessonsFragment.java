@@ -38,8 +38,8 @@ public class LessonsFragment extends ProgressFragment implements DatabaseListene
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onResume() {
+        super.onResume();
 
         if(UnicapApplication.hasStudentData()) { // Show offline data
             databaseUpdated();

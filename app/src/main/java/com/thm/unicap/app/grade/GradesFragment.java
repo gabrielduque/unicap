@@ -48,8 +48,8 @@ public class GradesFragment extends ProgressFragment implements Card.OnCardClick
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onResume() {
+        super.onResume();
 
         if(UnicapApplication.hasStudentData()) { // Show offline data
             databaseUpdated();

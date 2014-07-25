@@ -27,6 +27,7 @@ import com.devspark.robototextview.widget.RobotoTextView;
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.github.johnpersano.supertoasts.util.Style;
 import com.thm.unicap.app.R;
+import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.connection.OnTaskCancelled;
 import com.thm.unicap.app.connection.OnTaskCompleted;
 import com.thm.unicap.app.connection.UnicapDataManager;
@@ -165,6 +166,7 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
+            isLoginInProgress = false;
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
@@ -258,6 +260,8 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
             // (Not setting the auth token will cause another call to the server to authenticate the user)
             if(mAccountManager.addAccountExplicitly(account, accountPassword, null)) {
                 mAccountManager.setAuthToken(account, authtokenType, authtoken);
+
+                UnicapApplication.setIsSyncing(true);
                 ContentResolver.setSyncAutomatically(account, UnicapContentProvider.AUTHORITY, true);
             }
         } else {

@@ -4,8 +4,6 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
-import android.accounts.OperationCanceledException;
-import android.content.ContentResolver;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -29,7 +27,6 @@ import com.thm.unicap.app.lessons.LessonsFragment;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.subject.SubjectsFragment;
-import com.thm.unicap.app.sync.UnicapContentProvider;
 import com.thm.unicap.app.util.DatabaseListener;
 
 
@@ -50,7 +47,7 @@ public class MainActivity extends ActionBarActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    private SuperActivityToast mSuperActivityToast;
+    private SuperActivityToast mSyncingToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,24 +68,27 @@ public class MainActivity extends ActionBarActivity
     public void onResume() {
         super.onResume();
 
-        if(!UnicapApplication.hasStudentData())
+        if(!UnicapApplication.hasStudentData()) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(!UnicapApplication.hasCurrentAccount())
+                    if (!UnicapApplication.hasCurrentAccount()) {
                         selectAccountCreateIfNeeded();
+                    }
                 }
             }, 500);
+        }
 
         UnicapApplication.addDatabaseListener(this);
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onStop() {
+        super.onStop();
 
         UnicapApplication.removeDatabaseListener(this);
         mHandler.removeCallbacks(mSwitchFragmentRunnable);
+        if(mSyncingToast != null) mSyncingToast.dismiss();
     }
 
     @Override
@@ -215,7 +215,10 @@ public class MainActivity extends ActionBarActivity
                                 UnicapApplication.setCurrentStudent(student);
                                 UnicapApplication.notifyDatabaseUpdated();
                             } else {
-                                UnicapApplication.forceSync();
+                                if(!UnicapApplication.isSyncing())
+                                    UnicapApplication.forceSync();
+                                else
+                                    databaseSyncing();
                             }
 
                         } catch (Exception e) {
@@ -231,10 +234,15 @@ public class MainActivity extends ActionBarActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mSuperActivityToast = new SuperActivityToast(MainActivity.this, SuperToast.Type.PROGRESS);
-                mSuperActivityToast.setText(getString(R.string.synchronizing));
-                mSuperActivityToast.setIndeterminate(true);
-                mSuperActivityToast.show();
+
+                if(mSyncingToast == null) {
+                    mSyncingToast = new SuperActivityToast(MainActivity.this, SuperToast.Type.PROGRESS);
+                    mSyncingToast.setText(getString(R.string.synchronizing));
+                    mSyncingToast.setIndeterminate(true);
+                }
+
+                if(!mSyncingToast.isShowing())
+                    mSyncingToast.show();
             }
         });
     }
@@ -244,8 +252,9 @@ public class MainActivity extends ActionBarActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mSuperActivityToast != null)
-                    mSuperActivityToast.dismiss();
+                if (mSyncingToast != null) {
+                    mSyncingToast.dismiss();
+                }
             }
         });
     }
@@ -255,8 +264,9 @@ public class MainActivity extends ActionBarActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mSuperActivityToast != null)
-                    mSuperActivityToast.dismiss();
+                if (mSyncingToast != null) {
+                    mSyncingToast.dismiss();
+                }
             }
         });
     }

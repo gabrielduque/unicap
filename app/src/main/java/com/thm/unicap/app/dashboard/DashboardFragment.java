@@ -59,8 +59,8 @@ public class DashboardFragment extends ProgressFragment implements DatabaseListe
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onResume() {
+        super.onResume();
 
         if(UnicapApplication.hasStudentData()) { // Show offline data
             databaseUpdated();

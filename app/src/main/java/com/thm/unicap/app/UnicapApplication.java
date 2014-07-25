@@ -21,6 +21,7 @@ public class UnicapApplication extends Application {
     private static Student mCurrentStudent = null;
     private static Account mCurrentAccount = null;
     private static ArrayList<DatabaseListener> mDatabaseListeners;
+    private static boolean isSyncing;
 
     @Override
     public void onCreate() {
@@ -58,12 +59,14 @@ public class UnicapApplication extends Application {
     }
 
     public static void notifyDatabaseSyncing() {
+        isSyncing = true;
         for (DatabaseListener listener : mDatabaseListeners) {
             listener.databaseSyncing();
         }
     }
 
     public static void notifyDatabaseUpdated() {
+        isSyncing = false;
         if(mCurrentStudent != null) {
             for (DatabaseListener listener : mDatabaseListeners) {
                 listener.databaseUpdated();
@@ -72,6 +75,7 @@ public class UnicapApplication extends Application {
     }
 
     public static void notifyDatabaseUnreachable(String message) {
+        isSyncing = false;
         if(mCurrentStudent == null) {
             for (DatabaseListener listener : mDatabaseListeners) {
                 listener.databaseUnreachable(message);
@@ -100,13 +104,18 @@ public class UnicapApplication extends Application {
     }
 
     public static void forceSync() {
-
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
 
         ContentResolver.requestSync(UnicapApplication.getCurrentAccount(), UnicapContentProvider.AUTHORITY, settingsBundle);
-
     }
 
+    public static boolean isSyncing() {
+        return isSyncing;
+    }
+
+    public static void setIsSyncing(boolean isSyncing) {
+        UnicapApplication.isSyncing = isSyncing;
+    }
 }
