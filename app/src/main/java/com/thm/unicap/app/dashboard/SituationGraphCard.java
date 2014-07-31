@@ -117,6 +117,9 @@ public class SituationGraphCard extends Card implements PieGraph.OnSliceClickedL
 
     @Override
     public void onClick(int index) {
+
+        if(index == -1) return;
+
         mActiveSlice = index;
         PieSlice slice = mPieGraph.getSlice(index);
 

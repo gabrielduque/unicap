@@ -212,7 +212,6 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
 
             onTaskCancelled();
 
-            //TODO: review this
             // Clean up to prevent broken data
             UnicapDataManager.cleanUserData(registration);
 

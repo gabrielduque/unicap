@@ -23,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_normal"
             app:typeface="roboto_regular"
             android:textColor="@color/unicap_gray_level_4"
             android:textSize="18sp"

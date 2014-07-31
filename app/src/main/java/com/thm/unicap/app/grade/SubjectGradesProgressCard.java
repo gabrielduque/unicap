@@ -30,9 +30,14 @@ public class SubjectGradesProgressCard extends Card {
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
 
-        Float firstDegreeTestGrade = mSubject.getTestByDegree(SubjectTest.Degree.FIRST_DEGREE).grade;
-        Float secondDegreeTestGrade = mSubject.getTestByDegree(SubjectTest.Degree.SECOND_DEGREE).grade;
-        Float finalDegreeTestGrade = mSubject.getTestByDegree(SubjectTest.Degree.FINAL_DEGREE).grade;
+        SubjectTest firstDegreeTest = mSubject.getTestByDegree(SubjectTest.Degree.FIRST_DEGREE);
+        Float firstDegreeTestGrade = (firstDegreeTest != null) ? firstDegreeTest.grade : null;
+
+        SubjectTest secondDegreeTest = mSubject.getTestByDegree(SubjectTest.Degree.SECOND_DEGREE);
+        Float secondDegreeTestGrade = (secondDegreeTest != null) ? secondDegreeTest.grade : null;
+
+        SubjectTest finalDegreeTest = mSubject.getTestByDegree(SubjectTest.Degree.FINAL_DEGREE);
+        Float finalDegreeTestGrade = (finalDegreeTest != null) ? finalDegreeTest.grade : null;
 
         ArrayList<Float> floatPoints = new ArrayList<Float>();
         floatPoints.add(firstDegreeTestGrade);

@@ -1,6 +1,7 @@
 package com.thm.unicap.app.lessons;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -13,6 +14,8 @@ import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
+import com.thm.unicap.app.subject.SubjectActivity;
+import com.thm.unicap.app.subject.SubjectListItemCard;
 import com.thm.unicap.app.util.UnicapUtils;
 
 import java.sql.Time;
@@ -26,6 +29,7 @@ import java.util.List;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardHeader;
 import it.gmariotti.cardslib.library.prototypes.CardWithList;
+import it.gmariotti.cardslib.library.prototypes.LinearListView;
 
 public class LessonsCard extends CardWithList {
 
@@ -123,17 +127,25 @@ public class LessonsCard extends CardWithList {
         return R.layout.card_today_lessons_entry;
     }
 
-    private class SubjectListObject extends DefaultListObject {
+    private class SubjectListObject extends DefaultListObject implements OnItemClickListener {
 
         private Subject mSubject;
 
         private SubjectListObject(Card parentCard, Subject mSubject) {
             super(parentCard);
             this.mSubject = mSubject;
+            setOnItemClickListener(this);
         }
 
         public Subject getSubject() {
             return mSubject;
+        }
+
+        @Override
+        public void onItemClick(LinearListView linearListView, View view, int i, ListObject listObject) {
+            Intent intent = new Intent(mContext, SubjectActivity.class);
+            intent.putExtra("subject_id", mSubject.getId());
+            mContext.startActivity(intent);
         }
     }
 
