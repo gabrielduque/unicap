@@ -3,7 +3,6 @@ package com.thm.unicap.app.calendar;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
 
@@ -72,6 +71,11 @@ public class CalendarFragment extends ProgressFragment implements DatabaseListen
         Student student = UnicapApplication.getCurrentStudent();
 
         List<SubjectTest> subjectTests = student.getSubjectTestsOrdered();
+
+        if(subjectTests.size() == 0) {
+            setContentView(R.layout.content_empty_calendar);
+            return;
+        }
 
         ArrayList<Card> cards = new ArrayList<Card>();
         ArrayList<CardSection> cardSections = new ArrayList<CardSection>();
