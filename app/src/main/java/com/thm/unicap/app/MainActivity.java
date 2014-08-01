@@ -157,9 +157,6 @@ public class MainActivity extends ActionBarActivity
             case NavigationDrawerFragment.SESSION_GRADES:
                 mTitle = getString(R.string.grades);
                 break;
-            case NavigationDrawerFragment.SESSION_SETTINGS:
-                mTitle = getString(R.string.settings);
-                break;
             case NavigationDrawerFragment.SESSION_FEEDBACK:
                 mTitle = getString(R.string.feedback);
                 break;

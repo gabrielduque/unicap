@@ -52,9 +52,8 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
     public static final int SESSION_LESSONS = 3;
     public static final int SESSION_GRADES = 4;
 
-    public static final int SESSION_SETTINGS = 5;
-    public static final int SESSION_FEEDBACK = 6;
-    public static final int SESSION_ABOUT = 7;
+    public static final int SESSION_FEEDBACK = 5;
+    public static final int SESSION_ABOUT = 6;
 
     /**
      * Remember the position of the selected item.
@@ -144,7 +143,7 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
 
         Picasso.with(getActivity())
                 .load(UnicapApplication.getCurrentStudent().getGravatarURL(100))
-                .placeholder(R.drawable.mm)
+                .placeholder(R.drawable.ic_graduate)
                 .into(navHeaderPicture);
         navHeaderCourse.setText(UnicapApplication.getCurrentStudent().course);
         navHeaderName.setText(UnicapApplication.getCurrentStudent().name);
@@ -175,14 +174,13 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
         List<NavigationItem> navigationItems = new ArrayList<NavigationItem>();
 
         //Main items
-        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_action_dashboard));
-        navigationItems.add(new NavigationItem(getString(R.string.subjects), R.drawable.ic_action_subjects));
-        navigationItems.add(new NavigationItem(getString(R.string.calendar), R.drawable.ic_action_calendar));
-        navigationItems.add(new NavigationItem(getString(R.string.lessons), R.drawable.ic_action_lessons));
-        navigationItems.add(new NavigationItem(getString(R.string.grades), R.drawable.ic_action_grades));
+        navigationItems.add(new NavigationItem(getString(R.string.dashboard), R.drawable.ic_dashboard));
+        navigationItems.add(new NavigationItem(getString(R.string.subjects), R.drawable.ic_subjects));
+        navigationItems.add(new NavigationItem(getString(R.string.calendar), R.drawable.ic_calendar));
+        navigationItems.add(new NavigationItem(getString(R.string.lessons), R.drawable.ic_lessons));
+        navigationItems.add(new NavigationItem(getString(R.string.grades), R.drawable.ic_grades));
 
         //Extra items
-        navigationItems.add(new NavigationItem(getString(R.string.settings), R.drawable.ic_action_settings, NavigationItem.Type.EXTRA));
         navigationItems.add(new NavigationItem(getString(R.string.feedback), R.drawable.ic_action_feedback, NavigationItem.Type.EXTRA));
         navigationItems.add(new NavigationItem(getString(R.string.about), R.drawable.ic_action_about, NavigationItem.Type.EXTRA));
 

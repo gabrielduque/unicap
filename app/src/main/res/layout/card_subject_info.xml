@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:drawableLeft="@drawable/ic_action_accounts"
+            android:drawableLeft="@drawable/ic_registration"
             android:text="@string/code"
             app:typeface="roboto_thin"/>
 
@@ -103,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:drawableLeft="@drawable/ic_action_important"
+            android:drawableLeft="@drawable/ic_credits"
             android:text="@string/credits"
             app:typeface="roboto_thin"/>
 
@@ -140,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:drawableLeft="@drawable/ic_action_calendar"
+            android:drawableLeft="@drawable/ic_calendar"
             android:text="@string/period"
             app:typeface="roboto_thin"/>
 

@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:drawableLeft="@drawable/ic_action_grades"
+            android:drawableLeft="@drawable/ic_grade"
             android:text="@string/first_degree"
             app:typeface="roboto_thin"/>
 
@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:drawableLeft="@drawable/ic_action_grades"
+            android:drawableLeft="@drawable/ic_grade"
             android:text="@string/second_degree"
             app:typeface="roboto_thin"/>
 
@@ -101,7 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:drawableLeft="@drawable/ic_action_grades"
+            android:drawableLeft="@drawable/ic_grade"
             android:text="@string/final_degree"
             app:typeface="roboto_thin"/>
 

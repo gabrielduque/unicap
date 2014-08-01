@@ -36,22 +36,16 @@ public class SubjectGradesCard extends Card {
         TextView card_subject_grades_final_average = (TextView) parent.findViewById(R.id.card_subject_grades_final_average);
 
         SubjectTest firstDegreeTest = mSubject.getTestByDegree(SubjectTest.Degree.FIRST_DEGREE);
-        if(firstDegreeTest != null) {
-            Float firstDegreeTestGrade = firstDegreeTest.grade;
-            setupGradeView(firstDegreeTestGrade, card_subject_grades_first_degree);
-        }
+        Float firstDegreeTestGrade = (firstDegreeTest != null) ? firstDegreeTest.grade : null;
+        setupGradeView(firstDegreeTestGrade, card_subject_grades_first_degree);
 
         SubjectTest secondDegreeTest = mSubject.getTestByDegree(SubjectTest.Degree.SECOND_DEGREE);
-        if(secondDegreeTest != null) {
-            Float secondDegreeTestGrade = secondDegreeTest.grade;
-            setupGradeView(secondDegreeTestGrade, card_subject_grades_second_degree);
-        }
+        Float secondDegreeTestGrade = (secondDegreeTest != null) ? secondDegreeTest.grade : null;
+        setupGradeView(secondDegreeTestGrade, card_subject_grades_second_degree);
 
         SubjectTest finalDegreeTest = mSubject.getTestByDegree(SubjectTest.Degree.FINAL_DEGREE);
-        if(finalDegreeTest != null) {
-            Float finalDegreeTestGrade = finalDegreeTest.grade;
-            setupGradeView(finalDegreeTestGrade, card_subject_grades_final_degree);
-        }
+        Float finalDegreeTestGrade = (finalDegreeTest != null) ? finalDegreeTest.grade : null;
+        setupGradeView(finalDegreeTestGrade, card_subject_grades_final_degree);
 
         SubjectStatus actualSubjectStatus = mSubject.getActualSubjectStatus();
 
