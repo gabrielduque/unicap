@@ -13,7 +13,6 @@ import android.content.SyncResult;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
 
 import com.activeandroid.ActiveAndroid;
 import com.thm.unicap.app.MainActivity;
@@ -27,18 +26,15 @@ import com.thm.unicap.app.model.SubjectTest;
 import java.util.List;
 
 public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
-    private final ContentResolver mContentResolver;
     private AccountManager mAccountManager;
 
     public UnicapSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
-        mContentResolver = context.getContentResolver();
         mAccountManager = AccountManager.get(getContext());
     }
 
     public UnicapSyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
         super(context, autoInitialize, allowParallelSyncs);
-        mContentResolver = context.getContentResolver();
         mAccountManager = AccountManager.get(getContext());
     }
 
@@ -49,11 +45,13 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
 
         Intent startIntent = new Intent();
         startIntent.setAction(UnicapSyncReceiver.SYNC_ACTION);
+        startIntent.putExtra(UnicapSyncReceiver.SYNC_ACCOUNT_PARAM, account.name);
         startIntent.putExtra(UnicapSyncReceiver.SYNC_STATUS_PARAM, UnicapSyncReceiver.SYNC_STATUS_STARTED);
         getContext().sendBroadcast(startIntent);
 
         Intent resultIntent = new Intent();
         resultIntent.setAction(UnicapSyncReceiver.SYNC_ACTION);
+        resultIntent.putExtra(UnicapSyncReceiver.SYNC_ACCOUNT_PARAM, account.name);
 
         ActiveAndroid.beginTransaction();
         try {
@@ -80,6 +78,8 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
         } catch (UnicapRequestException e) {
 
             UnicapApplication.error("SYNC - " + e.getMessageFromContext(getContext()));
+
+            syncResult.stats.numIoExceptions++;
 
             resultIntent.putExtra(UnicapSyncReceiver.SYNC_STATUS_PARAM, UnicapSyncReceiver.SYNC_STATUS_FAIL);
             resultIntent.putExtra(UnicapSyncReceiver.SYNC_MESSAGE_PARAM, e.getMessageFromContext(getContext()));
