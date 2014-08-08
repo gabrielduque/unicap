@@ -107,13 +107,7 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
     @Override
     public void onActivityCreated (Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         if(UnicapApplication.hasStudentData()) { // Show offline data
             databaseUpdated();
         }

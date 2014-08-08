@@ -110,5 +110,6 @@
     <string name="feedback_description">Entre em contato conosco para sugestões, críticas ou elogios através do email unicap.app@gmail.com</string>
     <string name="feedback_testers">Interessado em se tornar um testador e receber atualizações antes da maioria? Entre na comunidade de testadores e siga as instruções: http://goo.gl/L0clQo</string>
     <string name="empty_calendar_error">Nenhuma data foi definida.</string>
+    <string name="performed">Cumprido</string>
 
 </resources>

@@ -3,6 +3,7 @@ package com.thm.unicap.app.calendar;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
 
@@ -31,9 +32,18 @@ import it.gmariotti.cardslib.library.view.CardListView;
 public class CalendarFragment extends ProgressFragment implements DatabaseListener, DatabaseDependentFragment {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
+
+        if(UnicapApplication.hasStudentData()) { // Show offline data
+            databaseUpdated();
+        } else if (!NetworkUtils.isNetworkConnected(getActivity())) { // Show layout for offline error
+            setContentView(R.layout.content_offline);
+            setContentShown(true);
+        }
+
+        UnicapApplication.addDatabaseListener(this);
     }
 
     @Override
@@ -44,20 +54,6 @@ public class CalendarFragment extends ProgressFragment implements DatabaseListen
             inflater.inflate(R.menu.fragment_calendar, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if(UnicapApplication.hasStudentData()) { // Show offline data
-            databaseUpdated();
-        } else if (!NetworkUtils.isNetworkConnected(getActivity())) { // Show layout for offline error
-            setContentView(R.layout.content_offline);
-            setContentShown(true);
-        }
-
-        UnicapApplication.addDatabaseListener(this);
     }
 
     @Override

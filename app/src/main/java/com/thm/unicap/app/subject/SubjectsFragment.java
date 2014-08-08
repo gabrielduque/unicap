@@ -19,9 +19,18 @@ import com.thm.unicap.app.util.NetworkUtils;
 public class SubjectsFragment extends ProgressFragment implements DatabaseListener, DatabaseDependentFragment {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
+
+        if(UnicapApplication.hasStudentData()) { // Show offline data
+            databaseUpdated();
+        } else if (!NetworkUtils.isNetworkConnected(getActivity())) { // Show layout for offline error
+            setContentView(R.layout.content_offline);
+            setContentShown(true);
+        }
+
+        UnicapApplication.addDatabaseListener(this);
     }
 
     @Override
@@ -39,20 +48,6 @@ public class SubjectsFragment extends ProgressFragment implements DatabaseListen
         ViewPager mViewPager = (ViewPager) getContentView().findViewById(R.id.pager);
         mViewPager.setAdapter(new SubjectsPagerAdapter(getActivity()));
         mViewPager.setCurrentItem(SubjectsPagerAdapter.Session.ACTUAL.ordinal());
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if(UnicapApplication.hasStudentData()) { // Show offline data
-            databaseUpdated();
-        } else if (!NetworkUtils.isNetworkConnected(getActivity())) { // Show layout for offline error
-            setContentView(R.layout.content_offline);
-            setContentShown(true);
-        }
-
-        UnicapApplication.addDatabaseListener(this);
     }
 
     @Override

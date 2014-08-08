@@ -43,9 +43,19 @@ public class DashboardFragment extends ProgressFragment implements DatabaseListe
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         setHasOptionsMenu(true);
+
+        if(UnicapApplication.hasStudentData()) { // Show offline data
+            databaseUpdated();
+        } else if (!NetworkUtils.isNetworkConnected(getActivity())) { // Show layout for offline error
+            setContentView(R.layout.content_offline);
+            setContentShown(true);
+        }
+
+        UnicapApplication.addDatabaseListener(this);
     }
 
     @Override
@@ -56,20 +66,6 @@ public class DashboardFragment extends ProgressFragment implements DatabaseListe
             inflater.inflate(R.menu.fragment_dashboard, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if(UnicapApplication.hasStudentData()) { // Show offline data
-            databaseUpdated();
-        } else if (!NetworkUtils.isNetworkConnected(getActivity())) { // Show layout for offline error
-            setContentView(R.layout.content_offline);
-            setContentShown(true);
-        }
-
-        UnicapApplication.addDatabaseListener(this);
     }
 
     @Override

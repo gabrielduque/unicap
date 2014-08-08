@@ -22,12 +22,6 @@ import it.gmariotti.cardslib.library.view.CardView;
 public class LessonsFragment extends ProgressFragment implements DatabaseListener, DatabaseDependentFragment {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         NavigationDrawerFragment navigationDrawerFragment = ((MainActivity) getActivity()).getNavigationDrawerFragment();
 
@@ -38,8 +32,9 @@ public class LessonsFragment extends ProgressFragment implements DatabaseListene
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
 
         if(UnicapApplication.hasStudentData()) { // Show offline data
             databaseUpdated();

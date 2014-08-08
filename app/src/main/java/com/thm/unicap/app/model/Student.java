@@ -50,13 +50,12 @@ public class Student extends Model {
     public String getGravatarURL(Integer pictureSize) {
 
         String emailAddress = email != null ? email : "";
-        String fallbackImage = "mm";
 
         String md5Hash = HashUtils.MD5(emailAddress);
 
         if(md5Hash == null) md5Hash = "";
 
-        return String.format("http://www.gravatar.com/avatar/%s?s=%s&d=%s", md5Hash, String.valueOf(pictureSize), fallbackImage);
+        return String.format("http://www.gravatar.com/avatar/%s?s=%s", md5Hash, String.valueOf(pictureSize));
     }
 
     public List<Subject> getActualSubjects() {

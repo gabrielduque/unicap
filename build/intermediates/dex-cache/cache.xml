@@ -36,7 +36,7 @@
         jar="/home/tulio/Projects/unicap/app/build/intermediates/exploded-aar/unicap/HoloGraphLibrary/unspecified/classes.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="51013ada70ea49a49cce6d2bc627442c180e5bb3"/>
+        sha1="65d1c527feb4e4225fd82624cdf7536716f2fe54"/>
     <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-ab9831a8146beb92249db6fdb7bf178ce81ebf9f.jar"
         jar="/home/tulio/Projects/unicap/app/build/intermediates/exploded-aar/com.etsy.android.grid/library/1.0.5/classes.jar"
@@ -47,13 +47,13 @@
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/library-2.4.0-cee9c7549b9104e105ffde7dcce4b61b40be7517.jar"
         jar="/home/tulio/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
         jumboMode="false"
-        revision="19.1.0"
+        revision="20.0.0"
         sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb"/>
     <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/library-2.4.0-cee9c7549b9104e105ffde7dcce4b61b40be7517.jar"
         jar="/home/tulio/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
         jumboMode="false"
-        revision="20.0.0"
+        revision="19.1.0"
         sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb"/>
     <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-5f2f9a2dc68ab1c439905054ff97dc2cda71086b.jar"

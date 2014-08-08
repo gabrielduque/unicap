@@ -145,6 +145,7 @@ public class UnicapRequest {
 
             SubjectStatus.Situation situation;
             if (subjectColumns.get(4).text().equals("AP")) situation = SubjectStatus.Situation.APPROVED;
+            else if (subjectColumns.get(4).text().equals("CP")) situation = SubjectStatus.Situation.PERFORMED;
             else if (subjectColumns.get(4).text().equals("RM")) situation = SubjectStatus.Situation.REPROVED;
             else if (subjectColumns.get(4).text().equals("CI")) situation = SubjectStatus.Situation.IMPORTED;
             else situation = SubjectStatus.Situation.UNKNOWN;

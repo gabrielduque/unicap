@@ -32,12 +32,6 @@ import it.gmariotti.cardslib.library.view.CardListView;
 public class GradesFragment extends ProgressFragment implements Card.OnCardClickListener, DatabaseListener, DatabaseDependentFragment {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         NavigationDrawerFragment navigationDrawerFragment = ((MainActivity) getActivity()).getNavigationDrawerFragment();
 
@@ -48,8 +42,9 @@ public class GradesFragment extends ProgressFragment implements Card.OnCardClick
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
 
         if(UnicapApplication.hasStudentData()) { // Show offline data
             databaseUpdated();
