@@ -72,6 +72,7 @@ public class SubjectsPagerAdapter extends PagerAdapter implements Card.OnCardCli
         if(position == Session.PAST.ordinal()) {
             query.where("SubjectStatus.Situation = ?", SubjectStatus.Situation.APPROVED)
                     .or("SubjectStatus.Situation = ?", SubjectStatus.Situation.IMPORTED)
+                    .or("SubjectStatus.Situation = ?", SubjectStatus.Situation.PERFORMED)
                     .or("SubjectStatus.Situation = ?", SubjectStatus.Situation.UNKNOWN);
         } else if(position == Session.ACTUAL.ordinal()) {
             query.where("SubjectStatus.Situation = ?", SubjectStatus.Situation.ACTUAL);
