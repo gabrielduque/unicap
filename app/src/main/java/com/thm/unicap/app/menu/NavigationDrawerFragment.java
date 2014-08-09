@@ -274,6 +274,12 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
         }
     }
 
+    public void closeDrawer() {
+        if (mDrawerLayout != null) {
+            mDrawerLayout.closeDrawer(mFragmentContainerView);
+        }
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -390,4 +396,5 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
          */
         void onNavigationDrawerItemSelected(int position);
     }
+
 }
