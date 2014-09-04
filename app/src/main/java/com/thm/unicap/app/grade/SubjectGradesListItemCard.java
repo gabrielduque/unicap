@@ -36,7 +36,11 @@ public class SubjectGradesListItemCard extends Card {
         subject_code.setText(mSubject.code);
         subject_name.setText(mSubject.name);
 
-        SubjectStatus.FlowSituation flowSituation = mSubject.getActualSubjectStatus().getFlowSituation();
+        SubjectStatus actualSubjectStatus = mSubject.getActualSubjectStatus();
+
+        if(actualSubjectStatus == null) return;
+
+        SubjectStatus.FlowSituation flowSituation = actualSubjectStatus.getFlowSituation();
 
         switch (flowSituation) {
             case APPROVED:

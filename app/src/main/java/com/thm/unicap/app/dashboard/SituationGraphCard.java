@@ -48,6 +48,8 @@ public class SituationGraphCard extends Card implements PieGraph.OnSliceClickedL
         for (Subject subject : subjects) {
             SubjectStatus actualSubjectStatus = subject.getActualSubjectStatus();
 
+            if(actualSubjectStatus == null) continue;
+
             switch (actualSubjectStatus.getFlowSituation()) {
                 case APPROVED:
                     approvedCount++;
