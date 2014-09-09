@@ -79,7 +79,7 @@ public class Student extends Model {
                 .innerJoin(SubjectStatus.class)
                 .on("SubjectStatus.Subject = SubjectTest.Subject")
                 .where("Subject.Student = ?", getId())
-                .orderBy("SubjectTest.Date1, SubjectTest.Date2, Subject.Period, Subject.Name")
+                .orderBy("SubjectTest.degree, SubjectTest.Date1, SubjectTest.Date2, Subject.Period, Subject.Name")
                 .where("SubjectStatus.Situation = ?", SubjectStatus.Situation.ACTUAL)
                 .execute();
     }

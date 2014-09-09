@@ -26,7 +26,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:20.+'
     compile 'com.github.johnkil.android-progressfragment:progressfragment:1.4.+'
     compile 'org.jsoup:jsoup:1.7.3'
-    compile 'com.github.gabrielemariotti.cards:library-extra:1.8.0'
+    compile 'com.github.gabrielemariotti.cards:library-extra:1.9.0'
     compile 'com.github.johnpersano:supertoasts:1.3.4@aar'
     compile 'com.github.johnkil.android-robototextview:robototextview:2.1.0'
     compile 'com.squareup.picasso:picasso:2.3.2'
