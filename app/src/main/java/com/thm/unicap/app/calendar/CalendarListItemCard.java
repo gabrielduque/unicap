@@ -39,10 +39,14 @@ public class CalendarListItemCard extends Card {
 
         if (mSubjectTest.date1 != null) {
             subject_date1.setText(sdf.format(mSubjectTest.date1));
+        } else {
+            subject_date1.setText("-");
         }
 
         if (mSubjectTest.date2 != null) {
             subject_date2.setText(sdf.format(mSubjectTest.date2));
+        } else {
+            subject_date2.setText("-");
         }
 
         switch (mSubjectTest.degree) {
