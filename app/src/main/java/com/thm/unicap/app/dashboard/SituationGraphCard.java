@@ -104,9 +104,6 @@ public class SituationGraphCard extends Card implements PieGraph.OnSliceClickedL
         mPieGraph.setOnSliceClickedListener(this);
         mPieGraph.setInnerCircleRatio(100);
 
-        //Workaround to fix PieGraph bug
-        mPieGraph.setPadding(1);
-
         onClick(mActiveSlice);
 
         Animation rotation = AnimationUtils.loadAnimation(mContext, R.anim.clockwise_scale_rotation);

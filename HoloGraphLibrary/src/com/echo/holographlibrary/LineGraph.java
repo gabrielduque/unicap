@@ -50,6 +50,7 @@ public class LineGraph extends View {
     private final int mAxisColor;
     private final float mStrokeWidth;
     private final int mStrokeSpacing;
+    private final int mBackgroundColor;
     private ArrayList<Line> mLines = new ArrayList<Line>();
     private Paint mPaint = new Paint();
     private float mMinY = 0, mMinX = 0;
@@ -83,9 +84,11 @@ public class LineGraph extends View {
                 attrs, R.styleable.LineGraph, 0, 0);
         mFillColor = a.getColor(R.styleable.LineGraph_lineStrokeColor, Color.BLACK);
         mAxisColor = a.getColor(R.styleable.LineGraph_lineAxisColor, Color.LTGRAY);
+        mBackgroundColor = a.getColor(R.styleable.LineGraph_lineBackground, Color.WHITE);
         mStrokeWidth = a.getDimension(R.styleable.LineGraph_lineStrokeWidth, 2);
         mStrokeSpacing = a.getDimensionPixelSize(R.styleable.LineGraph_lineStrokeSpacing, 10);
         mUseDips = a.getBoolean(R.styleable.LineGraph_lineUseDip, false);
+        a.recycle();
     }
 
     public boolean isUsingDips() {
@@ -325,15 +328,19 @@ public class LineGraph extends View {
         return mMinX;
     }
 
+    private void resetPaintWithAntiAlias(Paint paint, boolean antiAlias) {
+    	paint.reset();
+    	paint.setAntiAlias(antiAlias);
+    }
+    
     public void onDraw(Canvas canvas) {
         if (null == mFullImage) {
             mFullImage = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
             mCanvas = new Canvas(mFullImage);
         }
 
-        mCanvas.drawColor(Color.WHITE);
-        mPaint.reset();
-        mPaint.setAntiAlias(true);
+        mCanvas.drawColor(mBackgroundColor);
+        resetPaintWithAntiAlias(mPaint, true);
         float bottomPadding = 10, topPadding = 10;
         float sidePadding = 10;
         if (mUseDips) {
@@ -367,8 +374,7 @@ public class LineGraph extends View {
                 }
 
                 // Erase lines above the line
-                mPaint.reset();
-                mPaint.setAntiAlias(true);
+                resetPaintWithAntiAlias(mPaint, true);
                 mPaint.setXfermode(mXfermode);
                 for (LinePoint p : line.getPoints()) {
                     float yPercent = (p.getY() - minY) / (maxY - minY);
@@ -414,15 +420,14 @@ public class LineGraph extends View {
         }
 
         // Draw x-axis line
-        mPaint.reset();
+        resetPaintWithAntiAlias(mPaint, true);
         mPaint.setColor(mAxisColor);
         mPaint.setStrokeWidth(2 * getResources().getDisplayMetrics().density);
-        mPaint.setAntiAlias(true);
+        
         mCanvas.drawLine(
                 sidePadding, getHeight() - bottomPadding,
                 getWidth() - sidePadding, getHeight() - bottomPadding, mPaint);
-        mPaint.reset();
-        mPaint.setAntiAlias(true);
+        resetPaintWithAntiAlias(mPaint, true);
 
         // Draw lines
         for (Line line : mLines) {
