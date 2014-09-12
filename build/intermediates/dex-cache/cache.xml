@@ -104,6 +104,12 @@
         revision="19.1.0"
         sha1="8f34f25d013e443b3887b443d80da0bd623ef5c3"/>
     <item
+        dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/classes-2f743a96c07ffa367f1e6ad5d664522916fff477.jar"
+        jar="/home/tulio/Projects/unicap/app/build/intermediates/exploded-aar/uk.me.lewisdeane.ldialogs/ldialogs/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="358f89e0572fbafe849b62e3e835a535902b4d82"/>
+    <item
         dex="/home/tulio/Projects/unicap/app/build/intermediates/pre-dexed/debug/library-2.4.0-cee9c7549b9104e105ffde7dcce4b61b40be7517.jar"
         jar="/home/tulio/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
         jumboMode="false"

@@ -111,5 +111,10 @@
     <string name="feedback_testers">Interessado em se tornar um testador e receber atualizações antes da maioria? Entre na comunidade de testadores e siga as instruções: http://goo.gl/L0clQo</string>
     <string name="empty_calendar_error">Nenhuma data foi definida.</string>
     <string name="performed">Cumprido</string>
+    <string name="gravatar_text">Tentando alterar ou adicionar sua foto? Nós utilizamos o serviço Gravatar para facilitar sua vida.</string>
+    <string name="profile_picture">Foto de perfil</string>
+    <string name="learn_more">Saiba mais</string>
+    <string name="not_now">Agora não</string>
+    <string name="gravatar_website">http://br.gravatar.com/</string>
 
 </resources>

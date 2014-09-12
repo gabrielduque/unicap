@@ -67,6 +67,15 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
+        public static int lineBackground=0x7f01000b;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
         public static int lineStrokeColor=0x7f010006;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
@@ -114,7 +123,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int pieInnerCircleRatio=0x7f01000b;
+        public static int pieInnerCircleRatio=0x7f01000c;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -124,7 +133,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int pieSlicePadding=0x7f01000c;
+        public static int pieSlicePadding=0x7f01000d;
     }
     public static final class drawable {
         public static int popup_black=0x7f020000;
@@ -253,12 +262,14 @@ containing a value of this type.
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
            <tr><td><code>{@link #LineGraph_lineAxisColor com.echo.holographlibrary:lineAxisColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #LineGraph_lineBackground com.echo.holographlibrary:lineBackground}</code></td><td></td></tr>
            <tr><td><code>{@link #LineGraph_lineStrokeColor com.echo.holographlibrary:lineStrokeColor}</code></td><td></td></tr>
            <tr><td><code>{@link #LineGraph_lineStrokeSpacing com.echo.holographlibrary:lineStrokeSpacing}</code></td><td></td></tr>
            <tr><td><code>{@link #LineGraph_lineStrokeWidth com.echo.holographlibrary:lineStrokeWidth}</code></td><td></td></tr>
            <tr><td><code>{@link #LineGraph_lineUseDip com.echo.holographlibrary:lineUseDip}</code></td><td></td></tr>
            </table>
            @see #LineGraph_lineAxisColor
+           @see #LineGraph_lineBackground
            @see #LineGraph_lineStrokeColor
            @see #LineGraph_lineStrokeSpacing
            @see #LineGraph_lineStrokeWidth
@@ -266,7 +277,7 @@ containing a value of this type.
          */
         public static final int[] LineGraph = {
             0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009,
-            0x7f01000a
+            0x7f01000a, 0x7f01000b
         };
         /**
           <p>This symbol is the offset where the {@link com.echo.holographlibrary.R.attr#lineAxisColor}
@@ -283,6 +294,21 @@ containing a value of this type.
           @attr name com.echo.holographlibrary:lineAxisColor
         */
         public static final int LineGraph_lineAxisColor = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.echo.holographlibrary.R.attr#lineBackground}
+          attribute's value can be found in the {@link #LineGraph} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.echo.holographlibrary:lineBackground
+        */
+        public static final int LineGraph_lineBackground = 5;
         /**
           <p>This symbol is the offset where the {@link com.echo.holographlibrary.R.attr#lineStrokeColor}
           attribute's value can be found in the {@link #LineGraph} array.
@@ -357,7 +383,7 @@ containing a value of this type.
            @see #PieGraph_pieSlicePadding
          */
         public static final int[] PieGraph = {
-            0x7f01000b, 0x7f01000c
+            0x7f01000c, 0x7f01000d
         };
         /**
           <p>This symbol is the offset where the {@link com.echo.holographlibrary.R.attr#pieInnerCircleRatio}

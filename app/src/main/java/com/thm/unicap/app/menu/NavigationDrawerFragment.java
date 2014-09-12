@@ -5,6 +5,8 @@ import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -28,7 +30,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.auth.AccountGeneral;
@@ -38,6 +39,8 @@ import com.thm.unicap.app.util.DatabaseListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import uk.me.lewisdeane.ldialogs.CustomDialog;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -150,7 +153,29 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
         navHeaderContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).selectAccountCreateIfNeeded();
+
+                CustomDialog customDialog = new CustomDialog.Builder(getActivity(), getString(R.string.profile_picture), getString(R.string.learn_more))
+                .content(getString(R.string.gravatar_text))
+                .negativeText(getString(R.string.not_now))
+                .positiveColor(getResources().getColor(R.color.blue))
+                .build();
+
+                customDialog.setClickListener(new CustomDialog.ClickListener() {
+                    @Override
+                    public void onConfirmClick() {
+                        String url = getString(R.string.gravatar_website);
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }
+
+                    @Override
+                    public void onCancelClick() {
+
+                    }
+                });
+
+                customDialog.show();
             }
         });
     }
