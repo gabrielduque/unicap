@@ -41,11 +41,17 @@ public class UnicapSyncReceiver extends BroadcastReceiver {
                         UnicapApplication.setCurrentStudent(student);
                         UnicapApplication.notifyDatabaseUpdated();
                     }
+
+                    UnicapApplication.setIsSyncing(false);
+
                 } else if(sync_status.equals(SYNC_STATUS_FAIL)) {
 
                     String sync_message = extras.getString(SYNC_MESSAGE_PARAM);
 
                     UnicapApplication.notifyDatabaseUnreachable(sync_message);
+
+                    UnicapApplication.setIsSyncing(false);
+
                 } else if(sync_status.equals(SYNC_STATUS_STARTED)) {
                     UnicapApplication.notifyDatabaseSyncing();
                 }

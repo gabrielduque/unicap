@@ -25,4 +25,12 @@
     <color name="card_base_cardwithlist_background_list_color">@color/card_background</color>
     <color name="card_base_cardwithlist_divider_color">@color/card_background</color>
 
+    <color name="subject_color_1">#673ab7</color>
+    <color name="subject_color_2">#ff9800</color>
+    <color name="subject_color_3">#009688</color>
+    <color name="subject_color_4">#e040fb</color>
+    <color name="subject_color_5">#cddc39</color>
+    <color name="subject_color_6">#5677fc</color>
+    <color name="subject_color_7">#259b24</color>
+
 </resources>

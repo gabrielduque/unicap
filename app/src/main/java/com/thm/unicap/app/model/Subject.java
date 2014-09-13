@@ -93,11 +93,13 @@ public class Subject extends Model {
         int color = R.color.unicap_base;
 
         int colors[] = {
-                android.R.color.holo_blue_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_green_light,
-                android.R.color.holo_red_light,
-                android.R.color.holo_purple,
+                R.color.subject_color_1,
+                R.color.subject_color_2,
+                R.color.subject_color_3,
+                R.color.subject_color_4,
+                R.color.subject_color_5,
+                R.color.subject_color_6,
+                R.color.subject_color_7,
         };
 
         if(period != null)

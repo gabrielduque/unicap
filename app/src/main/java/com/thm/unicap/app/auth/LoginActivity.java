@@ -260,7 +260,6 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
             if(mAccountManager.addAccountExplicitly(account, accountPassword, null)) {
                 mAccountManager.setAuthToken(account, authtokenType, authtoken);
 
-                UnicapApplication.setIsSyncing(true);
                 ContentResolver.setSyncAutomatically(account, UnicapContentProvider.AUTHORITY, true);
             }
         } else {
