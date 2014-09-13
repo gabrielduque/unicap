@@ -29,8 +29,6 @@ public class SubjectsFragment extends ProgressFragment implements DatabaseListen
             setContentView(R.layout.content_offline);
             setContentShown(true);
         }
-
-        UnicapApplication.addDatabaseListener(this);
     }
 
     @Override
@@ -48,6 +46,12 @@ public class SubjectsFragment extends ProgressFragment implements DatabaseListen
         ViewPager mViewPager = (ViewPager) getContentView().findViewById(R.id.pager);
         mViewPager.setAdapter(new SubjectsPagerAdapter(getActivity()));
         mViewPager.setCurrentItem(SubjectsPagerAdapter.Session.ACTUAL.ordinal());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        UnicapApplication.addDatabaseListener(this);
     }
 
     @Override

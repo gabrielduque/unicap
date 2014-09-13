@@ -43,6 +43,18 @@ public class DashboardFragment extends ProgressFragment implements DatabaseListe
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        UnicapApplication.addDatabaseListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        UnicapApplication.removeDatabaseListener(this);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -54,8 +66,6 @@ public class DashboardFragment extends ProgressFragment implements DatabaseListe
             setContentView(R.layout.content_offline);
             setContentShown(true);
         }
-
-        UnicapApplication.addDatabaseListener(this);
     }
 
     @Override
@@ -66,12 +76,6 @@ public class DashboardFragment extends ProgressFragment implements DatabaseListe
             inflater.inflate(R.menu.fragment_dashboard, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        UnicapApplication.removeDatabaseListener(this);
     }
 
     @Override

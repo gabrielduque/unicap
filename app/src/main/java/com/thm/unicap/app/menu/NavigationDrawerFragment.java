@@ -114,7 +114,6 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
         if(UnicapApplication.hasStudentData()) { // Show offline data
             databaseUpdated();
         }
-        UnicapApplication.addDatabaseListener(this);
     }
 
     @Override
@@ -125,8 +124,14 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onResume() {
+        super.onResume();
+        UnicapApplication.addDatabaseListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
         UnicapApplication.removeDatabaseListener(this);
     }
 

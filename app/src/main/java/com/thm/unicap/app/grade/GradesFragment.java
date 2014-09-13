@@ -52,13 +52,17 @@ public class GradesFragment extends ProgressFragment implements Card.OnCardClick
             setContentView(R.layout.content_offline);
             setContentShown(true);
         }
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
         UnicapApplication.addDatabaseListener(this);
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         UnicapApplication.removeDatabaseListener(this);
     }
 

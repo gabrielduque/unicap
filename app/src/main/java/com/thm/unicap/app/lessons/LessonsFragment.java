@@ -42,13 +42,17 @@ public class LessonsFragment extends ProgressFragment implements DatabaseListene
             setContentView(R.layout.content_offline);
             setContentShown(true);
         }
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
         UnicapApplication.addDatabaseListener(this);
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         UnicapApplication.removeDatabaseListener(this);
     }
 
