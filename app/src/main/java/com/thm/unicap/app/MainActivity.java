@@ -29,6 +29,9 @@ import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.subject.SubjectsFragment;
 import com.thm.unicap.app.util.DatabaseListener;
 
+import hotchemi.android.rate.AppRate;
+import hotchemi.android.rate.OnClickButtonListener;
+
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, DatabaseListener {
@@ -61,6 +64,21 @@ public class MainActivity extends ActionBarActivity
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AppRate.with(MainActivity.this)
+                        .setInstallDays(10) // default 10, 0 means install day.
+                        .setLaunchTimes(10) // default 10
+                        .setRemindInterval(2) // default 1
+                        .setShowNeutralButton(true) // default true
+                        .monitor();
+
+                // Show a dialog if meets conditions
+                AppRate.showRateDialogIfMeetsConditions(MainActivity.this);
+            }
+        }, 1000);
 
     }
 
@@ -271,9 +289,15 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onBackPressed() {
 
-        if(mNavigationDrawerFragment.isDrawerOpen())
+        if(mNavigationDrawerFragment.isDrawerOpen()) {
             mNavigationDrawerFragment.closeDrawer();
-        else
-            super.onBackPressed();
+        } else {
+            int currentSelectedPosition = mNavigationDrawerFragment.getCurrentSelectedPosition();
+
+            if(currentSelectedPosition == NavigationDrawerFragment.SESSION_DASHBOARD)
+                super.onBackPressed();
+            else
+                mNavigationDrawerFragment.selectItem(NavigationDrawerFragment.SESSION_DASHBOARD);
+        }
     }
 }
