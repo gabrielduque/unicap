@@ -8,8 +8,8 @@ android {
         applicationId "com.thm.unicap.app"
         minSdkVersion 15
         targetSdkVersion 20
-        versionCode 21
-        versionName "1.0"
+        versionCode 22
+        versionName "1.0.0"
     }
     buildTypes {
         release {

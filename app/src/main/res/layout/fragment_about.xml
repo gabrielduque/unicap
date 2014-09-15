@@ -29,15 +29,6 @@
             android:textSize="18sp"
             android:text="@string/about_version"/>
 
-        <com.devspark.robototextview.widget.RobotoTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:layout_marginBottom="@dimen/margin_normal"
-            app:typeface="roboto_thin"
-            android:textSize="18sp"
-            android:text="@string/about_copyright"/>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
