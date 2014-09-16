@@ -55,7 +55,7 @@ public class Student extends Model {
 
         if(md5Hash == null) md5Hash = "";
 
-        return String.format("http://www.gravatar.com/avatar/%s?s=%s", md5Hash, String.valueOf(pictureSize));
+        return String.format("http://www.gravatar.com/avatar/%s?s=%s&d=404", md5Hash, String.valueOf(pictureSize));
     }
 
     public List<Subject> getActualSubjects() {
