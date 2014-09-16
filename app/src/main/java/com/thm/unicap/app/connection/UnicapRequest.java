@@ -118,7 +118,12 @@ public class UnicapRequest {
             throw new UnicapRequestException(UnicapRequestException.Code.CONNECTION_FAILED);
         }
 
-        Elements subjectsTable = document.select("table").get(6).select("tr");
+        Elements subjectsTable = null;
+        try {
+            subjectsTable = document.select("table").get(6).select("tr");
+        } catch (Exception e) {
+            return;
+        }
 
         subjectsTable.remove(0); // Removing header
 
@@ -174,7 +179,12 @@ public class UnicapRequest {
             throw new UnicapRequestException(UnicapRequestException.Code.CONNECTION_FAILED);
         }
 
-        Elements subjectsTable = document.select("table").get(5).select("tr");
+        Elements subjectsTable = null;
+        try {
+            subjectsTable = document.select("table").get(5).select("tr");
+        } catch (Exception e) {
+            return;
+        }
 
         subjectsTable.remove(0); // Removing header
         subjectsTable.remove(subjectsTable.size()-1); // Removing 'sum' row
@@ -220,7 +230,12 @@ public class UnicapRequest {
             throw new UnicapRequestException(UnicapRequestException.Code.CONNECTION_FAILED);
         }
 
-        Elements subjectsTable = document.select("table").get(6).select("tr");
+        Elements subjectsTable = null;
+        try {
+            subjectsTable = document.select("table").get(6).select("tr");
+        } catch (Exception e) {
+            return;
+        }
 
         subjectsTable.remove(0); // Removing header
 
@@ -280,7 +295,13 @@ public class UnicapRequest {
         }
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Elements subjectsTable = document.select("table").get(5).select("tr");
+
+        Elements subjectsTable = null;
+        try {
+            subjectsTable = document.select("table").get(5).select("tr");
+        } catch (Exception e) {
+            return;
+        }
 
         subjectsTable.remove(0); // Removing header
 
@@ -347,7 +368,12 @@ public class UnicapRequest {
             throw new UnicapRequestException(UnicapRequestException.Code.CONNECTION_FAILED);
         }
 
-        Elements subjectsTable = document.select("table").get(7).select("tr");
+        Elements subjectsTable = null;
+        try {
+            subjectsTable = document.select("table").get(7).select("tr");
+        } catch (Exception e) {
+            return;
+        }
 
         subjectsTable.remove(0); // Removing header
 
