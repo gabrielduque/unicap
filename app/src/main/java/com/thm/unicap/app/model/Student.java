@@ -111,20 +111,23 @@ public class Student extends Model {
     public List<Subject> getSubjectsFromWeekDay(SubjectStatus.ScheduleWeekDay scheduleWeekDay) {
         List<Subject> actualSubjects = getActualSubjects();
 
-        HashMap<SubjectStatus.ScheduleHour, Subject> todaySubjects = new HashMap<SubjectStatus.ScheduleHour, Subject>();
+        HashMap<Character, Subject> todaySubjects = new HashMap<Character, Subject>();
 
         for (Subject subject : actualSubjects) {
 
-            HashMap<SubjectStatus.ScheduleWeekDay, SubjectStatus.ScheduleHour> fullSchedule = subject.getActualSubjectStatus().getFullSchedule();
+            HashMap<SubjectStatus.ScheduleWeekDay, char[]> fullSchedule = subject.getActualSubjectStatus().getFullSchedule();
 
             if(!fullSchedule.containsKey(scheduleWeekDay))
                 continue;
 
-            todaySubjects.put(fullSchedule.get(scheduleWeekDay), subject);
+            char[] todaySubjectHour = fullSchedule.get(scheduleWeekDay);
+
+            if(todaySubjectHour.length > 0)
+                todaySubjects.put(todaySubjectHour[0], subject);
         }
 
-        List<SubjectStatus.ScheduleHour> orderedScheduleHours = new ArrayList<SubjectStatus.ScheduleHour>(todaySubjects.keySet());
-        Collections.sort(orderedScheduleHours);
+        List<Character> orderedScheduleBeginHours = new ArrayList<Character>(todaySubjects.keySet());
+        Collections.sort(orderedScheduleBeginHours);
 
 //        Comparator<SubjectStatus.ScheduleHour> comparator = new Comparator<SubjectStatus.ScheduleHour>() {
 //            @Override
@@ -134,8 +137,8 @@ public class Student extends Model {
 //        }
 
         List<Subject> sortedResultList = new ArrayList<Subject>();
-        for (SubjectStatus.ScheduleHour scheduleHour : orderedScheduleHours) {
-            sortedResultList.add(todaySubjects.get(scheduleHour));
+        for (Character scheduleBeginHour : orderedScheduleBeginHours) {
+            sortedResultList.add(todaySubjects.get(scheduleBeginHour));
         }
 
         return sortedResultList;

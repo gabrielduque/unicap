@@ -141,7 +141,7 @@ public class UnicapUtils {
         }
     }
 
-    public static Time[] getTimesFromScheduleHour(SubjectStatus.ScheduleHour hour) {
+    public static Time[] getTimesFromScheduleHour(char[] hoursArray) {
 
         Calendar begin = Calendar.getInstance();
         Calendar end = Calendar.getInstance();
@@ -151,82 +151,151 @@ public class UnicapUtils {
         end.set(Calendar.SECOND, 0);
         end.set(Calendar.MILLISECOND, 0);
 
-        switch (hour) {
-            case AB:
+        char beginChar = hoursArray[0];
+        char endChar = hoursArray[hoursArray.length-1];
+
+        switch (beginChar) {
+            case 'A':
                 begin.set(Calendar.HOUR_OF_DAY, 7);
                 begin.set(Calendar.MINUTE, 30);
-                end.set(Calendar.HOUR_OF_DAY, 9);
-                end.set(Calendar.MINUTE, 10);
-                return new Time[]{
-                    new Time(begin.getTimeInMillis()),
-                    new Time(end.getTimeInMillis())
-                };
-            case CD:
-                begin.set(Calendar.HOUR_OF_DAY, 9);
+                break;
+            case 'B':
+                begin.set(Calendar.HOUR_OF_DAY, 8);
                 begin.set(Calendar.MINUTE, 20);
-                end.set(Calendar.HOUR_OF_DAY, 11);
-                end.set(Calendar.MINUTE, 0);
-                return new Time[]{
-                        new Time(begin.getTimeInMillis()),
-                        new Time(end.getTimeInMillis())
-                };
-            case EF:
+                break;
+            case 'C':
+                begin.set(Calendar.HOUR_OF_DAY, 9);
+                begin.set(Calendar.MINUTE, 10);
+                break;
+            case 'D':
+                begin.set(Calendar.HOUR_OF_DAY, 10);
+                begin.set(Calendar.MINUTE, 10);
+                break;
+            case 'E':
                 begin.set(Calendar.HOUR_OF_DAY, 11);
                 begin.set(Calendar.MINUTE, 10);
-                end.set(Calendar.HOUR_OF_DAY, 12);
-                end.set(Calendar.MINUTE, 50);
-                return new Time[]{
-                        new Time(begin.getTimeInMillis()),
-                        new Time(end.getTimeInMillis())
-                };
-            case GH:
+                break;
+            case 'F':
+                begin.set(Calendar.HOUR_OF_DAY, 12);
+                begin.set(Calendar.MINUTE, 0);
+                break;
+            case 'G':
                 begin.set(Calendar.HOUR_OF_DAY, 13);
                 begin.set(Calendar.MINUTE, 0);
-                end.set(Calendar.HOUR_OF_DAY, 14);
-                end.set(Calendar.MINUTE, 40);
-                return new Time[]{
-                        new Time(begin.getTimeInMillis()),
-                        new Time(end.getTimeInMillis())
-                };
-            case IJ:
+                break;
+            case 'H':
+                begin.set(Calendar.HOUR_OF_DAY, 13);
+                begin.set(Calendar.MINUTE, 50);
+                break;
+            case 'I':
                 begin.set(Calendar.HOUR_OF_DAY, 14);
                 begin.set(Calendar.MINUTE, 50);
-                end.set(Calendar.HOUR_OF_DAY, 16);
-                end.set(Calendar.MINUTE, 30);
-                return new Time[]{
-                        new Time(begin.getTimeInMillis()),
-                        new Time(end.getTimeInMillis())
-                };
-            case LM:
+                break;
+            case 'J':
+                begin.set(Calendar.HOUR_OF_DAY, 15);
+                begin.set(Calendar.MINUTE, 40);
+                break;
+            case 'L':
                 begin.set(Calendar.HOUR_OF_DAY, 16);
                 begin.set(Calendar.MINUTE, 40);
-                end.set(Calendar.HOUR_OF_DAY, 18);
-                end.set(Calendar.MINUTE, 20);
-                return new Time[]{
-                        new Time(begin.getTimeInMillis()),
-                        new Time(end.getTimeInMillis())
-                };
-            case NO:
+                break;
+            case 'M':
+                begin.set(Calendar.HOUR_OF_DAY, 17);
+                begin.set(Calendar.MINUTE, 30);
+                break;
+            case 'N':
                 begin.set(Calendar.HOUR_OF_DAY, 18);
                 begin.set(Calendar.MINUTE, 30);
-                end.set(Calendar.HOUR_OF_DAY, 20);
-                end.set(Calendar.MINUTE, 10);
-                return new Time[]{
-                        new Time(begin.getTimeInMillis()),
-                        new Time(end.getTimeInMillis())
-                };
-            case PQ:
+                break;
+            case 'O':
+                begin.set(Calendar.HOUR_OF_DAY, 19);
+                begin.set(Calendar.MINUTE, 20);
+                break;
+            case 'P':
                 begin.set(Calendar.HOUR_OF_DAY, 20);
                 begin.set(Calendar.MINUTE, 20);
-                end.set(Calendar.HOUR_OF_DAY, 22);
-                end.set(Calendar.MINUTE, 0);
-                return new Time[]{
-                        new Time(begin.getTimeInMillis()),
-                        new Time(end.getTimeInMillis())
-                };
+                break;
+            case 'Q':
+                begin.set(Calendar.HOUR_OF_DAY, 21);
+                begin.set(Calendar.MINUTE, 10);
+                break;
             default:
                 return null;
         }
+
+        switch (endChar) {
+            case 'A':
+                end.set(Calendar.HOUR_OF_DAY, 8);
+                end.set(Calendar.MINUTE, 20);
+                break;
+            case 'B':
+                end.set(Calendar.HOUR_OF_DAY, 9);
+                end.set(Calendar.MINUTE, 10);
+                break;
+            case 'C':
+                end.set(Calendar.HOUR_OF_DAY, 10);
+                end.set(Calendar.MINUTE, 10);
+                break;
+            case 'D':
+                end.set(Calendar.HOUR_OF_DAY, 11);
+                end.set(Calendar.MINUTE, 0);
+                break;
+            case 'E':
+                end.set(Calendar.HOUR_OF_DAY, 12);
+                end.set(Calendar.MINUTE, 0);
+                break;
+            case 'F':
+                end.set(Calendar.HOUR_OF_DAY, 12);
+                end.set(Calendar.MINUTE, 50);
+                break;
+            case 'G':
+                end.set(Calendar.HOUR_OF_DAY, 13);
+                end.set(Calendar.MINUTE, 50);
+                break;
+            case 'H':
+                end.set(Calendar.HOUR_OF_DAY, 14);
+                end.set(Calendar.MINUTE, 40);
+                break;
+            case 'I':
+                end.set(Calendar.HOUR_OF_DAY, 15);
+                end.set(Calendar.MINUTE, 40);
+                break;
+            case 'J':
+                end.set(Calendar.HOUR_OF_DAY, 16);
+                end.set(Calendar.MINUTE, 30);
+                break;
+            case 'L':
+                end.set(Calendar.HOUR_OF_DAY, 17);
+                end.set(Calendar.MINUTE, 30);
+                break;
+            case 'M':
+                end.set(Calendar.HOUR_OF_DAY, 18);
+                end.set(Calendar.MINUTE, 20);
+                break;
+            case 'N':
+                end.set(Calendar.HOUR_OF_DAY, 19);
+                end.set(Calendar.MINUTE, 20);
+                break;
+            case 'O':
+                end.set(Calendar.HOUR_OF_DAY, 20);
+                end.set(Calendar.MINUTE, 10);
+                break;
+            case 'P':
+                end.set(Calendar.HOUR_OF_DAY, 21);
+                end.set(Calendar.MINUTE, 10);
+                break;
+            case 'Q':
+                end.set(Calendar.HOUR_OF_DAY, 22);
+                end.set(Calendar.MINUTE, 0);
+                break;
+            default:
+                return null;
+        }
+
+        return new Time[]{
+                new Time(begin.getTimeInMillis()),
+                new Time(end.getTimeInMillis())
+        };
     }
 
     public static String scheduleWeekDayToString(Context context, SubjectStatus.ScheduleWeekDay scheduleWeekDay) {

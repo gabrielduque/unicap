@@ -23,10 +23,6 @@ public class SubjectStatus extends Model {
         Sun, Mon, Tue, Wed, Thu, Fri, Sat
     }
 
-    public enum ScheduleHour {
-        AB, CD, EF, GH, IJ, LM, NO, PQ
-    }
-
     @Column(name = "Subject", onDelete = Column.ForeignKeyAction.CASCADE)
     public Subject subject;
 
@@ -54,10 +50,10 @@ public class SubjectStatus extends Model {
     @Column(name = "FinalAverage")
     public Float final_average;
 
-    public HashMap<ScheduleWeekDay, ScheduleHour> getFullSchedule() {
+    public HashMap<ScheduleWeekDay, char[]> getFullSchedule() {
         if(schedule == null || schedule.isEmpty()) return null;
 
-        HashMap<ScheduleWeekDay, ScheduleHour> result = new HashMap<ScheduleWeekDay, ScheduleHour>();
+        HashMap<ScheduleWeekDay, char[]> result = new HashMap<ScheduleWeekDay, char[]>();
 
         String[] rawSchedules = schedule.trim().split(" ");
 
@@ -66,7 +62,7 @@ public class SubjectStatus extends Model {
             String rawHour = rawSchedule.substring(1);
 
             ScheduleWeekDay weekDay = null;
-            ScheduleHour hour = null;
+            char[] hoursArray = rawHour.toUpperCase().toCharArray();
 
             if(rawWeekDay.equals("1")) weekDay = ScheduleWeekDay.Sun;
             else if(rawWeekDay.equals("2")) weekDay = ScheduleWeekDay.Mon;
@@ -76,17 +72,8 @@ public class SubjectStatus extends Model {
             else if(rawWeekDay.equals("6")) weekDay = ScheduleWeekDay.Fri;
             else if(rawWeekDay.equals("7")) weekDay = ScheduleWeekDay.Sat;
 
-            if(rawHour.equals("AB")) hour = ScheduleHour.AB;
-            else if(rawHour.equals("CD")) hour = ScheduleHour.CD;
-            else if(rawHour.equals("EF")) hour = ScheduleHour.EF;
-            else if(rawHour.equals("GH")) hour = ScheduleHour.GH;
-            else if(rawHour.equals("IJ")) hour = ScheduleHour.IJ;
-            else if(rawHour.equals("LM")) hour = ScheduleHour.LM;
-            else if(rawHour.equals("NO")) hour = ScheduleHour.NO;
-            else if(rawHour.equals("PQ")) hour = ScheduleHour.PQ;
-
-            if(weekDay != null && hour != null)
-                result.put(weekDay, hour);
+            if(weekDay != null && hoursArray.length > 0)
+                result.put(weekDay, hoursArray);
         }
 
         return result;

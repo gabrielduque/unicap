@@ -78,9 +78,9 @@ public class LessonsCard extends CardWithList {
         SimpleDateFormat sdf = new SimpleDateFormat(mContext.getString(R.string.hour_format));
         Animation expand = AnimationUtils.loadAnimation(mContext, R.anim.expand_from_left_to_right);
 
-        HashMap<SubjectStatus.ScheduleWeekDay, SubjectStatus.ScheduleHour> fullSchedule = subject.getActualSubjectStatus().getFullSchedule();
+        HashMap<SubjectStatus.ScheduleWeekDay, char[]> fullSchedule = subject.getActualSubjectStatus().getFullSchedule();
 
-        SubjectStatus.ScheduleHour scheduleHour = fullSchedule.get(mScheduleWeekDay);
+        char[] scheduleHour = fullSchedule.get(mScheduleWeekDay);
 
         Time[] timesFromScheduleHour = UnicapUtils.getTimesFromScheduleHour(scheduleHour);
 
