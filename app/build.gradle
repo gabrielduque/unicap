@@ -1,4 +1,14 @@
+buildscript {
+    repositories {
+        maven { url 'http://download.crashlytics.com/maven' }
+    }
+
+    dependencies {
+        classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'crashlytics'
 
 android {
     compileSdkVersion 20
@@ -8,7 +18,7 @@ android {
         applicationId "com.thm.unicap.app"
         minSdkVersion 15
         targetSdkVersion 20
-        versionCode 27
+        versionCode 28
         versionName "1.0.1"
     }
     buildTypes {
@@ -34,10 +44,12 @@ dependencies {
     compile 'uk.me.lewisdeane.ldialogs:ldialogs@aar'
     compile 'com.github.hotchemi:android-rate:0.4.1'
     compile project(':HoloGraphLibrary')
+    compile 'com.crashlytics.android:crashlytics:1.+'
 }
 
 repositories{
     flatDir{
         dirs 'libs'
     }
+    maven { url 'http://download.crashlytics.com/maven' }
 }

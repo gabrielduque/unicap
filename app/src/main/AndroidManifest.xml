@@ -66,6 +66,7 @@
             android:authorities="com.thm.unicap.app.provider"
             android:exported="false"
             android:syncable="true"/>
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="daa11373e41a3d191c231fa71b02d5fc140dcc81"/>
 
     </application>
 

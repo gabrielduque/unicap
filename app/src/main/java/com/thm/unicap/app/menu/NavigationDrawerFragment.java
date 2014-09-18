@@ -34,6 +34,7 @@ import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.auth.AccountGeneral;
 import com.thm.unicap.app.connection.UnicapDataManager;
+import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.util.DatabaseDependentFragment;
 import com.thm.unicap.app.util.DatabaseListener;
 
@@ -360,12 +361,20 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
             case R.id.action_logout:
 
                 AccountManager accountManager = AccountManager.get(getActivity());
-                Account account = new Account(UnicapApplication.getCurrentStudent().registration, AccountGeneral.ACCOUNT_TYPE);
+
+                final Student currentStudent = UnicapApplication.getCurrentStudent();
+
+                if(currentStudent == null) {
+                    getActivity().finish();
+                    return true;
+                }
+
+                Account account = new Account(currentStudent.registration, AccountGeneral.ACCOUNT_TYPE);
 
                 accountManager.removeAccount(account, new AccountManagerCallback<Boolean>() {
                     @Override
                     public void run(AccountManagerFuture<Boolean> future) {
-                        UnicapDataManager.cleanUserData(UnicapApplication.getCurrentStudent().registration);
+                        UnicapDataManager.cleanUserData(currentStudent.registration);
                         UnicapApplication.setCurrentAccount(null);
                         UnicapApplication.setCurrentStudent(null);
                         getActivity().finish();
