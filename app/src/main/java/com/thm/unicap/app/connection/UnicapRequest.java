@@ -1,6 +1,7 @@
 package com.thm.unicap.app.connection;
 
 import com.activeandroid.ActiveAndroid;
+import com.crashlytics.android.Crashlytics;
 import com.thm.unicap.app.model.SubjectStatus;
 import com.thm.unicap.app.model.SubjectTest;
 import com.thm.unicap.app.util.UnicapUtils;
@@ -200,9 +201,19 @@ public class UnicapRequest {
             String paidIn = new StringBuilder(document.select("table").get(4).select("td").get(1).text()).insert(4, ".").toString();
 
             String name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(1).text()));
-            Integer workload = Integer.parseInt(subjectColumns.get(5).text());
-            Integer credits = Integer.parseInt(subjectColumns.get(6).text());
-            Integer period = Integer.parseInt(subjectColumns.get(7).text());
+
+            Integer workload = 0;
+            Integer credits = 0;
+            Integer period = 0;
+            try {
+                workload = Integer.parseInt(subjectColumns.get(5).text());
+                credits = Integer.parseInt(subjectColumns.get(6).text());
+                period = Integer.parseInt(subjectColumns.get(7).text());
+            } catch (NumberFormatException e) {
+                Crashlytics.log(subjectRow.toString());
+                Crashlytics.logException(e);
+            }
+
             String team = subjectColumns.get(2).text();
             String room = subjectColumns.get(3).text();
             String schedule = subjectColumns.get(4).text();
