@@ -46,6 +46,17 @@ public class UnicapSyncReceiver extends BroadcastReceiver {
 
                 } else if(sync_status.equals(SYNC_STATUS_FAIL)) {
 
+                    // Rollback in fail cases
+                    if(currentAccount != null) {
+                        Student student = new Select().from(Student.class).where("Student.Registration = ?", currentAccount.name).executeSingle();
+
+                        if(student != null) {
+                            UnicapApplication.setCurrentStudent(student);
+                            UnicapApplication.notifyDatabaseUpdated();
+                        }
+
+                    }
+
                     String sync_message = extras.getString(SYNC_MESSAGE_PARAM);
 
                     UnicapApplication.notifyDatabaseUnreachable(sync_message);

@@ -125,6 +125,15 @@ public class UnicapDataManager {
             subjectStatus = new SubjectStatus();
             subjectStatus.subject = subject;
             subjectStatus.paidIn = paidIn;
+        } else {
+
+            // Merging room from different rows, but same subject
+            if (!subjectStatus.room.contains(room))
+                room = subjectStatus.room + "-" + room;
+
+            // Merging schedule from different rows, but same subject
+            if (!subjectStatus.schedule.contains(schedule))
+                schedule = subjectStatus.schedule + " " + schedule;
         }
 
         subjectStatus.situation = SubjectStatus.Situation.ACTUAL;

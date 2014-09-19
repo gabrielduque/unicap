@@ -202,20 +202,30 @@ public class UnicapRequest {
 
             String name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(1).text()));
 
-            Integer workload = 0;
-            Integer credits = 0;
-            Integer period = 0;
+            Integer workload;
+            Integer credits;
+            Integer period;
+
             try {
                 workload = Integer.parseInt(subjectColumns.get(5).text());
+            } catch (NumberFormatException e) {
+                workload = 0;
+            }
+
+            try {
                 credits = Integer.parseInt(subjectColumns.get(6).text());
+            } catch (NumberFormatException e) {
+                credits = 0;
+            }
+
+            try {
                 period = Integer.parseInt(subjectColumns.get(7).text());
             } catch (NumberFormatException e) {
-                Crashlytics.log(subjectRow.toString());
-                Crashlytics.logException(e);
+                period = 0;
             }
 
             String team = subjectColumns.get(2).text();
-            String room = subjectColumns.get(3).text();
+            String room = subjectColumns.get(3).text().replaceAll("^([a-zA-Z])0+", "$1");
             String schedule = subjectColumns.get(4).text();
 
             UnicapDataManager.persistActualSubject(code, paidIn, name, workload, credits, period, team, room, schedule);

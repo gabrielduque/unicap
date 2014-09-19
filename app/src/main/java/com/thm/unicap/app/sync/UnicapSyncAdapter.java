@@ -18,12 +18,14 @@ import com.activeandroid.ActiveAndroid;
 import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
+import com.thm.unicap.app.connection.UnicapDataManager;
 import com.thm.unicap.app.connection.UnicapRequest;
 import com.thm.unicap.app.connection.UnicapRequestException;
 import com.thm.unicap.app.grade.GradesActivity;
 import com.thm.unicap.app.model.SubjectTest;
 
 import java.util.List;
+import java.util.Random;
 
 public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
     private AccountManager mAccountManager;
@@ -56,6 +58,7 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
         resultIntent.putExtra(UnicapSyncReceiver.SYNC_ACCOUNT_PARAM, account.name);
 
         ActiveAndroid.beginTransaction();
+        UnicapDataManager.cleanUserData(account.name);
         try {
             UnicapApplication.log("SYNC - 1/7 [====>                              ] - loginRequest");
             UnicapRequest.loginRequest(account.name, mAccountManager.getPassword(account));
