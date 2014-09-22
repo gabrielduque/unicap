@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.activeandroid.query.Select;
+import com.crashlytics.android.Crashlytics;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.model.Subject;
 
@@ -31,6 +32,7 @@ public class SubjectActivity extends ActionBarActivity {
             if (mSubject != null) {
                 init();
             } else {
+                Crashlytics.logException(new Exception("No subject found with id "+subject_id));
                 finish();
             }
         }
