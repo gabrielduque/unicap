@@ -152,7 +152,7 @@ public class MainActivity extends ActionBarActivity
                 fragmentManager.beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .replace(R.id.container, fragment)
-                        .commit();
+                        .commitAllowingStateLoss();
             }
         };
 

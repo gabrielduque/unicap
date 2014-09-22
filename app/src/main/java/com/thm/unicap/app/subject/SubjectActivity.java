@@ -25,8 +25,14 @@ public class SubjectActivity extends ActionBarActivity {
         long subject_id = getIntent().getLongExtra("subject_id", -1);
 
         if(subject_id != -1) {
+
             mSubject = new Select().from(Subject.class).where("Subject.Id = ?", subject_id).executeSingle();
-            init();
+
+            if (mSubject != null) {
+                init();
+            } else {
+                finish();
+            }
         }
 
     }
