@@ -32,7 +32,6 @@ public class SubjectActivity extends ActionBarActivity {
             if (mSubject != null) {
                 init();
             } else {
-                Crashlytics.logException(new Exception("No subject found with id "+subject_id));
                 finish();
             }
         }

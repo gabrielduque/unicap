@@ -65,8 +65,6 @@ public class UnicapRequest {
 
         actionURL = document.select("form").first().attr("action");
 
-//        UnicapDataManager.initStudent(registration, password);
-
         return actionURL.split("=")[1];
     }
 
@@ -150,10 +148,12 @@ public class UnicapRequest {
             Float average = Float.parseFloat(subjectColumns.get(3).text());
 
             SubjectStatus.Situation situation;
-            if (subjectColumns.get(4).text().equals("AP")) situation = SubjectStatus.Situation.APPROVED;
-            else if (subjectColumns.get(4).text().equals("CP")) situation = SubjectStatus.Situation.PERFORMED;
-            else if (subjectColumns.get(4).text().equals("RM")) situation = SubjectStatus.Situation.REPROVED;
-            else if (subjectColumns.get(4).text().equals("CI")) situation = SubjectStatus.Situation.IMPORTED;
+            String situationText = subjectColumns.get(4).text();
+            if (situationText.equals("AP")) situation = SubjectStatus.Situation.APPROVED;
+            else if (situationText.equals("CP")) situation = SubjectStatus.Situation.PERFORMED;
+            else if (situationText.equals("RM")) situation = SubjectStatus.Situation.REPROVED;
+            else if (situationText.equals("RF")) situation = SubjectStatus.Situation.REPROVED;
+            else if (situationText.equals("CI")) situation = SubjectStatus.Situation.IMPORTED;
             else situation = SubjectStatus.Situation.UNKNOWN;
 
             UnicapDataManager.persistPastSubject(code, name, paidIn, average, situation);
@@ -225,7 +225,7 @@ public class UnicapRequest {
             }
 
             String team = subjectColumns.get(2).text();
-            String room = subjectColumns.get(3).text().replaceAll("^([a-zA-Z])0+", "$1");
+            String room = subjectColumns.get(3).text().replaceAll("\\b([a-zA-Z])0+", "$1");
             String schedule = subjectColumns.get(4).text();
 
             UnicapDataManager.persistActualSubject(code, paidIn, name, workload, credits, period, team, room, schedule);

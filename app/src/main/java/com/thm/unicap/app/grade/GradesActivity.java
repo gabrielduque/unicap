@@ -26,7 +26,12 @@ public class GradesActivity extends ActionBarActivity {
 
         if(subject_id != -1) {
             mSubject = new Select().from(Subject.class).where("Subject.Id = ?", subject_id).executeSingle();
-            init();
+
+            if (mSubject != null) {
+                init();
+            } else {
+                finish();
+            }
         }
 
     }
