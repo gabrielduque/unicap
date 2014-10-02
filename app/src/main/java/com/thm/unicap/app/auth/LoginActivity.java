@@ -173,7 +173,7 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
             mRegistrationSignInButton.setIndeterminateProgressMode(true);
             mRegistrationSignInButton.setProgress(1);
 
-            mAuthTask = new UnicapAuthTask(registration, password);
+            mAuthTask = new UnicapAuthTask(new StudentCredentials(registration, password));
             mAuthTask.setOnTaskCompletedListener(this);
             mAuthTask.setOnTaskCancelledListener(this);
             mAuthTask.execute((Void) null);
@@ -183,9 +183,7 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
     @Override
     public void onTaskCompleted(UnicapRequestResult result) {
 
-        final String registration = mAuthTask.getRegistration();
-        final String password = mAuthTask.getPassword();
-        final String authToken = mAuthTask.getAuthToken();
+        final StudentCredentials credentials = mAuthTask.getCredentials();
 
         if (result.isSuccess()) {
 
@@ -197,10 +195,10 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
                     mRegistrationSignInButton.setVisibility(View.GONE);
 
                     Bundle data = new Bundle();
-                    data.putString(AccountManager.KEY_ACCOUNT_NAME, registration);
+                    data.putString(AccountManager.KEY_ACCOUNT_NAME, credentials.getRegistration());
                     data.putString(AccountManager.KEY_ACCOUNT_TYPE, AccountGeneral.ACCOUNT_TYPE);
-                    data.putString(AccountManager.KEY_AUTHTOKEN, authToken);
-                    data.putString(PARAM_USER_PASS, password);
+                    data.putString(AccountManager.KEY_AUTHTOKEN, credentials.getAuthToken());
+                    data.putString(PARAM_USER_PASS, credentials.getPassword());
 
                     Intent intent = new Intent();
                     intent.putExtras(data);
@@ -213,7 +211,7 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
             onTaskCancelled();
 
             // Clean up to prevent broken data
-            UnicapDataManager.cleanUserData(registration);
+            UnicapDataManager.cleanUserData(credentials.getRegistration());
 
             SuperToast superToast = new SuperToast(LoginActivity.this, Style.getStyle(Style.RED, SuperToast.Animations.FLYIN));
             superToast.setText(result.getExceptionMessage(LoginActivity.this));

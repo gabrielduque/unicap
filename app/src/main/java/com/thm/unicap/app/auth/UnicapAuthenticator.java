@@ -56,18 +56,18 @@ public class UnicapAuthenticator extends AbstractAccountAuthenticator {
         // the server for an appropriate AuthToken.
         final AccountManager am = AccountManager.get(mContext);
 
-        String authToken = am.peekAuthToken(account, authTokenType);
+        StudentCredentials credentials = new StudentCredentials();
 
-        Log.d("authenticator", TAG + "> peekAuthToken returned - " + authToken);
+        credentials.setAuthToken(am.peekAuthToken(account, authTokenType));
 
         // Lets give another try to authenticate the user
-        if (TextUtils.isEmpty(authToken)) {
-            final String password = am.getPassword(account);
-            if (password != null) {
-                try {
-                    Log.d("authenticator", TAG + "> re-authenticating with the existing password");
+        if (TextUtils.isEmpty(credentials.getAuthToken())) {
 
-                    authToken = UnicapRequest.loginRequest(account.name, password);
+            credentials.setPassword(am.getPassword(account));
+            if (credentials.getPassword() != null) {
+                try {
+
+                    UnicapRequest.loginRequest(credentials);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -76,11 +76,11 @@ public class UnicapAuthenticator extends AbstractAccountAuthenticator {
         }
 
         // If we get an authToken - we return it
-        if (!TextUtils.isEmpty(authToken)) {
+        if (!TextUtils.isEmpty(credentials.getAuthToken())) {
             final Bundle result = new Bundle();
             result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
             result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
-            result.putString(AccountManager.KEY_AUTHTOKEN, authToken);
+            result.putString(AccountManager.KEY_AUTHTOKEN, credentials.getAuthToken());
             return result;
         }
 

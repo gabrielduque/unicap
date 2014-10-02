@@ -11,16 +11,13 @@ import com.thm.unicap.app.connection.UnicapRequestResult;
 
 public class UnicapAuthTask extends AsyncTask<Void, Pair<Integer, Integer>, UnicapRequestResult> {
 
-    private String registration;
-    private String password;
-    private String authToken;
+    private StudentCredentials credentials;
 
     private OnTaskCompleted onTaskCompleted;
     private OnTaskCancelled onTaskCancelled;
 
-    public UnicapAuthTask(String registration, String password) {
-        this.registration = registration;
-        this.password = password;
+    public UnicapAuthTask(StudentCredentials credentials) {
+        this.credentials = credentials;
     }
 
     @SuppressWarnings("unchecked")
@@ -28,7 +25,7 @@ public class UnicapAuthTask extends AsyncTask<Void, Pair<Integer, Integer>, Unic
     protected UnicapRequestResult doInBackground(Void... params) {
 
         try {
-            authToken = UnicapRequest.loginRequest(registration, password);
+            UnicapRequest.loginRequest(credentials);
         } catch (UnicapRequestException e) {
             return new UnicapRequestResult(false, e);
         }
@@ -59,15 +56,7 @@ public class UnicapAuthTask extends AsyncTask<Void, Pair<Integer, Integer>, Unic
         onTaskCancelled = listener;
     }
 
-    public String getRegistration() {
-        return registration;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getAuthToken() {
-        return authToken;
+    public StudentCredentials getCredentials() {
+        return credentials;
     }
 }

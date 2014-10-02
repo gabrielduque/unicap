@@ -2,6 +2,7 @@ package com.thm.unicap.app.connection;
 
 import com.activeandroid.ActiveAndroid;
 import com.crashlytics.android.Crashlytics;
+import com.thm.unicap.app.auth.StudentCredentials;
 import com.thm.unicap.app.model.SubjectStatus;
 import com.thm.unicap.app.model.SubjectTest;
 import com.thm.unicap.app.util.UnicapUtils;
@@ -31,7 +32,7 @@ public class UnicapRequest {
         receiveSubjectsGradesData();
     }
 
-    public static String loginRequest(String registration, String password) throws UnicapRequestException {
+    public static void loginRequest(StudentCredentials credentials) throws UnicapRequestException {
 
         Document document;
 
@@ -47,9 +48,9 @@ public class UnicapRequest {
             document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + loginURL)
                     .timeout(RequestUtils.REQUEST_TIMEOUT)
                     .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_LOGIN)
-                    .data(RequestUtils.Params.REGISTRATION, registration.substring(0, 9))
-                    .data(RequestUtils.Params.DIGIT, registration.substring(10))
-                    .data(RequestUtils.Params.PASSWORD, password)
+                    .data(RequestUtils.Params.REGISTRATION, credentials.getRegistration().substring(0, 9))
+                    .data(RequestUtils.Params.DIGIT, credentials.getRegistration().substring(10))
+                    .data(RequestUtils.Params.PASSWORD, credentials.getPassword())
                     .get();
 
         } catch (IOException e) {
@@ -65,7 +66,18 @@ public class UnicapRequest {
 
         actionURL = document.select("form").first().attr("action");
 
-        return actionURL.split("=")[1];
+        try {
+            document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
+                    .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_PERSONAL)
+                    .timeout(RequestUtils.REQUEST_TIMEOUT)
+                    .get();
+        } catch (IOException e) {
+            throw new UnicapRequestException(UnicapRequestException.Code.CONNECTION_FAILED);
+        }
+
+        credentials.setRegistration(document.select(".tab_texto").get(0).text());
+
+        credentials.setAuthToken(actionURL.split("=")[1]);
     }
 
     public static void receivePersonalData() throws UnicapRequestException {
@@ -73,7 +85,7 @@ public class UnicapRequest {
         if (actionURL == null) throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
 
         // Personal data request
-        Document document = null;
+        Document document;
         try {
             document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
                     .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_PERSONAL)
@@ -107,7 +119,7 @@ public class UnicapRequest {
         if (actionURL == null) throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
 
         // Subjects data request
-        Document document = null;
+        Document document;
         try {
             document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
                     .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_PAST)
@@ -154,7 +166,10 @@ public class UnicapRequest {
             else if (situationText.equals("RM")) situation = SubjectStatus.Situation.REPROVED;
             else if (situationText.equals("RF")) situation = SubjectStatus.Situation.REPROVED;
             else if (situationText.equals("CI")) situation = SubjectStatus.Situation.IMPORTED;
-            else situation = SubjectStatus.Situation.UNKNOWN;
+            else {
+                Crashlytics.log("New situation found: "+situationText);
+                situation = SubjectStatus.Situation.UNKNOWN;
+            }
 
             UnicapDataManager.persistPastSubject(code, name, paidIn, average, situation);
 
@@ -170,7 +185,7 @@ public class UnicapRequest {
         if (actionURL == null) throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
 
         // Subjects data request
-        Document document = null;
+        Document document;
         try {
             document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
                     .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_ACTUAL)
@@ -180,7 +195,7 @@ public class UnicapRequest {
             throw new UnicapRequestException(UnicapRequestException.Code.CONNECTION_FAILED);
         }
 
-        Elements subjectsTable = null;
+        Elements subjectsTable;
         try {
             subjectsTable = document.select("table").get(5).select("tr");
         } catch (Exception e) {
@@ -241,7 +256,7 @@ public class UnicapRequest {
         if (actionURL == null) throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
 
         // Subjects data request
-        Document document = null;
+        Document document;
         try {
             document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
                     .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_PENDING)
@@ -305,7 +320,7 @@ public class UnicapRequest {
         if (actionURL == null) throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
 
         // Subjects data request
-        Document document = null;
+        Document document;
         try {
             document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
                     .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_CALENDAR)
@@ -317,7 +332,7 @@ public class UnicapRequest {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-        Elements subjectsTable = null;
+        Elements subjectsTable;
         try {
             subjectsTable = document.select("table").get(5).select("tr");
         } catch (Exception e) {
@@ -379,7 +394,7 @@ public class UnicapRequest {
         if (actionURL == null) throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
 
         // Subjects data request
-        Document document = null;
+        Document document;
         try {
             document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
                     .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_TESTS)
@@ -389,7 +404,7 @@ public class UnicapRequest {
             throw new UnicapRequestException(UnicapRequestException.Code.CONNECTION_FAILED);
         }
 
-        Elements subjectsTable = null;
+        Elements subjectsTable;
         try {
             subjectsTable = document.select("table").get(7).select("tr");
         } catch (Exception e) {

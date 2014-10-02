@@ -2,8 +2,11 @@ package com.thm.unicap.app.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SyncResult;
@@ -11,6 +14,8 @@ import android.os.Bundle;
 
 import com.activeandroid.ActiveAndroid;
 import com.thm.unicap.app.UnicapApplication;
+import com.thm.unicap.app.auth.AccountGeneral;
+import com.thm.unicap.app.auth.StudentCredentials;
 import com.thm.unicap.app.connection.UnicapDataManager;
 import com.thm.unicap.app.connection.UnicapRequest;
 import com.thm.unicap.app.connection.UnicapRequestException;
@@ -50,7 +55,7 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
         UnicapDataManager.cleanUserData(account.name);
         try {
             UnicapApplication.log("SYNC - 1/7 [====>                              ] - loginRequest");
-            UnicapRequest.loginRequest(account.name, mAccountManager.getPassword(account));
+            UnicapRequest.loginRequest(new StudentCredentials(account.name, mAccountManager.getPassword(account)));
             UnicapApplication.log("SYNC - 2/7 [=========>                         ] - receivePersonalData");
             UnicapRequest.receivePersonalData();
             UnicapApplication.log("SYNC - 3/7 [==============>                    ] - receivePastSubjectsData");
