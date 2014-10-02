@@ -43,4 +43,13 @@ public class StudentCredentials {
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
     }
+
+    @Override
+    public String toString() {
+        return "StudentCredentials{" +
+                "registration='" + registration + '\'' +
+                ", password='" + password + '\'' +
+                ", authToken='" + authToken + '\'' +
+                '}';
+    }
 }
