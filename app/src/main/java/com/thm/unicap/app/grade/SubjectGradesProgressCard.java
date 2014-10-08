@@ -39,64 +39,69 @@ public class SubjectGradesProgressCard extends Card {
         SubjectTest finalDegreeTest = mSubject.getTestByDegree(SubjectTest.Degree.FINAL_DEGREE);
         Float finalDegreeTestGrade = (finalDegreeTest != null) ? finalDegreeTest.grade : null;
 
-        ArrayList<Float> floatPoints = new ArrayList<Float>();
-        floatPoints.add(firstDegreeTestGrade);
-        floatPoints.add(secondDegreeTestGrade);
-        floatPoints.add(finalDegreeTestGrade);
+        ArrayList<Float> grades = new ArrayList<Float>();
+        grades.add(firstDegreeTestGrade);
+        grades.add(secondDegreeTestGrade);
+        grades.add(finalDegreeTestGrade);
 
-        Line line = new Line();
-        LinePoint point;
-        line.setUsingDips(true);
-        line.setColor(mContext.getResources().getColor(R.color.unicap_base));
 
+        // Creating graph structure
+        LineGraph graph = (LineGraph) parent.findViewById(R.id.linegraph);
+        graph.setUsingDips(true);
+
+        graph.setRangeY(0, 10);
+        graph.setRangeX(0, grades.size()-1);
+        graph.setLineToFill(1);
+
+        // Creating Grade Line
+        Line gradeLine = new Line();
+        gradeLine.setUsingDips(true);
+        gradeLine.setColor(mContext.getResources().getColor(R.color.unicap_base));
+
+        for (int i = 0; i < grades.size(); i++) {
+            if(grades.get(i) != null) {
+                gradeLine.addPoint(createGradePoint(i, grades.get(i)));
+            }
+        }
+
+        graph.addLine(gradeLine);
+
+        // Creating Average Line
         Line averageLine = new Line();
         averageLine.setColor(mContext.getResources().getColor(android.R.color.darker_gray));
         averageLine.setUsingDips(true);
         averageLine.setStrokeWidth(1);
         averageLine.setShowingPoints(false);
 
-        float nextPointIndex = 0;
-        for (Float floatPoint : floatPoints) {
-            if(floatPoint != null) {
-                point = new LinePoint();
-                point.setX(nextPointIndex++);
-                point.setY(floatPoint);
-                if(floatPoint >= SubjectTest.MIN_AVERAGE) {
-                    point.setColor(mContext.getResources().getColor(android.R.color.holo_green_light));
-                    point.setSelectedColor(mContext.getResources().getColor(android.R.color.holo_green_dark));
-                } else {
-                    point.setColor(mContext.getResources().getColor(android.R.color.holo_red_light));
-                    point.setSelectedColor(mContext.getResources().getColor(android.R.color.holo_red_dark));
-                }
-                line.addPoint(point);
-            }
+        averageLine.addPoint(createAveragePoint(0));
+        averageLine.addPoint(createAveragePoint(grades.size()-1));
+
+        graph.addLine(averageLine);
+
+    }
+
+    private LinePoint createGradePoint(int x, Float y)
+    {
+        LinePoint point = new LinePoint();
+        point.setX(x);
+        point.setY(y);
+        if(y >= SubjectTest.MIN_AVERAGE) {
+            point.setColor(mContext.getResources().getColor(android.R.color.holo_green_light));
+            point.setSelectedColor(mContext.getResources().getColor(android.R.color.holo_green_dark));
+        } else {
+            point.setColor(mContext.getResources().getColor(android.R.color.holo_red_light));
+            point.setSelectedColor(mContext.getResources().getColor(android.R.color.holo_red_dark));
         }
+        return point;
+    }
 
-        point = new LinePoint();
-        point.setX(0.0);
+    private LinePoint createAveragePoint(int x)
+    {
+        LinePoint point = new LinePoint();
+        point.setX(x);
         point.setY(SubjectTest.MIN_AVERAGE);
-        averageLine.addPoint(point);
 
-        point = new LinePoint();
-
-        if(nextPointIndex > 0)
-            point.setX(nextPointIndex-1);
-        else
-            point.setX(1);
-
-        point.setY(SubjectTest.MIN_AVERAGE);
-        averageLine.addPoint(point);
-
-        LineGraph lineGraph = (LineGraph) parent.findViewById(R.id.linegraph);
-        lineGraph.setUsingDips(true);
-
-        if(nextPointIndex > 0)
-            lineGraph.addLine(line);
-
-        lineGraph.addLine(averageLine);
-        lineGraph.setRangeY(0, 10);
-        lineGraph.setLineToFill(0);
-
+        return point;
     }
 
 }
