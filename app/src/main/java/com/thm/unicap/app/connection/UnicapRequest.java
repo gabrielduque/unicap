@@ -166,6 +166,7 @@ public class UnicapRequest {
             else if (situationText.equals("RM")) situation = SubjectStatus.Situation.REPROVED;
             else if (situationText.equals("RF")) situation = SubjectStatus.Situation.REPROVED;
             else if (situationText.equals("CI")) situation = SubjectStatus.Situation.IMPORTED;
+            else if (situationText.equals("CT")) situation = SubjectStatus.Situation.IMPORTED;
             else {
                 Crashlytics.logException(new Exception("New situation found: "+situationText));
                 situation = SubjectStatus.Situation.UNKNOWN;
