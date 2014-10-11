@@ -70,10 +70,8 @@ public class SubjectsPagerAdapter extends PagerAdapter implements Card.OnCardCli
                 .orderBy("Subject.Period, SubjectStatus.PaidIn, Subject.Name");
 
         if(position == Session.PAST.ordinal()) {
-            query.where("SubjectStatus.Situation = ?", SubjectStatus.Situation.APPROVED)
-                    .or("SubjectStatus.Situation = ?", SubjectStatus.Situation.IMPORTED)
-                    .or("SubjectStatus.Situation = ?", SubjectStatus.Situation.PERFORMED)
-                    .or("SubjectStatus.Situation = ?", SubjectStatus.Situation.UNKNOWN);
+            query.where("SubjectStatus.Situation != ?", SubjectStatus.Situation.ACTUAL)
+                    .and("SubjectStatus.Situation != ?", SubjectStatus.Situation.PENDING);
         } else if(position == Session.ACTUAL.ordinal()) {
             query.where("SubjectStatus.Situation = ?", SubjectStatus.Situation.ACTUAL);
         } else if(position == Session.PENDING.ordinal()) {

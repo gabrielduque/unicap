@@ -161,16 +161,20 @@ public class UnicapRequest {
 
             SubjectStatus.Situation situation;
             String situationText = subjectColumns.get(4).text();
-            if (situationText.equals("AP")) situation = SubjectStatus.Situation.APPROVED;
-            else if (situationText.equals("CP")) situation = SubjectStatus.Situation.PERFORMED;
-            else if (situationText.equals("RM")) situation = SubjectStatus.Situation.REPROVED;
-            else if (situationText.equals("RF")) situation = SubjectStatus.Situation.REPROVED;
-            else if (situationText.equals("CI")) situation = SubjectStatus.Situation.IMPORTED;
-            else if (situationText.equals("CT")) situation = SubjectStatus.Situation.IMPORTED;
-            else {
-                Crashlytics.logException(new Exception("New situation found: "+situationText));
-                situation = SubjectStatus.Situation.UNKNOWN;
-            }
+            if (situationText.equals("AP")) situation = SubjectStatus.Situation.APPROVED;       // AP = APROVADO
+            else if (situationText.equals("RM")) situation = SubjectStatus.Situation.REPROVED;  // RM = REPROVADO POR MÉDIA
+            else if (situationText.equals("RF")) situation = SubjectStatus.Situation.REPROVED;  // RF = REPROVADO POR FREQUÊNCIA
+            else if (situationText.equals("DS")) situation = SubjectStatus.Situation.DISPENSED; // DS = DISPENSADO
+            else if (situationText.equals("TN")) situation = SubjectStatus.Situation.UNKNOWN;   // TN = TESTE DE NIVELAMENTO
+            else if (situationText.equals("CP")) situation = SubjectStatus.Situation.PERFORMED; // CP = CUMPRIU
+            else if (situationText.equals("CM")) situation = SubjectStatus.Situation.UNKNOWN;   // CM = CUMPRINDO
+            else if (situationText.equals("NC")) situation = SubjectStatus.Situation.UNKNOWN;   // NC = NÃO CUMPRIU
+            else if (situationText.equals("CT")) situation = SubjectStatus.Situation.IMPORTED;  // CT = CRÉDITOS TRANSFERIDOS
+            else if (situationText.equals("CI")) situation = SubjectStatus.Situation.IMPORTED;  // CI = CRÉDITOS INTERNOS
+            else if (situationText.equals("MT")) situation = SubjectStatus.Situation.UNKNOWN;   // MT = MATRICULADO NESTE PERÍODO
+            else if (situationText.equals("SI")) situation = SubjectStatus.Situation.UNKNOWN;   // SI = SITUAÇÃO FINAL NÃO DISPONÍVEL
+            else if (situationText.equals("AE")) situation = SubjectStatus.Situation.UNKNOWN;   // AE = APROVEITAMENTO DE ESTUDOS E CONHECIMENTOS EXTRAORDINÁRIOS
+            else situation = SubjectStatus.Situation.UNKNOWN;
 
             UnicapDataManager.persistPastSubject(code, name, paidIn, average, situation);
 

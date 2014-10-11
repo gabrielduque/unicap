@@ -12,7 +12,7 @@ import java.util.Random;
 public class SubjectStatus extends Model {
 
     public enum Situation {
-        APPROVED, REPROVED, IMPORTED, PERFORMED, ACTUAL, PENDING, UNKNOWN
+        APPROVED, REPROVED, IMPORTED, PERFORMED, ACTUAL, PENDING, DISPENSED, UNKNOWN
     }
 
     public enum FlowSituation {

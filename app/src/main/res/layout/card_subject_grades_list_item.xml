@@ -83,19 +83,6 @@
 
         </LinearLayout>
 
-        <!--<com.devspark.robototextview.widget.RobotoTextView-->
-            <!--android:id="@+id/subject_situation"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center"-->
-            <!--tools:drawableRight="@drawable/ic_action_accept"-->
-            <!--tools:text="@string/approved"-->
-            <!--android:textSize="18sp"-->
-            <!--tools:textColor="@android:color/holo_green_light"-->
-            <!--app:typeface="roboto_thin"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_alignParentRight="true"/>-->
-
     </RelativeLayout>
 
 </LinearLayout>
