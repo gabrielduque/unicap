@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.model.Subject;
-import com.thm.unicap.app.model.SubjectStatus;
+import com.thm.unicap.app.model.SubjectTest;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
@@ -29,42 +29,34 @@ public class SubjectGradesListItemCard extends Card {
         TextView subject_name_abbreviation = (TextView) parent.findViewById(R.id.subject_name_abbreviation);
         TextView subject_code = (TextView) parent.findViewById(R.id.subject_code);
         TextView subject_name = (TextView) parent.findViewById(R.id.subject_name);
-        TextView subject_situation = (TextView) parent.findViewById(R.id.subject_situation);
+        TextView subject_first_degree  = (TextView) parent.findViewById(R.id.subject_first_degree);
+        TextView subject_second_degree = (TextView) parent.findViewById(R.id.subject_second_degree);
+        TextView subject_final_degree  = (TextView) parent.findViewById(R.id.subject_final_degree);
 
         subject_name_abbreviation.setBackgroundResource(mSubject.getColorResource());
         subject_name_abbreviation.setText(mSubject.getNameAbbreviation());
         subject_code.setText(mSubject.code);
         subject_name.setText(mSubject.name);
 
-        SubjectStatus actualSubjectStatus = mSubject.getActualSubjectStatus();
+        initSubjectTest(SubjectTest.Degree.FIRST_DEGREE, subject_first_degree);
+        initSubjectTest(SubjectTest.Degree.SECOND_DEGREE, subject_second_degree);
+        initSubjectTest(SubjectTest.Degree.FINAL_DEGREE, subject_final_degree);
+    }
 
-        if(actualSubjectStatus == null) return;
+    private void initSubjectTest(SubjectTest.Degree subjectDegree, TextView textView) {
+        SubjectTest subjectTest = mSubject.getTestByDegree(subjectDegree);
+        if (subjectTest != null && subjectTest.grade != null) {
+            textView.setText(subjectTest.grade.toString());
 
-        SubjectStatus.FlowSituation flowSituation = actualSubjectStatus.getFlowSituation();
+            if(subjectTest.grade >= SubjectTest.MIN_AVERAGE)
+                textView.setTextColor(mContext.getResources().getColor(android.R.color.holo_green_light));
+            else
+                textView.setTextColor(mContext.getResources().getColor(android.R.color.holo_red_light));
 
-        switch (flowSituation) {
-            case APPROVED:
-                subject_situation.setText(mContext.getString(R.string.approved));
-                subject_situation.setTextColor(mContext.getResources().getColor(android.R.color.holo_green_light));
-                subject_situation.setCompoundDrawablesWithIntrinsicBounds(null, null, mContext.getResources().getDrawable(R.drawable.ic_action_accept), null);
-                break;
-            case REPROVED:
-                subject_situation.setText(mContext.getString(R.string.repproved));
-                subject_situation.setTextColor(mContext.getResources().getColor(android.R.color.holo_red_light));
-                subject_situation.setCompoundDrawablesWithIntrinsicBounds(null, null, mContext.getResources().getDrawable(R.drawable.ic_action_cancel), null);
-                break;
-            case WAITING:
-                subject_situation.setText(mContext.getString(R.string.waiting));
-                subject_situation.setTextColor(mContext.getResources().getColor(android.R.color.darker_gray));
-                subject_situation.setCompoundDrawablesWithIntrinsicBounds(null, null, mContext.getResources().getDrawable(R.drawable.ic_action_time), null);
-                break;
-            case WAITING_FINAL:
-                subject_situation.setText(mContext.getString(R.string.waiting_final));
-                subject_situation.setTextColor(mContext.getResources().getColor(android.R.color.darker_gray));
-                subject_situation.setCompoundDrawablesWithIntrinsicBounds(null, null, mContext.getResources().getDrawable(R.drawable.ic_action_time), null);
-                break;
+        } else {
+            textView.setText("-");
+            textView.setTextColor(mContext.getResources().getColor(android.R.color.darker_gray));
         }
-
     }
 
     public Subject getSubject() {

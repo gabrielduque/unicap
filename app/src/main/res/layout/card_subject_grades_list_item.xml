@@ -45,18 +45,56 @@
             android:layout_below="@+id/subject_name"
             android:layout_alignParentLeft="true"/>
 
-        <com.devspark.robototextview.widget.RobotoTextView
-            android:id="@+id/subject_situation"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            tools:drawableRight="@drawable/ic_action_accept"
-            tools:text="@string/approved"
-            android:textSize="18sp"
-            tools:textColor="@android:color/holo_green_light"
-            app:typeface="roboto_thin"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true">
+
+            <com.devspark.robototextview.widget.RobotoTextView
+                android:id="@+id/subject_first_degree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="8.4"
+                android:textSize="18sp"
+                tools:textColor="@android:color/holo_green_light"
+                app:typeface="roboto_regular"/>
+
+            <com.devspark.robototextview.widget.RobotoTextView
+                android:id="@+id/subject_second_degree"
+                android:layout_marginLeft="@dimen/margin_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="4.4"
+                android:textSize="18sp"
+                tools:textColor="@android:color/holo_red_light"
+                app:typeface="roboto_regular"/>
+
+            <com.devspark.robototextview.widget.RobotoTextView
+                android:id="@+id/subject_final_degree"
+                android:layout_marginLeft="@dimen/margin_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="7.4"
+                android:textSize="18sp"
+                tools:textColor="@android:color/holo_green_light"
+                app:typeface="roboto_regular"/>
+
+        </LinearLayout>
+
+        <!--<com.devspark.robototextview.widget.RobotoTextView-->
+            <!--android:id="@+id/subject_situation"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--tools:drawableRight="@drawable/ic_action_accept"-->
+            <!--tools:text="@string/approved"-->
+            <!--android:textSize="18sp"-->
+            <!--tools:textColor="@android:color/holo_green_light"-->
+            <!--app:typeface="roboto_thin"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignParentRight="true"/>-->
 
     </RelativeLayout>
 
