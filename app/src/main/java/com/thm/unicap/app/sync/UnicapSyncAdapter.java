@@ -52,7 +52,7 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
         resultIntent.putExtra(UnicapSyncReceiver.SYNC_ACCOUNT_PARAM, account.name);
 
         ActiveAndroid.beginTransaction();
-        UnicapDataManager.cleanUserData(account.name);
+//        UnicapDataManager.cleanUserData(account.name);
         try {
             UnicapApplication.log("SYNC - 1/7 [====>                              ] - loginRequest");
             UnicapRequest.loginRequest(new StudentCredentials(account.name, mAccountManager.getPassword(account)));
