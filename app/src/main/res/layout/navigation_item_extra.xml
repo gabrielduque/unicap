@@ -33,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
+            android:textColor="@color/unicap_gray_level_3"
             tools:text="Settings"
             app:typeface="roboto_thin"/>
 
