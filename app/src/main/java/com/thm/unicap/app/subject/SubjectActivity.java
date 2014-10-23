@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.activeandroid.query.Select;
-import com.crashlytics.android.Crashlytics;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.model.Subject;
 
@@ -64,9 +63,9 @@ public class SubjectActivity extends ActionBarActivity {
             card_history.setVisibility(View.VISIBLE);
         }
 
-        CardView card_info = (CardView) findViewById(R.id.card_info);
-        SubjectInfoCard subjectInfoCard = new SubjectInfoCard(this, mSubject);
-        card_info.setCard(subjectInfoCard);
+        SubjectInfoCard subjectInfoCard = (SubjectInfoCard) findViewById(R.id.card_info);
+        subjectInfoCard.setSubject(mSubject);
+
     }
 
     @Override
