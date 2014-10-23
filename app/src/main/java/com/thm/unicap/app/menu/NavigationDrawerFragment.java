@@ -209,7 +209,7 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
         navigationItems.add(new NavigationItem(getString(R.string.feedback), R.drawable.ic_action_feedback, NavigationItem.Type.EXTRA));
         navigationItems.add(new NavigationItem(getString(R.string.about), R.drawable.ic_action_about, NavigationItem.Type.EXTRA));
 
-        mDrawerListView.setAdapter(new NavigationAdapter(getActionBar().getThemedContext(), R.layout.navigation_item_normal, navigationItems));
+        mDrawerListView.setAdapter(new NavigationAdapter(getActivity(), R.layout.navigation_item_normal, navigationItems));
 
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
     }

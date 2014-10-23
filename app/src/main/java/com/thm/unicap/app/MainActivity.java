@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
 import com.activeandroid.query.Select;
@@ -58,6 +59,9 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         Crashlytics.start(this);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_actionbar);
+        setSupportActionBar(toolbar);
 
         mAccountManager = AccountManager.get(this);
 
