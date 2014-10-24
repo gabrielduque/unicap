@@ -29,6 +29,7 @@
         android:layout_marginRight="5dp"
         android:gravity="center"
         android:background="@color/unicap_gray_level_1"
+        tools:background="@color/subject_color_1"
         android:textColor="@color/dark_gray"
         android:textSize="20sp"
         android:text="@string/tue_letter"/>
@@ -53,6 +54,7 @@
         android:layout_marginRight="5dp"
         android:gravity="center"
         android:background="@color/unicap_gray_level_1"
+        tools:background="@color/subject_color_1"
         android:textColor="@color/dark_gray"
         android:textSize="20sp"
         android:text="@string/thu_letter"/>

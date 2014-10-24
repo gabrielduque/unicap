@@ -26,8 +26,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <it.gmariotti.cardslib.library.view.CardView
+            <com.thm.unicap.app.subject.SubjectScheduleCard
                 android:visibility="gone"
+                tools:visibility="visible"
                 android:id="@+id/card_schedule"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:layout_width="match_parent"

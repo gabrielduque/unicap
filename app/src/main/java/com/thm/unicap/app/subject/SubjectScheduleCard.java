@@ -1,6 +1,8 @@
 package com.thm.unicap.app.subject;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -13,21 +15,23 @@ import java.util.Map;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
-public class SubjectScheduleCard extends Card {
+public class SubjectScheduleCard extends CardView {
 
     private Subject mSubject;
 
-    public SubjectScheduleCard(Context context, Subject subject) {
-        this(context, R.layout.card_subject_schedule, subject);
+    public SubjectScheduleCard(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initView();
     }
 
-    public SubjectScheduleCard(Context context, int innerLayout, Subject subject) {
-        super(context, innerLayout);
-        mSubject = subject;
+    private void initView() {
+        View.inflate(getContext(), R.layout.card_subject_schedule, this);
     }
 
-    @Override
-    public void setupInnerViewElements(ViewGroup parent, View view) {
+    private void initData() {
+
+        if (mSubject == null) return;
+
         SubjectStatus actualSubjectStatus = mSubject.getActualSubjectStatus();
 
         if(actualSubjectStatus != null) {
@@ -40,31 +44,40 @@ public class SubjectScheduleCard extends Card {
 
                 switch (weekDay) {
                     case Mon:
-                        tvWeekDay = (TextView) parent.findViewById(R.id.card_subject_schedule_mon);
+                        tvWeekDay = (TextView) findViewById(R.id.card_subject_schedule_mon);
                         break;
                     case Tue:
-                        tvWeekDay = (TextView) parent.findViewById(R.id.card_subject_schedule_tue);
+                        tvWeekDay = (TextView) findViewById(R.id.card_subject_schedule_tue);
                         break;
                     case Wed:
-                        tvWeekDay = (TextView) parent.findViewById(R.id.card_subject_schedule_wed);
+                        tvWeekDay = (TextView) findViewById(R.id.card_subject_schedule_wed);
                         break;
                     case Thu:
-                        tvWeekDay = (TextView) parent.findViewById(R.id.card_subject_schedule_thu);
+                        tvWeekDay = (TextView) findViewById(R.id.card_subject_schedule_thu);
                         break;
                     case Fri:
-                        tvWeekDay = (TextView) parent.findViewById(R.id.card_subject_schedule_fri);
+                        tvWeekDay = (TextView) findViewById(R.id.card_subject_schedule_fri);
                         break;
                     case Sat:
-                        tvWeekDay = (TextView) parent.findViewById(R.id.card_subject_schedule_sat);
+                        tvWeekDay = (TextView) findViewById(R.id.card_subject_schedule_sat);
                         break;
                 }
 
                 if (tvWeekDay != null) {
                     tvWeekDay.setBackgroundResource(colorResource);
-                    tvWeekDay.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                    tvWeekDay.setTextColor(getContext().getResources().getColor(android.R.color.white));
                 }
             }
         }
+    }
+
+    public Subject getSubject() {
+        return mSubject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.mSubject = subject;
+        initData();
     }
 
 }
