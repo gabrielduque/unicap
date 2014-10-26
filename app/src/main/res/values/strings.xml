@@ -27,6 +27,7 @@
     <!-- Error messages -->
     <string name="error_generic_message">Ops… Algo deu errado :/</string>
     <string name="error_auth_needed">Usuário não autenticado.</string>
+    <string name="error_maintenance">Portal em manutenção.</string>
     <string name="error_invalid_registration">Matrícula inválida</string>
     <string name="error_invalid_password">Senha inválida</string>
     <string name="error_field_required">Este campo é obrigatório</string>

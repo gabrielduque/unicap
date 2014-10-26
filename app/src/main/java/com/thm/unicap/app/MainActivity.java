@@ -22,6 +22,7 @@ import com.github.johnpersano.supertoasts.SuperToast;
 import com.thm.unicap.app.about.AboutFragment;
 import com.thm.unicap.app.auth.AccountGeneral;
 import com.thm.unicap.app.calendar.CalendarFragment;
+import com.thm.unicap.app.connection.UnicapDataManager;
 import com.thm.unicap.app.dashboard.DashboardFragment;
 import com.thm.unicap.app.feedback.FeedbackFragment;
 import com.thm.unicap.app.grade.GradesFragment;
@@ -143,6 +144,9 @@ public class MainActivity extends ActionBarActivity
             case NavigationDrawerFragment.SESSION_ABOUT:
                 fragment = new AboutFragment();
                 break;
+            case NavigationDrawerFragment.SESSION_LOGOUT:
+                logout();
+                return;
             default:
                 fragment = new DashboardFragment();
                 break;
@@ -304,6 +308,28 @@ public class MainActivity extends ActionBarActivity
                 super.onBackPressed();
             else
                 mNavigationDrawerFragment.selectItem(NavigationDrawerFragment.SESSION_DASHBOARD);
+        }
+    }
+
+    private void logout() {
+        AccountManager accountManager = AccountManager.get(this);
+
+        final Student currentStudent = UnicapApplication.getCurrentStudent();
+
+        if(currentStudent == null) {
+            finish();
+        } else {
+            Account account = new Account(currentStudent.registration, AccountGeneral.ACCOUNT_TYPE);
+
+            accountManager.removeAccount(account, new AccountManagerCallback<Boolean>() {
+                @Override
+                public void run(AccountManagerFuture<Boolean> future) {
+                    UnicapDataManager.cleanUserData(currentStudent.registration);
+                    UnicapApplication.setCurrentAccount(null);
+                    UnicapApplication.setCurrentStudent(null);
+                    finish();
+                }
+            }, null);
         }
     }
 }

@@ -6,6 +6,13 @@
         <item name="colorPrimary">@color/unicap_base</item>
         <item name="colorPrimaryDark">@color/unicap_base_dark</item>
         <item name="colorAccent">@color/unicap_base</item>
+
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">false</item>
+        <item name="color">@android:color/white</item>
     </style>
 
 </resources>

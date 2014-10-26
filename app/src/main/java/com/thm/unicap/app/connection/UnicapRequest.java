@@ -63,6 +63,8 @@ public class UnicapRequest {
             throw new UnicapRequestException(UnicapRequestException.Code.INCORRECT_PASSWORD);
         else if(document.select(".msg").text().matches(".*limite.*"))
             throw new UnicapRequestException(UnicapRequestException.Code.MAX_TRIES_EXCEEDED);
+        else if(document.select(".msg").text().matches(".*manuten..o.*"))
+            throw new UnicapRequestException(UnicapRequestException.Code.MAINTENANCE);
 
         actionURL = document.select("form").first().attr("action");
 
@@ -75,9 +77,19 @@ public class UnicapRequest {
             throw new UnicapRequestException(UnicapRequestException.Code.CONNECTION_FAILED);
         }
 
-        credentials.setRegistration(document.select(".tab_texto").get(0).text());
+        try {
 
-        credentials.setAuthToken(actionURL.split("=")[1]);
+            String registration = document.select(".tab_texto").get(0).text();
+            String authToken = actionURL.split("=")[1];
+
+            credentials.setRegistration(registration);
+            credentials.setAuthToken(authToken);
+
+        } catch (Exception e) {
+            Crashlytics.logException(e);
+            throw new UnicapRequestException(UnicapRequestException.Code.DATA_PARSE_EXCEPTION);
+        }
+
     }
 
     public static void receivePersonalData() throws UnicapRequestException {

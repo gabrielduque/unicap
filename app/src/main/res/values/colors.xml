@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="unicap_base">#ffd6d79d</color>
-    <color name="unicap_base_dark">#b8b98e</color>
+
+    <color name="unicap_base">#ffaeaf80</color>
+    <color name="unicap_base_dark">#ff86876b</color>
 
     <color name="unicap_gray_level_1">#eeeeee</color>
     <color name="unicap_gray_level_2">#cccccc</color>

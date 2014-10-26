@@ -19,6 +19,7 @@ public class UnicapRequestException extends Exception {
         MAX_TRIES_EXCEEDED,
         DATA_PARSE_EXCEPTION,
         AUTH_NEEDED,
+        MAINTENANCE,
     }
 
     public String getMessageFromContext(Context context) {
@@ -35,6 +36,8 @@ public class UnicapRequestException extends Exception {
                 return context.getString(R.string.error_generic_message);
             case AUTH_NEEDED:
                 return context.getString(R.string.error_auth_needed);
+            case MAINTENANCE:
+                return context.getString(R.string.error_maintenance);
             default:
                 return context.getString(R.string.error_generic_message);
         }

@@ -58,6 +58,7 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
 
     public static final int SESSION_FEEDBACK = 5;
     public static final int SESSION_ABOUT = 6;
+    public static final int SESSION_LOGOUT = 7;
 
     /**
      * Remember the position of the selected item.
@@ -208,6 +209,7 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
         //Extra items
         navigationItems.add(new NavigationItem(getString(R.string.feedback), R.drawable.ic_action_feedback, NavigationItem.Type.EXTRA));
         navigationItems.add(new NavigationItem(getString(R.string.about), R.drawable.ic_action_about, NavigationItem.Type.EXTRA));
+        navigationItems.add(new NavigationItem(getString(R.string.logout), R.drawable.ic_exit_to_app_grey600_24dp, NavigationItem.Type.EXTRA));
 
         mDrawerListView.setAdapter(new NavigationAdapter(getActivity(), R.layout.navigation_item_normal, navigationItems));
 
@@ -267,7 +269,7 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
                     mUserLearnedDrawer = true;
                     SharedPreferences sp = PreferenceManager
                             .getDefaultSharedPreferences(getActivity());
-                    sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).commit();
+                    sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
                 }
 
                 getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
@@ -354,39 +356,8 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
-        }
-
-        switch (item.getItemId()) {
-            case R.id.action_logout:
-
-                AccountManager accountManager = AccountManager.get(getActivity());
-
-                final Student currentStudent = UnicapApplication.getCurrentStudent();
-
-                if(currentStudent == null) {
-                    getActivity().finish();
-                    return true;
-                }
-
-                Account account = new Account(currentStudent.registration, AccountGeneral.ACCOUNT_TYPE);
-
-                accountManager.removeAccount(account, new AccountManagerCallback<Boolean>() {
-                    @Override
-                    public void run(AccountManagerFuture<Boolean> future) {
-                        UnicapDataManager.cleanUserData(currentStudent.registration);
-                        UnicapApplication.setCurrentAccount(null);
-                        UnicapApplication.setCurrentStudent(null);
-                        getActivity().finish();
-                    }
-                }, null);
-
-                return true;
-            case R.id.action_sync:
-                UnicapApplication.forceSync();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
