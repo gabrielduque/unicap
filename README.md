@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/tuliohmendes/unicap.svg?branch=master)](https://travis-ci.org/tuliohmendes/unicap)
 
+[![Android app on Google Play](https://developer.android.com/images/brand/en_app_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=com.thm.unicap.app)
+
 # Unicap App
 
 Application designed to allow you to access the information provided on [Student Graduation Portal] from [Catholic University of Pernambuco] in an organized, simple and practical way.
