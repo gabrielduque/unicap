@@ -4,6 +4,8 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
+import android.app.ActivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -33,7 +35,6 @@ import com.thm.unicap.app.subject.SubjectsFragment;
 import com.thm.unicap.app.util.DatabaseListener;
 
 import hotchemi.android.rate.AppRate;
-import hotchemi.android.rate.OnClickButtonListener;
 
 
 public class MainActivity extends ActionBarActivity
@@ -63,6 +64,11 @@ public class MainActivity extends ActionBarActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_actionbar);
         setSupportActionBar(toolbar);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            int color = getResources().getColor(R.color.unicap_base_dark);
+            setTaskDescription(new ActivityManager.TaskDescription(null, null, color));
+        }
 
         mAccountManager = AccountManager.get(this);
 
