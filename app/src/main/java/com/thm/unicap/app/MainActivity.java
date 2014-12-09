@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -56,6 +57,12 @@ public class MainActivity extends ActionBarActivity
     private CharSequence mTitle;
     private SuperActivityToast mSyncingToast;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void initTaskDescriptionConfig() {
+        int color = getResources().getColor(R.color.unicap_base_dark);
+        setTaskDescription(new ActivityManager.TaskDescription(null, null, color));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,10 +72,8 @@ public class MainActivity extends ActionBarActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_actionbar);
         setSupportActionBar(toolbar);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            int color = getResources().getColor(R.color.unicap_base_dark);
-            setTaskDescription(new ActivityManager.TaskDescription(null, null, color));
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            initTaskDescriptionConfig();
 
         mAccountManager = AccountManager.get(this);
 

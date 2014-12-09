@@ -1,5 +1,6 @@
 package com.thm.unicap.app.subject;
 
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +20,12 @@ public class SubjectActivity extends ActionBarActivity {
 
     private Subject mSubject;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void initTaskDescriptionConfig() {
+        int color = getResources().getColor(R.color.unicap_base_dark);
+        setTaskDescription(new ActivityManager.TaskDescription(null, null, color));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,10 +34,8 @@ public class SubjectActivity extends ActionBarActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_actionbar);
         setSupportActionBar(toolbar);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            int color = getResources().getColor(R.color.unicap_base_dark);
-            setTaskDescription(new ActivityManager.TaskDescription(null, null, color));
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            initTaskDescriptionConfig();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

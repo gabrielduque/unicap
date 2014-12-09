@@ -5,31 +5,27 @@ import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentTransaction;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dd.CircularProgressButton;
-import com.devspark.robototextview.widget.RobotoTextView;
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.github.johnpersano.supertoasts.util.Style;
 import com.thm.unicap.app.R;
-import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.connection.OnTaskCancelled;
 import com.thm.unicap.app.connection.OnTaskCompleted;
 import com.thm.unicap.app.connection.UnicapDataManager;
@@ -64,15 +60,19 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
     private CircularProgressButton mRegistrationSignInButton;
     private boolean isLoginInProgress;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void initTaskDescriptionConfig() {
+        int color = getResources().getColor(R.color.unicap_base_dark);
+        setTaskDescription(new ActivityManager.TaskDescription(null, null, color));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            int color = getResources().getColor(R.color.unicap_base_dark);
-            setTaskDescription(new ActivityManager.TaskDescription(null, null, color));
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            initTaskDescriptionConfig();
 
         mAccountManager = AccountManager.get(getBaseContext());
 
