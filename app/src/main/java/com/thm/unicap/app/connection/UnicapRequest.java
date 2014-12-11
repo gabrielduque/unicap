@@ -2,6 +2,7 @@ package com.thm.unicap.app.connection;
 
 import com.activeandroid.ActiveAndroid;
 import com.crashlytics.android.Crashlytics;
+import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.auth.StudentCredentials;
 import com.thm.unicap.app.model.SubjectStatus;
 import com.thm.unicap.app.model.SubjectTest;
@@ -24,6 +25,7 @@ public class UnicapRequest {
     private static String actionURL;
 
     public static void syncAll() throws UnicapRequestException {
+        receiveCourseCoefficients();
         receivePersonalData();
         receivePastSubjectsData();
         receiveActualSubjectsData();
@@ -266,6 +268,40 @@ public class UnicapRequest {
         ActiveAndroid.setTransactionSuccessful();
         ActiveAndroid.endTransaction();
 
+    }
+
+    public static void receiveCourseCoefficients() throws UnicapRequestException {
+
+        if (actionURL == null) throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
+
+        // Subjects data request
+        Document document;
+        try {
+            document = Jsoup.connect(RequestUtils.REQUEST_BASE_URL + actionURL)
+                    .data(RequestUtils.Params.ROUTINE, RequestUtils.Values.ROUTINE_SUBJECTS_TESTS)
+                    .timeout(RequestUtils.REQUEST_TIMEOUT)
+                    .get();
+        } catch (IOException e) {
+            throw new UnicapRequestException(UnicapRequestException.Code.CONNECTION_FAILED);
+        }
+
+        Float courseCoefficient;
+        Float lastCoefficient;
+        String coefficient;
+
+        try {
+
+            coefficient = document.select("table").get(6).select(".tab_aluno_texto").get(0).text();
+            courseCoefficient = Float.parseFloat(coefficient);
+
+            coefficient = document.select("table").get(6).select(".tab_aluno_texto").get(1).text();
+            lastCoefficient = Float.parseFloat(coefficient);
+
+            UnicapDataManager.persistCoefficients(courseCoefficient, lastCoefficient);
+
+        } catch (Exception e) {
+            return;
+        }
     }
 
     public static void receivePendingSubjectsData() throws UnicapRequestException {

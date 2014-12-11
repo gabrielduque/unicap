@@ -12,6 +12,12 @@
         android:padding="@dimen/margin_normal">
 
         <it.gmariotti.cardslib.library.view.CardView
+            android:id="@+id/card_course_coefficient"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <it.gmariotti.cardslib.library.view.CardView
             android:id="@+id/card_today_lessons"
             android:layout_marginBottom="@dimen/margin_small"
             android:layout_width="match_parent"

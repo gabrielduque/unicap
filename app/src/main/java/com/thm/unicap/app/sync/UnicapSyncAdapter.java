@@ -54,20 +54,22 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
         ActiveAndroid.beginTransaction();
 //        UnicapDataManager.cleanUserData(account.name);
         try {
-            UnicapApplication.log("SYNC - 1/7 [====>                              ] - loginRequest");
+            UnicapApplication.log("SYNC - 1/8 [==>                               ] - loginRequest");
             UnicapRequest.loginRequest(new StudentCredentials(account.name, mAccountManager.getPassword(account)));
-            UnicapApplication.log("SYNC - 2/7 [=========>                         ] - receivePersonalData");
+            UnicapApplication.log("SYNC - 2/8 [=======>                          ] - receivePersonalData");
             UnicapRequest.receivePersonalData();
-            UnicapApplication.log("SYNC - 3/7 [==============>                    ] - receivePastSubjectsData");
+            UnicapApplication.log("SYNC - 3/8 [============>                     ] - receivePastSubjectsData");
             UnicapRequest.receivePastSubjectsData();
-            UnicapApplication.log("SYNC - 4/7 [===================>               ] - receiveActualSubjectsData");
+            UnicapApplication.log("SYNC - 4/8 [=================>                ] - receiveActualSubjectsData");
             UnicapRequest.receiveActualSubjectsData();
-            UnicapApplication.log("SYNC - 5/7 [========================>          ] - receivePendingSubjectsData");
+            UnicapApplication.log("SYNC - 5/8 [======================>           ] - receivePendingSubjectsData");
             UnicapRequest.receivePendingSubjectsData();
-            UnicapApplication.log("SYNC - 6/7 [=============================>     ] - receiveSubjectsCalendarData");
+            UnicapApplication.log("SYNC - 6/8 [==========================>       ] - receiveSubjectsCalendarData");
             UnicapRequest.receiveSubjectsCalendarData();
-            UnicapApplication.log("SYNC - 7/7 [===================================] - receiveSubjectsGradesData");
+            UnicapApplication.log("SYNC - 7/8 [==============================>   ] - receiveSubjectsGradesData");
             UnicapRequest.receiveSubjectsGradesData();
+            UnicapApplication.log("SYNC - 8/8 [==================================] - receiveCourseCoefficients");
+            UnicapRequest.receiveCourseCoefficients();
 
             ActiveAndroid.setTransactionSuccessful();
             successful = true;
