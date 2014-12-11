@@ -8,9 +8,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <it.gmariotti.cardslib.library.view.CardListView
+    <ListView
+        android:dividerHeight="@dimen/margin_small"
+        android:divider="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_small"
         android:id="@+id/subjects_list"/>
 
 </LinearLayout>

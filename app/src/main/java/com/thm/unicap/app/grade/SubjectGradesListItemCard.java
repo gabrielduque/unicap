@@ -1,37 +1,35 @@
 package com.thm.unicap.app.grade;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
+import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectTest;
 
-import it.gmariotti.cardslib.library.internal.Card;
-
-public class SubjectGradesListItemCard extends Card {
+public class SubjectGradesListItemCard extends CardView {
 
     private Subject mSubject;
 
-    public SubjectGradesListItemCard(Context context, Subject subject) {
-        this(context, R.layout.card_subject_grades_list_item, subject);
+    public SubjectGradesListItemCard(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initView();
     }
 
-    public SubjectGradesListItemCard(Context context, int innerLayout, Subject subject) {
-        super(context, innerLayout);
-        mSubject = subject;
+    private void initView() {
+        View.inflate(getContext(), R.layout.card_subject_grades_list_item, this);
     }
 
-    @Override
-    public void setupInnerViewElements(ViewGroup parent, View view) {
-        TextView subject_name_abbreviation = (TextView) parent.findViewById(R.id.subject_name_abbreviation);
-        TextView subject_code = (TextView) parent.findViewById(R.id.subject_code);
-        TextView subject_name = (TextView) parent.findViewById(R.id.subject_name);
-        TextView subject_first_degree  = (TextView) parent.findViewById(R.id.subject_first_degree);
-        TextView subject_second_degree = (TextView) parent.findViewById(R.id.subject_second_degree);
-        TextView subject_final_degree  = (TextView) parent.findViewById(R.id.subject_final_degree);
+    private void initData() {
+        TextView subject_name_abbreviation = (TextView) findViewById(R.id.subject_name_abbreviation);
+        TextView subject_code = (TextView) findViewById(R.id.subject_code);
+        TextView subject_name = (TextView) findViewById(R.id.subject_name);
+        TextView subject_first_degree  = (TextView) findViewById(R.id.subject_first_degree);
+        TextView subject_second_degree = (TextView) findViewById(R.id.subject_second_degree);
+        TextView subject_final_degree  = (TextView) findViewById(R.id.subject_final_degree);
 
         subject_name_abbreviation.setBackgroundResource(mSubject.getColorResource());
         subject_name_abbreviation.setText(mSubject.getNameAbbreviation());
@@ -49,17 +47,22 @@ public class SubjectGradesListItemCard extends Card {
             textView.setText(subjectTest.grade.toString());
 
             if(subjectTest.grade >= SubjectTest.MIN_AVERAGE)
-                textView.setTextColor(mContext.getResources().getColor(android.R.color.holo_green_light));
+                textView.setTextColor(getResources().getColor(android.R.color.holo_green_light));
             else
-                textView.setTextColor(mContext.getResources().getColor(android.R.color.holo_red_light));
+                textView.setTextColor(getResources().getColor(android.R.color.holo_red_light));
 
         } else {
             textView.setText("-");
-            textView.setTextColor(mContext.getResources().getColor(android.R.color.darker_gray));
+            textView.setTextColor(getResources().getColor(android.R.color.darker_gray));
         }
     }
 
     public Subject getSubject() {
         return mSubject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.mSubject = subject;
+        initData();
     }
 }

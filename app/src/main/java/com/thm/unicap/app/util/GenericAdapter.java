@@ -21,7 +21,7 @@ public abstract class GenericAdapter<T> extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public T getItem(int position) {
         return items.get(position);
     }
 
@@ -30,4 +30,7 @@ public abstract class GenericAdapter<T> extends BaseAdapter {
         return position;
     }
 
+    public Context getContext() {
+        return context;
+    }
 }

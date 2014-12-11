@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.devspark.progressfragment.ProgressFragment;
 import com.nhaarman.listviewanimations.appearance.AnimationAdapter;
@@ -22,14 +24,12 @@ import com.thm.unicap.app.util.DatabaseDependentFragment;
 import com.thm.unicap.app.util.DatabaseListener;
 import com.thm.unicap.app.util.NetworkUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
-import it.gmariotti.cardslib.library.view.CardListView;
+public class GradesFragment extends ProgressFragment implements DatabaseListener, DatabaseDependentFragment, AdapterView.OnItemClickListener {
 
-public class GradesFragment extends ProgressFragment implements Card.OnCardClickListener, DatabaseListener, DatabaseDependentFragment {
+    private ListView mGradesListView;
+    private GradesListAdapter mGradesListAdapter;
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -72,22 +72,18 @@ public class GradesFragment extends ProgressFragment implements Card.OnCardClick
 
         List<Subject> subjects = student.getActualSubjects();
 
-        ArrayList<Card> cardArrayList = new ArrayList<Card>();
+        mGradesListView = (ListView) getContentView().findViewById(R.id.subjects_list);
 
-        for (Subject subject : subjects) {
-            SubjectGradesListItemCard subjectGradesListItemCard = new SubjectGradesListItemCard(getActivity(), subject);
-            subjectGradesListItemCard.setClickable(true);
-            subjectGradesListItemCard.setOnClickListener(this);
-            cardArrayList.add(subjectGradesListItemCard);
-        }
+        // Dummy footer and header to enable bottom and top dividers
+        mGradesListView.addHeaderView(new View(getActivity()));
+        mGradesListView.addFooterView(new View(getActivity()));
 
-        CardListView cardListView = (CardListView) getContentView().findViewById(R.id.subjects_list);
+        mGradesListAdapter = new GradesListAdapter(subjects, getActivity());
 
-        CardArrayAdapter cardArrayAdapter = new CardArrayAdapter(getActivity(), cardArrayList);
-
-        AnimationAdapter animCardArrayAdapter = new SwingBottomInAnimationAdapter(cardArrayAdapter);
-        animCardArrayAdapter.setAbsListView(cardListView);
-        cardListView.setExternalAdapter(animCardArrayAdapter, cardArrayAdapter);
+        AnimationAdapter animCardArrayAdapter = new SwingBottomInAnimationAdapter(mGradesListAdapter);
+        animCardArrayAdapter.setAbsListView(mGradesListView);
+        mGradesListView.setAdapter(animCardArrayAdapter);
+        mGradesListView.setOnItemClickListener(this);
     }
 
     @Override
@@ -97,9 +93,10 @@ public class GradesFragment extends ProgressFragment implements Card.OnCardClick
     }
 
     @Override
-    public void onClick(Card card, View view) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Subject subject = mGradesListAdapter.getItem(position);
         Intent intent = new Intent(getActivity(), GradesActivity.class);
-        intent.putExtra("subject_id", ((SubjectGradesListItemCard)card).getSubject().getId());
+        intent.putExtra("subject_id", subject.getId());
         getActivity().startActivity(intent);
     }
 
