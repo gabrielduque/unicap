@@ -26,6 +26,7 @@ public class DashboardFragment extends ProgressFragment implements DatabaseListe
     public void initDatabaseDependentViews() {
         CardView card_today_lessons = (CardView) getContentView().findViewById(R.id.card_today_lessons);
         CardView card_status_graph = (CardView) getContentView().findViewById(R.id.card_status_graph);
+        CardView card_coefficient = (CardView) getContentView().findViewById(R.id.card_course_coefficient);
 
         CoefficientCard coefficientCard = (CoefficientCard) getContentView().findViewById(R.id.card_course_coefficient);
 
@@ -42,6 +43,7 @@ public class DashboardFragment extends ProgressFragment implements DatabaseListe
         SituationGraphCard situationGraphCard = new SituationGraphCard(getActivity());
         LessonsCard lessonsCard = new LessonsCard(getActivity(), UnicapUtils.getCurrentScheduleWeekDay());
         lessonsCard.init();
+        CoefficientCard coefficientCard = new CoefficientCard(getActivity());
 
         if(card_today_lessons.getCard() != null)
             card_today_lessons.replaceCard(lessonsCard);
@@ -52,6 +54,11 @@ public class DashboardFragment extends ProgressFragment implements DatabaseListe
             card_status_graph.replaceCard(situationGraphCard);
         else
             card_status_graph.setCard(situationGraphCard);
+
+        if (card_coefficient.getCard() != null)
+            card_coefficient.replaceCard(coefficientCard);
+        else
+            card_coefficient.setCard(coefficientCard);
 
     }
 
