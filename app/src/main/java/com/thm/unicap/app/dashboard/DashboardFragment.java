@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 
 import com.devspark.progressfragment.ProgressFragment;
 import com.thm.unicap.app.R;
@@ -25,12 +26,22 @@ public class DashboardFragment extends ProgressFragment implements DatabaseListe
     public void initDatabaseDependentViews() {
         CardView card_today_lessons = (CardView) getContentView().findViewById(R.id.card_today_lessons);
         CardView card_status_graph = (CardView) getContentView().findViewById(R.id.card_status_graph);
-        CardView card_coefficient = (CardView) getContentView().findViewById(R.id.card_course_coefficient);
+
+        CoefficientCard coefficientCard = (CoefficientCard) getContentView().findViewById(R.id.card_course_coefficient);
+
+        //Vê se era isso que você estava falando, não tenho certeza
+        // se quando não existe coeficiente no banco o valor dele seja null ou zero
+        if ( UnicapApplication.getCurrentStudent().lastCoefficient == null ||
+                UnicapApplication.getCurrentStudent().courseCoefficient == null ) {
+            coefficientCard.setVisibility(View.GONE);
+        }
+        else {
+            coefficientCard.setCoefficient();
+        }
 
         SituationGraphCard situationGraphCard = new SituationGraphCard(getActivity());
         LessonsCard lessonsCard = new LessonsCard(getActivity(), UnicapUtils.getCurrentScheduleWeekDay());
         lessonsCard.init();
-        CoefficientCard coefficientCard = new CoefficientCard(getActivity());
 
         if(card_today_lessons.getCard() != null)
             card_today_lessons.replaceCard(lessonsCard);
@@ -41,11 +52,6 @@ public class DashboardFragment extends ProgressFragment implements DatabaseListe
             card_status_graph.replaceCard(situationGraphCard);
         else
             card_status_graph.setCard(situationGraphCard);
-
-        if (card_coefficient.getCard() != null)
-            card_coefficient.replaceCard(coefficientCard);
-        else
-            card_coefficient.setCard(coefficientCard);
 
     }
 

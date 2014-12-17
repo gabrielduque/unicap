@@ -1,56 +1,40 @@
 package com.thm.unicap.app.dashboard;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
-import com.thm.unicap.app.model.Student;
 
-import it.gmariotti.cardslib.library.internal.Card;
 
 /**
  * Created by caoj on 10/12/14.
  */
-public class CoefficientCard extends Card {
+public class CoefficientCard extends CardView {
 
-    public CoefficientCard(Context context) { super(context, R.layout.card_coefficient); }
+    public CoefficientCard(Context context) {
+        super(context);
+        initView();
+    }
 
-    @Override
-    public void setupInnerViewElements(ViewGroup parent, View view) {
+    private void initView() {
+        View.inflate(getContext(), R.layout.card_coefficient, this);
+    }
 
-        TextView course_coefficient = (TextView) parent.findViewById(R.id.course_coefficient);
-        TextView last_coefficient = (TextView) parent.findViewById(R.id.last_coefficient);
+    private void initData() {
 
-        if (checkCoefficientStatus()) {
-            course_coefficient.setText(UnicapApplication.getCurrentStudent().courseCoefficient.toString());
-            last_coefficient.setText(UnicapApplication.getCurrentStudent().lastCoefficient.toString());
-        }
-        else {
-            course_coefficient.setText("-");
-            last_coefficient.setText("-");
-        }
+        TextView course_coefficient = (TextView) findViewById(R.id.course_coefficient);
+        TextView last_coefficient = (TextView) findViewById(R.id.last_coefficient);
+
+        course_coefficient.setText(UnicapApplication.getCurrentStudent().courseCoefficient.toString());
+        last_coefficient.setText(UnicapApplication.getCurrentStudent().lastCoefficient.toString());
 
     }
 
-    private boolean checkCoefficientStatus () {
-
-        if ( UnicapApplication.getCurrentStudent().courseCoefficient < 0 )
-            return false;
-        else if ( UnicapApplication.getCurrentStudent().courseCoefficient > 10 )
-            return false;
-        else if ( UnicapApplication.getCurrentStudent().courseCoefficient == null)
-            return false;
-        else if ( UnicapApplication.getCurrentStudent().lastCoefficient < 0 )
-            return false;
-        else if ( UnicapApplication.getCurrentStudent().lastCoefficient > 10 )
-            return false;
-        else if ( UnicapApplication.getCurrentStudent().lastCoefficient == null)
-            return false;
-        else
-            return true;
+    public void setCoefficient() {
+        initData();
     }
 
 }
