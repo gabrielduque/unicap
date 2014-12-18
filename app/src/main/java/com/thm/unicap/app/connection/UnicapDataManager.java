@@ -262,6 +262,19 @@ public class UnicapDataManager {
 
     }
 
+    public static void persistStudentCoefficients(Float courseCoefficient, Float lastCoefficient) {
+
+        Student student = UnicapApplication.getCurrentStudent();
+
+        if ( student != null ) {
+            student.courseCoefficient = courseCoefficient;
+            student.lastCoefficient = lastCoefficient;
+
+            student.save();
+        }
+
+    }
+
     public static void setSubjectFlowSituation(String code, SubjectStatus.FlowSituation flowSituation) {
         Subject subject = new Select().from(Subject.class)
                 .where("Code = ?", code)

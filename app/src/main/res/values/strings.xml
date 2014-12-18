@@ -87,6 +87,9 @@
     <string name="second_degree">2º GQ</string>
     <string name="first_degree">1º GQ</string>
     <string name="situation">Situação</string>
+    <string name="performance_coefficient">Coeficiente de Rendimento</string>
+    <string name="course">Curso</string>
+    <string name="last_period">Último período</string>
     <string name="average">Média</string>
     <string name="waiting">Aguardando</string>
     <string name="waiting_final">Aguardando Final</string>

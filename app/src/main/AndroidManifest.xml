@@ -22,6 +22,9 @@
         <meta-data
             android:name="AA_DB_NAME"
             android:value="Unicap.db" />
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="2" />
 
         <activity
             android:name=".MainActivity"
