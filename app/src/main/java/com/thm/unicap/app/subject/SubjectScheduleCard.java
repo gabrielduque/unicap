@@ -4,16 +4,11 @@ import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
-
-import java.util.Map;
-
-import it.gmariotti.cardslib.library.internal.Card;
 
 public class SubjectScheduleCard extends CardView {
 
@@ -38,7 +33,7 @@ public class SubjectScheduleCard extends CardView {
 
             int colorResource = mSubject.getColorResource();
 
-            for (SubjectStatus.ScheduleWeekDay weekDay : actualSubjectStatus.getFullSchedule().keySet()) {
+            for (SubjectStatus.ScheduleWeekday weekDay : actualSubjectStatus.getFullSchedule().keySet()) {
 
                 TextView tvWeekDay = null;
 

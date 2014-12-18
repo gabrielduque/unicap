@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
 
 import com.devspark.progressfragment.ProgressFragment;
 import com.thm.unicap.app.MainActivity;
@@ -16,8 +15,6 @@ import com.thm.unicap.app.model.SubjectStatus;
 import com.thm.unicap.app.util.DatabaseDependentFragment;
 import com.thm.unicap.app.util.DatabaseListener;
 import com.thm.unicap.app.util.NetworkUtils;
-
-import it.gmariotti.cardslib.library.view.CardView;
 
 public class LessonsFragment extends ProgressFragment implements DatabaseListener, DatabaseDependentFragment {
 
@@ -58,86 +55,44 @@ public class LessonsFragment extends ProgressFragment implements DatabaseListene
 
     @Override
     public void initDatabaseDependentViews() {
-        CardView card_lessons;
-        LessonsCard lessonsCard;
+
+        WeekdayLessonsCard weekdayLessonsCard;
 
         // Card: Mon
 
-        card_lessons = (CardView) getContentView().findViewById(R.id.card_lessons_mon);
-        lessonsCard = new LessonsCard(getActivity(), SubjectStatus.ScheduleWeekDay.Mon);
-        lessonsCard.init();
-
-        if(card_lessons.getCard() != null)
-            card_lessons.replaceCard(lessonsCard);
-        else
-            card_lessons.setCard(lessonsCard);
-
-        card_lessons.setVisibility(View.VISIBLE);
+        weekdayLessonsCard = (WeekdayLessonsCard) getContentView().findViewById(R.id.card_lessons_mon);
+        weekdayLessonsCard.setStudent(UnicapApplication.getCurrentStudent());
+        weekdayLessonsCard.setScheduleWeekDay(SubjectStatus.ScheduleWeekday.Mon);
 
         // Card: Tue
 
-        card_lessons = (CardView) getContentView().findViewById(R.id.card_lessons_tue);
-        lessonsCard = new LessonsCard(getActivity(), SubjectStatus.ScheduleWeekDay.Tue);
-        lessonsCard.init();
-
-        if(card_lessons.getCard() != null)
-            card_lessons.replaceCard(lessonsCard);
-        else
-            card_lessons.setCard(lessonsCard);
-
-        card_lessons.setVisibility(View.VISIBLE);
+        weekdayLessonsCard = (WeekdayLessonsCard) getContentView().findViewById(R.id.card_lessons_tue);
+        weekdayLessonsCard.setStudent(UnicapApplication.getCurrentStudent());
+        weekdayLessonsCard.setScheduleWeekDay(SubjectStatus.ScheduleWeekday.Tue);
 
         // Card: Wed
 
-        card_lessons = (CardView) getContentView().findViewById(R.id.card_lessons_wed);
-        lessonsCard = new LessonsCard(getActivity(), SubjectStatus.ScheduleWeekDay.Wed);
-        lessonsCard.init();
-
-        if(card_lessons.getCard() != null)
-            card_lessons.replaceCard(lessonsCard);
-        else
-            card_lessons.setCard(lessonsCard);
-
-        card_lessons.setVisibility(View.VISIBLE);
+        weekdayLessonsCard = (WeekdayLessonsCard) getContentView().findViewById(R.id.card_lessons_wed);
+        weekdayLessonsCard.setStudent(UnicapApplication.getCurrentStudent());
+        weekdayLessonsCard.setScheduleWeekDay(SubjectStatus.ScheduleWeekday.Wed);
 
         // Card: Thu
 
-        card_lessons = (CardView) getContentView().findViewById(R.id.card_lessons_thu);
-        lessonsCard = new LessonsCard(getActivity(), SubjectStatus.ScheduleWeekDay.Thu);
-        lessonsCard.init();
-
-        if(card_lessons.getCard() != null)
-            card_lessons.replaceCard(lessonsCard);
-        else
-            card_lessons.setCard(lessonsCard);
-
-        card_lessons.setVisibility(View.VISIBLE);
+        weekdayLessonsCard = (WeekdayLessonsCard) getContentView().findViewById(R.id.card_lessons_thu);
+        weekdayLessonsCard.setStudent(UnicapApplication.getCurrentStudent());
+        weekdayLessonsCard.setScheduleWeekDay(SubjectStatus.ScheduleWeekday.Thu);
 
         // Card: Fri
 
-        card_lessons = (CardView) getContentView().findViewById(R.id.card_lessons_fri);
-        lessonsCard = new LessonsCard(getActivity(), SubjectStatus.ScheduleWeekDay.Fri);
-        lessonsCard.init();
-
-        if(card_lessons.getCard() != null)
-            card_lessons.replaceCard(lessonsCard);
-        else
-            card_lessons.setCard(lessonsCard);
-
-        card_lessons.setVisibility(View.VISIBLE);
+        weekdayLessonsCard = (WeekdayLessonsCard) getContentView().findViewById(R.id.card_lessons_fri);
+        weekdayLessonsCard.setStudent(UnicapApplication.getCurrentStudent());
+        weekdayLessonsCard.setScheduleWeekDay(SubjectStatus.ScheduleWeekday.Fri);
 
         // Card: Sat
 
-        card_lessons = (CardView) getContentView().findViewById(R.id.card_lessons_sat);
-        lessonsCard = new LessonsCard(getActivity(), SubjectStatus.ScheduleWeekDay.Sat);
-        lessonsCard.init();
-
-        if(card_lessons.getCard() != null)
-            card_lessons.replaceCard(lessonsCard);
-        else
-            card_lessons.setCard(lessonsCard);
-
-        card_lessons.setVisibility(View.VISIBLE);
+        weekdayLessonsCard = (WeekdayLessonsCard) getContentView().findViewById(R.id.card_lessons_sat);
+        weekdayLessonsCard.setStudent(UnicapApplication.getCurrentStudent());
+        weekdayLessonsCard.setScheduleWeekDay(SubjectStatus.ScheduleWeekday.Sat);
 
     }
 

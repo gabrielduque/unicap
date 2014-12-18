@@ -7,7 +7,6 @@ import com.thm.unicap.app.model.SubjectStatus;
 
 import java.sql.Time;
 import java.util.Calendar;
-import java.util.TimeZone;
 
 public class UnicapUtils {
 
@@ -160,26 +159,26 @@ public class UnicapUtils {
         return str;
     }
 
-    public static SubjectStatus.ScheduleWeekDay getCurrentScheduleWeekDay() {
+    public static SubjectStatus.ScheduleWeekday getCurrentScheduleWeekDay() {
         Calendar c = Calendar.getInstance();
 
         int day_of_week = c.get(Calendar.DAY_OF_WEEK);
 
         switch (day_of_week) {
             case 1:
-                return SubjectStatus.ScheduleWeekDay.Sun;
+                return SubjectStatus.ScheduleWeekday.Sun;
             case 2:
-                return SubjectStatus.ScheduleWeekDay.Mon;
+                return SubjectStatus.ScheduleWeekday.Mon;
             case 3:
-                return SubjectStatus.ScheduleWeekDay.Tue;
+                return SubjectStatus.ScheduleWeekday.Tue;
             case 4:
-                return SubjectStatus.ScheduleWeekDay.Wed;
+                return SubjectStatus.ScheduleWeekday.Wed;
             case 5:
-                return SubjectStatus.ScheduleWeekDay.Thu;
+                return SubjectStatus.ScheduleWeekday.Thu;
             case 6:
-                return SubjectStatus.ScheduleWeekDay.Fri;
+                return SubjectStatus.ScheduleWeekday.Fri;
             case 7:
-                return SubjectStatus.ScheduleWeekDay.Sat;
+                return SubjectStatus.ScheduleWeekday.Sat;
             default:
                 return null;
         }
@@ -342,8 +341,8 @@ public class UnicapUtils {
         };
     }
 
-    public static String scheduleWeekDayToString(Context context, SubjectStatus.ScheduleWeekDay scheduleWeekDay) {
-        switch (scheduleWeekDay) {
+    public static String scheduleWeekDayToString(Context context, SubjectStatus.ScheduleWeekday scheduleWeekday) {
+        switch (scheduleWeekday) {
             case Sun:
                 return context.getString(R.string.sunday);
             case Mon:

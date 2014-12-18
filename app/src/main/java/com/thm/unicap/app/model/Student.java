@@ -3,18 +3,13 @@ package com.thm.unicap.app.model;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.thm.unicap.app.util.HashUtils;
-import com.thm.unicap.app.util.UnicapUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 @Table(name = "Student")
 public class Student extends Model {
@@ -114,19 +109,19 @@ public class Student extends Model {
     }
 
     //TODO: Completely refactor this :x
-    public List<Subject> getSubjectsFromWeekDay(SubjectStatus.ScheduleWeekDay scheduleWeekDay) {
+    public List<Subject> getSubjectsFromWeekDay(SubjectStatus.ScheduleWeekday scheduleWeekday) {
         List<Subject> actualSubjects = getActualSubjects();
 
         HashMap<Character, Subject> todaySubjects = new HashMap<Character, Subject>();
 
         for (Subject subject : actualSubjects) {
 
-            HashMap<SubjectStatus.ScheduleWeekDay, char[]> fullSchedule = subject.getActualSubjectStatus().getFullSchedule();
+            HashMap<SubjectStatus.ScheduleWeekday, char[]> fullSchedule = subject.getActualSubjectStatus().getFullSchedule();
 
-            if(!fullSchedule.containsKey(scheduleWeekDay))
+            if(!fullSchedule.containsKey(scheduleWeekday))
                 continue;
 
-            char[] todaySubjectHour = fullSchedule.get(scheduleWeekDay);
+            char[] todaySubjectHour = fullSchedule.get(scheduleWeekday);
 
             if(todaySubjectHour.length > 0)
                 todaySubjects.put(todaySubjectHour[0], subject);
