@@ -1,6 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/unicap_gray_level_1">
@@ -8,17 +7,32 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/margin_normal">
+        android:layout_height="wrap_content">
 
         <it.gmariotti.cardslib.library.view.CardView
             android:id="@+id/card_today_lessons"
+            android:layout_marginTop="@dimen/margin_small"
             android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.thm.unicap.app.dashboard.StudentCoefficientCard
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:id="@+id/card_course_coefficient"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <it.gmariotti.cardslib.library.view.CardView
             android:id="@+id/card_status_graph"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

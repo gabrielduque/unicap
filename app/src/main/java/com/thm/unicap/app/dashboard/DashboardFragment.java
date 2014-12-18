@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 
 import com.devspark.progressfragment.ProgressFragment;
 import com.thm.unicap.app.R;
@@ -12,6 +13,7 @@ import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.lessons.LessonsCard;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
+import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.util.DatabaseDependentFragment;
 import com.thm.unicap.app.util.DatabaseListener;
 import com.thm.unicap.app.util.NetworkUtils;
@@ -23,8 +25,17 @@ public class DashboardFragment extends ProgressFragment implements DatabaseListe
 
     @Override
     public void initDatabaseDependentViews() {
+
+        Student currentStudent = UnicapApplication.getCurrentStudent();
+
         CardView card_today_lessons = (CardView) getContentView().findViewById(R.id.card_today_lessons);
         CardView card_status_graph = (CardView) getContentView().findViewById(R.id.card_status_graph);
+        StudentCoefficientCard card_course_coefficient = (StudentCoefficientCard) getContentView().findViewById(R.id.card_course_coefficient);
+
+        if (currentStudent.lastCoefficient != null && currentStudent.courseCoefficient != null) {
+            card_course_coefficient.setStudent(currentStudent);
+            card_course_coefficient.setVisibility(View.VISIBLE);
+        }
 
         SituationGraphCard situationGraphCard = new SituationGraphCard(getActivity());
         LessonsCard lessonsCard = new LessonsCard(getActivity(), UnicapUtils.getCurrentScheduleWeekDay());

@@ -43,6 +43,12 @@ public class Student extends Model {
     @Column(name = "Password")
     public String password;
 
+    @Column(name = "CourseCoefficient")
+    public Float courseCoefficient;
+
+    @Column(name = "LastCoefficient")
+    public Float lastCoefficient;
+
     public List<Subject> getSubjects() {
         return getMany(Subject.class, "Student");
     }
@@ -143,4 +149,5 @@ public class Student extends Model {
 
         return sortedResultList;
     }
+
 }
