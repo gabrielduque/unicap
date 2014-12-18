@@ -1,8 +1,9 @@
 package com.thm.unicap.app.dashboard;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
+import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
@@ -12,31 +13,31 @@ import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
 import com.echo.holographlibrary.Utils;
 import com.thm.unicap.app.R;
-import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
 
 import java.util.List;
 
-import it.gmariotti.cardslib.library.internal.Card;
-
-public class SituationGraphCard extends Card implements PieGraph.OnSliceClickedListener {
+public class StudentSituationGraphCard extends CardView implements PieGraph.OnSliceClickedListener {
 
     private PieGraph mPieGraph;
     private TextView mStatusPercentage;
     private int mActiveSlice = 0;
+    private Student mStudent;
 
-    public SituationGraphCard(Context context) {
-        super(context, R.layout.card_situation_graph);
+    public StudentSituationGraphCard(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initView();
     }
 
-    @Override
-    public void setupInnerViewElements(ViewGroup parent, View view) {
+    private void initView() {
+        View.inflate(getContext(), R.layout.card_situation_graph, this);
+    }
 
-        Student student = UnicapApplication.getCurrentStudent();
+    private void initData() {
 
-        List<Subject> subjects = student.getActualSubjects();
+        List<Subject> subjects = mStudent.getActualSubjects();
 
         //TODO: use enum values instead of static variables
         float approvedCount = 0f;
@@ -73,30 +74,30 @@ public class SituationGraphCard extends Card implements PieGraph.OnSliceClickedL
         else if(waitingCount >= approvedCount && waitingCount >= repprovedCount)
             mActiveSlice = 2;
 
-        mPieGraph = (PieGraph)parent.findViewById(R.id.graph);
-        mStatusPercentage = (TextView) parent.findViewById(R.id.status_percentage);
+        mPieGraph = (PieGraph) findViewById(R.id.graph);
+        mStatusPercentage = (TextView) findViewById(R.id.status_percentage);
         PieSlice slice;
 
         slice = new PieSlice();
-        slice.setColor(mContext.getResources().getColor(android.R.color.holo_green_light));
-        slice.setSelectedColor(Utils.darkenColor(mContext.getResources().getColor(android.R.color.holo_green_light)));
-        slice.setTitle(mContext.getString(R.string.approved));
+        slice.setColor(getResources().getColor(android.R.color.holo_green_light));
+        slice.setSelectedColor(Utils.darkenColor(getResources().getColor(android.R.color.holo_green_light)));
+        slice.setTitle(getResources().getString(R.string.approved));
         slice.setValue(1);
         slice.setGoalValue((approvedCount / totalCount) * 100f);
         mPieGraph.addSlice(slice);
 
         slice = new PieSlice();
-        slice.setColor(mContext.getResources().getColor(android.R.color.holo_red_light));
-        slice.setSelectedColor(Utils.darkenColor(mContext.getResources().getColor(android.R.color.holo_red_light)));
-        slice.setTitle(mContext.getString(R.string.repproved));
+        slice.setColor(getResources().getColor(android.R.color.holo_red_light));
+        slice.setSelectedColor(Utils.darkenColor(getResources().getColor(android.R.color.holo_red_light)));
+        slice.setTitle(getResources().getString(R.string.repproved));
         slice.setValue(1);
         slice.setGoalValue((repprovedCount / totalCount) * 100f);
         mPieGraph.addSlice(slice);
 
         slice = new PieSlice();
-        slice.setColor(mContext.getResources().getColor(R.color.unicap_gray_level_2));
-        slice.setSelectedColor(Utils.darkenColor(mContext.getResources().getColor(R.color.unicap_gray_level_2)));
-        slice.setTitle(mContext.getString(R.string.waiting));
+        slice.setColor(getResources().getColor(R.color.unicap_gray_level_2));
+        slice.setSelectedColor(Utils.darkenColor(getResources().getColor(R.color.unicap_gray_level_2)));
+        slice.setTitle(getResources().getString(R.string.waiting));
         slice.setValue(100);
         slice.setGoalValue((waitingCount / totalCount) * 100f);
         mPieGraph.addSlice(slice);
@@ -106,12 +107,17 @@ public class SituationGraphCard extends Card implements PieGraph.OnSliceClickedL
 
         onClick(mActiveSlice);
 
-        Animation rotation = AnimationUtils.loadAnimation(mContext, R.anim.clockwise_scale_rotation);
+        Animation rotation = AnimationUtils.loadAnimation(getContext(), R.anim.clockwise_scale_rotation);
         mPieGraph.startAnimation(rotation);
 
         mPieGraph.setDuration(1000);//default if unspecified is 300 ms
         mPieGraph.setInterpolator(new DecelerateInterpolator());//default if unspecified is linear
         mPieGraph.animateToGoalValues();
+    }
+
+    public void setStudent(Student student) {
+        mStudent = student;
+        initData();
     }
 
     @Override
@@ -124,10 +130,6 @@ public class SituationGraphCard extends Card implements PieGraph.OnSliceClickedL
 
         mStatusPercentage.setText(String.valueOf((int)slice.getGoalValue())+"%");
         mStatusPercentage.setTextColor(slice.getColor());
-    }
-
-    public int getActiveSlice() {
-        return mActiveSlice;
     }
 
 }

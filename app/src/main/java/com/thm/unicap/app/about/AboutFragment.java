@@ -11,12 +11,7 @@ import android.view.ViewGroup;
 
 import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.R;
-import com.thm.unicap.app.dashboard.SituationGraphCard;
-import com.thm.unicap.app.lessons.LessonsCard;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
-import com.thm.unicap.app.util.UnicapUtils;
-
-import it.gmariotti.cardslib.library.view.CardView;
 
 public class AboutFragment extends Fragment {
 

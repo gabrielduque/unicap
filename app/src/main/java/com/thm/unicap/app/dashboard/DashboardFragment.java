@@ -29,15 +29,9 @@ public class DashboardFragment extends ProgressFragment implements DatabaseListe
         Student currentStudent = UnicapApplication.getCurrentStudent();
 
         CardView card_today_lessons = (CardView) getContentView().findViewById(R.id.card_today_lessons);
-        CardView card_status_graph = (CardView) getContentView().findViewById(R.id.card_status_graph);
         StudentCoefficientCard card_course_coefficient = (StudentCoefficientCard) getContentView().findViewById(R.id.card_course_coefficient);
+        StudentSituationGraphCard card_status_graph = (StudentSituationGraphCard) getContentView().findViewById(R.id.card_status_graph);
 
-        if (currentStudent.lastCoefficient != null && currentStudent.courseCoefficient != null) {
-            card_course_coefficient.setStudent(currentStudent);
-            card_course_coefficient.setVisibility(View.VISIBLE);
-        }
-
-        SituationGraphCard situationGraphCard = new SituationGraphCard(getActivity());
         LessonsCard lessonsCard = new LessonsCard(getActivity(), UnicapUtils.getCurrentScheduleWeekDay());
         lessonsCard.init();
 
@@ -46,11 +40,12 @@ public class DashboardFragment extends ProgressFragment implements DatabaseListe
         else
             card_today_lessons.setCard(lessonsCard);
 
-        if (card_status_graph.getCard() != null)
-            card_status_graph.replaceCard(situationGraphCard);
-        else
-            card_status_graph.setCard(situationGraphCard);
+        if (currentStudent.lastCoefficient != null && currentStudent.courseCoefficient != null) {
+            card_course_coefficient.setStudent(currentStudent);
+            card_course_coefficient.setVisibility(View.VISIBLE);
+        }
 
+        card_status_graph.setStudent(UnicapApplication.getCurrentStudent());
     }
 
     @Override
