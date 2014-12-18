@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/margin_normal">
 
-        <it.gmariotti.cardslib.library.view.CardView
+        <com.thm.unicap.app.dashboard.CoefficientCard
             android:id="@+id/card_course_coefficient"
             android:layout_marginBottom="@dimen/margin_small"
             android:layout_width="match_parent"

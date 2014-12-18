@@ -2,6 +2,7 @@ package com.thm.unicap.app.dashboard;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
+import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,8 +15,8 @@ import com.thm.unicap.app.UnicapApplication;
  */
 public class CoefficientCard extends CardView {
 
-    public CoefficientCard(Context context) {
-        super(context);
+    public CoefficientCard(Context context, AttributeSet attrs) {
+        super(context, attrs);
         initView();
     }
 
