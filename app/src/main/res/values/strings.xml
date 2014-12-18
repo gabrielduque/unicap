@@ -118,4 +118,10 @@
     <string name="gravatar_website">http://br.gravatar.com/</string>
     <string name="dispensed">Dispensado</string>
 
+    <string name="rta_dialog_cancel">Mais tarde</string>
+    <string name="rta_dialog_message">Gosta da aplicação? Então não se importaria de a avaliar? Não demora mais do que um minuto. Obrigado pelo seu apoio!</string>
+    <string name="rta_dialog_no">Não, Obrigado</string>
+    <string name="rta_dialog_ok">Avaliar agora</string>
+    <string name="rta_dialog_title">Avaliar a aplicação</string>
+
 </resources>

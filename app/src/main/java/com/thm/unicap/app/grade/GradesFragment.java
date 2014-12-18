@@ -94,6 +94,9 @@ public class GradesFragment extends ProgressFragment implements DatabaseListener
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        position--; // Considering header view on top of the list.
+
         Subject subject = mGradesListAdapter.getItem(position);
         Intent intent = new Intent(getActivity(), GradesActivity.class);
         intent.putExtra("subject_id", subject.getId());
