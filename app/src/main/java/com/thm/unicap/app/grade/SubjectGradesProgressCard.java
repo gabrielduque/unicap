@@ -1,34 +1,33 @@
 package com.thm.unicap.app.grade;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
+import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.echo.holographlibrary.Line;
 import com.echo.holographlibrary.LineGraph;
 import com.echo.holographlibrary.LinePoint;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.model.Subject;
-import com.thm.unicap.app.model.SubjectStatus;
 import com.thm.unicap.app.model.SubjectTest;
 
 import java.util.ArrayList;
 
-import it.gmariotti.cardslib.library.internal.Card;
-
-public class SubjectGradesProgressCard extends Card {
+public class SubjectGradesProgressCard extends CardView {
 
     private Subject mSubject;
 
-    public SubjectGradesProgressCard(Context context, Subject subject) {
-        super(context, R.layout.card_subject_grades_progress);
-        mSubject = subject;
+    public SubjectGradesProgressCard(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initView();
     }
 
-    @Override
-    public void setupInnerViewElements(ViewGroup parent, View view) {
+    private void initView() {
+        View.inflate(getContext(), R.layout.card_subject_grades_progress, this);
+    }
+
+    private void initData() {
 
         SubjectTest firstDegreeTest = mSubject.getTestByDegree(SubjectTest.Degree.FIRST_DEGREE);
         Float firstDegreeTestGrade = (firstDegreeTest != null) ? firstDegreeTest.grade : null;
@@ -46,7 +45,7 @@ public class SubjectGradesProgressCard extends Card {
 
 
         // Creating graph structure
-        LineGraph graph = (LineGraph) parent.findViewById(R.id.linegraph);
+        LineGraph graph = (LineGraph) findViewById(R.id.linegraph);
         graph.setUsingDips(true);
 
         graph.setRangeY(0, 10);
@@ -56,7 +55,7 @@ public class SubjectGradesProgressCard extends Card {
         // Creating Grade Line
         Line gradeLine = new Line();
         gradeLine.setUsingDips(true);
-        gradeLine.setColor(mContext.getResources().getColor(R.color.unicap_base));
+        gradeLine.setColor(getContext().getResources().getColor(R.color.unicap_base));
 
         for (int i = 0; i < grades.size(); i++) {
             if(grades.get(i) != null) {
@@ -68,7 +67,7 @@ public class SubjectGradesProgressCard extends Card {
 
         // Creating Average Line
         Line averageLine = new Line();
-        averageLine.setColor(mContext.getResources().getColor(android.R.color.darker_gray));
+        averageLine.setColor(getContext().getResources().getColor(android.R.color.darker_gray));
         averageLine.setUsingDips(true);
         averageLine.setStrokeWidth(1);
         averageLine.setShowingPoints(false);
@@ -86,11 +85,11 @@ public class SubjectGradesProgressCard extends Card {
         point.setX(x);
         point.setY(y);
         if(y >= SubjectTest.MIN_AVERAGE) {
-            point.setColor(mContext.getResources().getColor(android.R.color.holo_green_light));
-            point.setSelectedColor(mContext.getResources().getColor(android.R.color.holo_green_dark));
+            point.setColor(getContext().getResources().getColor(android.R.color.holo_green_light));
+            point.setSelectedColor(getContext().getResources().getColor(android.R.color.holo_green_dark));
         } else {
-            point.setColor(mContext.getResources().getColor(android.R.color.holo_red_light));
-            point.setSelectedColor(mContext.getResources().getColor(android.R.color.holo_red_dark));
+            point.setColor(getContext().getResources().getColor(android.R.color.holo_red_light));
+            point.setSelectedColor(getContext().getResources().getColor(android.R.color.holo_red_dark));
         }
         return point;
     }
@@ -102,6 +101,11 @@ public class SubjectGradesProgressCard extends Card {
         point.setY(SubjectTest.MIN_AVERAGE);
 
         return point;
+    }
+
+    public void setSubject(Subject subject) {
+        this.mSubject = subject;
+        initData();
     }
 
 }

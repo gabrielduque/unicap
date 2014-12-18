@@ -11,10 +11,10 @@
 
         <com.thm.unicap.app.lessons.WeekdayLessonsCard
             android:id="@+id/card_today_lessons"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:layout_marginLeft="@dimen/margin_small"
-            android:layout_marginRight="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_card"
+            android:layout_marginBottom="@dimen/margin_card"
+            android:layout_marginLeft="@dimen/margin_card"
+            android:layout_marginRight="@dimen/margin_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -22,17 +22,17 @@
             android:visibility="gone"
             tools:visibility="visible"
             android:id="@+id/card_course_coefficient"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:layout_marginLeft="@dimen/margin_small"
-            android:layout_marginRight="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_card"
+            android:layout_marginLeft="@dimen/margin_card"
+            android:layout_marginRight="@dimen/margin_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <com.thm.unicap.app.dashboard.StudentSituationGraphCard
             android:id="@+id/card_status_graph"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:layout_marginLeft="@dimen/margin_small"
-            android:layout_marginRight="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_card"
+            android:layout_marginLeft="@dimen/margin_card"
+            android:layout_marginRight="@dimen/margin_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

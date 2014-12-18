@@ -19,34 +19,34 @@
 
             <it.gmariotti.cardslib.library.view.CardView
                 android:id="@+id/card_list_item"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:layout_marginBottom="@dimen/margin_normal"
-                android:layout_marginLeft="@dimen/margin_normal"
-                android:layout_marginRight="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_card"
+                android:layout_marginBottom="@dimen/margin_card"
+                android:layout_marginLeft="@dimen/margin_card"
+                android:layout_marginRight="@dimen/margin_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
             <com.thm.unicap.app.grade.SubjectSituationCard
                 android:id="@+id/card_situation"
-                android:layout_marginBottom="@dimen/margin_normal"
-                android:layout_marginLeft="@dimen/margin_normal"
-                android:layout_marginRight="@dimen/margin_normal"
+                android:layout_marginBottom="@dimen/margin_card"
+                android:layout_marginLeft="@dimen/margin_card"
+                android:layout_marginRight="@dimen/margin_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
             <it.gmariotti.cardslib.library.view.CardView
                 android:id="@+id/card_grades"
-                android:layout_marginBottom="@dimen/margin_normal"
-                android:layout_marginLeft="@dimen/margin_normal"
-                android:layout_marginRight="@dimen/margin_normal"
+                android:layout_marginBottom="@dimen/margin_card"
+                android:layout_marginLeft="@dimen/margin_card"
+                android:layout_marginRight="@dimen/margin_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <it.gmariotti.cardslib.library.view.CardView
+            <com.thm.unicap.app.grade.SubjectGradesProgressCard
                 android:id="@+id/card_grades_progress"
-                android:layout_marginBottom="@dimen/margin_normal"
-                android:layout_marginLeft="@dimen/margin_normal"
-                android:layout_marginRight="@dimen/margin_normal"
+                android:layout_marginBottom="@dimen/margin_card"
+                android:layout_marginLeft="@dimen/margin_card"
+                android:layout_marginRight="@dimen/margin_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
