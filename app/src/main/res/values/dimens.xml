@@ -7,4 +7,5 @@
     <dimen name="margin_double_small">20dp</dimen>
     <dimen name="margin_very_small">5dp</dimen>
     <dimen name="margin_card">15dp</dimen>
+    <dimen name="margin_card_half">7.5dp</dimen>
 </resources>

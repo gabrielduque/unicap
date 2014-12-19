@@ -1,4 +1,4 @@
-package com.thm.unicap.app.grade;
+package com.thm.unicap.app.subject;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,9 +11,9 @@ import com.thm.unicap.app.util.GenericAdapter;
 
 import java.util.List;
 
-public class GradesListAdapter extends GenericAdapter<Subject> {
+public class SubjectListItemAdapter extends GenericAdapter<Subject> {
 
-    protected GradesListAdapter(List<Subject> items, Context context) {
+    protected SubjectListItemAdapter(List<Subject> items, Context context) {
         super(items, context);
     }
 
@@ -22,11 +22,11 @@ public class GradesListAdapter extends GenericAdapter<Subject> {
 
         if (convertView == null) {
             LayoutInflater li = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = li.inflate(R.layout.grades_list_item, parent, false);
+            convertView = li.inflate(R.layout.subject_list_item, parent, false);
         }
 
-        SubjectGradesListItemCard subjectGradesListItemCard = (SubjectGradesListItemCard) convertView.findViewById(R.id.card_subject_grades_list_item);
-        subjectGradesListItemCard.setSubject(getItem(position));
+        SubjectListItemCard subjectListItemCard = (SubjectListItemCard) convertView.findViewById(R.id.card_subject_list_item);
+        subjectListItemCard.setSubject(getItem(position));
 
         return convertView;
     }

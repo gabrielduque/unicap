@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
@@ -16,23 +18,11 @@ import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
-import it.gmariotti.cardslib.library.view.CardListView;
-
-public class SubjectsPagerAdapter extends PagerAdapter implements Card.OnCardClickListener {
+public class SubjectsPagerAdapter extends PagerAdapter {
 
     private Context mContext;
-
-    @Override
-    public void onClick(Card card, View view) {
-        Intent intent = new Intent(mContext, SubjectActivity.class);
-        intent.putExtra("subject_id", ((SubjectListItemCard)card).getSubject().getId());
-        mContext.startActivity(intent);
-    }
 
     public static enum Session {
         PAST, ACTUAL, PENDING
@@ -80,26 +70,31 @@ public class SubjectsPagerAdapter extends PagerAdapter implements Card.OnCardCli
 
         List<Subject> subjects = query.execute();
 
-        ArrayList<Card> cardArrayList = new ArrayList<Card>();
+        ListView subjectListView = new ListView(mContext);
 
-        for (Subject subject : subjects) {
-            SubjectListItemCard subjectListItemCard = new SubjectListItemCard(mContext, subject);
-            subjectListItemCard.setClickable(true);
-            subjectListItemCard.setOnClickListener(this);
-            cardArrayList.add(subjectListItemCard);
-        }
+        subjectListView.setDivider(null);
+        subjectListView.setDividerHeight(0);
 
-        CardListView cardListView = new CardListView(mContext);
+        final SubjectListItemAdapter subjectListItemAdapter = new SubjectListItemAdapter(subjects, mContext);
 
-        CardArrayAdapter cardArrayAdapter = new CardArrayAdapter(mContext, cardArrayList);
+        AnimationAdapter animCardArrayAdapter = new SwingBottomInAnimationAdapter(subjectListItemAdapter);
+        animCardArrayAdapter.setAbsListView(subjectListView);
+        subjectListView.setAdapter(animCardArrayAdapter);
 
-        AnimationAdapter animCardArrayAdapter = new SwingBottomInAnimationAdapter(cardArrayAdapter);
-        animCardArrayAdapter.setAbsListView(cardListView);
-        cardListView.setExternalAdapter(animCardArrayAdapter,cardArrayAdapter);
+        subjectListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Subject subject = subjectListItemAdapter.getItem(position);
 
-        container.addView(cardListView);
+                Intent intent = new Intent(mContext, SubjectActivity.class);
+                intent.putExtra("subject_id", subject.getId());
+                mContext.startActivity(intent);
+            }
+        });
 
-        return cardListView;
+        container.addView(subjectListView);
+
+        return subjectListView;
     }
 
     @Override

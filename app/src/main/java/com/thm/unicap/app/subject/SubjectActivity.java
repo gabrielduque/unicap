@@ -57,9 +57,8 @@ public class SubjectActivity extends ActionBarActivity {
     private void init() {
         setTitle(mSubject.name);
 
-        CardView card_list_item = (CardView) findViewById(R.id.card_list_item);
-        SubjectListItemCard subjectListItemCard = new SubjectListItemCard(this, mSubject);
-        card_list_item.setCard(subjectListItemCard);
+        SubjectListItemCard card_list_item = (SubjectListItemCard) findViewById(R.id.card_list_item);
+        card_list_item.setSubject(mSubject);
 
         if(mSubject.isActual()) {
             SubjectScheduleCard subjectScheduleCard = (SubjectScheduleCard) findViewById(R.id.card_schedule);

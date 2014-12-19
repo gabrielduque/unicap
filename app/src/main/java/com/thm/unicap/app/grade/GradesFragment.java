@@ -74,10 +74,6 @@ public class GradesFragment extends ProgressFragment implements DatabaseListener
 
         mGradesListView = (ListView) getContentView().findViewById(R.id.subjects_list);
 
-        // Dummy footer and header to enable bottom and top dividers
-        mGradesListView.addHeaderView(new View(getActivity()));
-        mGradesListView.addFooterView(new View(getActivity()));
-
         mGradesListAdapter = new GradesListAdapter(subjects, getActivity());
 
         AnimationAdapter animCardArrayAdapter = new SwingBottomInAnimationAdapter(mGradesListAdapter);
@@ -94,9 +90,6 @@ public class GradesFragment extends ProgressFragment implements DatabaseListener
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        position--; // Considering header view on top of the list.
-
         Subject subject = mGradesListAdapter.getItem(position);
         Intent intent = new Intent(getActivity(), GradesActivity.class);
         intent.putExtra("subject_id", subject.getId());
