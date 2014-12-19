@@ -62,9 +62,8 @@ public class GradesActivity extends ActionBarActivity {
         SubjectSituationCard card_situation = (SubjectSituationCard) findViewById(R.id.card_situation);
         card_situation.setSubject(mSubject);
 
-        CardView card_grades = (CardView) findViewById(R.id.card_grades);
-        SubjectGradesCard subjectGradesCard = new SubjectGradesCard(this, mSubject);
-        card_grades.setCard(subjectGradesCard);
+        SubjectGradesCard card_grades = (SubjectGradesCard) findViewById(R.id.card_grades);
+        card_grades.setSubject(mSubject);
 
         SubjectGradesProgressCard card_grades_progress = (SubjectGradesProgressCard) findViewById(R.id.card_grades_progress);
         card_grades_progress.setSubject(mSubject);

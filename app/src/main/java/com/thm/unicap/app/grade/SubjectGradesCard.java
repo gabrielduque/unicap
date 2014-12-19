@@ -1,10 +1,9 @@
 package com.thm.unicap.app.grade;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
+import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.thm.unicap.app.R;
@@ -12,28 +11,25 @@ import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
 import com.thm.unicap.app.model.SubjectTest;
 
-import it.gmariotti.cardslib.library.internal.Card;
-
-public class SubjectGradesCard extends Card {
+public class SubjectGradesCard extends CardView {
 
     private Subject mSubject;
 
-    public SubjectGradesCard(Context context, Subject subject) {
-        this(context, R.layout.card_subject_grades, subject);
+    public SubjectGradesCard(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initView();
     }
 
-    public SubjectGradesCard(Context context, int innerLayout, Subject subject) {
-        super(context, innerLayout);
-        mSubject = subject;
+    private void initView() {
+        View.inflate(getContext(), R.layout.card_subject_grades, this);
     }
 
-    @Override
-    public void setupInnerViewElements(ViewGroup parent, View view) {
-        TextView card_subject_grades_first_degree = (TextView) parent.findViewById(R.id.card_subject_grades_first_degree);
-        TextView card_subject_grades_second_degree = (TextView) parent.findViewById(R.id.card_subject_grades_second_degree);
-        TextView card_subject_grades_average = (TextView) parent.findViewById(R.id.card_subject_grades_average);
-        TextView card_subject_grades_final_degree = (TextView) parent.findViewById(R.id.card_subject_grades_final_degree);
-        TextView card_subject_grades_final_average = (TextView) parent.findViewById(R.id.card_subject_grades_final_average);
+    private void initData() {
+        TextView card_subject_grades_first_degree = (TextView) findViewById(R.id.card_subject_grades_first_degree);
+        TextView card_subject_grades_second_degree = (TextView) findViewById(R.id.card_subject_grades_second_degree);
+        TextView card_subject_grades_average = (TextView) findViewById(R.id.card_subject_grades_average);
+        TextView card_subject_grades_final_degree = (TextView) findViewById(R.id.card_subject_grades_final_degree);
+        TextView card_subject_grades_final_average = (TextView) findViewById(R.id.card_subject_grades_final_average);
 
         SubjectTest firstDegreeTest = mSubject.getTestByDegree(SubjectTest.Degree.FIRST_DEGREE);
         Float firstDegreeTestGrade = (firstDegreeTest != null) ? firstDegreeTest.grade : null;
@@ -64,10 +60,14 @@ public class SubjectGradesCard extends Card {
         } else {
             textView.setText(grade.toString());
             if (grade >= SubjectTest.MIN_AVERAGE)
-                textView.setTextColor(mContext.getResources().getColor(android.R.color.holo_green_light));
+                textView.setTextColor(getContext().getResources().getColor(android.R.color.holo_green_light));
             else
-                textView.setTextColor(mContext.getResources().getColor(android.R.color.holo_red_light));
+                textView.setTextColor(getContext().getResources().getColor(android.R.color.holo_red_light));
         }
     }
 
+    public void setSubject(Subject subject) {
+        this.mSubject = subject;
+        initData();
+    }
 }
