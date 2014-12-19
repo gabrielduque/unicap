@@ -68,9 +68,8 @@ public class SubjectActivity extends ActionBarActivity {
         }
 
         if(mSubject.hasHistory()) {
-            CardView card_history = (CardView) findViewById(R.id.card_history);
-            SubjectHistoryCard subjectHistoryCard = new SubjectHistoryCard(this, mSubject);
-            card_history.setCard(subjectHistoryCard);
+            SubjectHistoryCard card_history = (SubjectHistoryCard) findViewById(R.id.card_history);
+            card_history.setSubject(mSubject);
             card_history.setVisibility(View.VISIBLE);
         }
 

@@ -49,10 +49,6 @@ public class SubjectInfoCard extends CardView {
             card_subject_info_period.setText(String.format(getContext().getString(R.string.period_format), mSubject.period));
     }
 
-    public Subject getSubject() {
-        return mSubject;
-    }
-
     public void setSubject(Subject subject) {
         this.mSubject = subject;
         initData();
