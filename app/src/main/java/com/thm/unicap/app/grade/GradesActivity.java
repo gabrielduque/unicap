@@ -14,8 +14,6 @@ import com.thm.unicap.app.R;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.subject.SubjectListItemCard;
 
-import it.gmariotti.cardslib.library.view.CardView;
-
 public class GradesActivity extends ActionBarActivity {
 
     private Subject mSubject;

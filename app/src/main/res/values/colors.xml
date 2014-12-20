@@ -9,24 +9,6 @@
     <color name="unicap_gray_level_3">#666666</color>
     <color name="unicap_gray_level_4">#2d2d2d</color>
 
-    <color name="unicap_card_title">#363636</color>
-    <color name="unicap_card_subtitle">#b0b0b0</color>
-
-
-    <!--<color name="card_activated">#CFE9F3</color>-->
-    <!--<color name="card_activated_kitkat">#ADE1F4</color>-->
-    <!--<color name="card_background">#FFF</color>-->
-    <!--<color name="card_backgroundExpand">#515254</color>-->
-    <!--<color name="card_background_header">#FFF</color>-->
-    <!--<color name="card_expand_title_color">#B3B2B2</color>-->
-    <color name="card_pressed">@color/unicap_gray_level_2</color>
-    <!--<color name="card_pressed_kitkat">#10000000</color>-->
-    <!--<color name="card_text_color_header">#000</color>-->
-
-    <!-- Used by card with list -->
-    <color name="card_base_cardwithlist_background_list_color">@color/card_background</color>
-    <color name="card_base_cardwithlist_divider_color">@color/card_background</color>
-
     <color name="subject_color_1">#673ab7</color>
     <color name="subject_color_2">#ff9800</color>
     <color name="subject_color_3">#009688</color>

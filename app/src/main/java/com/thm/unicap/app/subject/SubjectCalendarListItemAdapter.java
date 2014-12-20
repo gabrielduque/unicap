@@ -13,7 +13,6 @@ import com.thm.unicap.app.util.GenericAdapter;
 
 import java.util.List;
 
-import it.gmariotti.cardslib.library.prototypes.CardSection;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 public class SubjectCalendarListItemAdapter extends GenericAdapter<SubjectTest> implements StickyListHeadersAdapter {

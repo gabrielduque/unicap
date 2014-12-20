@@ -6,12 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
-import android.widget.ListView;
 
 import com.devspark.progressfragment.ProgressFragment;
-import com.nhaarman.listviewanimations.appearance.AnimationAdapter;
-import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
@@ -23,14 +19,8 @@ import com.thm.unicap.app.util.DatabaseDependentFragment;
 import com.thm.unicap.app.util.DatabaseListener;
 import com.thm.unicap.app.util.NetworkUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
-import it.gmariotti.cardslib.library.prototypes.CardSection;
-import it.gmariotti.cardslib.library.prototypes.SectionedCardAdapter;
-import it.gmariotti.cardslib.library.view.CardListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class CalendarFragment extends ProgressFragment implements DatabaseListener, DatabaseDependentFragment {

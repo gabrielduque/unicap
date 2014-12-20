@@ -14,8 +14,6 @@ import com.activeandroid.query.Select;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.model.Subject;
 
-import it.gmariotti.cardslib.library.view.CardView;
-
 public class SubjectActivity extends ActionBarActivity {
 
     private Subject mSubject;

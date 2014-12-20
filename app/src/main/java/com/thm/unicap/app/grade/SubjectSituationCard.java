@@ -10,9 +10,6 @@ import android.widget.TextView;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
-import com.thm.unicap.app.model.SubjectTest;
-
-import it.gmariotti.cardslib.library.internal.Card;
 
 public class SubjectSituationCard extends CardView {
 
