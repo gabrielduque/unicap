@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.ListView;
 
 import com.devspark.progressfragment.ProgressFragment;
 import com.nhaarman.listviewanimations.appearance.AnimationAdapter;
@@ -16,6 +18,7 @@ import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.SubjectTest;
+import com.thm.unicap.app.subject.SubjectCalendarListItemAdapter;
 import com.thm.unicap.app.util.DatabaseDependentFragment;
 import com.thm.unicap.app.util.DatabaseListener;
 import com.thm.unicap.app.util.NetworkUtils;
@@ -28,6 +31,7 @@ import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.prototypes.CardSection;
 import it.gmariotti.cardslib.library.prototypes.SectionedCardAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class CalendarFragment extends ProgressFragment implements DatabaseListener, DatabaseDependentFragment {
 
@@ -77,46 +81,11 @@ public class CalendarFragment extends ProgressFragment implements DatabaseListen
             return;
         }
 
-        ArrayList<Card> cards = new ArrayList<Card>();
-        ArrayList<CardSection> cardSections = new ArrayList<CardSection>();
+        StickyListHeadersListView subjectCalendarListView = (StickyListHeadersListView) getContentView().findViewById(R.id.calendar_list);
 
-        boolean found_first_position = false;
-        boolean found_second_position = false;
-        boolean found_final_position = false;
+        SubjectCalendarListItemAdapter subjectCalendarListItemAdapter = new SubjectCalendarListItemAdapter(subjectTests, getActivity());
 
-        for (int i = 0; i < subjectTests.size(); i++) {
-
-            if(!found_first_position && subjectTests.get(i).degree == SubjectTest.Degree.FIRST_DEGREE) {
-                cardSections.add(new CardSection(i, getString(R.string.first_degree)));
-                found_first_position = true;
-            }
-
-            if(!found_second_position && subjectTests.get(i).degree == SubjectTest.Degree.SECOND_DEGREE) {
-                cardSections.add(new CardSection(i, getString(R.string.second_degree)));
-                found_second_position = true;
-            }
-
-            if(!found_final_position && subjectTests.get(i).degree == SubjectTest.Degree.FINAL_DEGREE) {
-                cardSections.add(new CardSection(i, getString(R.string.final_degree)));
-                found_final_position = true;
-            }
-
-            CalendarListItemCard calendarListItemCard = new CalendarListItemCard(getActivity(), subjectTests.get(i));
-            cards.add(calendarListItemCard);
-        }
-
-        CardListView cardListView = (CardListView) getContentView().findViewById(R.id.calendar_list);
-
-        CardArrayAdapter cardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
-
-        SectionedCardAdapter sectionedCardAdapter = new SectionedCardAdapter(getActivity(), R.layout.card_section, cardArrayAdapter);
-
-        CardSection[] sections = new CardSection[cardSections.size()];
-        sectionedCardAdapter.setCardSections(cardSections.toArray(sections));
-
-        AnimationAdapter animCardArrayAdapter = new SwingBottomInAnimationAdapter(sectionedCardAdapter);
-        animCardArrayAdapter.setAbsListView(cardListView);
-        cardListView.setExternalAdapter(animCardArrayAdapter, cardArrayAdapter);
+        subjectCalendarListView.setAdapter(subjectCalendarListItemAdapter);
     }
 
     @Override

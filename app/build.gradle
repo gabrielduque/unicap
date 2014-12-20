@@ -47,6 +47,7 @@ dependencies {
     compile 'com.github.hotchemi:android-rate:0.4.1'
     compile project(':HoloGraphLibrary')
     compile 'com.crashlytics.android:crashlytics:1.1.13'
+    compile 'se.emilsjolander:stickylistheaders:2.5.2'
 }
 
 repositories{
