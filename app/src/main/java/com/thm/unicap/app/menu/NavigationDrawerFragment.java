@@ -164,7 +164,7 @@ public class NavigationDrawerFragment extends Fragment implements DatabaseListen
                 CustomDialog customDialog = new CustomDialog.Builder(getActivity(), getString(R.string.profile_picture), getString(R.string.learn_more))
                 .content(getString(R.string.gravatar_text))
                 .negativeText(getString(R.string.not_now))
-                .positiveColor(getResources().getColor(R.color.blue))
+                .positiveColor(getResources().getColor(android.R.color.holo_blue_light))
                 .build();
 
                 customDialog.setClickListener(new CustomDialog.ClickListener() {
