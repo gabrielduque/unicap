@@ -28,14 +28,13 @@
             tools:src="@drawable/ic_exit_to_app_grey600_24dp"
             tools:ignore="ContentDescription" />
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:id="@+id/nav_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:textColor="@color/unicap_gray_level_3"
-            tools:text="@string/logout"
-            app:typeface="roboto_thin"/>
+            tools:text="@string/logout"/>
 
     </LinearLayout>
 

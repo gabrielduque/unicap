@@ -30,7 +30,7 @@
             android:padding="@dimen/margin_very_small"
             android:orientation="vertical">
 
-            <com.devspark.robototextview.widget.RobotoTextView
+            <TextView
                 android:id="@+id/nav_header_course"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -38,10 +38,9 @@
                 android:textSize="12sp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                tools:text="Ciência da Computação"
-                app:typeface="roboto_thin"/>
+                tools:text="Ciência da Computação"/>
 
-            <com.devspark.robototextview.widget.RobotoTextView
+            <TextView
                 android:id="@+id/nav_header_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,10 +48,9 @@
                 android:textSize="15sp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                tools:text="Túlio Hoffimann Mendes"
-                app:typeface="roboto_condensed_bold"/>
+                tools:text="Túlio Hoffimann Mendes"/>
 
-            <com.devspark.robototextview.widget.RobotoTextView
+            <TextView
                 android:id="@+id/nav_header_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,8 +58,7 @@
                 android:textSize="12sp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                tools:text="tuliohmendes@gmail.com"
-                app:typeface="roboto_thin"/>
+                tools:text="tuliohmendes@gmail.com"/>
 
         </LinearLayout>
 

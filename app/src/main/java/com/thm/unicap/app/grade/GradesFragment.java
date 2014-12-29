@@ -1,12 +1,9 @@
 package com.thm.unicap.app.grade;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -14,10 +11,8 @@ import android.widget.ListView;
 import com.devspark.progressfragment.ProgressFragment;
 import com.nhaarman.listviewanimations.appearance.AnimationAdapter;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
-import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
-import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.util.DatabaseDependentFragment;
@@ -30,16 +25,6 @@ public class GradesFragment extends ProgressFragment implements DatabaseListener
 
     private ListView mGradesListView;
     private GradesListAdapter mGradesListAdapter;
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        NavigationDrawerFragment navigationDrawerFragment = ((MainActivity) getActivity()).getNavigationDrawerFragment();
-
-        if(navigationDrawerFragment != null && !navigationDrawerFragment.isDrawerOpen()) {
-            inflater.inflate(R.menu.fragment_grades, menu);
-        }
-        super.onCreateOptionsMenu(menu, inflater);
-    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -80,12 +65,6 @@ public class GradesFragment extends ProgressFragment implements DatabaseListener
         animCardArrayAdapter.setAbsListView(mGradesListView);
         mGradesListView.setAdapter(animCardArrayAdapter);
         mGradesListView.setOnItemClickListener(this);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(NavigationDrawerFragment.SESSION_GRADES);
     }
 
     @Override

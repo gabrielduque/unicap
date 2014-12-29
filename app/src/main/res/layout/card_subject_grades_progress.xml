@@ -8,13 +8,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.devspark.robototextview.widget.RobotoTextView
+    <TextView
+        style="@style/cardTitleStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="23sp"
-        android:text="@string/evolution"
-        app:typeface="roboto_condensed_regular"/>
+        android:text="@string/evolution"/>
 
     <com.echo.holographlibrary.LineGraph
         android:layout_width="match_parent"

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="@dimen/margin_normal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.devspark.robototextview.widget.RobotoTextView
+    <TextView
+        style="@style/cardTitleStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="23sp"
-        app:typeface="roboto_condensed_regular"
+
         android:text="@string/performance_coefficient"/>
 
     <LinearLayout
@@ -23,42 +23,38 @@
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/darker_gray"
             android:textSize="20sp"
             android:layout_marginRight="@dimen/margin_normal"
-            app:typeface="roboto_regular"
             android:text="@string/course"/>
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             tools:text="9.6"
             android:id="@+id/course_coefficient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="30dp"
             android:textColor="@android:color/darker_gray"
-            android:textSize="20sp"
-            app:typeface="roboto_regular"/>
+            android:textSize="20sp"/>
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/darker_gray"
             android:layout_marginRight="@dimen/margin_normal"
             android:textSize="20sp"
-            app:typeface="roboto_regular"
             android:text="@string/period"/>
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             tools:text="8.0"
             android:id="@+id/last_coefficient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/darker_gray"
-            android:textSize="20sp"
-            app:typeface="roboto_regular"/>
+            android:textSize="20sp"/>
 
     </LinearLayout>
 

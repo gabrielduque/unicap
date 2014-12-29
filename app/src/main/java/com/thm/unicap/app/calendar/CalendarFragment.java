@@ -1,17 +1,12 @@
 package com.thm.unicap.app.calendar;
 
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.Menu;
-import android.view.MenuInflater;
 
 import com.devspark.progressfragment.ProgressFragment;
-import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
-import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.SubjectTest;
 import com.thm.unicap.app.subject.SubjectCalendarListItemAdapter;
@@ -36,16 +31,6 @@ public class CalendarFragment extends ProgressFragment implements DatabaseListen
             setContentView(R.layout.content_offline);
             setContentShown(true);
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        NavigationDrawerFragment navigationDrawerFragment = ((MainActivity) getActivity()).getNavigationDrawerFragment();
-
-        if(navigationDrawerFragment != null && !navigationDrawerFragment.isDrawerOpen()) {
-            inflater.inflate(R.menu.fragment_calendar, menu);
-        }
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -76,12 +61,6 @@ public class CalendarFragment extends ProgressFragment implements DatabaseListen
         SubjectCalendarListItemAdapter subjectCalendarListItemAdapter = new SubjectCalendarListItemAdapter(subjectTests, getActivity());
 
         subjectCalendarListView.setAdapter(subjectCalendarListItemAdapter);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(NavigationDrawerFragment.SESSION_CALENDAR);
     }
 
     @Override

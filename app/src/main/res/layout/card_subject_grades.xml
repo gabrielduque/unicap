@@ -8,13 +8,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.devspark.robototextview.widget.RobotoTextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="23sp"
-        android:text="@string/evaluations"
-        app:typeface="roboto_condensed_regular"/>
+        android:text="@string/evaluations"/>
 
     <RelativeLayout
         android:layout_marginTop="@dimen/margin_normal"
@@ -22,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:gravity="center_vertical"
@@ -30,10 +29,9 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:drawableLeft="@drawable/ic_grade"
-            android:text="@string/first_degree"
-            app:typeface="roboto_thin"/>
+            android:text="@string/first_degree"/>
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:id="@+id/card_subject_grades_first_degree"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
@@ -42,8 +40,7 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             tools:textColor="@android:color/holo_green_light"
-            tools:text="5.0"
-            app:typeface="roboto_regular"/>
+            tools:text="5.0"/>
 
     </RelativeLayout>
 
@@ -58,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:gravity="center_vertical"
@@ -66,10 +63,9 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:drawableLeft="@drawable/ic_grade"
-            android:text="@string/second_degree"
-            app:typeface="roboto_thin"/>
+            android:text="@string/second_degree"/>
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:id="@+id/card_subject_grades_second_degree"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
@@ -78,8 +74,7 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             tools:textColor="@android:color/holo_red_light"
-            tools:text="4.0"
-            app:typeface="roboto_regular"/>
+            tools:text="4.0"/>
 
     </RelativeLayout>
 
@@ -94,7 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:gravity="center_vertical"
@@ -102,10 +97,9 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:drawableLeft="@drawable/ic_grade"
-            android:text="@string/final_degree"
-            app:typeface="roboto_thin"/>
+            android:text="@string/final_degree"/>
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:id="@+id/card_subject_grades_final_degree"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
@@ -114,8 +108,7 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             tools:textColor="@android:color/holo_green_light"
-            tools:text="8.0"
-            app:typeface="roboto_regular"/>
+            tools:text="8.0"/>
 
     </RelativeLayout>
 
@@ -130,17 +123,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="@string/average"
-            app:typeface="roboto_regular"/>
+            android:text="@string/average"/>
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:id="@+id/card_subject_grades_average"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
@@ -149,8 +141,7 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             tools:textColor="@android:color/holo_green_light"
-            tools:text="8.0"
-            app:typeface="roboto_regular"/>
+            tools:text="8.0"/>
 
     </RelativeLayout>
 
@@ -164,17 +155,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="@string/final_average"
-            app:typeface="roboto_regular"/>
+            android:text="@string/final_average"/>
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:id="@+id/card_subject_grades_final_average"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
@@ -183,8 +173,7 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             tools:textColor="@android:color/holo_green_light"
-            tools:text="8.0"
-            app:typeface="roboto_regular"/>
+            tools:text="8.0"/>
 
     </RelativeLayout>
 

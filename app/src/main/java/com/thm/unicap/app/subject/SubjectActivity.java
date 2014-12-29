@@ -2,6 +2,7 @@ package com.thm.unicap.app.subject;
 
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -13,6 +14,8 @@ import android.view.View;
 import com.activeandroid.query.Select;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.model.Subject;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SubjectActivity extends ActionBarActivity {
 
@@ -93,5 +96,10 @@ public class SubjectActivity extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
 }

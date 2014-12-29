@@ -15,6 +15,8 @@ import com.thm.unicap.app.util.DatabaseListener;
 
 import java.util.ArrayList;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
 public class UnicapApplication extends Application {
     public static final String TAG = "Unicap";
 
@@ -26,6 +28,7 @@ public class UnicapApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        CalligraphyConfig.initDefault("fonts/Roboto-Regular.ttf", R.attr.fontPath);
         ActiveAndroid.initialize(this);
         mDatabaseListeners = new ArrayList<DatabaseListener>();
         registerReceiver(new UnicapSyncReceiver(), new IntentFilter(UnicapSyncReceiver.SYNC_ACTION));

@@ -7,12 +7,41 @@
         <item name="colorPrimaryDark">@color/unicap_base_dark</item>
         <item name="colorAccent">@color/unicap_base</item>
 
+        <item name="android:textViewStyle">@style/defaultFontStyle</item>
+
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+    </style>
+
+    <style name="AppThemeDrawer" parent="MaterialNavigationDrawerTheme.Light.TranslucentKitKatStatusBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/unicap_base</item>
+        <item name="colorPrimaryDark">@color/unicap_base_dark</item>
+        <item name="colorAccent">@color/unicap_base</item>
+
+        <item name="android:textViewStyle">@style/defaultFontStyle</item>
+
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">false</item>
         <item name="color">@android:color/white</item>
+    </style>
+
+    <style name="cardTitleStyle">
+        <item name="fontPath">fonts/RobotoCondensed-Regular.ttf</item>
+    </style>
+
+    <style name="defaultFontStyle">
+        <item name="fontPath">fonts/Roboto-Light.ttf</item>
+    </style>
+
+    <style name="thinFontStyle">
+        <item name="fontPath">fonts/Roboto-Thin.ttf</item>
+    </style>
+
+    <style name="boldFontStyle">
+        <item name="fontPath">fonts/Roboto-Bold.ttf</item>
     </style>
 
 </resources>

@@ -2,19 +2,18 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="@dimen/margin_normal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.devspark.robototextview.widget.RobotoTextView
+    <TextView
+        style="@style/cardTitleStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="23sp"
-        android:text="@string/general_information"
-        app:typeface="roboto_condensed_regular"/>
+        android:text="@string/general_information"/>
 
     <RelativeLayout
         android:layout_marginTop="@dimen/margin_small"
@@ -22,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:gravity="center_vertical"
@@ -30,10 +29,9 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:drawableLeft="@drawable/ic_registration"
-            android:text="@string/code"
-            app:typeface="roboto_thin"/>
+            android:text="@string/code"/>
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:id="@+id/card_subject_info_code"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
@@ -41,8 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            tools:text="INF6542"
-            app:typeface="roboto_thin"/>
+            tools:text="INF6542"/>
 
     </RelativeLayout>
 
@@ -59,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:gravity="center_vertical"
@@ -67,10 +64,9 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:drawableLeft="@drawable/ic_action_time"
-            android:text="@string/workload"
-            app:typeface="roboto_thin"/>
+            android:text="@string/workload"/>
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:id="@+id/card_subject_info_workload"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
@@ -78,8 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            tools:text="60 Horas"
-            app:typeface="roboto_thin"/>
+            tools:text="60 Horas"/>
 
     </RelativeLayout>
 
@@ -96,7 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:gravity="center_vertical"
@@ -104,10 +99,9 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:drawableLeft="@drawable/ic_credits"
-            android:text="@string/credits"
-            app:typeface="roboto_thin"/>
+            android:text="@string/credits"/>
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:id="@+id/card_subject_info_credits"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
@@ -115,8 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            tools:text="4 Créditos"
-            app:typeface="roboto_thin"/>
+            tools:text="4 Créditos"/>
 
     </RelativeLayout>
 
@@ -133,7 +126,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:gravity="center_vertical"
@@ -141,10 +134,9 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:drawableLeft="@drawable/ic_calendar"
-            android:text="@string/period"
-            app:typeface="roboto_thin"/>
+            android:text="@string/period"/>
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:id="@+id/card_subject_info_period"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
@@ -152,8 +144,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            tools:text="6º Período"
-            app:typeface="roboto_thin"/>
+            tools:text="6º Período"/>
 
     </RelativeLayout>
 

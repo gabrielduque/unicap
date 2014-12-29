@@ -2,20 +2,19 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="@dimen/margin_normal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.devspark.robototextview.widget.RobotoTextView
+    <TextView
+        style="@style/cardTitleStyle"
         android:id="@+id/card_lessons_weekday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="23sp"
-        tools:text="@string/monday"
-        app:typeface="roboto_condensed_regular"/>
+        tools:text="@string/monday"/>
 
     <ListView
         android:id="@+id/lessons_list"

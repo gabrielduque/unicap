@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.AdapterView;
@@ -19,6 +20,8 @@ import com.thm.unicap.app.util.UnicapUtils;
 import com.thm.unicap.app.util.ViewUtils;
 
 import java.util.List;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class WeekdayLessonsCard extends CardView implements AdapterView.OnItemClickListener {
 

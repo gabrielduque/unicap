@@ -19,12 +19,11 @@
             android:src="@drawable/ic_speaker"
             android:contentDescription="@string/app_name" />
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
             android:layout_marginBottom="@dimen/margin_normal"
-            app:typeface="roboto_thin"
             android:textSize="18sp"
             android:text="@string/feedback_title"/>
 
@@ -33,24 +32,22 @@
             android:layout_height="1dp"
             android:background="@color/unicap_gray_level_2" />
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:autoLink="all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_normal"
             android:gravity="center_horizontal"
-            app:typeface="roboto_thin"
             android:textColor="@color/unicap_gray_level_4"
             android:textSize="18sp"
             android:text="@string/feedback_description"/>
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:autoLink="all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_normal"
             android:gravity="center_horizontal"
-            app:typeface="roboto_thin"
             android:textColor="@color/unicap_gray_level_4"
             android:textSize="18sp"
             android:text="@string/feedback_testers"/>

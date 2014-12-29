@@ -1,18 +1,13 @@
 package com.thm.unicap.app.dashboard;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 
 import com.devspark.progressfragment.ProgressFragment;
 import com.thm.unicap.app.R;
-import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.lessons.WeekdayLessonsCard;
-import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.util.DatabaseDependentFragment;
 import com.thm.unicap.app.util.DatabaseListener;
@@ -65,22 +60,6 @@ public class DashboardFragment extends ProgressFragment implements DatabaseListe
             setContentView(R.layout.content_offline);
             setContentShown(true);
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        NavigationDrawerFragment navigationDrawerFragment = ((MainActivity) getActivity()).getNavigationDrawerFragment();
-
-        if(navigationDrawerFragment != null && !navigationDrawerFragment.isDrawerOpen()) {
-            inflater.inflate(R.menu.fragment_dashboard, menu);
-        }
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(NavigationDrawerFragment.SESSION_DASHBOARD);
     }
 
     @Override

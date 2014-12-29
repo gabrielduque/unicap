@@ -1,32 +1,17 @@
 package com.thm.unicap.app.lessons;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.Menu;
-import android.view.MenuInflater;
 
 import com.devspark.progressfragment.ProgressFragment;
-import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
-import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.model.SubjectStatus;
 import com.thm.unicap.app.util.DatabaseDependentFragment;
 import com.thm.unicap.app.util.DatabaseListener;
 import com.thm.unicap.app.util.NetworkUtils;
 
 public class LessonsFragment extends ProgressFragment implements DatabaseListener, DatabaseDependentFragment {
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        NavigationDrawerFragment navigationDrawerFragment = ((MainActivity) getActivity()).getNavigationDrawerFragment();
-
-        if(navigationDrawerFragment != null && !navigationDrawerFragment.isDrawerOpen()) {
-            inflater.inflate(R.menu.fragment_lessons, menu);
-        }
-        super.onCreateOptionsMenu(menu, inflater);
-    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -94,12 +79,6 @@ public class LessonsFragment extends ProgressFragment implements DatabaseListene
         weekdayLessonsCard.setStudent(UnicapApplication.getCurrentStudent());
         weekdayLessonsCard.setScheduleWeekDay(SubjectStatus.ScheduleWeekday.Sat);
 
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(NavigationDrawerFragment.SESSION_LESSONS);
     }
 
     @Override

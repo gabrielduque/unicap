@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-        <com.devspark.robototextview.widget.RobotoTextView
+        <TextView
             android:id="@+id/subject_name_abbreviation"
             android:layout_width="70dp"
             android:layout_height="70dp"
@@ -16,14 +16,13 @@
             android:gravity="center"
             android:textSize="30sp"
             tools:text="PLP"
-            tools:background="@android:color/holo_blue_light"
-            app:typeface="roboto_bold"/>
+            tools:background="@android:color/holo_blue_light"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.devspark.robototextview.widget.RobotoTextView
+            <TextView
                 android:id="@+id/subject_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -31,7 +30,6 @@
                 android:textSize="18sp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                app:typeface="roboto_thin"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"/>
 
@@ -48,12 +46,11 @@
                     android:adjustViewBounds="true"
                     android:src="@drawable/ic_action_time"/>
 
-                <com.devspark.robototextview.widget.RobotoTextView
+                <TextView
                     android:id="@+id/subject_schedule_begin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="18:30"
-                    app:typeface="roboto_thin"/>
+                    tools:text="18:30"/>
 
             </LinearLayout>
 
@@ -70,12 +67,11 @@
                     android:adjustViewBounds="true"
                     android:src="@drawable/ic_action_place"/>
 
-                <com.devspark.robototextview.widget.RobotoTextView
+                <TextView
                     android:id="@+id/subject_room"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="A601"
-                    app:typeface="roboto_thin"/>
+                    tools:text="A601"/>
 
             </LinearLayout>
 
@@ -92,12 +88,11 @@
                     android:adjustViewBounds="true"
                     android:src="@drawable/ic_action_time"/>
 
-                <com.devspark.robototextview.widget.RobotoTextView
+                <TextView
                     android:id="@+id/subject_schedule_end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="20:10"
-                    app:typeface="roboto_thin"/>
+                    tools:text="20:10"/>
 
             </LinearLayout>
 

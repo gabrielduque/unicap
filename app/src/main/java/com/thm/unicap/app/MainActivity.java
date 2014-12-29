@@ -6,22 +6,24 @@ import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.support.annotation.NonNull;
+import android.util.AttributeSet;
+import android.view.View;
 
 import com.activeandroid.query.Select;
 import com.crashlytics.android.Crashlytics;
 import com.github.johnpersano.supertoasts.SuperActivityToast;
 import com.github.johnpersano.supertoasts.SuperToast;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.thm.unicap.app.about.AboutFragment;
 import com.thm.unicap.app.auth.AccountGeneral;
 import com.thm.unicap.app.calendar.CalendarFragment;
@@ -30,74 +32,28 @@ import com.thm.unicap.app.dashboard.DashboardFragment;
 import com.thm.unicap.app.feedback.FeedbackFragment;
 import com.thm.unicap.app.grade.GradesFragment;
 import com.thm.unicap.app.lessons.LessonsFragment;
-import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.subject.SubjectsFragment;
 import com.thm.unicap.app.util.DatabaseListener;
 
 import hotchemi.android.rate.AppRate;
+import it.neokree.materialnavigationdrawer.MaterialAccount;
+import it.neokree.materialnavigationdrawer.MaterialAccountListener;
+import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
+import it.neokree.materialnavigationdrawer.MaterialSection;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import uk.me.lewisdeane.ldialogs.CustomDialog;
 
 
-public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, DatabaseListener {
+public class MainActivity extends MaterialNavigationDrawer implements DatabaseListener, MaterialAccountListener {
 
     private AccountManager mAccountManager;
-
-    private Handler mHandler = new Handler();
-    private Runnable mSwitchFragmentRunnable;
-
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
-
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
-    private CharSequence mTitle;
     private SuperActivityToast mSyncingToast;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void initTaskDescriptionConfig() {
         int color = getResources().getColor(R.color.unicap_base_dark);
         setTaskDescription(new ActivityManager.TaskDescription(null, null, color));
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Crashlytics.start(this);
-        setContentView(R.layout.activity_main);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_actionbar);
-        setSupportActionBar(toolbar);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            initTaskDescriptionConfig();
-
-        mAccountManager = AccountManager.get(this);
-
-        mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
-
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                AppRate.with(MainActivity.this)
-                        .setInstallDays(10) // default 10, 0 means install day.
-                        .setLaunchTimes(10) // default 10
-                        .setRemindInterval(2) // default 1
-                        .setShowNeutralButton(true) // default true
-                        .monitor();
-
-                // Show a dialog if meets conditions
-                AppRate.showRateDialogIfMeetsConditions(MainActivity.this);
-            }
-        }, 1000);
-
     }
 
     @Override
@@ -113,6 +69,8 @@ public class MainActivity extends ActionBarActivity
                     }
                 }
             }, 500);
+        } else {
+            updateNavigationDrawerInfo();
         }
 
         UnicapApplication.addDatabaseListener(this);
@@ -123,115 +81,7 @@ public class MainActivity extends ActionBarActivity
         super.onStop();
 
         UnicapApplication.removeDatabaseListener(this);
-        mHandler.removeCallbacks(mSwitchFragmentRunnable);
         if(mSyncingToast != null) mSyncingToast.dismiss();
-    }
-
-    @Override
-    public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        final Fragment fragment;
-
-        switch (position) {
-            case NavigationDrawerFragment.SESSION_DASHBOARD:
-                fragment = new DashboardFragment();
-                break;
-            case NavigationDrawerFragment.SESSION_SUBJECTS:
-                fragment = new SubjectsFragment();
-                break;
-            case NavigationDrawerFragment.SESSION_CALENDAR:
-                fragment = new CalendarFragment();
-                break;
-            case NavigationDrawerFragment.SESSION_LESSONS:
-                fragment = new LessonsFragment();
-                break;
-            case NavigationDrawerFragment.SESSION_GRADES:
-                fragment = new GradesFragment();
-                break;
-            case NavigationDrawerFragment.SESSION_FEEDBACK:
-                fragment = new FeedbackFragment();
-                break;
-            case NavigationDrawerFragment.SESSION_ABOUT:
-                fragment = new AboutFragment();
-                break;
-            case NavigationDrawerFragment.SESSION_LOGOUT:
-                logout();
-                return;
-            default:
-                fragment = new DashboardFragment();
-                break;
-
-        }
-
-        mHandler.removeCallbacks(mSwitchFragmentRunnable);
-
-        mSwitchFragmentRunnable = new Runnable() {
-            public void run() {
-                fragmentManager.beginTransaction()
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .replace(R.id.container, fragment)
-                        .commitAllowingStateLoss();
-            }
-        };
-
-        mHandler.postDelayed(mSwitchFragmentRunnable, 350);
-
-    }
-
-    public void onSectionAttached(int session) {
-        switch (session) {
-            case NavigationDrawerFragment.SESSION_DASHBOARD:
-                mTitle = getString(R.string.dashboard);
-                break;
-            case NavigationDrawerFragment.SESSION_SUBJECTS:
-                mTitle = getString(R.string.subjects);
-                break;
-            case NavigationDrawerFragment.SESSION_CALENDAR:
-                mTitle = getString(R.string.calendar);
-                break;
-            case NavigationDrawerFragment.SESSION_LESSONS:
-                mTitle = getString(R.string.lessons);
-                break;
-            case NavigationDrawerFragment.SESSION_GRADES:
-                mTitle = getString(R.string.grades);
-                break;
-            case NavigationDrawerFragment.SESSION_FEEDBACK:
-                mTitle = getString(R.string.feedback);
-                break;
-            case NavigationDrawerFragment.SESSION_ABOUT:
-                mTitle = getString(R.string.about);
-                break;
-        }
-
-        //TODO: supportInvalidateOptionsMenu being called twice (here and on onDrawerClosed)
-        //Call needed to change actionbar at startup
-        supportInvalidateOptionsMenu();
-    }
-
-    public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.activity_main, menu);
-            restoreActionBar();
-            return true;
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    public NavigationDrawerFragment getNavigationDrawerFragment() {
-        return mNavigationDrawerFragment;
     }
 
     public void selectAccountCreateIfNeeded() {
@@ -250,6 +100,7 @@ public class MainActivity extends ActionBarActivity
                             if(student != null) {
                                 UnicapApplication.setCurrentStudent(student);
                                 UnicapApplication.notifyDatabaseUpdated();
+
                             } else {
                                 if(!UnicapApplication.isSyncing())
                                     UnicapApplication.forceSync();
@@ -291,8 +142,38 @@ public class MainActivity extends ActionBarActivity
                 if (mSyncingToast != null) {
                     mSyncingToast.dismiss();
                 }
+
+                updateNavigationDrawerInfo();
             }
         });
+    }
+
+    private void updateNavigationDrawerInfo() {
+        Student student = UnicapApplication.getCurrentStudent();
+
+        getCurrentAccount().setTitle(student.name);
+        getCurrentAccount().setSubTitle(student.course);
+        notifyAccountDataChanged();
+
+        Picasso.with(this)
+                .load(student.getGravatarURL(100))
+                .into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        getCurrentAccount().setPhoto(bitmap);
+                        notifyAccountDataChanged();
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                });
     }
 
     @Override
@@ -305,21 +186,6 @@ public class MainActivity extends ActionBarActivity
                 }
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-
-        if(mNavigationDrawerFragment.isDrawerOpen()) {
-            mNavigationDrawerFragment.closeDrawer();
-        } else {
-            int currentSelectedPosition = mNavigationDrawerFragment.getCurrentSelectedPosition();
-
-            if(currentSelectedPosition == NavigationDrawerFragment.SESSION_DASHBOARD)
-                super.onBackPressed();
-            else
-                mNavigationDrawerFragment.selectItem(NavigationDrawerFragment.SESSION_DASHBOARD);
-        }
     }
 
     private void logout() {
@@ -343,4 +209,106 @@ public class MainActivity extends ActionBarActivity
             }, null);
         }
     }
+
+    @Override
+    public void init(Bundle bundle) {
+
+        Crashlytics.start(this);
+
+        this.setBackPattern(MaterialNavigationDrawer.BACKPATTERN_BACK_TO_FIRST);
+        this.disableLearningPattern();
+        this.getToolbar().setTitleTextColor(getResources().getColor(android.R.color.white));
+
+        this.setAccountListener(this);
+
+//        this.addMultiPaneSupport();
+
+        MaterialAccount account = new MaterialAccount("","",this.getResources().getDrawable(R.drawable.ic_graduate),this.getResources().getDrawable(R.drawable.material_design_day));
+        this.addAccount(account);
+
+        this.addSection(this.newSection(getString(R.string.dashboard), R.drawable.ic_dashboard, new DashboardFragment())
+                .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
+        this.addSection(this.newSection(getString(R.string.subjects), R.drawable.ic_subjects, new SubjectsFragment())
+                .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
+        this.addSection(this.newSection(getString(R.string.calendar), R.drawable.ic_calendar, new CalendarFragment())
+                .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
+        this.addSection(this.newSection(getString(R.string.lessons), R.drawable.ic_lessons, new LessonsFragment())
+                .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
+        this.addSection(this.newSection(getString(R.string.grades), R.drawable.ic_grades, new GradesFragment())
+                .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
+
+        this.addBottomSection(this.newSection(getString(R.string.feedback), R.drawable.ic_action_feedback, new FeedbackFragment())
+                .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
+        this.addBottomSection(this.newSection(getString(R.string.about), R.drawable.ic_action_about, new AboutFragment())
+                .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
+        this.addBottomSection(this.newSection(getString(R.string.logout), R.drawable.ic_exit_to_app_grey600_24dp, this)
+                .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            initTaskDescriptionConfig();
+
+        mAccountManager = AccountManager.get(this);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AppRate.with(MainActivity.this)
+                        .setInstallDays(10) // default 10, 0 means install day.
+                        .setLaunchTimes(10) // default 10
+                        .setRemindInterval(2) // default 1
+                        .setShowNeutralButton(true) // default true
+                        .monitor();
+
+                // Show a dialog if meets conditions
+                AppRate.showRateDialogIfMeetsConditions(MainActivity.this);
+            }
+        }, 1000);
+    }
+
+    @Override
+    public void onClick(MaterialSection section) {
+        switch (section.getPosition()) {
+            case 102: //Logout
+                logout();
+            default:
+                super.onClick(section);
+        }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+    }
+
+    @Override
+    public void onAccountOpening(MaterialAccount materialAccount) {
+        CustomDialog customDialog = new CustomDialog.Builder(this, getString(R.string.profile_picture), getString(R.string.learn_more))
+                .content(getString(R.string.gravatar_text))
+                .negativeText(getString(R.string.not_now))
+                .positiveColor(getResources().getColor(android.R.color.holo_blue_light))
+                .build();
+
+        customDialog.setClickListener(new CustomDialog.ClickListener() {
+            @Override
+            public void onConfirmClick() {
+                String url = getString(R.string.gravatar_website);
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+
+            @Override
+            public void onCancelClick() {
+
+            }
+        });
+
+        customDialog.show();
+    }
+
+    @Override
+    public void onChangeAccount(MaterialAccount materialAccount) {
+    }
 }
+

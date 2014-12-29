@@ -128,11 +128,11 @@ public class UnicapDataManager {
         } else {
 
             // Merging room from different rows, but same subject
-            if (!subjectStatus.room.contains(room))
+            if (subjectStatus.room != null && !subjectStatus.room.contains(room))
                 room = subjectStatus.room + "-" + room;
 
             // Merging schedule from different rows, but same subject
-            if (!subjectStatus.schedule.contains(schedule))
+            if (subjectStatus.schedule != null && !subjectStatus.schedule.contains(schedule))
                 schedule = subjectStatus.schedule + " " + schedule;
         }
 

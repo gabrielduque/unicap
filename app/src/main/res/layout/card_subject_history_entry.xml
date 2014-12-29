@@ -2,13 +2,12 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="@dimen/margin_small"
     android:layout_marginBottom="@dimen/margin_small"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.devspark.robototextview.widget.RobotoTextView
+    <TextView
         android:id="@+id/card_subject_history_entry_period"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
@@ -16,10 +15,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        tools:text="2013.1"
-        app:typeface="roboto_thin"/>
+        tools:text="2013.1"/>
 
-    <com.devspark.robototextview.widget.RobotoTextView
+    <TextView
         android:id="@+id/card_subject_history_entry_status"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
@@ -29,7 +27,6 @@
         android:textSize="20sp"
         tools:drawableRight="@drawable/ic_action_accept"
         tools:textColor="@android:color/holo_green_light"
-        tools:text="Aprovado"
-        app:typeface="roboto_thin"/>
+        tools:text="Aprovado"/>
 
 </RelativeLayout>

@@ -1,17 +1,12 @@
 package com.thm.unicap.app.subject;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuInflater;
 
 import com.devspark.progressfragment.ProgressFragment;
 import com.thm.unicap.app.R;
-import com.thm.unicap.app.MainActivity;
 import com.thm.unicap.app.UnicapApplication;
-import com.thm.unicap.app.menu.NavigationDrawerFragment;
 import com.thm.unicap.app.util.DatabaseDependentFragment;
 import com.thm.unicap.app.util.DatabaseListener;
 import com.thm.unicap.app.util.NetworkUtils;
@@ -32,16 +27,6 @@ public class SubjectsFragment extends ProgressFragment implements DatabaseListen
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        NavigationDrawerFragment navigationDrawerFragment = ((MainActivity) getActivity()).getNavigationDrawerFragment();
-
-        if(navigationDrawerFragment != null && !navigationDrawerFragment.isDrawerOpen()) {
-            inflater.inflate(R.menu.fragment_subjects, menu);
-        }
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
     public void initDatabaseDependentViews() {
         ViewPager mViewPager = (ViewPager) getContentView().findViewById(R.id.pager);
         mViewPager.setAdapter(new SubjectsPagerAdapter(getActivity()));
@@ -58,12 +43,6 @@ public class SubjectsFragment extends ProgressFragment implements DatabaseListen
     public void onPause() {
         super.onPause();
         UnicapApplication.removeDatabaseListener(this);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(NavigationDrawerFragment.SESSION_SUBJECTS);
     }
 
     @Override

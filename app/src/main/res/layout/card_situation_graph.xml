@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="@dimen/margin_normal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.devspark.robototextview.widget.RobotoTextView
+    <TextView
+        style="@style/cardTitleStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="23sp"
-        android:text="@string/situation"
-        app:typeface="roboto_condensed_regular"/>
+        android:text="@string/situation"/>
 
     <LinearLayout
         android:layout_marginTop="@dimen/margin_small"
@@ -28,35 +26,32 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.devspark.robototextview.widget.RobotoTextView
+            <TextView
                 android:gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textColor="@android:color/darker_gray"
                 android:drawableLeft="@drawable/ic_action_time"
-                android:text="@string/waiting"
-                app:typeface="roboto_regular"/>
+                android:text="@string/waiting"/>
 
-            <com.devspark.robototextview.widget.RobotoTextView
+            <TextView
                 android:gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textColor="@android:color/holo_green_light"
                 android:drawableLeft="@drawable/ic_action_accept"
-                android:text="@string/approved"
-                app:typeface="roboto_regular"/>
+                android:text="@string/approved"/>
 
-            <com.devspark.robototextview.widget.RobotoTextView
+            <TextView
                 android:gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textColor="@android:color/holo_red_light"
                 android:drawableLeft="@drawable/ic_action_cancel"
-                android:text="@string/repproved"
-                app:typeface="roboto_regular"/>
+                android:text="@string/repproved"/>
 
         </LinearLayout>
 
@@ -69,14 +64,13 @@
                 android:layout_height="200dp"
                 android:id="@+id/graph"/>
 
-            <com.devspark.robototextview.widget.RobotoTextView
+            <TextView
                 android:id="@+id/status_percentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:textColor="@android:color/holo_green_light"
-                android:textSize="20sp"
-                app:typeface="roboto_condensed_regular"/>
+                android:textSize="20sp"/>
 
         </RelativeLayout>
 
