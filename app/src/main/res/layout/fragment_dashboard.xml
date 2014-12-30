@@ -1,41 +1,47 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/unicap_gray_level_1">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:background="@color/unicap_gray_level_1">
 
-        <com.thm.unicap.app.lessons.WeekdayLessonsCard
-            android:id="@+id/card_today_lessons"
-            android:layout_marginTop="@dimen/margin_card"
-            android:layout_marginBottom="@dimen/margin_card"
-            android:layout_marginLeft="@dimen/margin_card"
-            android:layout_marginRight="@dimen/margin_card"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <com.thm.unicap.app.dashboard.StudentCoefficientCard
-            android:visibility="gone"
-            tools:visibility="visible"
-            android:id="@+id/card_course_coefficient"
-            android:layout_marginBottom="@dimen/margin_card"
-            android:layout_marginLeft="@dimen/margin_card"
-            android:layout_marginRight="@dimen/margin_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <com.thm.unicap.app.lessons.WeekdayLessonsCard
+                android:id="@+id/card_today_lessons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_card"
+                android:layout_marginLeft="@dimen/margin_card"
+                android:layout_marginRight="@dimen/margin_card"
+                android:layout_marginTop="@dimen/margin_card" />
 
-        <com.thm.unicap.app.dashboard.StudentSituationGraphCard
-            android:id="@+id/card_status_graph"
-            android:layout_marginBottom="@dimen/margin_card"
-            android:layout_marginLeft="@dimen/margin_card"
-            android:layout_marginRight="@dimen/margin_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <com.thm.unicap.app.dashboard.StudentCoefficientCard
+                android:id="@+id/card_course_coefficient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_card"
+                android:layout_marginLeft="@dimen/margin_card"
+                android:layout_marginRight="@dimen/margin_card"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-    </LinearLayout>
+            <com.thm.unicap.app.dashboard.StudentSituationGraphCard
+                android:id="@+id/card_status_graph"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_card"
+                android:layout_marginLeft="@dimen/margin_card"
+                android:layout_marginRight="@dimen/margin_card" />
 
-</ScrollView>
+        </LinearLayout>
+
+    </ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

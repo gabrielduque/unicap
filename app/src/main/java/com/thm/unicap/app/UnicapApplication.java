@@ -11,7 +11,7 @@ import com.activeandroid.ActiveAndroid;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.sync.UnicapContentProvider;
 import com.thm.unicap.app.sync.UnicapSyncReceiver;
-import com.thm.unicap.app.util.DatabaseListener;
+import com.thm.unicap.app.database.IDatabaseListener;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ public class UnicapApplication extends Application {
 
     private static Student mCurrentStudent = null;
     private static Account mCurrentAccount = null;
-    private static ArrayList<DatabaseListener> mDatabaseListeners;
+    private static ArrayList<IDatabaseListener> mDatabaseListeners;
     private static boolean isSyncing;
 
     @Override
@@ -30,7 +30,7 @@ public class UnicapApplication extends Application {
         super.onCreate();
         CalligraphyConfig.initDefault("fonts/Roboto-Regular.ttf", R.attr.fontPath);
         ActiveAndroid.initialize(this);
-        mDatabaseListeners = new ArrayList<DatabaseListener>();
+        mDatabaseListeners = new ArrayList<IDatabaseListener>();
         registerReceiver(new UnicapSyncReceiver(), new IntentFilter(UnicapSyncReceiver.SYNC_ACTION));
     }
 
@@ -52,18 +52,18 @@ public class UnicapApplication extends Application {
         return mCurrentStudent != null;
     }
 
-    public static void addDatabaseListener(DatabaseListener listener) {
+    public static void addDatabaseListener(IDatabaseListener listener) {
         if(!mDatabaseListeners.contains(listener))
             mDatabaseListeners.add(listener);
     }
 
-    public static void removeDatabaseListener(DatabaseListener listener) {
+    public static void removeDatabaseListener(IDatabaseListener listener) {
         mDatabaseListeners.remove(listener);
     }
 
     public static void notifyDatabaseSyncing() {
         isSyncing = true;
-        for (DatabaseListener listener : mDatabaseListeners) {
+        for (IDatabaseListener listener : mDatabaseListeners) {
             listener.databaseSyncing();
         }
     }
@@ -71,7 +71,7 @@ public class UnicapApplication extends Application {
     public static void notifyDatabaseUpdated() {
         isSyncing = false;
         if(mCurrentStudent != null) {
-            for (DatabaseListener listener : mDatabaseListeners) {
+            for (IDatabaseListener listener : mDatabaseListeners) {
                 listener.databaseUpdated();
             }
         }
@@ -80,7 +80,7 @@ public class UnicapApplication extends Application {
     public static void notifyDatabaseUnreachable(String message) {
         isSyncing = false;
         if(mCurrentStudent == null) {
-            for (DatabaseListener listener : mDatabaseListeners) {
+            for (IDatabaseListener listener : mDatabaseListeners) {
                 listener.databaseUnreachable(message);
             }
         }

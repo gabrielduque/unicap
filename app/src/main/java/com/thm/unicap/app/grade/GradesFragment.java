@@ -2,53 +2,26 @@ package com.thm.unicap.app.grade;
 
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.devspark.progressfragment.ProgressFragment;
 import com.nhaarman.listviewanimations.appearance.AnimationAdapter;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
-import com.thm.unicap.app.util.DatabaseDependentFragment;
-import com.thm.unicap.app.util.DatabaseListener;
-import com.thm.unicap.app.util.NetworkUtils;
+import com.thm.unicap.app.database.DatabaseDependentFragment;
 
 import java.util.List;
 
-public class GradesFragment extends ProgressFragment implements DatabaseListener, DatabaseDependentFragment, AdapterView.OnItemClickListener {
+public class GradesFragment extends DatabaseDependentFragment implements AdapterView.OnItemClickListener {
 
-    private ListView mGradesListView;
     private GradesListAdapter mGradesListAdapter;
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHasOptionsMenu(true);
-
-        if(UnicapApplication.hasStudentData()) { // Show offline data
-            databaseUpdated();
-        } else if (!NetworkUtils.isNetworkConnected(getActivity())) { // Show layout for offline error
-            setContentView(R.layout.content_offline);
-            setContentShown(true);
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        UnicapApplication.addDatabaseListener(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        UnicapApplication.removeDatabaseListener(this);
+    public GradesFragment() {
+        super(R.layout.fragment_grades);
     }
 
     @Override
@@ -57,7 +30,7 @@ public class GradesFragment extends ProgressFragment implements DatabaseListener
 
         List<Subject> subjects = student.getActualSubjects();
 
-        mGradesListView = (ListView) getContentView().findViewById(R.id.subjects_list);
+        ListView mGradesListView = (ListView) getContentView().findViewById(R.id.subjects_list);
 
         mGradesListAdapter = new GradesListAdapter(subjects, getActivity());
 
@@ -73,33 +46,5 @@ public class GradesFragment extends ProgressFragment implements DatabaseListener
         Intent intent = new Intent(getActivity(), GradesActivity.class);
         intent.putExtra("subject_id", subject.getId());
         getActivity().startActivity(intent);
-    }
-
-    @Override
-    public void databaseSyncing() {
-
-    }
-
-    @Override
-    public void databaseUpdated() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                setContentView(R.layout.fragment_grades);
-                initDatabaseDependentViews();
-                setContentShown(true);
-            }
-        });
-    }
-
-    @Override
-    public void databaseUnreachable(String message) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                setContentView(R.layout.content_unreachable);
-                setContentShown(true);
-            }
-        });
     }
 }

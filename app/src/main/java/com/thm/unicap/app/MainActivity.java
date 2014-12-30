@@ -14,14 +14,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.util.AttributeSet;
-import android.view.View;
 
 import com.activeandroid.query.Select;
 import com.crashlytics.android.Crashlytics;
-import com.github.johnpersano.supertoasts.SuperActivityToast;
-import com.github.johnpersano.supertoasts.SuperToast;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thm.unicap.app.about.AboutFragment;
@@ -34,7 +29,7 @@ import com.thm.unicap.app.grade.GradesFragment;
 import com.thm.unicap.app.lessons.LessonsFragment;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.subject.SubjectsFragment;
-import com.thm.unicap.app.util.DatabaseListener;
+import com.thm.unicap.app.database.IDatabaseListener;
 
 import hotchemi.android.rate.AppRate;
 import it.neokree.materialnavigationdrawer.MaterialAccount;
@@ -45,10 +40,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import uk.me.lewisdeane.ldialogs.CustomDialog;
 
 
-public class MainActivity extends MaterialNavigationDrawer implements DatabaseListener, MaterialAccountListener {
+public class MainActivity extends MaterialNavigationDrawer implements IDatabaseListener, MaterialAccountListener {
 
     private AccountManager mAccountManager;
-    private SuperActivityToast mSyncingToast;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void initTaskDescriptionConfig() {
@@ -81,7 +75,6 @@ public class MainActivity extends MaterialNavigationDrawer implements DatabaseLi
         super.onStop();
 
         UnicapApplication.removeDatabaseListener(this);
-        if(mSyncingToast != null) mSyncingToast.dismiss();
     }
 
     public void selectAccountCreateIfNeeded() {
@@ -118,20 +111,7 @@ public class MainActivity extends MaterialNavigationDrawer implements DatabaseLi
 
     @Override
     public void databaseSyncing() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
 
-                if(mSyncingToast == null) {
-                    mSyncingToast = new SuperActivityToast(MainActivity.this, SuperToast.Type.PROGRESS);
-                    mSyncingToast.setText(getString(R.string.synchronizing));
-                    mSyncingToast.setIndeterminate(true);
-                }
-
-                if(!mSyncingToast.isShowing())
-                    mSyncingToast.show();
-            }
-        });
     }
 
     @Override
@@ -139,10 +119,6 @@ public class MainActivity extends MaterialNavigationDrawer implements DatabaseLi
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mSyncingToast != null) {
-                    mSyncingToast.dismiss();
-                }
-
                 updateNavigationDrawerInfo();
             }
         });
@@ -178,14 +154,7 @@ public class MainActivity extends MaterialNavigationDrawer implements DatabaseLi
 
     @Override
     public void databaseUnreachable(String message) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (mSyncingToast != null) {
-                    mSyncingToast.dismiss();
-                }
-            }
-        });
+
     }
 
     private void logout() {

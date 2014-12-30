@@ -1,6 +1,6 @@
-package com.thm.unicap.app.util;
+package com.thm.unicap.app.database;
 
-public interface DatabaseListener {
+public interface IDatabaseListener {
     void databaseSyncing();
     void databaseUpdated();
     void databaseUnreachable(String message);

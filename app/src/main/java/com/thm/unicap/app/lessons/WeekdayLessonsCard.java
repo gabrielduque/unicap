@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,8 +20,6 @@ import com.thm.unicap.app.util.UnicapUtils;
 import com.thm.unicap.app.util.ViewUtils;
 
 import java.util.List;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class WeekdayLessonsCard extends CardView implements AdapterView.OnItemClickListener {
 
@@ -43,7 +41,7 @@ public class WeekdayLessonsCard extends CardView implements AdapterView.OnItemCl
             return;
 
         TextView card_lessons_weekday = (TextView) findViewById(R.id.card_lessons_weekday);
-        ViewStub empty_day_view_stub = (ViewStub) findViewById(R.id.empty_day_view_stub);
+        ImageView empty_day_view = (ImageView) findViewById(R.id.empty_day_view);
         card_lessons_weekday.setText(UnicapUtils.scheduleWeekDayToString(getContext(), mScheduleWeekday));
 
         List<Subject> subjectsFromWeekDay = mStudent.getSubjectsFromWeekDay(mScheduleWeekday);
@@ -57,8 +55,10 @@ public class WeekdayLessonsCard extends CardView implements AdapterView.OnItemCl
             ViewUtils.setListViewHeightBasedOnChildren(mLessonsList);
 
             mLessonsList.setOnItemClickListener(this);
+
+            empty_day_view.setVisibility(GONE);
         } else {
-            empty_day_view_stub.inflate();
+            empty_day_view.setVisibility(VISIBLE);
         }
     }
 

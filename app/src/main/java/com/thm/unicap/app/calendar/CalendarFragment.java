@@ -1,48 +1,21 @@
 package com.thm.unicap.app.calendar;
 
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-
-import com.devspark.progressfragment.ProgressFragment;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.SubjectTest;
 import com.thm.unicap.app.subject.SubjectCalendarListItemAdapter;
-import com.thm.unicap.app.util.DatabaseDependentFragment;
-import com.thm.unicap.app.util.DatabaseListener;
-import com.thm.unicap.app.util.NetworkUtils;
+import com.thm.unicap.app.database.DatabaseDependentFragment;
 
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-public class CalendarFragment extends ProgressFragment implements DatabaseListener, DatabaseDependentFragment {
+public class CalendarFragment extends DatabaseDependentFragment {
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHasOptionsMenu(true);
-
-        if(UnicapApplication.hasStudentData()) { // Show offline data
-            databaseUpdated();
-        } else if (!NetworkUtils.isNetworkConnected(getActivity())) { // Show layout for offline error
-            setContentView(R.layout.content_offline);
-            setContentShown(true);
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        UnicapApplication.addDatabaseListener(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        UnicapApplication.removeDatabaseListener(this);
+    public CalendarFragment() {
+        super(R.layout.fragment_calendar);
     }
 
     @Override
@@ -63,31 +36,4 @@ public class CalendarFragment extends ProgressFragment implements DatabaseListen
         subjectCalendarListView.setAdapter(subjectCalendarListItemAdapter);
     }
 
-    @Override
-    public void databaseSyncing() {
-
-    }
-
-    @Override
-    public void databaseUpdated() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                setContentView(R.layout.fragment_calendar);
-                initDatabaseDependentViews();
-                setContentShown(true);
-            }
-        });
-    }
-
-    @Override
-    public void databaseUnreachable(String message) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                setContentView(R.layout.content_unreachable);
-                setContentShown(true);
-            }
-        });
-    }
 }

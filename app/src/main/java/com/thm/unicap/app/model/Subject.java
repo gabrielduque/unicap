@@ -4,9 +4,7 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.thm.unicap.app.R;
-import com.thm.unicap.app.util.UnicapUtils;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Table(name = "Subject")

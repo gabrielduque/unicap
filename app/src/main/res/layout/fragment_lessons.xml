@@ -1,62 +1,68 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/unicap_gray_level_1">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <com.thm.unicap.app.lessons.WeekdayLessonsCard
-            android:id="@+id/card_lessons_mon"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:layout_marginBottom="@dimen/margin_normal"
-            android:layout_marginLeft="@dimen/margin_normal"
-            android:layout_marginRight="@dimen/margin_normal"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <com.thm.unicap.app.lessons.WeekdayLessonsCard
-            android:id="@+id/card_lessons_tue"
-            android:layout_marginBottom="@dimen/margin_normal"
-            android:layout_marginLeft="@dimen/margin_normal"
-            android:layout_marginRight="@dimen/margin_normal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <com.thm.unicap.app.lessons.WeekdayLessonsCard
+                android:id="@+id/card_lessons_mon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_normal"
+                android:layout_marginLeft="@dimen/margin_normal"
+                android:layout_marginRight="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_normal" />
 
-        <com.thm.unicap.app.lessons.WeekdayLessonsCard
-            android:id="@+id/card_lessons_wed"
-            android:layout_marginBottom="@dimen/margin_normal"
-            android:layout_marginLeft="@dimen/margin_normal"
-            android:layout_marginRight="@dimen/margin_normal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <com.thm.unicap.app.lessons.WeekdayLessonsCard
+                android:id="@+id/card_lessons_tue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_normal"
+                android:layout_marginLeft="@dimen/margin_normal"
+                android:layout_marginRight="@dimen/margin_normal" />
 
-        <com.thm.unicap.app.lessons.WeekdayLessonsCard
-            android:id="@+id/card_lessons_thu"
-            android:layout_marginBottom="@dimen/margin_normal"
-            android:layout_marginLeft="@dimen/margin_normal"
-            android:layout_marginRight="@dimen/margin_normal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <com.thm.unicap.app.lessons.WeekdayLessonsCard
+                android:id="@+id/card_lessons_wed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_normal"
+                android:layout_marginLeft="@dimen/margin_normal"
+                android:layout_marginRight="@dimen/margin_normal" />
 
-        <com.thm.unicap.app.lessons.WeekdayLessonsCard
-            android:id="@+id/card_lessons_fri"
-            android:layout_marginBottom="@dimen/margin_normal"
-            android:layout_marginLeft="@dimen/margin_normal"
-            android:layout_marginRight="@dimen/margin_normal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <com.thm.unicap.app.lessons.WeekdayLessonsCard
+                android:id="@+id/card_lessons_thu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_normal"
+                android:layout_marginLeft="@dimen/margin_normal"
+                android:layout_marginRight="@dimen/margin_normal" />
 
-        <com.thm.unicap.app.lessons.WeekdayLessonsCard
-            android:id="@+id/card_lessons_sat"
-            android:layout_marginBottom="@dimen/margin_normal"
-            android:layout_marginLeft="@dimen/margin_normal"
-            android:layout_marginRight="@dimen/margin_normal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <com.thm.unicap.app.lessons.WeekdayLessonsCard
+                android:id="@+id/card_lessons_fri"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_normal"
+                android:layout_marginLeft="@dimen/margin_normal"
+                android:layout_marginRight="@dimen/margin_normal" />
 
-    </LinearLayout>
+            <com.thm.unicap.app.lessons.WeekdayLessonsCard
+                android:id="@+id/card_lessons_sat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_normal"
+                android:layout_marginLeft="@dimen/margin_normal"
+                android:layout_marginRight="@dimen/margin_normal" />
 
-</ScrollView>
+        </LinearLayout>
+
+    </ScrollView>
+
+</android.support.v4.widget.SwipeRefreshLayout>

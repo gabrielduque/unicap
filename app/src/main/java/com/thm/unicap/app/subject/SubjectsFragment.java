@@ -1,29 +1,14 @@
 package com.thm.unicap.app.subject;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 
-import com.devspark.progressfragment.ProgressFragment;
 import com.thm.unicap.app.R;
-import com.thm.unicap.app.UnicapApplication;
-import com.thm.unicap.app.util.DatabaseDependentFragment;
-import com.thm.unicap.app.util.DatabaseListener;
-import com.thm.unicap.app.util.NetworkUtils;
+import com.thm.unicap.app.database.DatabaseDependentFragment;
 
-public class SubjectsFragment extends ProgressFragment implements DatabaseListener, DatabaseDependentFragment {
+public class SubjectsFragment extends DatabaseDependentFragment {
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHasOptionsMenu(true);
-
-        if(UnicapApplication.hasStudentData()) { // Show offline data
-            databaseUpdated();
-        } else if (!NetworkUtils.isNetworkConnected(getActivity())) { // Show layout for offline error
-            setContentView(R.layout.content_offline);
-            setContentShown(true);
-        }
+    public SubjectsFragment() {
+        super(R.layout.fragment_subjects);
     }
 
     @Override
@@ -33,43 +18,4 @@ public class SubjectsFragment extends ProgressFragment implements DatabaseListen
         mViewPager.setCurrentItem(SubjectsPagerAdapter.Session.ACTUAL.ordinal());
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        UnicapApplication.addDatabaseListener(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        UnicapApplication.removeDatabaseListener(this);
-    }
-
-    @Override
-    public void databaseSyncing() {
-
-    }
-
-    @Override
-    public void databaseUpdated() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                setContentView(R.layout.fragment_subjects);
-                initDatabaseDependentViews();
-                setContentShown(true);
-            }
-        });
-    }
-
-    @Override
-    public void databaseUnreachable(String message) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                setContentView(R.layout.content_unreachable);
-                setContentShown(true);
-            }
-        });
-    }
 }

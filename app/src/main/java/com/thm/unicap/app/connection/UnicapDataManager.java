@@ -1,7 +1,5 @@
 package com.thm.unicap.app.connection;
 
-import android.util.Log;
-
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.thm.unicap.app.UnicapApplication;
@@ -9,7 +7,6 @@ import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
 import com.thm.unicap.app.model.SubjectStatus;
 import com.thm.unicap.app.model.SubjectTest;
-import com.thm.unicap.app.util.UnicapUtils;
 
 import java.util.Date;
 
