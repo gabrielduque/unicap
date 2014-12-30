@@ -421,14 +421,13 @@ public class UnicapRequest {
             throw new UnicapRequestException(UnicapRequestException.Code.CONNECTION_FAILED);
         }
 
-        String courseCoefficientText = document.select("table").get(6).select(".tab_aluno_texto").get(0).text();
-        String lastCoefficientText = document.select("table").get(6).select(".tab_aluno_texto").get(1).text();
-
         try {
+            String courseCoefficientText = document.select("table").get(6).select(".tab_aluno_texto").get(0).text();
+            String lastCoefficientText = document.select("table").get(6).select(".tab_aluno_texto").get(1).text();
             Float courseCoefficient = Float.parseFloat(courseCoefficientText);
             Float lastCoefficient = Float.parseFloat(lastCoefficientText);
             UnicapDataManager.persistStudentCoefficients(courseCoefficient, lastCoefficient);
-        } catch (NumberFormatException ignored) {
+        } catch (Exception ignored) {
         }
 
         Elements subjectsTable;

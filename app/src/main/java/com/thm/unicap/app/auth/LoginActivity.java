@@ -20,6 +20,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -149,6 +150,10 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
         boolean cancel = false;
         View focusView = null;
 
+        // Force softkeyboard hide
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mRegistrationView.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(mPasswordView.getWindowToken(), 0);
 
         // Check for a valid password.
         if (TextUtils.isEmpty(password)) {

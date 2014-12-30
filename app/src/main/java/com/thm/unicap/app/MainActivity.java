@@ -192,7 +192,7 @@ public class MainActivity extends MaterialNavigationDrawer implements IDatabaseL
 
 //        this.addMultiPaneSupport();
 
-        MaterialAccount account = new MaterialAccount("","",this.getResources().getDrawable(R.drawable.ic_graduate),this.getResources().getDrawable(R.drawable.material_design_day));
+        MaterialAccount account = new MaterialAccount("","",this.getResources().getDrawable(R.drawable.ic_graduate),this.getResources().getDrawable(R.drawable.material_base));
         this.addAccount(account);
 
         this.addSection(this.newSection(getString(R.string.dashboard), R.drawable.ic_dashboard, new DashboardFragment())
