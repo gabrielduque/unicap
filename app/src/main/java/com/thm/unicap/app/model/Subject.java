@@ -108,6 +108,26 @@ public class Subject extends Model {
         return color;
     }
 
+    public int getColorCircleResource() {
+
+        int colorCircle = R.drawable.subject_color_circle_unicap;
+
+        int colorsCircles[] = {
+                R.drawable.subject_color_circle_1,
+                R.drawable.subject_color_circle_2,
+                R.drawable.subject_color_circle_3,
+                R.drawable.subject_color_circle_4,
+                R.drawable.subject_color_circle_5,
+                R.drawable.subject_color_circle_6,
+                R.drawable.subject_color_circle_7,
+        };
+
+        if(period != null)
+            colorCircle = colorsCircles[period % colorsCircles.length];
+
+        return colorCircle;
+    }
+
     //Todo: refactor this
     public static String removeExceptionsFromName (String str) {
         String[] exceptions = {

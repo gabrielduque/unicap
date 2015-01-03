@@ -71,7 +71,7 @@ public class LessonsAdapter extends GenericAdapter<Subject> {
             long beginTime = timesFromScheduleHour[0].getTime();
             long endTime = timesFromScheduleHour[1].getTime();
 
-            viewHolder.subject_name_abbreviation.setBackgroundResource(subject.getColorResource());
+            viewHolder.subject_name_abbreviation.setBackgroundResource(subject.getColorCircleResource());
             viewHolder.subject_name_abbreviation.setText(subject.getNameAbbreviation());
             viewHolder.subject_name.setText(subject.name);
             viewHolder.subject_room.setText(subject.getActualSubjectStatus().room);

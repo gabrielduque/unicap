@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_normal"
             android:gravity="center_horizontal"
-            android:textColor="@color/unicap_gray_level_4"
+            android:textColor="@color/unicap_gray_level_5"
             android:textSize="18sp"
             android:text="@string/feedback_description"/>
 
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_normal"
             android:gravity="center_horizontal"
-            android:textColor="@color/unicap_gray_level_4"
+            android:textColor="@color/unicap_gray_level_5"
             android:textSize="18sp"
             android:text="@string/feedback_testers"/>
 

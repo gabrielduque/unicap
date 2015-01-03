@@ -8,4 +8,6 @@
     <dimen name="margin_very_small">5dp</dimen>
     <dimen name="margin_card">15dp</dimen>
     <dimen name="margin_card_half">7.5dp</dimen>
+    <dimen name="circle_view_size">60dp</dimen>
+    <dimen name="margin_default">16dp</dimen>
 </resources>

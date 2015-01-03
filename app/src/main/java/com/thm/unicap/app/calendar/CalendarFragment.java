@@ -1,6 +1,9 @@
 package com.thm.unicap.app.calendar;
 
 
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.model.Student;
@@ -34,6 +37,10 @@ public class CalendarFragment extends DatabaseDependentFragment {
         SubjectCalendarListItemAdapter subjectCalendarListItemAdapter = new SubjectCalendarListItemAdapter(subjectTests, getActivity());
 
         subjectCalendarListView.setAdapter(subjectCalendarListItemAdapter);
+
+        Animation enterAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slideup_and_fadein);
+
+        subjectCalendarListView.startAnimation(enterAnimation);
     }
 
 }

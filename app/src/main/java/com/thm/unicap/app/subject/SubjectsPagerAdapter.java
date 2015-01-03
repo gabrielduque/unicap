@@ -72,14 +72,12 @@ public class SubjectsPagerAdapter extends PagerAdapter {
 
         ListView subjectListView = new ListView(mContext);
 
-        subjectListView.setDivider(null);
-        subjectListView.setDividerHeight(0);
+        subjectListView.setDivider(mContext.getResources().getDrawable(R.drawable.list_divider));
+        subjectListView.setDividerHeight(1);
 
         final SubjectListItemAdapter subjectListItemAdapter = new SubjectListItemAdapter(subjects, mContext);
 
-        AnimationAdapter animCardArrayAdapter = new SwingBottomInAnimationAdapter(subjectListItemAdapter);
-        animCardArrayAdapter.setAbsListView(subjectListView);
-        subjectListView.setAdapter(animCardArrayAdapter);
+        subjectListView.setAdapter(subjectListItemAdapter);
 
         subjectListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

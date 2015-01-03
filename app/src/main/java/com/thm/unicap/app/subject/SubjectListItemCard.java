@@ -28,7 +28,7 @@ public class SubjectListItemCard extends CardView {
         TextView subject_name = (TextView) findViewById(R.id.subject_name);
         TextView subject_period = (TextView) findViewById(R.id.subject_period);
 
-        subject_name_abbreviation.setBackgroundResource(mSubject.getColorResource());
+        subject_name_abbreviation.setBackgroundResource(mSubject.getColorCircleResource());
         subject_name_abbreviation.setText(mSubject.getNameAbbreviation());
         subject_code.setText(mSubject.code);
         subject_name.setText(mSubject.name);

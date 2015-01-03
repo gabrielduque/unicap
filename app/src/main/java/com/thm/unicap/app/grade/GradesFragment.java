@@ -3,6 +3,8 @@ package com.thm.unicap.app.grade;
 
 import android.content.Intent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -34,10 +36,12 @@ public class GradesFragment extends DatabaseDependentFragment implements Adapter
 
         mGradesListAdapter = new GradesListAdapter(subjects, getActivity());
 
-        AnimationAdapter animCardArrayAdapter = new SwingBottomInAnimationAdapter(mGradesListAdapter);
-        animCardArrayAdapter.setAbsListView(mGradesListView);
-        mGradesListView.setAdapter(animCardArrayAdapter);
+        mGradesListView.setAdapter(mGradesListAdapter);
         mGradesListView.setOnItemClickListener(this);
+
+        Animation enterAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slideup_and_fadein);
+
+        mGradesListView.startAnimation(enterAnimation);
     }
 
     @Override
