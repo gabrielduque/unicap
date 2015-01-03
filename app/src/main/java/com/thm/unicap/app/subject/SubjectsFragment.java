@@ -18,10 +18,6 @@ public class SubjectsFragment extends DatabaseDependentFragment {
         ViewPager mViewPager = (ViewPager) getContentView().findViewById(R.id.pager);
         mViewPager.setAdapter(new SubjectsPagerAdapter(getActivity()));
         mViewPager.setCurrentItem(SubjectsPagerAdapter.Session.ACTUAL.ordinal());
-
-        Animation enterAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slideup_and_fadein);
-
-        mViewPager.startAnimation(enterAnimation);
     }
 
 }

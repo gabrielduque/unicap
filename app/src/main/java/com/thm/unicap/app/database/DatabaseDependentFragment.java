@@ -5,6 +5,8 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.devspark.progressfragment.ProgressFragment;
 import com.thm.unicap.app.R;
@@ -25,6 +27,8 @@ public abstract class DatabaseDependentFragment extends ProgressFragment impleme
     private void initFragmentViews() {
 
         initDatabaseDependentViews();
+
+        enterAnimation();
 
         View swipeRefreshLayout = getContentView().findViewById(R.id.swipe_container);
 
@@ -109,5 +113,13 @@ public abstract class DatabaseDependentFragment extends ProgressFragment impleme
     @Override
     public void onRefresh() {
         UnicapApplication.forceSync();
+    }
+
+    protected void enterAnimation() {
+        Animation enterAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slideup_and_fadein);
+        View rootView = getView();
+        if (rootView != null) {
+            rootView.startAnimation(enterAnimation);
+        }
     }
 }

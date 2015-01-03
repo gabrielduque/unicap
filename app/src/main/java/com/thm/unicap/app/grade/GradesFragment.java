@@ -39,9 +39,6 @@ public class GradesFragment extends DatabaseDependentFragment implements Adapter
         mGradesListView.setAdapter(mGradesListAdapter);
         mGradesListView.setOnItemClickListener(this);
 
-        Animation enterAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slideup_and_fadein);
-
-        mGradesListView.startAnimation(enterAnimation);
     }
 
     @Override

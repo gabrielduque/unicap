@@ -37,10 +37,6 @@ public class CalendarFragment extends DatabaseDependentFragment {
         SubjectCalendarListItemAdapter subjectCalendarListItemAdapter = new SubjectCalendarListItemAdapter(subjectTests, getActivity());
 
         subjectCalendarListView.setAdapter(subjectCalendarListItemAdapter);
-
-        Animation enterAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slideup_and_fadein);
-
-        subjectCalendarListView.startAnimation(enterAnimation);
     }
 
 }

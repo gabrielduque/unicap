@@ -36,11 +36,6 @@ public class DashboardFragment extends DatabaseDependentFragment {
 
         card_status_graph.setStudent(UnicapApplication.getCurrentStudent());
 
-        Animation enterAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slideup_and_fadein);
-
-        card_today_lessons.startAnimation(enterAnimation);
-        card_course_coefficient.startAnimation(enterAnimation);
-        card_status_graph.startAnimation(enterAnimation);
     }
 
 }
