@@ -158,7 +158,11 @@ public class UnicapRequest {
             Elements subjectColumns = subjectRow.select(".tab_texto");
 
             String code = subjectColumns.get(1).text();
-            String name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(2).text()));
+            String name = UnicapUtils.capitalizeFirstLetter(
+                    UnicapUtils.replaceExceptions(
+                            WordUtils.capitalizeFully(subjectColumns.get(2).text())
+                    )
+            );
             String paidIn = null;
             String rawPaidIn = subjectColumns.get(0).text();
 
@@ -232,7 +236,11 @@ public class UnicapRequest {
             String code = subjectColumns.get(0).text();
             String paidIn = new StringBuilder(document.select("table").get(4).select("td").get(1).text()).insert(4, ".").toString();
 
-            String name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(1).text()));
+            String name = UnicapUtils.capitalizeFirstLetter(
+                    UnicapUtils.replaceExceptions(
+                            WordUtils.capitalizeFully(subjectColumns.get(1).text())
+                    )
+            );
 
             Integer workload;
             Integer credits;
@@ -319,7 +327,11 @@ public class UnicapRequest {
 
             String code = subjectColumns.get(2).text();
             int period = Integer.parseInt(subjectColumns.get(0).text());
-            String name = UnicapUtils.replaceExceptions(WordUtils.capitalizeFully(subjectColumns.get(4).text()));
+            String name = UnicapUtils.capitalizeFirstLetter(
+                    UnicapUtils.replaceExceptions(
+                            WordUtils.capitalizeFully(subjectColumns.get(4).text())
+                    )
+            );
             int credits = Integer.parseInt(subjectColumns.get(5).text());
             int workload = Integer.parseInt(subjectColumns.get(6).text());
 

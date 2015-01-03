@@ -4,6 +4,7 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.thm.unicap.app.R;
+import com.thm.unicap.app.UnicapApplication;
 
 import java.util.List;
 
@@ -76,9 +77,10 @@ public class Subject extends Model {
     public String getNameAbbreviation() {
         String abbreviation = "";
         String filteredName = removeExceptionsFromName(name);
-        String[] words = filteredName.split(" +");
+        String[] words = filteredName.trim().split(" +");
 
         for (String word : words) {
+            if(word.length() == 0) break;
             abbreviation += word.charAt(0);
             if(abbreviation.length() >= 3) break;
         }
