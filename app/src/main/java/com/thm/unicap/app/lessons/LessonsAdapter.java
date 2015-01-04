@@ -39,7 +39,7 @@ public class LessonsAdapter extends GenericAdapter<Subject> {
         if (convertView == null) {
             LayoutInflater li = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            convertView = li.inflate(R.layout.card_today_lessons_entry, parent, false);
+            convertView = li.inflate(R.layout.card_weekday_lessons_entry, parent, false);
 
             viewHolder = new LessonItemViewHolder();
 

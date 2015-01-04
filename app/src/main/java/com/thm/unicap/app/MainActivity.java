@@ -210,7 +210,7 @@ public class MainActivity extends MaterialNavigationDrawer implements IDatabaseL
                 .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
         this.addBottomSection(this.newSection(getString(R.string.about), R.drawable.ic_action_about, new AboutFragment())
                 .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
-        this.addBottomSection(this.newSection(getString(R.string.logout), R.drawable.ic_exit_to_app_grey600_24dp, this)
+        this.addBottomSection(this.newSection(getString(R.string.logout), R.drawable.ic_exit, this)
                 .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
 
 

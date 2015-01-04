@@ -1,4 +1,4 @@
-package com.thm.unicap.app.subject;
+package com.thm.unicap.app.calendar;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.thm.unicap.app.R;
-import com.thm.unicap.app.calendar.CalendarListItemCard;
 import com.thm.unicap.app.model.SubjectTest;
 import com.thm.unicap.app.util.GenericAdapter;
 
@@ -27,7 +26,7 @@ public class SubjectCalendarListItemAdapter extends GenericAdapter<SubjectTest> 
 
         if (convertView == null) {
             LayoutInflater li = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = li.inflate(R.layout.card_test_list_item, parent, false);
+            convertView = li.inflate(R.layout.subject_test_list_item, parent, false);
         }
 
         SubjectTest subjectTest = getItem(position);

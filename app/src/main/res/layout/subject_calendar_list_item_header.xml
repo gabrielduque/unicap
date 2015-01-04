@@ -16,6 +16,6 @@
         android:background="@color/unicap_base"
         android:textSize="22sp"
         android:textColor="@android:color/white"
-        tools:text="teste"/>
+        tools:text="@string/first_degree"/>
 
 </LinearLayout>

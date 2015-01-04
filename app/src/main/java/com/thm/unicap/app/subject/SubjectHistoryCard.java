@@ -30,7 +30,7 @@ public class SubjectHistoryCard extends CardView {
             if(subjectStatus.situation != SubjectStatus.Situation.PENDING) {
                 ViewGroup historyContainer = (ViewGroup) findViewById(R.id.card_subject_info_container);
                 LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View historyEntry = layoutInflater.inflate(R.layout.card_subject_history_entry, historyContainer, false);
+                View historyEntry = layoutInflater.inflate(R.layout.subject_history_entry, historyContainer, false);
                 historyContainer.addView(historyEntry);
 
                 TextView entry_period = (TextView) historyEntry.findViewById(R.id.card_subject_history_entry_period);

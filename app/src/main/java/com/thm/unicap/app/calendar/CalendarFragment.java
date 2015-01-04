@@ -1,14 +1,10 @@
 package com.thm.unicap.app.calendar;
 
 
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.SubjectTest;
-import com.thm.unicap.app.subject.SubjectCalendarListItemAdapter;
 import com.thm.unicap.app.database.DatabaseDependentFragment;
 
 import java.util.List;
