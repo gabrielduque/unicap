@@ -33,7 +33,6 @@ public class SubjectCalendarListItemAdapter extends GenericAdapter<SubjectTest> 
 
         TextView subject_name_abbreviation = (TextView) convertView.findViewById(R.id.subject_name_abbreviation);
         TextView subject_name = (TextView) convertView.findViewById(R.id.subject_name);
-        TextView subject_degree = (TextView) convertView.findViewById(R.id.subject_degree);
         TextView subject_date1 = (TextView) convertView.findViewById(R.id.subject_date1);
         TextView subject_date2 = (TextView) convertView.findViewById(R.id.subject_date2);
 
@@ -53,18 +52,6 @@ public class SubjectCalendarListItemAdapter extends GenericAdapter<SubjectTest> 
             subject_date2.setText(sdf.format(subjectTest.date2));
         } else {
             subject_date2.setText("-");
-        }
-
-        switch (subjectTest.degree) {
-            case FIRST_DEGREE:
-                subject_degree.setText(R.string.first_degree);
-                break;
-            case SECOND_DEGREE:
-                subject_degree.setText(R.string.second_degree);
-                break;
-            case FINAL_DEGREE:
-                subject_degree.setText(R.string.final_degree);
-                break;
         }
 
         return convertView;

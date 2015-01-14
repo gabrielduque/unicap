@@ -35,14 +35,6 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"/>
 
-        <TextView
-            android:id="@+id/subject_degree"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="1º GQ"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"/>
-
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
