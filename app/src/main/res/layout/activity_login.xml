@@ -5,19 +5,15 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/margin_normal"
-    android:paddingLeft="@dimen/margin_normal"
-    android:paddingRight="@dimen/margin_normal"
-    android:paddingTop="@dimen/margin_normal"
     tools:context="com.thm.unicap.app.auth.LoginActivity">
 
     <ScrollView
-        android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/registration_login_form"
+                android:padding="@dimen/margin_default"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -26,6 +22,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_default"
                     android:src="@drawable/ic_unicap_with_text"
                     android:contentDescription="@string/unicap_full_name" />
 
@@ -55,8 +52,8 @@
                     android:id="@+id/registration_sign_in_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_marginBottom="@dimen/margin_default"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     app:cpb_selectorComplete="@color/unicap_base"
