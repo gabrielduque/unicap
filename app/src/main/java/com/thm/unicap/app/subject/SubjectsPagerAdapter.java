@@ -10,8 +10,6 @@ import android.widget.ListView;
 
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
-import com.nhaarman.listviewanimations.appearance.AnimationAdapter;
-import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.model.Student;
@@ -59,12 +57,12 @@ public class SubjectsPagerAdapter extends PagerAdapter {
                 .where("Subject.Student = ?", student.getId())
                 .orderBy("Subject.Period, SubjectStatus.PaidIn, Subject.Name");
 
-        if(position == Session.PAST.ordinal()) {
+        if (position == Session.PAST.ordinal()) {
             query.where("SubjectStatus.Situation != ?", SubjectStatus.Situation.ACTUAL)
                     .and("SubjectStatus.Situation != ?", SubjectStatus.Situation.PENDING);
-        } else if(position == Session.ACTUAL.ordinal()) {
+        } else if (position == Session.ACTUAL.ordinal()) {
             query.where("SubjectStatus.Situation = ?", SubjectStatus.Situation.ACTUAL);
-        } else if(position == Session.PENDING.ordinal()) {
+        } else if (position == Session.PENDING.ordinal()) {
             query.where("SubjectStatus.Situation = ?", SubjectStatus.Situation.PENDING);
         }
 

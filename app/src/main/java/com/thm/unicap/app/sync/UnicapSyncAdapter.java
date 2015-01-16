@@ -2,11 +2,8 @@ package com.thm.unicap.app.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.accounts.AccountManagerCallback;
-import android.accounts.AccountManagerFuture;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SyncResult;
@@ -14,9 +11,7 @@ import android.os.Bundle;
 
 import com.activeandroid.ActiveAndroid;
 import com.thm.unicap.app.UnicapApplication;
-import com.thm.unicap.app.auth.AccountGeneral;
 import com.thm.unicap.app.auth.StudentCredentials;
-import com.thm.unicap.app.connection.UnicapDataManager;
 import com.thm.unicap.app.connection.UnicapRequest;
 import com.thm.unicap.app.connection.UnicapRequestException;
 import com.thm.unicap.app.notification.UnicapNotification;
@@ -86,7 +81,7 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
             ActiveAndroid.endTransaction();
         }
 
-        if(successful) UnicapNotification.notifyNewGrades(getContext());
+        if (successful) UnicapNotification.notifyNewGrades(getContext());
 
         getContext().sendBroadcast(resultIntent);
     }

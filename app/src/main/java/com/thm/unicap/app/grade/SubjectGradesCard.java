@@ -45,7 +45,7 @@ public class SubjectGradesCard extends CardView {
 
         SubjectStatus actualSubjectStatus = mSubject.getActualSubjectStatus();
 
-        if(actualSubjectStatus != null) {
+        if (actualSubjectStatus != null) {
             Float averageTestGrade = actualSubjectStatus.average;
             setupGradeView(averageTestGrade, card_subject_grades_average);
 
@@ -55,7 +55,7 @@ public class SubjectGradesCard extends CardView {
     }
 
     private void setupGradeView(Float grade, TextView textView) {
-        if(grade == null) {
+        if (grade == null) {
             textView.setText("-");
         } else {
             textView.setText(grade.toString());

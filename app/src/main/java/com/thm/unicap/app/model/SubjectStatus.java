@@ -50,7 +50,7 @@ public class SubjectStatus extends Model {
     public Float final_average;
 
     public HashMap<ScheduleWeekday, char[]> getFullSchedule() {
-        if(schedule == null || schedule.isEmpty()) return null;
+        if (schedule == null || schedule.isEmpty()) return null;
 
         HashMap<ScheduleWeekday, char[]> result = new HashMap<ScheduleWeekday, char[]>();
 
@@ -63,15 +63,15 @@ public class SubjectStatus extends Model {
             ScheduleWeekday weekDay = null;
             char[] hoursArray = rawHour.toUpperCase().toCharArray();
 
-            if(rawWeekDay.equals("1")) weekDay = ScheduleWeekday.Sun;
-            else if(rawWeekDay.equals("2")) weekDay = ScheduleWeekday.Mon;
-            else if(rawWeekDay.equals("3")) weekDay = ScheduleWeekday.Tue;
-            else if(rawWeekDay.equals("4")) weekDay = ScheduleWeekday.Wed;
-            else if(rawWeekDay.equals("5")) weekDay = ScheduleWeekday.Thu;
-            else if(rawWeekDay.equals("6")) weekDay = ScheduleWeekday.Fri;
-            else if(rawWeekDay.equals("7")) weekDay = ScheduleWeekday.Sat;
+            if (rawWeekDay.equals("1")) weekDay = ScheduleWeekday.Sun;
+            else if (rawWeekDay.equals("2")) weekDay = ScheduleWeekday.Mon;
+            else if (rawWeekDay.equals("3")) weekDay = ScheduleWeekday.Tue;
+            else if (rawWeekDay.equals("4")) weekDay = ScheduleWeekday.Wed;
+            else if (rawWeekDay.equals("5")) weekDay = ScheduleWeekday.Thu;
+            else if (rawWeekDay.equals("6")) weekDay = ScheduleWeekday.Fri;
+            else if (rawWeekDay.equals("7")) weekDay = ScheduleWeekday.Sat;
 
-            if(weekDay != null && hoursArray.length > 0)
+            if (weekDay != null && hoursArray.length > 0)
                 result.put(weekDay, hoursArray);
         }
 
@@ -79,16 +79,16 @@ public class SubjectStatus extends Model {
     }
 
     public ArrayList<ScheduleWeekday> getWeekDays() {
-        if(schedule == null || schedule.isEmpty()) return null;
+        if (schedule == null || schedule.isEmpty()) return null;
 
         ArrayList<ScheduleWeekday> result = new ArrayList<ScheduleWeekday>();
 
-        if(schedule.contains("2")) result.add(ScheduleWeekday.Mon);
-        if(schedule.contains("3")) result.add(ScheduleWeekday.Tue);
-        if(schedule.contains("4")) result.add(ScheduleWeekday.Wed);
-        if(schedule.contains("5")) result.add(ScheduleWeekday.Thu);
-        if(schedule.contains("6")) result.add(ScheduleWeekday.Fri);
-        if(schedule.contains("7")) result.add(ScheduleWeekday.Sat);
+        if (schedule.contains("2")) result.add(ScheduleWeekday.Mon);
+        if (schedule.contains("3")) result.add(ScheduleWeekday.Tue);
+        if (schedule.contains("4")) result.add(ScheduleWeekday.Wed);
+        if (schedule.contains("5")) result.add(ScheduleWeekday.Thu);
+        if (schedule.contains("6")) result.add(ScheduleWeekday.Fri);
+        if (schedule.contains("7")) result.add(ScheduleWeekday.Sat);
 
         return result;
     }
@@ -102,20 +102,20 @@ public class SubjectStatus extends Model {
         Float averageGrade = subject.getActualSubjectStatus().average;
         Float finalAverageGrade = subject.getActualSubjectStatus().final_average;
 
-        if(averageGrade == null && finalAverageGrade == null) {
+        if (averageGrade == null && finalAverageGrade == null) {
             return FlowSituation.WAITING;
-        } else if(averageGrade == null && finalAverageGrade != null) {
-            if(finalAverageGrade >= SubjectTest.MIN_AVERAGE)
+        } else if (averageGrade == null && finalAverageGrade != null) {
+            if (finalAverageGrade >= SubjectTest.MIN_AVERAGE)
                 return FlowSituation.APPROVED;
             else
                 return FlowSituation.REPROVED;
-        } else if(averageGrade != null && finalAverageGrade == null) {
-            if(averageGrade >= SubjectTest.MIN_AVERAGE)
+        } else if (averageGrade != null && finalAverageGrade == null) {
+            if (averageGrade >= SubjectTest.MIN_AVERAGE)
                 return FlowSituation.APPROVED;
             else
                 return FlowSituation.WAITING_FINAL;
-        } else if(averageGrade != null && finalAverageGrade != null) {
-            if(finalAverageGrade >= SubjectTest.MIN_AVERAGE)
+        } else if (averageGrade != null && finalAverageGrade != null) {
+            if (finalAverageGrade >= SubjectTest.MIN_AVERAGE)
                 return FlowSituation.APPROVED;
             else
                 return FlowSituation.REPROVED;

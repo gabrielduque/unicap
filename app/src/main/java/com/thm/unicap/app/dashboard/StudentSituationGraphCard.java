@@ -49,7 +49,7 @@ public class StudentSituationGraphCard extends CardView implements PieGraph.OnSl
         for (Subject subject : subjects) {
             SubjectStatus actualSubjectStatus = subject.getActualSubjectStatus();
 
-            if(actualSubjectStatus == null) continue;
+            if (actualSubjectStatus == null) continue;
 
             switch (actualSubjectStatus.getFlowSituation()) {
                 case APPROVED:
@@ -67,11 +67,11 @@ public class StudentSituationGraphCard extends CardView implements PieGraph.OnSl
 
         totalCount = approvedCount + repprovedCount + waitingCount;
 
-        if(approvedCount >= repprovedCount && approvedCount >= waitingCount)
+        if (approvedCount >= repprovedCount && approvedCount >= waitingCount)
             mActiveSlice = 0;
-        else if(repprovedCount >= approvedCount && repprovedCount >= waitingCount)
+        else if (repprovedCount >= approvedCount && repprovedCount >= waitingCount)
             mActiveSlice = 1;
-        else if(waitingCount >= approvedCount && waitingCount >= repprovedCount)
+        else if (waitingCount >= approvedCount && waitingCount >= repprovedCount)
             mActiveSlice = 2;
 
         mPieGraph = (PieGraph) findViewById(R.id.graph);
@@ -123,12 +123,12 @@ public class StudentSituationGraphCard extends CardView implements PieGraph.OnSl
     @Override
     public void onClick(int index) {
 
-        if(index == -1) return;
+        if (index == -1) return;
 
         mActiveSlice = index;
         PieSlice slice = mPieGraph.getSlice(index);
 
-        mStatusPercentage.setText(String.valueOf((int)slice.getGoalValue())+"%");
+        mStatusPercentage.setText(String.valueOf((int) slice.getGoalValue()) + "%");
         mStatusPercentage.setTextColor(slice.getColor());
     }
 

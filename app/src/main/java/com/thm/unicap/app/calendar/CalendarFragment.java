@@ -3,9 +3,9 @@ package com.thm.unicap.app.calendar;
 
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
+import com.thm.unicap.app.database.DatabaseDependentFragment;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.SubjectTest;
-import com.thm.unicap.app.database.DatabaseDependentFragment;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class CalendarFragment extends DatabaseDependentFragment {
 
         List<SubjectTest> subjectTests = student.getSubjectTestsOrdered();
 
-        if(subjectTests.size() == 0) {
+        if (subjectTests.size() == 0) {
             setContentView(R.layout.content_empty_calendar);
             return;
         }

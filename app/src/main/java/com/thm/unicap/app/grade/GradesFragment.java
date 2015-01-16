@@ -3,18 +3,14 @@ package com.thm.unicap.app.grade;
 
 import android.content.Intent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.nhaarman.listviewanimations.appearance.AnimationAdapter;
-import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
+import com.thm.unicap.app.database.DatabaseDependentFragment;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.model.Subject;
-import com.thm.unicap.app.database.DatabaseDependentFragment;
 
 import java.util.List;
 

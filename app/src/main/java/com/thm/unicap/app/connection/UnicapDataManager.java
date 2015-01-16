@@ -20,14 +20,14 @@ public class UnicapDataManager {
 
         Student student = new Select().from(Student.class).where("Registration = ?", registration).executeSingle();
 
-        if(student != null)
+        if (student != null)
             student.delete(); // Models configured with cascade delete
     }
 
     public static void initStudent(String registration, String password) {
         Student student = new Select().from(Student.class).where("Registration = ?", registration).executeSingle();
 
-        if(student == null) {
+        if (student == null) {
             student = new Student();
             student.registration = registration;
             student.password = password;
@@ -40,7 +40,7 @@ public class UnicapDataManager {
 
         Student student = new Select().from(Student.class).where("Registration = ?", registration).executeSingle();
 
-        if(student == null) {
+        if (student == null) {
             student = new Student();
             student.registration = registration;
         }
@@ -65,7 +65,7 @@ public class UnicapDataManager {
                 .where("Student = ?", UnicapApplication.getCurrentStudent().getId())
                 .executeSingle();
 
-        if(subject == null) {
+        if (subject == null) {
             subject = new Subject();
             subject.code = code;
             subject.student = UnicapApplication.getCurrentStudent();
@@ -80,7 +80,7 @@ public class UnicapDataManager {
                 .where("PaidIn = ?", paidIn)
                 .executeSingle();
 
-        if(subjectStatus == null) {
+        if (subjectStatus == null) {
             subjectStatus = new SubjectStatus();
             subjectStatus.subject = subject;
             subjectStatus.paidIn = paidIn;
@@ -100,7 +100,7 @@ public class UnicapDataManager {
                 .where("Student = ?", UnicapApplication.getCurrentStudent().getId())
                 .executeSingle();
 
-        if(subject == null) {
+        if (subject == null) {
             subject = new Subject();
             subject.code = code;
             subject.student = UnicapApplication.getCurrentStudent();
@@ -118,7 +118,7 @@ public class UnicapDataManager {
                 .where("PaidIn = ?", paidIn)
                 .executeSingle();
 
-        if(subjectStatus == null) {
+        if (subjectStatus == null) {
             subjectStatus = new SubjectStatus();
             subjectStatus.subject = subject;
             subjectStatus.paidIn = paidIn;
@@ -148,7 +148,7 @@ public class UnicapDataManager {
                 .where("Student = ?", UnicapApplication.getCurrentStudent().getId())
                 .executeSingle();
 
-        if(subject == null) {
+        if (subject == null) {
             subject = new Subject();
             subject.code = code;
             subject.student = UnicapApplication.getCurrentStudent();
@@ -166,7 +166,7 @@ public class UnicapDataManager {
                 .where("Situation = ?", SubjectStatus.Situation.PENDING)
                 .executeSingle();
 
-        if(subjectStatus == null) {
+        if (subjectStatus == null) {
             subjectStatus = new SubjectStatus();
             subjectStatus.subject = subject;
             subjectStatus.situation = SubjectStatus.Situation.PENDING;
@@ -184,10 +184,10 @@ public class UnicapDataManager {
                 .where("Student = ?", UnicapApplication.getCurrentStudent().getId())
                 .executeSingle();
 
-        if(subject != null) {
+        if (subject != null) {
             SubjectTest subjectTest = subject.getTestByDegree(degree);
 
-            if(subjectTest == null) {
+            if (subjectTest == null) {
                 subjectTest = new SubjectTest();
                 subjectTest.subject = subject;
                 subjectTest.degree = degree;
@@ -207,11 +207,11 @@ public class UnicapDataManager {
                 .where("Student = ?", UnicapApplication.getCurrentStudent().getId())
                 .executeSingle();
 
-        if(subject != null) {
+        if (subject != null) {
             SubjectTest subjectTest = subject.getTestByDegree(degree);
 
-            if(subjectTest != null) {
-                if(grade != null && !grade.equals(subjectTest.grade) && !subjectTest.first_time) {
+            if (subjectTest != null) {
+                if (grade != null && !grade.equals(subjectTest.grade) && !subjectTest.first_time) {
                     subjectTest.notify = true;
                 }
                 subjectTest.grade = grade;
@@ -230,7 +230,7 @@ public class UnicapDataManager {
                 .where("Student = ?", UnicapApplication.getCurrentStudent().getId())
                 .executeSingle();
 
-        if(subject != null) {
+        if (subject != null) {
             SubjectStatus actualSubjectStatus = subject.getActualSubjectStatus();
 
             if (actualSubjectStatus != null) {
@@ -248,7 +248,7 @@ public class UnicapDataManager {
                 .where("Student = ?", UnicapApplication.getCurrentStudent().getId())
                 .executeSingle();
 
-        if(subject != null) {
+        if (subject != null) {
             SubjectStatus actualSubjectStatus = subject.getActualSubjectStatus();
 
             if (actualSubjectStatus != null) {
@@ -263,7 +263,7 @@ public class UnicapDataManager {
 
         Student student = UnicapApplication.getCurrentStudent();
 
-        if ( student != null ) {
+        if (student != null) {
             student.courseCoefficient = courseCoefficient;
             student.lastCoefficient = lastCoefficient;
 
@@ -278,7 +278,7 @@ public class UnicapDataManager {
                 .where("Student = ?", UnicapApplication.getCurrentStudent().getId())
                 .executeSingle();
 
-        if(subject != null) {
+        if (subject != null) {
             SubjectStatus actualSubjectStatus = subject.getActualSubjectStatus();
 
             if (actualSubjectStatus != null) {

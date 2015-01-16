@@ -24,12 +24,12 @@ import com.thm.unicap.app.auth.AccountGeneral;
 import com.thm.unicap.app.calendar.CalendarFragment;
 import com.thm.unicap.app.connection.UnicapDataManager;
 import com.thm.unicap.app.dashboard.DashboardFragment;
+import com.thm.unicap.app.database.IDatabaseListener;
 import com.thm.unicap.app.feedback.FeedbackFragment;
 import com.thm.unicap.app.grade.GradesFragment;
 import com.thm.unicap.app.lessons.LessonsFragment;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.subject.SubjectsFragment;
-import com.thm.unicap.app.database.IDatabaseListener;
 
 import hotchemi.android.rate.AppRate;
 import it.neokree.materialnavigationdrawer.MaterialAccount;
@@ -54,7 +54,7 @@ public class MainActivity extends MaterialNavigationDrawer implements IDatabaseL
     public void onResume() {
         super.onResume();
 
-        if(!UnicapApplication.hasStudentData()) {
+        if (!UnicapApplication.hasStudentData()) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -90,19 +90,19 @@ public class MainActivity extends MaterialNavigationDrawer implements IDatabaseL
 
                             Student student = new Select().from(Student.class).where("Student.Registration = ?", UnicapApplication.getCurrentAccount().name).executeSingle();
 
-                            if(student != null) {
+                            if (student != null) {
                                 UnicapApplication.setCurrentStudent(student);
                                 UnicapApplication.notifyDatabaseUpdated();
 
                             } else {
-                                if(!UnicapApplication.isSyncing())
+                                if (!UnicapApplication.isSyncing())
                                     UnicapApplication.forceSync();
                                 else
                                     databaseSyncing();
                             }
 
                         } catch (Exception e) {
-                            if(!UnicapApplication.hasStudentData()) finish();
+                            if (!UnicapApplication.hasStudentData()) finish();
                         }
                     }
                 }
@@ -162,7 +162,7 @@ public class MainActivity extends MaterialNavigationDrawer implements IDatabaseL
 
         final Student currentStudent = UnicapApplication.getCurrentStudent();
 
-        if(currentStudent == null) {
+        if (currentStudent == null) {
             finish();
         } else {
             Account account = new Account(currentStudent.registration, AccountGeneral.ACCOUNT_TYPE);
@@ -192,7 +192,7 @@ public class MainActivity extends MaterialNavigationDrawer implements IDatabaseL
 
 //        this.addMultiPaneSupport();
 
-        MaterialAccount account = new MaterialAccount("","",this.getResources().getDrawable(R.drawable.ic_graduate),this.getResources().getDrawable(R.drawable.material_base));
+        MaterialAccount account = new MaterialAccount("", "", this.getResources().getDrawable(R.drawable.ic_graduate), this.getResources().getDrawable(R.drawable.material_base));
         this.addAccount(account);
 
         this.addSection(this.newSection(getString(R.string.dashboard), R.drawable.ic_dashboard, new DashboardFragment())

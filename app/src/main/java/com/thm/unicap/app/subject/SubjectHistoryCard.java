@@ -27,7 +27,7 @@ public class SubjectHistoryCard extends CardView {
 
     private void initData() {
         for (SubjectStatus subjectStatus : mSubject.getSubjectStatus()) {
-            if(subjectStatus.situation != SubjectStatus.Situation.PENDING) {
+            if (subjectStatus.situation != SubjectStatus.Situation.PENDING) {
                 ViewGroup historyContainer = (ViewGroup) findViewById(R.id.card_subject_info_container);
                 LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View historyEntry = layoutInflater.inflate(R.layout.subject_history_entry, historyContainer, false);
@@ -38,27 +38,27 @@ public class SubjectHistoryCard extends CardView {
 
                 entry_period.setText(subjectStatus.paidIn);
 
-                if(subjectStatus.situation == SubjectStatus.Situation.APPROVED) {
+                if (subjectStatus.situation == SubjectStatus.Situation.APPROVED) {
                     entry_status.setText(getContext().getString(R.string.approved));
                     entry_status.setTextColor(getContext().getResources().getColor(android.R.color.holo_green_light));
                     entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_action_accept), null);
-                } else if(subjectStatus.situation == SubjectStatus.Situation.PERFORMED) {
+                } else if (subjectStatus.situation == SubjectStatus.Situation.PERFORMED) {
                     entry_status.setText(getContext().getString(R.string.performed));
                     entry_status.setTextColor(getContext().getResources().getColor(android.R.color.holo_green_light));
                     entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_action_accept), null);
-                } else if(subjectStatus.situation == SubjectStatus.Situation.DISPENSED) {
+                } else if (subjectStatus.situation == SubjectStatus.Situation.DISPENSED) {
                     entry_status.setText(getContext().getString(R.string.dispensed));
                     entry_status.setTextColor(getContext().getResources().getColor(android.R.color.holo_green_light));
                     entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_action_accept), null);
-                } else if(subjectStatus.situation == SubjectStatus.Situation.REPROVED) {
+                } else if (subjectStatus.situation == SubjectStatus.Situation.REPROVED) {
                     entry_status.setText(getContext().getString(R.string.repproved));
                     entry_status.setTextColor(getContext().getResources().getColor(android.R.color.holo_red_light));
                     entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_action_cancel), null);
-                } else if(subjectStatus.situation == SubjectStatus.Situation.ACTUAL) {
+                } else if (subjectStatus.situation == SubjectStatus.Situation.ACTUAL) {
                     entry_status.setText(getContext().getString(R.string.actual));
                     entry_status.setTextColor(getContext().getResources().getColor(android.R.color.holo_green_light));
                     entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_action_forward), null);
-                } else if(subjectStatus.situation == SubjectStatus.Situation.IMPORTED) {
+                } else if (subjectStatus.situation == SubjectStatus.Situation.IMPORTED) {
                     entry_status.setText(getContext().getString(R.string.imported));
                     entry_status.setTextColor(getContext().getResources().getColor(android.R.color.holo_green_light));
                     entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_action_download), null);

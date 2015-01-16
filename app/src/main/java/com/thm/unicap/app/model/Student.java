@@ -54,7 +54,7 @@ public class Student extends Model {
 
         String md5Hash = HashUtils.MD5(emailAddress);
 
-        if(md5Hash == null) md5Hash = "";
+        if (md5Hash == null) md5Hash = "";
 
         return String.format("http://www.gravatar.com/avatar/%s?s=%s&d=404", md5Hash, String.valueOf(pictureSize));
     }
@@ -118,12 +118,12 @@ public class Student extends Model {
 
             HashMap<SubjectStatus.ScheduleWeekday, char[]> fullSchedule = subject.getActualSubjectStatus().getFullSchedule();
 
-            if(!fullSchedule.containsKey(scheduleWeekday))
+            if (!fullSchedule.containsKey(scheduleWeekday))
                 continue;
 
             char[] todaySubjectHour = fullSchedule.get(scheduleWeekday);
 
-            if(todaySubjectHour.length > 0)
+            if (todaySubjectHour.length > 0)
                 todaySubjects.put(todaySubjectHour[0], subject);
         }
 

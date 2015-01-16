@@ -36,7 +36,7 @@ public class UnicapAuthTask extends AsyncTask<Void, Pair<Integer, Integer>, Unic
     @Override
     protected void onPostExecute(UnicapRequestResult result) {
 
-        if(onTaskCompleted != null)
+        if (onTaskCompleted != null)
             onTaskCompleted.onTaskCompleted(result);
     }
 
@@ -44,7 +44,7 @@ public class UnicapAuthTask extends AsyncTask<Void, Pair<Integer, Integer>, Unic
     protected void onCancelled() {
         super.onCancelled();
 
-        if(onTaskCancelled != null)
+        if (onTaskCancelled != null)
             onTaskCancelled.onTaskCancelled();
     }
 

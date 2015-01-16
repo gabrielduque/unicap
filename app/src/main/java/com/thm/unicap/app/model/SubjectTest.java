@@ -36,19 +36,19 @@ public class SubjectTest extends Model {
     @Column(name = "Notify")
     public boolean notify;
 
-   public static Float calculateGrade(Float firstDegree, Float secondDegree, Float finalDegree) {
-       if(firstDegree != null && secondDegree == null && finalDegree != null) {
-           //Final como segundo GQ
-           return (firstDegree * 2 + finalDegree * 3) / 5;
-       } else if(firstDegree != null && secondDegree != null && finalDegree == null) {
-           //Normal
-           return (firstDegree * 2 + secondDegree * 3) / 5;
-       } else if(firstDegree != null && secondDegree != null && finalDegree != null) {
-           //Final
-           return ((firstDegree * 2 + secondDegree * 3) / 5 + finalDegree) / 2;
-       } else {
-           return null;
-       }
-   }
+    public static Float calculateGrade(Float firstDegree, Float secondDegree, Float finalDegree) {
+        if (firstDegree != null && secondDegree == null && finalDegree != null) {
+            //Final como segundo GQ
+            return (firstDegree * 2 + finalDegree * 3) / 5;
+        } else if (firstDegree != null && secondDegree != null && finalDegree == null) {
+            //Normal
+            return (firstDegree * 2 + secondDegree * 3) / 5;
+        } else if (firstDegree != null && secondDegree != null && finalDegree != null) {
+            //Final
+            return ((firstDegree * 2 + secondDegree * 3) / 5 + finalDegree) / 2;
+        } else {
+            return null;
+        }
+    }
 
 }

@@ -19,7 +19,7 @@ public class UnicapNotification {
 
     public static void notifyNewGrades(Context context) {
 
-        if(UnicapApplication.getCurrentStudent() == null) return;
+        if (UnicapApplication.getCurrentStudent() == null) return;
 
         List<SubjectTest> newSubjectTests = UnicapApplication.getCurrentStudent().getNewSubjectTests();
 

@@ -66,7 +66,7 @@ public class SubjectCalendarListItemAdapter extends GenericAdapter<SubjectTest> 
 
         SubjectTest subjectTest = getItem(position);
 
-        if(subjectTest != null) {
+        if (subjectTest != null) {
             TextView headerTextView = (TextView) convertView.findViewById(R.id.header_subject_calendar_list_item);
 
             switch (subjectTest.degree) {

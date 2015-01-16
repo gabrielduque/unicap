@@ -81,7 +81,7 @@ public class LessonsAdapter extends GenericAdapter<Subject> {
 
             SubjectStatus.ScheduleWeekday currentScheduleWeekday = UnicapUtils.getCurrentScheduleWeekDay();
 
-            if(mScheduleWeekday != currentScheduleWeekday || currentTime <  beginTime) {
+            if (mScheduleWeekday != currentScheduleWeekday || currentTime < beginTime) {
                 viewHolder.subject_progress.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 0f));
             } else if (currentTime > endTime) {
                 viewHolder.subject_progress.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 100f));

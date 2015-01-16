@@ -49,7 +49,7 @@ public class SubjectGradesProgressCard extends CardView {
         graph.setUsingDips(true);
 
         graph.setRangeY(0, 10);
-        graph.setRangeX(0, grades.size()-1);
+        graph.setRangeX(0, grades.size() - 1);
         graph.setLineToFill(1);
 
         // Creating Grade Line
@@ -58,7 +58,7 @@ public class SubjectGradesProgressCard extends CardView {
         gradeLine.setColor(getContext().getResources().getColor(R.color.unicap_base));
 
         for (int i = 0; i < grades.size(); i++) {
-            if(grades.get(i) != null) {
+            if (grades.get(i) != null) {
                 gradeLine.addPoint(createGradePoint(i, grades.get(i)));
             }
         }
@@ -73,18 +73,17 @@ public class SubjectGradesProgressCard extends CardView {
         averageLine.setShowingPoints(false);
 
         averageLine.addPoint(createAveragePoint(0));
-        averageLine.addPoint(createAveragePoint(grades.size()-1));
+        averageLine.addPoint(createAveragePoint(grades.size() - 1));
 
         graph.addLine(averageLine);
 
     }
 
-    private LinePoint createGradePoint(int x, Float y)
-    {
+    private LinePoint createGradePoint(int x, Float y) {
         LinePoint point = new LinePoint();
         point.setX(x);
         point.setY(y);
-        if(y >= SubjectTest.MIN_AVERAGE) {
+        if (y >= SubjectTest.MIN_AVERAGE) {
             point.setColor(getContext().getResources().getColor(android.R.color.holo_green_light));
             point.setSelectedColor(getContext().getResources().getColor(android.R.color.holo_green_dark));
         } else {
@@ -94,8 +93,7 @@ public class SubjectGradesProgressCard extends CardView {
         return point;
     }
 
-    private LinePoint createAveragePoint(int x)
-    {
+    private LinePoint createAveragePoint(int x) {
         LinePoint point = new LinePoint();
         point.setX(x);
         point.setY(SubjectTest.MIN_AVERAGE);

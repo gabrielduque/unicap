@@ -8,10 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.activeandroid.ActiveAndroid;
+import com.thm.unicap.app.database.IDatabaseListener;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.sync.UnicapContentProvider;
 import com.thm.unicap.app.sync.UnicapSyncReceiver;
-import com.thm.unicap.app.database.IDatabaseListener;
 
 import java.util.ArrayList;
 
@@ -53,7 +53,7 @@ public class UnicapApplication extends Application {
     }
 
     public static void addDatabaseListener(IDatabaseListener listener) {
-        if(!mDatabaseListeners.contains(listener))
+        if (!mDatabaseListeners.contains(listener))
             mDatabaseListeners.add(listener);
     }
 
@@ -70,7 +70,7 @@ public class UnicapApplication extends Application {
 
     public static void notifyDatabaseUpdated() {
         isSyncing = false;
-        if(mCurrentStudent != null) {
+        if (mCurrentStudent != null) {
             for (IDatabaseListener listener : mDatabaseListeners) {
                 listener.databaseUpdated();
             }
@@ -79,7 +79,7 @@ public class UnicapApplication extends Application {
 
     public static void notifyDatabaseUnreachable(String message) {
         isSyncing = false;
-        if(mCurrentStudent == null) {
+        if (mCurrentStudent == null) {
             for (IDatabaseListener listener : mDatabaseListeners) {
                 listener.databaseUnreachable(message);
             }

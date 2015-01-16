@@ -1,14 +1,12 @@
 package com.thm.unicap.app.dashboard;
 
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
+import com.thm.unicap.app.database.DatabaseDependentFragment;
 import com.thm.unicap.app.lessons.WeekdayLessonsCard;
 import com.thm.unicap.app.model.Student;
-import com.thm.unicap.app.database.DatabaseDependentFragment;
 import com.thm.unicap.app.util.UnicapUtils;
 
 public class DashboardFragment extends DatabaseDependentFragment {

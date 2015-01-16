@@ -66,7 +66,7 @@ public abstract class DatabaseDependentFragment extends ProgressFragment impleme
 
         setHasOptionsMenu(true);
 
-        if(UnicapApplication.hasStudentData()) { // Show offline data
+        if (UnicapApplication.hasStudentData()) { // Show offline data
             databaseUpdated();
         } else if (!NetworkUtils.isNetworkConnected(getActivity())) { // Show layout for offline error
             setContentView(R.layout.content_offline);
@@ -89,7 +89,7 @@ public abstract class DatabaseDependentFragment extends ProgressFragment impleme
                 if (mSwipeLayout != null) {
                     mSwipeLayout.setRefreshing(false);
                 }
-                if(!mContentViewIsInflated || getContentView() == null) {
+                if (!mContentViewIsInflated || getContentView() == null) {
                     setContentView(mLayoutResID);
                     mContentViewIsInflated = true;
                 }

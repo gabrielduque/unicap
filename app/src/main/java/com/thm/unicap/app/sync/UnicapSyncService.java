@@ -9,6 +9,7 @@ public class UnicapSyncService extends Service {
     private static UnicapSyncAdapter sUnicapSyncAdapter = null;
     // Object to use as a thread-safe lock
     private static final Object sUnicapSyncAdapterLock = new Object();
+
     /*
      * Instantiate the sync adapter object.
      */
@@ -25,10 +26,10 @@ public class UnicapSyncService extends Service {
             }
         }
     }
+
     /**
      * Return an object that allows the system to invoke
      * the sync adapter.
-     *
      */
     @Override
     public IBinder onBind(Intent intent) {

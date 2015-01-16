@@ -24,33 +24,33 @@ public class UnicapSyncReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Bundle extras = intent.getExtras();
 
-        if(extras != null) {
+        if (extras != null) {
             String sync_status = extras.getString(SYNC_STATUS_PARAM);
             String account_name = extras.getString(SYNC_ACCOUNT_PARAM);
 
             Account currentAccount = UnicapApplication.getCurrentAccount();
 
-            if(currentAccount != null && !currentAccount.name.equals(account_name)) return;
+            if (currentAccount != null && !currentAccount.name.equals(account_name)) return;
 
-            if(sync_status != null) {
-                if(sync_status.equals(SYNC_STATUS_OK) && currentAccount != null) {
+            if (sync_status != null) {
+                if (sync_status.equals(SYNC_STATUS_OK) && currentAccount != null) {
 
                     Student student = new Select().from(Student.class).where("Student.Registration = ?", currentAccount.name).executeSingle();
 
-                    if(student != null) {
+                    if (student != null) {
                         UnicapApplication.setCurrentStudent(student);
                         UnicapApplication.notifyDatabaseUpdated();
                     }
 
                     UnicapApplication.setIsSyncing(false);
 
-                } else if(sync_status.equals(SYNC_STATUS_FAIL)) {
+                } else if (sync_status.equals(SYNC_STATUS_FAIL)) {
 
                     // Rollback in fail cases
-                    if(currentAccount != null) {
+                    if (currentAccount != null) {
                         Student student = new Select().from(Student.class).where("Student.Registration = ?", currentAccount.name).executeSingle();
 
-                        if(student != null) {
+                        if (student != null) {
                             UnicapApplication.setCurrentStudent(student);
                             UnicapApplication.notifyDatabaseUpdated();
                         }
@@ -63,7 +63,7 @@ public class UnicapSyncReceiver extends BroadcastReceiver {
 
                     UnicapApplication.setIsSyncing(false);
 
-                } else if(sync_status.equals(SYNC_STATUS_STARTED)) {
+                } else if (sync_status.equals(SYNC_STATUS_STARTED)) {
                     UnicapApplication.notifyDatabaseSyncing();
                 }
             }

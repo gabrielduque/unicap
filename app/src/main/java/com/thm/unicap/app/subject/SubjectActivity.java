@@ -42,7 +42,7 @@ public class SubjectActivity extends ActionBarActivity {
 
         long subject_id = getIntent().getLongExtra("subject_id", -1);
 
-        if(subject_id != -1) {
+        if (subject_id != -1) {
 
             mSubject = new Select().from(Subject.class).where("Subject.Id = ?", subject_id).executeSingle();
 
@@ -61,13 +61,13 @@ public class SubjectActivity extends ActionBarActivity {
         SubjectListItemCard card_list_item = (SubjectListItemCard) findViewById(R.id.card_list_item);
         card_list_item.setSubject(mSubject);
 
-        if(mSubject.isActual()) {
+        if (mSubject.isActual()) {
             SubjectScheduleCard subjectScheduleCard = (SubjectScheduleCard) findViewById(R.id.card_schedule);
             subjectScheduleCard.setSubject(mSubject);
             subjectScheduleCard.setVisibility(View.VISIBLE);
         }
 
-        if(mSubject.hasHistory()) {
+        if (mSubject.hasHistory()) {
             SubjectHistoryCard card_history = (SubjectHistoryCard) findViewById(R.id.card_history);
             card_history.setSubject(mSubject);
             card_history.setVisibility(View.VISIBLE);

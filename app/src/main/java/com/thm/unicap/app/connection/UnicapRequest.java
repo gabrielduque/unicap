@@ -53,17 +53,17 @@ public class UnicapRequest {
                     .data(RequestUtils.Params.PASSWORD, credentials.getPassword())
                     .get();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new UnicapRequestException(UnicapRequestException.Code.CONNECTION_FAILED);
         }
 
-        if(document.select(".msg").text().matches(".*Matr.cula.*"))
+        if (document.select(".msg").text().matches(".*Matr.cula.*"))
             throw new UnicapRequestException(UnicapRequestException.Code.INCORRECT_REGISTRATION);
-        else if(document.select(".msg").text().matches(".*Senha.*"))
+        else if (document.select(".msg").text().matches(".*Senha.*"))
             throw new UnicapRequestException(UnicapRequestException.Code.INCORRECT_PASSWORD);
-        else if(document.select(".msg").text().matches(".*limite.*"))
+        else if (document.select(".msg").text().matches(".*limite.*"))
             throw new UnicapRequestException(UnicapRequestException.Code.MAX_TRIES_EXCEEDED);
-        else if(document.select(".msg").text().matches(".*manuten..o.*"))
+        else if (document.select(".msg").text().matches(".*manuten..o.*"))
             throw new UnicapRequestException(UnicapRequestException.Code.MAINTENANCE);
 
         actionURL = document.select("form").first().attr("action");
@@ -94,7 +94,8 @@ public class UnicapRequest {
 
     public static void receivePersonalData() throws UnicapRequestException {
 
-        if (actionURL == null) throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
+        if (actionURL == null)
+            throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
 
         // Personal data request
         Document document;
@@ -128,7 +129,8 @@ public class UnicapRequest {
 
     public static void receivePastSubjectsData() throws UnicapRequestException {
 
-        if (actionURL == null) throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
+        if (actionURL == null)
+            throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
 
         // Subjects data request
         Document document;
@@ -166,8 +168,8 @@ public class UnicapRequest {
             String paidIn = null;
             String rawPaidIn = subjectColumns.get(0).text();
 
-            if(!rawPaidIn.isEmpty()) {
-                if(rawPaidIn.length() == 5)
+            if (!rawPaidIn.isEmpty()) {
+                if (rawPaidIn.length() == 5)
                     paidIn = new StringBuilder(rawPaidIn).insert(4, ".").toString();
                 else
                     paidIn = rawPaidIn;
@@ -177,19 +179,32 @@ public class UnicapRequest {
 
             SubjectStatus.Situation situation;
             String situationText = subjectColumns.get(4).text();
-            if (situationText.equals("AP")) situation = SubjectStatus.Situation.APPROVED;       // AP = APROVADO
-            else if (situationText.equals("RM")) situation = SubjectStatus.Situation.REPROVED;  // RM = REPROVADO POR MÉDIA
-            else if (situationText.equals("RF")) situation = SubjectStatus.Situation.REPROVED;  // RF = REPROVADO POR FREQUÊNCIA
-            else if (situationText.equals("DS")) situation = SubjectStatus.Situation.DISPENSED; // DS = DISPENSADO
-            else if (situationText.equals("TN")) situation = SubjectStatus.Situation.UNKNOWN;   // TN = TESTE DE NIVELAMENTO
-            else if (situationText.equals("CP")) situation = SubjectStatus.Situation.PERFORMED; // CP = CUMPRIU
-            else if (situationText.equals("CM")) situation = SubjectStatus.Situation.UNKNOWN;   // CM = CUMPRINDO
-            else if (situationText.equals("NC")) situation = SubjectStatus.Situation.UNKNOWN;   // NC = NÃO CUMPRIU
-            else if (situationText.equals("CT")) situation = SubjectStatus.Situation.IMPORTED;  // CT = CRÉDITOS TRANSFERIDOS
-            else if (situationText.equals("CI")) situation = SubjectStatus.Situation.IMPORTED;  // CI = CRÉDITOS INTERNOS
-            else if (situationText.equals("MT")) situation = SubjectStatus.Situation.UNKNOWN;   // MT = MATRICULADO NESTE PERÍODO
-            else if (situationText.equals("SI")) situation = SubjectStatus.Situation.UNKNOWN;   // SI = SITUAÇÃO FINAL NÃO DISPONÍVEL
-            else if (situationText.equals("AE")) situation = SubjectStatus.Situation.UNKNOWN;   // AE = APROVEITAMENTO DE ESTUDOS E CONHECIMENTOS EXTRAORDINÁRIOS
+            if (situationText.equals("AP"))
+                situation = SubjectStatus.Situation.APPROVED;       // AP = APROVADO
+            else if (situationText.equals("RM"))
+                situation = SubjectStatus.Situation.REPROVED;  // RM = REPROVADO POR MÉDIA
+            else if (situationText.equals("RF"))
+                situation = SubjectStatus.Situation.REPROVED;  // RF = REPROVADO POR FREQUÊNCIA
+            else if (situationText.equals("DS"))
+                situation = SubjectStatus.Situation.DISPENSED; // DS = DISPENSADO
+            else if (situationText.equals("TN"))
+                situation = SubjectStatus.Situation.UNKNOWN;   // TN = TESTE DE NIVELAMENTO
+            else if (situationText.equals("CP"))
+                situation = SubjectStatus.Situation.PERFORMED; // CP = CUMPRIU
+            else if (situationText.equals("CM"))
+                situation = SubjectStatus.Situation.UNKNOWN;   // CM = CUMPRINDO
+            else if (situationText.equals("NC"))
+                situation = SubjectStatus.Situation.UNKNOWN;   // NC = NÃO CUMPRIU
+            else if (situationText.equals("CT"))
+                situation = SubjectStatus.Situation.IMPORTED;  // CT = CRÉDITOS TRANSFERIDOS
+            else if (situationText.equals("CI"))
+                situation = SubjectStatus.Situation.IMPORTED;  // CI = CRÉDITOS INTERNOS
+            else if (situationText.equals("MT"))
+                situation = SubjectStatus.Situation.UNKNOWN;   // MT = MATRICULADO NESTE PERÍODO
+            else if (situationText.equals("SI"))
+                situation = SubjectStatus.Situation.UNKNOWN;   // SI = SITUAÇÃO FINAL NÃO DISPONÍVEL
+            else if (situationText.equals("AE"))
+                situation = SubjectStatus.Situation.UNKNOWN;   // AE = APROVEITAMENTO DE ESTUDOS E CONHECIMENTOS EXTRAORDINÁRIOS
             else situation = SubjectStatus.Situation.UNKNOWN;
 
             UnicapDataManager.persistPastSubject(code, name, paidIn, average, situation);
@@ -203,7 +218,8 @@ public class UnicapRequest {
 
     public static void receiveActualSubjectsData() throws UnicapRequestException {
 
-        if (actionURL == null) throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
+        if (actionURL == null)
+            throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
 
         // Subjects data request
         Document document;
@@ -224,7 +240,7 @@ public class UnicapRequest {
         }
 
         subjectsTable.remove(0); // Removing header
-        subjectsTable.remove(subjectsTable.size()-1); // Removing 'sum' row
+        subjectsTable.remove(subjectsTable.size() - 1); // Removing 'sum' row
 
         // Using transactions to speed up the process
         ActiveAndroid.beginTransaction();
@@ -278,7 +294,8 @@ public class UnicapRequest {
 
     public static void receivePendingSubjectsData() throws UnicapRequestException {
 
-        if (actionURL == null) throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
+        if (actionURL == null)
+            throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
 
         // Subjects data request
         Document document;
@@ -308,8 +325,8 @@ public class UnicapRequest {
             String code = subjectColumns.get(2).text();
             Integer count = 1;
 
-            if(codeCounts.containsKey(code)) {
-                codeCounts.put(code, codeCounts.get(code)+1);
+            if (codeCounts.containsKey(code)) {
+                codeCounts.put(code, codeCounts.get(code) + 1);
                 subjectColumns.get(2).text(code + "-" + codeCounts.get(code).toString());
                 count = codeCounts.get(code);
             }
@@ -346,7 +363,8 @@ public class UnicapRequest {
 
     public static void receiveSubjectsCalendarData() throws UnicapRequestException {
 
-        if (actionURL == null) throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
+        if (actionURL == null)
+            throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
 
         // Subjects data request
         Document document;
@@ -420,7 +438,8 @@ public class UnicapRequest {
 
     public static void receiveSubjectsGradesData() throws UnicapRequestException {
 
-        if (actionURL == null) throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
+        if (actionURL == null)
+            throw new UnicapRequestException(UnicapRequestException.Code.AUTH_NEEDED);
 
         // Subjects data request
         Document document;
@@ -499,11 +518,11 @@ public class UnicapRequest {
             }
 
             String situationText = subjectColumns.get(7).text();
-            if(situationText.equals("APROVADO")) {
+            if (situationText.equals("APROVADO")) {
                 UnicapDataManager.setSubjectFlowSituation(code, SubjectStatus.FlowSituation.APPROVED);
-            } else if(situationText.equals("REPROVADO POR MEDIA")) {
+            } else if (situationText.equals("REPROVADO POR MEDIA")) {
                 UnicapDataManager.setSubjectFlowSituation(code, SubjectStatus.FlowSituation.REPROVED);
-            } else if(situationText.equals("AGUARDANDO FINAL")) {
+            } else if (situationText.equals("AGUARDANDO FINAL")) {
                 UnicapDataManager.setSubjectFlowSituation(code, SubjectStatus.FlowSituation.WAITING_FINAL);
             } else {
                 UnicapDataManager.setSubjectFlowSituation(code, SubjectStatus.FlowSituation.WAITING);

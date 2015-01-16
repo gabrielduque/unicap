@@ -1,8 +1,6 @@
 package com.thm.unicap.app.subject;
 
 import android.support.v4.view.ViewPager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.database.DatabaseDependentFragment;

@@ -1,12 +1,9 @@
 package com.thm.unicap.app.lessons;
 
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
-import com.thm.unicap.app.model.SubjectStatus;
 import com.thm.unicap.app.database.DatabaseDependentFragment;
+import com.thm.unicap.app.model.SubjectStatus;
 
 public class LessonsFragment extends DatabaseDependentFragment {
 

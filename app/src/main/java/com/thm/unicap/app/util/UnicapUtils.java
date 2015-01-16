@@ -119,13 +119,13 @@ public class UnicapUtils {
 
     public static boolean isRegistrationValid(String email) {
 
-        if(email.length() != 11) return false;
+        if (email.length() != 11) return false;
 
         for (int i = 0; i < email.length(); i++) {
-            if(i==9) {
-                if(email.charAt(i) != '-') return false;
+            if (i == 9) {
+                if (email.charAt(i) != '-') return false;
             } else {
-                if(!Character.isDigit(email.charAt(i))) return false;
+                if (!Character.isDigit(email.charAt(i))) return false;
             }
         }
 
@@ -134,27 +134,27 @@ public class UnicapUtils {
 
     public static boolean isPasswordValid(String password) {
 
-        if(password.length() != 6) return false;
+        if (password.length() != 6) return false;
 
         for (int i = 0; i < password.length(); i++) {
-            if(!Character.isDigit(password.charAt(i))) return false;
+            if (!Character.isDigit(password.charAt(i))) return false;
         }
 
         return true;
     }
 
-    public static String replaceNameExceptions (String str) {
+    public static String replaceNameExceptions(String str) {
         return replaceFromDictionary(str, nameExceptions);
     }
 
-    public static String replaceExceptions (String str) {
+    public static String replaceExceptions(String str) {
         return replaceFromDictionary(str, exceptions);
     }
 
-    public static String replaceFromDictionary (String str, String[][] replacePairs) {
+    public static String replaceFromDictionary(String str, String[][] replacePairs) {
 
         for (String[] replacePair : replacePairs)
-            str = str.replaceAll("(?i)\\b"+replacePair[0]+"\\b", replacePair[1]);
+            str = str.replaceAll("(?i)\\b" + replacePair[0] + "\\b", replacePair[1]);
 
         return str;
     }
@@ -195,7 +195,7 @@ public class UnicapUtils {
         end.set(Calendar.MILLISECOND, 0);
 
         char beginChar = hoursArray[0];
-        char endChar = hoursArray[hoursArray.length-1];
+        char endChar = hoursArray[hoursArray.length - 1];
 
         switch (beginChar) {
             case 'A':
@@ -363,13 +363,13 @@ public class UnicapUtils {
     }
 
     public static boolean equalsWithNulls(Object a, Object b) {
-        if (a==b) return true;
-        if ((a==null)||(b==null)) return false;
+        if (a == b) return true;
+        if ((a == null) || (b == null)) return false;
         return a.equals(b);
     }
 
-    public static String capitalizeFirstLetter(String original){
-        if(original.length() == 0)
+    public static String capitalizeFirstLetter(String original) {
+        if (original.length() == 0)
             return original;
         return original.substring(0, 1).toUpperCase() + original.substring(1);
     }

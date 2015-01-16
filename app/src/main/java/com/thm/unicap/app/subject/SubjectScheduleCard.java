@@ -29,7 +29,7 @@ public class SubjectScheduleCard extends CardView {
 
         SubjectStatus actualSubjectStatus = mSubject.getActualSubjectStatus();
 
-        if(actualSubjectStatus != null) {
+        if (actualSubjectStatus != null) {
 
             int colorResource = mSubject.getColorResource();
 

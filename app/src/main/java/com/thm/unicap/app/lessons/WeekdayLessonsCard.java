@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -37,7 +36,7 @@ public class WeekdayLessonsCard extends CardView implements AdapterView.OnItemCl
     }
 
     private void initData() {
-        if(mStudent == null || mScheduleWeekday == null)
+        if (mStudent == null || mScheduleWeekday == null)
             return;
 
         TextView card_lessons_weekday = (TextView) findViewById(R.id.card_lessons_weekday);
@@ -46,7 +45,7 @@ public class WeekdayLessonsCard extends CardView implements AdapterView.OnItemCl
 
         List<Subject> subjectsFromWeekDay = mStudent.getSubjectsFromWeekDay(mScheduleWeekday);
 
-        if(subjectsFromWeekDay.size() > 0) {
+        if (subjectsFromWeekDay.size() > 0) {
             LessonsAdapter lessonsAdapter = new LessonsAdapter(subjectsFromWeekDay, getContext(), mScheduleWeekday);
             mLessonsList = (ListView) findViewById(R.id.lessons_list);
 

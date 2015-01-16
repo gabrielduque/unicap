@@ -39,7 +39,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * A login screen that offers login via email/password.
-
  */
 public class LoginActivity extends AccountAuthenticatorActivity implements OnTaskCompleted, OnTaskCancelled {
 
@@ -93,12 +92,12 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
 
-                if(dest.length() >= 11) return "";
+                if (dest.length() >= 11) return "";
 
                 for (int i = start; i < end; i++) {
                     if (!Character.isDigit(source.charAt(i))) return "";
 
-                    if (dstart == 9) return "-"+source.charAt(i);
+                    if (dstart == 9) return "-" + source.charAt(i);
                 }
 
                 return null;
@@ -270,7 +269,7 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
 
             // Creating the account on the device and setting the auth token we got
             // (Not setting the auth token will cause another call to the server to authenticate the user)
-            if(mAccountManager.addAccountExplicitly(account, accountPassword, null)) {
+            if (mAccountManager.addAccountExplicitly(account, accountPassword, null)) {
                 mAccountManager.setAuthToken(account, authtokenType, authtoken);
 
                 ContentResolver.setSyncAutomatically(account, UnicapContentProvider.AUTHORITY, true);

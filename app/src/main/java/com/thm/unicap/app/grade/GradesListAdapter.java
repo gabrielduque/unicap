@@ -32,9 +32,9 @@ public class GradesListAdapter extends GenericAdapter<Subject> {
         TextView subject_name_abbreviation = (TextView) convertView.findViewById(R.id.subject_name_abbreviation);
         TextView subject_code = (TextView) convertView.findViewById(R.id.subject_code);
         TextView subject_name = (TextView) convertView.findViewById(R.id.subject_name);
-        TextView subject_first_degree  = (TextView) convertView.findViewById(R.id.subject_first_degree);
+        TextView subject_first_degree = (TextView) convertView.findViewById(R.id.subject_first_degree);
         TextView subject_second_degree = (TextView) convertView.findViewById(R.id.subject_second_degree);
-        TextView subject_final_degree  = (TextView) convertView.findViewById(R.id.subject_final_degree);
+        TextView subject_final_degree = (TextView) convertView.findViewById(R.id.subject_final_degree);
 
         subject_name_abbreviation.setBackgroundResource(subject.getColorCircleResource());
         subject_name_abbreviation.setText(subject.getNameAbbreviation());
@@ -53,7 +53,7 @@ public class GradesListAdapter extends GenericAdapter<Subject> {
         if (subjectTest != null && subjectTest.grade != null) {
             textView.setText(subjectTest.grade.toString());
 
-            if(subjectTest.grade >= SubjectTest.MIN_AVERAGE)
+            if (subjectTest.grade >= SubjectTest.MIN_AVERAGE)
                 textView.setTextColor(getContext().getResources().getColor(android.R.color.holo_green_light));
             else
                 textView.setTextColor(getContext().getResources().getColor(android.R.color.holo_red_light));

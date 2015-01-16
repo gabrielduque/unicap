@@ -1,6 +1,10 @@
 package com.thm.unicap.app.auth;
 
-import android.accounts.*;
+import android.accounts.AbstractAccountAuthenticator;
+import android.accounts.Account;
+import android.accounts.AccountAuthenticatorResponse;
+import android.accounts.AccountManager;
+import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +14,8 @@ import android.util.Log;
 import com.thm.unicap.app.connection.UnicapRequest;
 
 import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
-import static com.thm.unicap.app.auth.AccountGeneral.*;
+import static com.thm.unicap.app.auth.AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS;
+import static com.thm.unicap.app.auth.AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS_LABEL;
 
 public class UnicapAuthenticator extends AbstractAccountAuthenticator {
 

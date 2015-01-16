@@ -4,7 +4,6 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.thm.unicap.app.R;
-import com.thm.unicap.app.UnicapApplication;
 
 import java.util.List;
 
@@ -80,9 +79,9 @@ public class Subject extends Model {
         String[] words = filteredName.trim().split(" +");
 
         for (String word : words) {
-            if(word.length() == 0) break;
+            if (word.length() == 0) break;
             abbreviation += word.charAt(0);
-            if(abbreviation.length() >= 3) break;
+            if (abbreviation.length() >= 3) break;
         }
 
         return abbreviation.toUpperCase();
@@ -102,7 +101,7 @@ public class Subject extends Model {
                 R.color.subject_color_7,
         };
 
-        if(period != null)
+        if (period != null)
             color = colors[period % colors.length];
 
         return color;
@@ -122,14 +121,14 @@ public class Subject extends Model {
                 R.drawable.subject_color_circle_7,
         };
 
-        if(period != null)
+        if (period != null)
             colorCircle = colorsCircles[period % colorsCircles.length];
 
         return colorCircle;
     }
 
     //Todo: refactor this
-    public static String removeExceptionsFromName (String str) {
+    public static String removeExceptionsFromName(String str) {
         String[] exceptions = {
                 "da",
                 "de",
@@ -148,7 +147,7 @@ public class Subject extends Model {
         };
 
         for (String exception : exceptions) {
-            str = str.replaceAll("(?i)\\b"+exception+"\\b", "");
+            str = str.replaceAll("(?i)\\b" + exception + "\\b", "");
         }
         return str;
     }
