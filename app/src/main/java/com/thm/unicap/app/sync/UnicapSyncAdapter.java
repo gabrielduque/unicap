@@ -5,7 +5,6 @@ import android.accounts.AccountManager;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SyncResult;
 import android.os.Bundle;
 
@@ -36,15 +35,9 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
 
         boolean successful = false;
 
-        Intent startIntent = new Intent();
-        startIntent.setAction(UnicapSyncReceiver.SYNC_ACTION);
-        startIntent.putExtra(UnicapSyncReceiver.SYNC_ACCOUNT_PARAM, account.name);
-        startIntent.putExtra(UnicapSyncReceiver.SYNC_STATUS_PARAM, UnicapSyncReceiver.SYNC_STATUS_STARTED);
-        getContext().sendBroadcast(startIntent);
+        UnicapSyncEvent finalSyncEvent;
 
-        Intent resultIntent = new Intent();
-        resultIntent.setAction(UnicapSyncReceiver.SYNC_ACTION);
-        resultIntent.putExtra(UnicapSyncReceiver.SYNC_ACCOUNT_PARAM, account.name);
+        UnicapApplication.bus.post(new UnicapSyncEvent(UnicapSyncEvent.EventType.SYNC_STARTED));
 
         ActiveAndroid.beginTransaction();
 //        UnicapDataManager.cleanUserData(account.name);
@@ -67,7 +60,7 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
             ActiveAndroid.setTransactionSuccessful();
             successful = true;
 
-            resultIntent.putExtra(UnicapSyncReceiver.SYNC_STATUS_PARAM, UnicapSyncReceiver.SYNC_STATUS_OK);
+            finalSyncEvent = new UnicapSyncEvent(UnicapSyncEvent.EventType.SYNC_COMPLETED);
 
         } catch (UnicapRequestException e) {
 
@@ -75,14 +68,18 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
 
             syncResult.stats.numIoExceptions++;
 
-            resultIntent.putExtra(UnicapSyncReceiver.SYNC_STATUS_PARAM, UnicapSyncReceiver.SYNC_STATUS_FAIL);
-            resultIntent.putExtra(UnicapSyncReceiver.SYNC_MESSAGE_PARAM, e.getMessageFromContext(getContext()));
+            finalSyncEvent = new UnicapSyncEvent(UnicapSyncEvent.EventType.SYNC_FAILED, e.getMessageFromContext(getContext()));
         } finally {
             ActiveAndroid.endTransaction();
         }
 
         if (successful) UnicapNotification.notifyNewGrades(getContext());
 
-        getContext().sendBroadcast(resultIntent);
+
+        Account currentAccount = UnicapApplication.getCurrentAccount();
+
+        if (currentAccount != null && currentAccount.name.equals(account.name)) {
+            UnicapApplication.bus.post(finalSyncEvent);
+        }
     }
 }

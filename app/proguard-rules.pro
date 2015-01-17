@@ -15,3 +15,12 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-keepclassmembers class ** {
+    @com.halfbit.tinybus.Subscribe public *;
+    @com.halfbit.tinybus.Produce public *;
+}
+
+-keepclassmembers enum com.halfbit.tinybus.Subscribe$Mode {
+    public *;
+}

@@ -17,6 +17,7 @@ import android.os.Handler;
 
 import com.activeandroid.query.Select;
 import com.crashlytics.android.Crashlytics;
+import com.halfbit.tinybus.Subscribe;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thm.unicap.app.about.AboutFragment;
@@ -24,12 +25,12 @@ import com.thm.unicap.app.auth.AccountGeneral;
 import com.thm.unicap.app.calendar.CalendarFragment;
 import com.thm.unicap.app.connection.UnicapDataManager;
 import com.thm.unicap.app.dashboard.DashboardFragment;
-import com.thm.unicap.app.database.IDatabaseListener;
 import com.thm.unicap.app.feedback.FeedbackFragment;
 import com.thm.unicap.app.grade.GradesFragment;
 import com.thm.unicap.app.lessons.LessonsFragment;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.subject.SubjectsFragment;
+import com.thm.unicap.app.sync.UnicapSyncEvent;
 
 import hotchemi.android.rate.AppRate;
 import it.neokree.materialnavigationdrawer.MaterialAccount;
@@ -40,7 +41,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import uk.me.lewisdeane.ldialogs.CustomDialog;
 
 
-public class MainActivity extends MaterialNavigationDrawer implements IDatabaseListener, MaterialAccountListener {
+public class MainActivity extends MaterialNavigationDrawer implements MaterialAccountListener {
 
     private AccountManager mAccountManager;
 
@@ -53,6 +54,8 @@ public class MainActivity extends MaterialNavigationDrawer implements IDatabaseL
     @Override
     public void onResume() {
         super.onResume();
+
+        UnicapApplication.bus.register(this);
 
         if (!UnicapApplication.hasStudentData()) {
             new Handler().postDelayed(new Runnable() {
@@ -67,14 +70,12 @@ public class MainActivity extends MaterialNavigationDrawer implements IDatabaseL
             updateNavigationDrawerInfo();
         }
 
-        UnicapApplication.addDatabaseListener(this);
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-
-        UnicapApplication.removeDatabaseListener(this);
+    protected void onPause() {
+        super.onPause();
+        UnicapApplication.bus.unregister(this);
     }
 
     public void selectAccountCreateIfNeeded() {
@@ -92,13 +93,10 @@ public class MainActivity extends MaterialNavigationDrawer implements IDatabaseL
 
                             if (student != null) {
                                 UnicapApplication.setCurrentStudent(student);
-                                UnicapApplication.notifyDatabaseUpdated();
+                                UnicapApplication.bus.post(new UnicapSyncEvent(UnicapSyncEvent.EventType.SYNC_COMPLETED));
 
-                            } else {
-                                if (!UnicapApplication.isSyncing())
-                                    UnicapApplication.forceSync();
-                                else
-                                    databaseSyncing();
+                            } else if (!UnicapApplication.isSyncing()) {
+                                UnicapApplication.forceSync();
                             }
 
                         } catch (Exception e) {
@@ -109,12 +107,15 @@ public class MainActivity extends MaterialNavigationDrawer implements IDatabaseL
                 , null);
     }
 
-    @Override
-    public void databaseSyncing() {
-
+    @Subscribe
+    public void receiveSyncEvent(UnicapSyncEvent event) {
+        switch (event.getEventType()) {
+            case SYNC_COMPLETED:
+                databaseUpdated();
+                break;
+        }
     }
 
-    @Override
     public void databaseUpdated() {
         runOnUiThread(new Runnable() {
             @Override
@@ -150,11 +151,6 @@ public class MainActivity extends MaterialNavigationDrawer implements IDatabaseL
 
                     }
                 });
-    }
-
-    @Override
-    public void databaseUnreachable(String message) {
-
     }
 
     private void logout() {

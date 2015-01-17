@@ -9,11 +9,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.devspark.progressfragment.ProgressFragment;
+import com.halfbit.tinybus.Subscribe;
 import com.thm.unicap.app.R;
 import com.thm.unicap.app.UnicapApplication;
+import com.thm.unicap.app.sync.UnicapSyncEvent;
 import com.thm.unicap.app.util.NetworkUtils;
 
-public abstract class DatabaseDependentFragment extends ProgressFragment implements IDatabaseListener, SwipeRefreshLayout.OnRefreshListener {
+public abstract class DatabaseDependentFragment extends ProgressFragment implements SwipeRefreshLayout.OnRefreshListener {
     private SwipeRefreshLayout mSwipeLayout;
     private boolean mContentViewIsInflated = false;
     private int mLayoutResID;
@@ -51,13 +53,13 @@ public abstract class DatabaseDependentFragment extends ProgressFragment impleme
     @Override
     public void onResume() {
         super.onResume();
-        UnicapApplication.addDatabaseListener(this);
+        UnicapApplication.bus.register(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        UnicapApplication.removeDatabaseListener(this);
+        UnicapApplication.bus.unregister(this);
     }
 
     @Override
@@ -74,14 +76,27 @@ public abstract class DatabaseDependentFragment extends ProgressFragment impleme
         }
     }
 
-    @Override
+    @Subscribe
+    public void receiveSyncEvent(UnicapSyncEvent event) {
+        switch (event.getEventType()) {
+            case SYNC_STARTED:
+                databaseSyncing();
+                break;
+            case SYNC_COMPLETED:
+                databaseUpdated();
+                break;
+            case SYNC_FAILED:
+                databaseUnreachable(event.getEventMessage());
+                break;
+        }
+    }
+
     public void databaseSyncing() {
         if (mSwipeLayout != null) {
             mSwipeLayout.setRefreshing(true);
         }
     }
 
-    @Override
     public void databaseUpdated() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -99,7 +114,6 @@ public abstract class DatabaseDependentFragment extends ProgressFragment impleme
         });
     }
 
-    @Override
     public void databaseUnreachable(String message) {
         getActivity().runOnUiThread(new Runnable() {
             @Override

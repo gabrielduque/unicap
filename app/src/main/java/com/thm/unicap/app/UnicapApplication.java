@@ -3,35 +3,30 @@ package com.thm.unicap.app;
 import android.accounts.Account;
 import android.app.Application;
 import android.content.ContentResolver;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.activeandroid.ActiveAndroid;
-import com.thm.unicap.app.database.IDatabaseListener;
+import com.halfbit.tinybus.TinyBus;
 import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.sync.UnicapContentProvider;
-import com.thm.unicap.app.sync.UnicapSyncReceiver;
-
-import java.util.ArrayList;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class UnicapApplication extends Application {
     public static final String TAG = "Unicap";
 
-    private static Student mCurrentStudent = null;
-    private static Account mCurrentAccount = null;
-    private static ArrayList<IDatabaseListener> mDatabaseListeners;
+    private static Student currentStudent = null;
+    private static Account currentAccount = null;
     private static boolean isSyncing;
+
+    public static final TinyBus bus = new TinyBus();
 
     @Override
     public void onCreate() {
         super.onCreate();
         CalligraphyConfig.initDefault("fonts/Roboto-Regular.ttf", R.attr.fontPath);
         ActiveAndroid.initialize(this);
-        mDatabaseListeners = new ArrayList<IDatabaseListener>();
-        registerReceiver(new UnicapSyncReceiver(), new IntentFilter(UnicapSyncReceiver.SYNC_ACTION));
     }
 
     @Override
@@ -41,61 +36,27 @@ public class UnicapApplication extends Application {
     }
 
     public static Student getCurrentStudent() {
-        return mCurrentStudent;
+        return currentStudent;
     }
 
     public static void setCurrentStudent(Student student) {
-        UnicapApplication.mCurrentStudent = student;
+        UnicapApplication.currentStudent = student;
     }
 
     public static boolean hasStudentData() {
-        return mCurrentStudent != null;
-    }
-
-    public static void addDatabaseListener(IDatabaseListener listener) {
-        if (!mDatabaseListeners.contains(listener))
-            mDatabaseListeners.add(listener);
-    }
-
-    public static void removeDatabaseListener(IDatabaseListener listener) {
-        mDatabaseListeners.remove(listener);
-    }
-
-    public static void notifyDatabaseSyncing() {
-        isSyncing = true;
-        for (IDatabaseListener listener : mDatabaseListeners) {
-            listener.databaseSyncing();
-        }
-    }
-
-    public static void notifyDatabaseUpdated() {
-        isSyncing = false;
-        if (mCurrentStudent != null) {
-            for (IDatabaseListener listener : mDatabaseListeners) {
-                listener.databaseUpdated();
-            }
-        }
-    }
-
-    public static void notifyDatabaseUnreachable(String message) {
-        isSyncing = false;
-        if (mCurrentStudent == null) {
-            for (IDatabaseListener listener : mDatabaseListeners) {
-                listener.databaseUnreachable(message);
-            }
-        }
+        return currentStudent != null;
     }
 
     public static boolean hasCurrentAccount() {
-        return mCurrentAccount != null;
+        return currentAccount != null;
     }
 
     public static Account getCurrentAccount() {
-        return mCurrentAccount;
+        return currentAccount;
     }
 
     public static void setCurrentAccount(Account account) {
-        UnicapApplication.mCurrentAccount = account;
+        UnicapApplication.currentAccount = account;
     }
 
     public static void log(String message) {

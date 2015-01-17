@@ -206,8 +206,6 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
                 @Override
                 public void onAnimationEnd(Animator animation) {
 
-                    mRegistrationSignInButton.setVisibility(View.GONE);
-
                     Bundle data = new Bundle();
                     data.putString(AccountManager.KEY_ACCOUNT_NAME, credentials.getRegistration());
                     data.putString(AccountManager.KEY_ACCOUNT_TYPE, AccountGeneral.ACCOUNT_TYPE);
