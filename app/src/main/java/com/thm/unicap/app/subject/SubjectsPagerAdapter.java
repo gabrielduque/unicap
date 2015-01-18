@@ -55,7 +55,8 @@ public class SubjectsPagerAdapter extends PagerAdapter {
                 .innerJoin(SubjectStatus.class)
                 .on("Subject.Id = SubjectStatus.Subject")
                 .where("Subject.Student = ?", student.getId())
-                .orderBy("Subject.Period, SubjectStatus.PaidIn, Subject.Name");
+                .orderBy("Subject.Period, SubjectStatus.PaidIn, Subject.Name")
+                .groupBy("Subject.Id");
 
         if (position == Session.PAST.ordinal()) {
             query.where("SubjectStatus.Situation != ?", SubjectStatus.Situation.ACTUAL)
