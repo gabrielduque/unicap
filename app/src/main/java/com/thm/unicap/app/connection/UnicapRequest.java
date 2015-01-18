@@ -23,15 +23,6 @@ public class UnicapRequest {
 
     private static String actionURL;
 
-    public static void syncAll() throws UnicapRequestException {
-        receivePersonalData();
-        receivePastSubjectsData();
-        receiveActualSubjectsData();
-        receivePendingSubjectsData();
-        receiveSubjectsCalendarData();
-        receiveSubjectsGradesData();
-    }
-
     public static void loginRequest(StudentCredentials credentials) throws UnicapRequestException {
 
         Document document;
