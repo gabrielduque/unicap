@@ -99,7 +99,7 @@
     <string name="second_call">2ª chamada</string>
     <string name="about_description">O aplicativo Unicap permite que você acesse as informações presentes no portal do aluno de graduação da Universidade Católica de Pernambuco.</string>
     <string name="about_warranty">Todo o desenvolvimento foi feito de maneira independente e não possui nenhum vínculo com a instituição.</string>
-    <string name="about_version">Versão 1.2.2</string>
+    <string name="about_version">Versão 1.2.3</string>
     <string name="offline_message">Você está offline</string>
     <string name="generic_error">Ops… Algo deu errado.</string>
     <string name="unicap_preferences">Preferências Unicap</string>
