@@ -32,7 +32,8 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textColor="@android:color/white"
-            tools:drawableLeft="@drawable/ic_action_accept_light"
+            android:drawablePadding="5dp"
+            tools:drawableLeft="@drawable/ic_check_white_24dp"
             tools:text="Aprovado"/>
 
     </RelativeLayout>

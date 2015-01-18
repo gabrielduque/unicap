@@ -2,7 +2,6 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/unicap_base</item>
         <item name="colorPrimaryDark">@color/unicap_base_dark</item>
         <item name="colorAccent">@color/unicap_base</item>
@@ -13,7 +12,6 @@
     </style>
 
     <style name="AppThemeDrawer" parent="MaterialNavigationDrawerTheme.Light.TranslucentKitKatStatusBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/unicap_base</item>
         <item name="colorPrimaryDark">@color/unicap_base_dark</item>
         <item name="colorAccent">@color/unicap_base</item>

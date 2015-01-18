@@ -28,7 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:drawableLeft="@drawable/ic_registration"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/ic_vpn_key_grey600_24dp"
             android:text="@string/code"/>
 
         <TextView
@@ -63,7 +64,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:drawableLeft="@drawable/ic_action_time"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/ic_access_time_grey600_24dp"
             android:text="@string/workload"/>
 
         <TextView
@@ -98,7 +100,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:drawableLeft="@drawable/ic_credits"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/ic_local_play_grey600_24dp"
             android:text="@string/credits"/>
 
         <TextView
@@ -133,7 +136,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:drawableLeft="@drawable/ic_calendar"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/ic_event_grey600_24dp"
             android:text="@string/period"/>
 
         <TextView

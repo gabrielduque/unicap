@@ -188,25 +188,25 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
 
 //        this.addMultiPaneSupport();
 
-        MaterialAccount account = new MaterialAccount("", "", this.getResources().getDrawable(R.drawable.ic_graduate), this.getResources().getDrawable(R.drawable.material_base));
+        MaterialAccount account = new MaterialAccount("", "", this.getResources().getDrawable(R.drawable.ic_graduate_white_80dp), this.getResources().getDrawable(R.drawable.material_base));
         this.addAccount(account);
 
-        this.addSection(this.newSection(getString(R.string.dashboard), R.drawable.ic_dashboard, new DashboardFragment())
+        this.addSection(this.newSection(getString(R.string.dashboard), R.drawable.ic_dashboard_gray600_24dp, new DashboardFragment())
                 .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
-        this.addSection(this.newSection(getString(R.string.subjects), R.drawable.ic_subjects, new SubjectsFragment())
+        this.addSection(this.newSection(getString(R.string.subjects), R.drawable.ic_library_books_grey600_24dp, new SubjectsFragment())
                 .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
-        this.addSection(this.newSection(getString(R.string.calendar), R.drawable.ic_calendar, new CalendarFragment())
+        this.addSection(this.newSection(getString(R.string.calendar), R.drawable.ic_event_grey600_24dp, new CalendarFragment())
                 .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
-        this.addSection(this.newSection(getString(R.string.lessons), R.drawable.ic_lessons, new LessonsFragment())
+        this.addSection(this.newSection(getString(R.string.lessons), R.drawable.ic_black_board_grey600_24dp, new LessonsFragment())
                 .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
-        this.addSection(this.newSection(getString(R.string.grades), R.drawable.ic_grades, new GradesFragment())
+        this.addSection(this.newSection(getString(R.string.grades), R.drawable.ic_award_grey600_24dp, new GradesFragment())
                 .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
 
-        this.addBottomSection(this.newSection(getString(R.string.feedback), R.drawable.ic_action_feedback, new FeedbackFragment())
+        this.addBottomSection(this.newSection(getString(R.string.feedback), R.drawable.ic_email_grey600_24dp, new FeedbackFragment())
                 .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
-        this.addBottomSection(this.newSection(getString(R.string.about), R.drawable.ic_action_about, new AboutFragment())
+        this.addBottomSection(this.newSection(getString(R.string.about), R.drawable.ic_info_outline_grey600_24dp, new AboutFragment())
                 .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
-        this.addBottomSection(this.newSection(getString(R.string.logout), R.drawable.ic_exit, this)
+        this.addBottomSection(this.newSection(getString(R.string.logout), R.drawable.ic_exit_to_app_grey600_24dp, this)
                 .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
 
 

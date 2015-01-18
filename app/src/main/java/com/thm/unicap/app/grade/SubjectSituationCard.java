@@ -34,22 +34,22 @@ public class SubjectSituationCard extends CardView {
         switch (flowSituation) {
             case APPROVED:
                 card_subject_grades_situation.setText(getContext().getString(R.string.approved));
-                card_subject_grades_situation.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.ic_action_accept_light), null, null, null);
+                card_subject_grades_situation.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.ic_check_white_24dp), null, null, null);
                 card_subject_grades_situation_container.setBackgroundColor(getContext().getResources().getColor(android.R.color.holo_green_light));
                 break;
             case REPROVED:
                 card_subject_grades_situation.setText(getContext().getString(R.string.repproved));
-                card_subject_grades_situation.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.ic_action_cancel_light), null, null, null);
+                card_subject_grades_situation.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.ic_close_white_24dp), null, null, null);
                 card_subject_grades_situation_container.setBackgroundColor(getContext().getResources().getColor(android.R.color.holo_red_light));
                 break;
             case WAITING:
                 card_subject_grades_situation.setText(getContext().getString(R.string.waiting));
-                card_subject_grades_situation.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.ic_action_time_light), null, null, null);
+                card_subject_grades_situation.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.ic_access_time_white_24dp), null, null, null);
                 card_subject_grades_situation_container.setBackgroundColor(getContext().getResources().getColor(android.R.color.darker_gray));
                 break;
             case WAITING_FINAL:
                 card_subject_grades_situation.setText(getContext().getString(R.string.waiting_final));
-                card_subject_grades_situation.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.ic_action_time_light), null, null, null);
+                card_subject_grades_situation.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.ic_access_time_white_24dp), null, null, null);
                 card_subject_grades_situation_container.setBackgroundColor(getContext().getResources().getColor(android.R.color.darker_gray));
                 break;
         }

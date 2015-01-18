@@ -41,31 +41,31 @@ public class SubjectHistoryCard extends CardView {
                 if (subjectStatus.situation == SubjectStatus.Situation.APPROVED) {
                     entry_status.setText(getContext().getString(R.string.approved));
                     entry_status.setTextColor(getContext().getResources().getColor(android.R.color.holo_green_light));
-                    entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_action_accept), null);
+                    entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_check_grey600_24dp), null);
                 } else if (subjectStatus.situation == SubjectStatus.Situation.PERFORMED) {
                     entry_status.setText(getContext().getString(R.string.performed));
                     entry_status.setTextColor(getContext().getResources().getColor(android.R.color.holo_green_light));
-                    entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_action_accept), null);
+                    entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_check_grey600_24dp), null);
                 } else if (subjectStatus.situation == SubjectStatus.Situation.DISPENSED) {
                     entry_status.setText(getContext().getString(R.string.dispensed));
                     entry_status.setTextColor(getContext().getResources().getColor(android.R.color.holo_green_light));
-                    entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_action_accept), null);
+                    entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_check_grey600_24dp), null);
                 } else if (subjectStatus.situation == SubjectStatus.Situation.REPROVED) {
                     entry_status.setText(getContext().getString(R.string.repproved));
                     entry_status.setTextColor(getContext().getResources().getColor(android.R.color.holo_red_light));
-                    entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_action_cancel), null);
+                    entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_close_grey600_24dp), null);
                 } else if (subjectStatus.situation == SubjectStatus.Situation.ACTUAL) {
                     entry_status.setText(getContext().getString(R.string.actual));
                     entry_status.setTextColor(getContext().getResources().getColor(android.R.color.holo_green_light));
-                    entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_action_forward), null);
+                    entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_arrow_forward_grey600_24dp), null);
                 } else if (subjectStatus.situation == SubjectStatus.Situation.IMPORTED) {
                     entry_status.setText(getContext().getString(R.string.imported));
                     entry_status.setTextColor(getContext().getResources().getColor(android.R.color.holo_green_light));
-                    entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_action_download), null);
+                    entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_file_download_grey600_24dp), null);
                 } else {
                     entry_status.setText(getContext().getString(R.string.unknown));
                     entry_status.setTextColor(getContext().getResources().getColor(android.R.color.black));
-                    entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_action_help), null);
+                    entry_status.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_help_grey600_24dp), null);
                 }
             }
         }

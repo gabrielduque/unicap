@@ -126,5 +126,8 @@
     <string name="rta_dialog_ok">Avaliar agora</string>
     <string name="rta_dialog_title">Avaliar a aplicação</string>
     <string name="rest">Descanso</string>
+    <string name="begin">Início</string>
+    <string name="location">Local</string>
+    <string name="end">Fim</string>
 
 </resources>

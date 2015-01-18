@@ -32,7 +32,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textColor="@android:color/darker_gray"
-                android:drawableLeft="@drawable/ic_action_time"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/ic_access_time_grey600_24dp"
                 android:text="@string/waiting"/>
 
             <TextView
@@ -41,7 +42,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textColor="@android:color/holo_green_light"
-                android:drawableLeft="@drawable/ic_action_accept"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/ic_check_grey600_24dp"
                 android:text="@string/approved"/>
 
             <TextView
@@ -50,7 +52,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textColor="@android:color/holo_red_light"
-                android:drawableLeft="@drawable/ic_action_cancel"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/ic_close_grey600_24dp"
                 android:text="@string/repproved"/>
 
         </LinearLayout>

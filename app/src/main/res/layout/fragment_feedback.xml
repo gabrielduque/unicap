@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
-            android:src="@drawable/ic_speaker"
+            android:src="@drawable/ic_email_grey600_100dp"
             android:contentDescription="@string/app_name" />
 
         <TextView

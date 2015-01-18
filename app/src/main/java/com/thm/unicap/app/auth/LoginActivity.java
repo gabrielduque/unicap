@@ -228,7 +228,7 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
             SuperToast superToast = new SuperToast(LoginActivity.this, Style.getStyle(Style.RED, SuperToast.Animations.FLYIN));
             superToast.setText(result.getExceptionMessage(LoginActivity.this));
             superToast.setDuration(SuperToast.Duration.EXTRA_LONG);
-            superToast.setIcon(R.drawable.ic_action_warning, SuperToast.IconPosition.LEFT);
+            superToast.setIcon(R.drawable.ic_warning_white_24dp, SuperToast.IconPosition.LEFT);
             superToast.show();
         }
 

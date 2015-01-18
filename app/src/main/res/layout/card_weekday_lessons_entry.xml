@@ -35,68 +35,35 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"/>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/subject_schedule_begin"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/ic_access_time_grey600_18dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_alignParentLeft="true"
                 android:layout_above="@+id/bar"
-                android:layout_alignParentLeft="true">
+                tools:text="18:30"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ic_action_time"/>
-
-                <TextView
-                    android:id="@+id/subject_schedule_begin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="18:30"/>
-
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/subject_room"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/ic_location_on_grey600_18dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_centerHorizontal="true"
                 android:layout_above="@+id/bar"
-                android:layout_centerHorizontal="true">
+                tools:text="A601"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ic_action_place"/>
-
-                <TextView
-                    android:id="@+id/subject_room"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="A601"/>
-
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/subject_schedule_end"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/ic_access_time_grey600_18dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_alignParentRight="true"
                 android:layout_above="@+id/bar"
-                android:layout_alignParentRight="true">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ic_action_time"/>
-
-                <TextView
-                    android:id="@+id/subject_schedule_end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="20:10"/>
-
-            </LinearLayout>
+                tools:text="20:10"/>
 
             <LinearLayout
                 android:id="@+id/bar"

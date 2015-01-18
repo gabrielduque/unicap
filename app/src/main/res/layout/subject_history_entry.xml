@@ -25,7 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        tools:drawableRight="@drawable/ic_action_accept"
+        android:drawablePadding="5dp"
+        tools:drawableRight="@drawable/ic_check_grey600_24dp"
         tools:textColor="@android:color/holo_green_light"
         tools:text="Aprovado"/>
 
