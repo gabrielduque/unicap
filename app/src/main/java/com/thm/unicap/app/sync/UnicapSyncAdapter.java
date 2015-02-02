@@ -11,6 +11,7 @@ import android.os.Bundle;
 import com.activeandroid.ActiveAndroid;
 import com.thm.unicap.app.UnicapApplication;
 import com.thm.unicap.app.auth.StudentCredentials;
+import com.thm.unicap.app.connection.UnicapDataManager;
 import com.thm.unicap.app.connection.UnicapRequest;
 import com.thm.unicap.app.connection.UnicapRequestException;
 import com.thm.unicap.app.notification.UnicapNotification;
@@ -40,7 +41,7 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
         UnicapApplication.bus.post(new UnicapSyncEvent(UnicapSyncEvent.EventType.SYNC_STARTED));
 
         ActiveAndroid.beginTransaction();
-//        UnicapDataManager.cleanUserData(account.name);
+        UnicapDataManager.cleanUserData(account.name);
         try {
             UnicapApplication.log("SYNC - 1/7 [====>                              ] - loginRequest");
             UnicapRequest.loginRequest(new StudentCredentials(account.name, mAccountManager.getPassword(account)));

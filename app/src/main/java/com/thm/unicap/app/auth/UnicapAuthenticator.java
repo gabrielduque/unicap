@@ -19,7 +19,6 @@ import static com.thm.unicap.app.auth.AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS_
 
 public class UnicapAuthenticator extends AbstractAccountAuthenticator {
 
-    private String TAG = "UnicapAuthenticator";
     private final Context mContext;
 
     public UnicapAuthenticator(Context context) {
@@ -31,7 +30,6 @@ public class UnicapAuthenticator extends AbstractAccountAuthenticator {
 
     @Override
     public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType, String[] requiredFeatures, Bundle options) throws NetworkErrorException {
-        Log.d("authenticator", TAG + "> addAccount");
 
         final Intent intent = new Intent(mContext, LoginActivity.class);
         intent.putExtra(LoginActivity.ARG_ACCOUNT_TYPE, accountType);
@@ -46,8 +44,6 @@ public class UnicapAuthenticator extends AbstractAccountAuthenticator {
 
     @Override
     public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType, Bundle options) throws NetworkErrorException {
-
-        Log.d("authenticator", TAG + "> getAuthToken");
 
         // If the caller requested an authToken type we don't support, then
         // return an error
