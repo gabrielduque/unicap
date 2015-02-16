@@ -276,6 +276,7 @@ public class UnicapRequest {
             String schedule = subjectColumns.get(4).text();
 
             UnicapDataManager.persistActualSubject(code, paidIn, name, workload, credits, period, team, room, schedule);
+            UnicapDataManager.setSubjectFlowSituation(code, SubjectStatus.FlowSituation.WAITING);
         }
 
         ActiveAndroid.setTransactionSuccessful();
@@ -509,14 +510,19 @@ public class UnicapRequest {
             }
 
             String situationText = subjectColumns.get(7).text();
-            if (situationText.equals("APROVADO")) {
-                UnicapDataManager.setSubjectFlowSituation(code, SubjectStatus.FlowSituation.APPROVED);
-            } else if (situationText.equals("REPROVADO POR MEDIA")) {
-                UnicapDataManager.setSubjectFlowSituation(code, SubjectStatus.FlowSituation.REPROVED);
-            } else if (situationText.equals("AGUARDANDO FINAL")) {
-                UnicapDataManager.setSubjectFlowSituation(code, SubjectStatus.FlowSituation.WAITING_FINAL);
-            } else {
-                UnicapDataManager.setSubjectFlowSituation(code, SubjectStatus.FlowSituation.WAITING);
+            switch (situationText) {
+                case "APROVADO":
+                    UnicapDataManager.setSubjectFlowSituation(code, SubjectStatus.FlowSituation.APPROVED);
+                    break;
+                case "REPROVADO POR MEDIA":
+                    UnicapDataManager.setSubjectFlowSituation(code, SubjectStatus.FlowSituation.REPROVED);
+                    break;
+                case "AGUARDANDO FINAL":
+                    UnicapDataManager.setSubjectFlowSituation(code, SubjectStatus.FlowSituation.WAITING_FINAL);
+                    break;
+                default:
+                    UnicapDataManager.setSubjectFlowSituation(code, SubjectStatus.FlowSituation.WAITING);
+                    break;
             }
 
         }
