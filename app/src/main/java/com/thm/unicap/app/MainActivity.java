@@ -33,10 +33,10 @@ import com.thm.unicap.app.subject.SubjectsFragment;
 import com.thm.unicap.app.sync.UnicapSyncEvent;
 
 import hotchemi.android.rate.AppRate;
-import it.neokree.materialnavigationdrawer.MaterialAccount;
-import it.neokree.materialnavigationdrawer.MaterialAccountListener;
 import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
-import it.neokree.materialnavigationdrawer.MaterialSection;
+import it.neokree.materialnavigationdrawer.elements.MaterialAccount;
+import it.neokree.materialnavigationdrawer.elements.MaterialSection;
+import it.neokree.materialnavigationdrawer.elements.listeners.MaterialAccountListener;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import uk.me.lewisdeane.ldialogs.CustomDialog;
 
@@ -137,7 +137,7 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
                 .into(new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        getCurrentAccount().setPhoto(bitmap);
+                        getCurrentAccount().setPhoto(bitmap.copy(bitmap.getConfig(), true));
                         notifyAccountDataChanged();
                     }
 
@@ -188,7 +188,7 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
 
 //        this.addMultiPaneSupport();
 
-        MaterialAccount account = new MaterialAccount("", "", this.getResources().getDrawable(R.drawable.ic_graduate_white_80dp), this.getResources().getDrawable(R.drawable.material_base));
+        MaterialAccount account = new MaterialAccount(getResources(), "", "", R.drawable.ic_graduate_white_80dp, R.drawable.material_base);
         this.addAccount(account);
 
         this.addSection(this.newSection(getString(R.string.dashboard), R.drawable.ic_dashboard_gray600_24dp, new DashboardFragment())
