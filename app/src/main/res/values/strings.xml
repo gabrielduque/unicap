@@ -71,6 +71,12 @@
     <string name="date_format">dd/MM/yyyy</string>
     <string name="hour_format">HH:mm</string>
 
+    <string name="rta_dialog_cancel">Mais tarde</string>
+    <string name="rta_dialog_message">Gosta da aplicação? Então não se importaria de a avaliar? Não demora mais do que um minuto. Obrigado pelo seu apoio!</string>
+    <string name="rta_dialog_no">Não, Obrigado</string>
+    <string name="rta_dialog_ok">Avaliar agora</string>
+    <string name="rta_dialog_title">Avaliar a aplicação</string>
+
     <string name="general_information">Informações Gerais</string>
     <string name="code">Código</string>
     <string name="workload">Carga Horária</string>
@@ -119,15 +125,10 @@
     <string name="not_now">Agora não</string>
     <string name="gravatar_website">http://br.gravatar.com/</string>
     <string name="dispensed">Dispensado</string>
-
-    <string name="rta_dialog_cancel">Mais tarde</string>
-    <string name="rta_dialog_message">Gosta da aplicação? Então não se importaria de a avaliar? Não demora mais do que um minuto. Obrigado pelo seu apoio!</string>
-    <string name="rta_dialog_no">Não, Obrigado</string>
-    <string name="rta_dialog_ok">Avaliar agora</string>
-    <string name="rta_dialog_title">Avaliar a aplicação</string>
     <string name="rest">Descanso</string>
     <string name="begin">Início</string>
     <string name="location">Local</string>
     <string name="end">Fim</string>
+    <string name="add_account">Adicionar conta</string>
 
 </resources>

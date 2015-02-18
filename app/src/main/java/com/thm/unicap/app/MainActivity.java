@@ -4,6 +4,8 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -32,11 +34,15 @@ import com.thm.unicap.app.model.Student;
 import com.thm.unicap.app.subject.SubjectsFragment;
 import com.thm.unicap.app.sync.UnicapSyncEvent;
 
+import java.io.IOException;
+import java.util.List;
+
 import hotchemi.android.rate.AppRate;
 import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 import it.neokree.materialnavigationdrawer.elements.MaterialAccount;
 import it.neokree.materialnavigationdrawer.elements.MaterialSection;
 import it.neokree.materialnavigationdrawer.elements.listeners.MaterialAccountListener;
+import it.neokree.materialnavigationdrawer.elements.listeners.MaterialSectionListener;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import uk.me.lewisdeane.ldialogs.CustomDialog;
 
@@ -62,7 +68,7 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
                 @Override
                 public void run() {
                     if (!UnicapApplication.hasCurrentAccount()) {
-                        selectAccountCreateIfNeeded();
+                        initAccountCreateIfNeeded();
                     }
                 }
             }, 500);
@@ -78,33 +84,53 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
         UnicapApplication.bus.unregister(this);
     }
 
-    public void selectAccountCreateIfNeeded() {
-        mAccountManager.getAuthTokenByFeatures(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, this, null, null,
-                new AccountManagerCallback<Bundle>() {
-                    @Override
-                    public void run(AccountManagerFuture<Bundle> future) {
-                        try {
-                            Bundle bundle = future.getResult();
+    public void initAccountCreateIfNeeded() {
 
-                            Account currentAccount = new Account(bundle.getString(AccountManager.KEY_ACCOUNT_NAME), AccountGeneral.ACCOUNT_TYPE);
-                            UnicapApplication.setCurrentAccount(currentAccount);
+        Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
 
-                            Student student = new Select().from(Student.class).where("Student.Registration = ?", UnicapApplication.getCurrentAccount().name).executeSingle();
+        if(accounts.length == 0) {
+            mAccountManager.addAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, this, new AccountManagerCallback<Bundle>() {
+                @Override
+                public void run(AccountManagerFuture<Bundle> future) {
 
-                            if (student != null) {
-                                UnicapApplication.setCurrentStudent(student);
-                                UnicapApplication.bus.post(new UnicapSyncEvent(UnicapSyncEvent.EventType.SYNC_COMPLETED));
-
-                            } else if (!UnicapApplication.isSyncing()) {
-                                UnicapApplication.forceSync();
-                            }
-
-                        } catch (Exception e) {
-                            if (!UnicapApplication.hasStudentData()) finish();
-                        }
+                    try {
+                        future.getResult(); // Used to catch exceptions
+                        restartActivity();
+                    } catch (OperationCanceledException | IOException | AuthenticatorException e) {
+                        finish();
                     }
+
                 }
-                , null);
+            }, null);
+        } else {
+            selectAccount(accounts[0]);
+        }
+
+    }
+
+    private void restartActivity() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
+
+    private void selectAccount(Account account) {
+        try {
+            UnicapApplication.setCurrentAccount(account);
+
+            Student student = new Select().from(Student.class).where("Student.Registration = ?", UnicapApplication.getCurrentAccount().name).executeSingle();
+
+            if (student != null) {
+                UnicapApplication.setCurrentStudent(student);
+                UnicapApplication.bus.post(new UnicapSyncEvent(UnicapSyncEvent.EventType.SYNC_COMPLETED));
+
+            } else if (!UnicapApplication.isSyncing()) {
+                UnicapApplication.forceSync();
+            }
+
+        } catch (Exception e) {
+            if (!UnicapApplication.hasStudentData()) finish();
+        }
     }
 
     @Subscribe
@@ -126,31 +152,51 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
     }
 
     private void updateNavigationDrawerInfo() {
-        Student student = UnicapApplication.getCurrentStudent();
 
-        getCurrentAccount().setTitle(student.name);
-        getCurrentAccount().setSubTitle(student.course);
-        notifyAccountDataChanged();
+        Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
 
-        Picasso.with(this)
-                .load(student.getGravatarURL(100))
-                .into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        getCurrentAccount().setPhoto(bitmap.copy(bitmap.getConfig(), true));
-                        notifyAccountDataChanged();
-                    }
+        for (Account account : accounts) {
 
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
+            Student student = new Select().from(Student.class).where("Registration = ?", account.name).executeSingle();
+            final MaterialAccount materialAccount = getMaterialAccountByRegistration(account.name);
 
-                    }
+            if (student != null) {
+                materialAccount.setTitle(student.name);
+                materialAccount.setSubTitle(student.registration);
 
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                Picasso.with(this)
+                        .load(student.getGravatarURL(100))
+                        .into(new Target() {
+                            @Override
+                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                materialAccount.setPhoto(bitmap.copy(bitmap.getConfig(), true));
+                            }
 
-                    }
-                });
+                            @Override
+                            public void onBitmapFailed(Drawable errorDrawable) {
+
+                            }
+
+                            @Override
+                            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                            }
+                        });
+            }
+
+        }
+
+    }
+
+    private MaterialAccount getMaterialAccountByRegistration(String registration) {
+        List<MaterialAccount> accountList = getAccountList();
+
+        for (MaterialAccount materialAccount : accountList) {
+            if(materialAccount.getSubTitle().equals(registration)) {
+                return materialAccount;
+            }
+        }
+        return null;
     }
 
     private void logout() {
@@ -159,7 +205,7 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
         final Student currentStudent = UnicapApplication.getCurrentStudent();
 
         if (currentStudent == null) {
-            finish();
+            restartActivity();
         } else {
             Account account = new Account(currentStudent.registration, AccountGeneral.ACCOUNT_TYPE);
 
@@ -169,7 +215,7 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
                     UnicapDataManager.cleanUserData(currentStudent.registration);
                     UnicapApplication.setCurrentAccount(null);
                     UnicapApplication.setCurrentStudent(null);
-                    finish();
+                    restartActivity();
                 }
             }, null);
         }
@@ -177,6 +223,8 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
 
     @Override
     public void init(Bundle bundle) {
+
+        mAccountManager = AccountManager.get(this);
 
         Crashlytics.start(this);
 
@@ -186,10 +234,7 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
 
         this.setAccountListener(this);
 
-//        this.addMultiPaneSupport();
-
-        MaterialAccount account = new MaterialAccount(getResources(), "", "", R.drawable.ic_graduate_white_80dp, R.drawable.material_base);
-        this.addAccount(account);
+        this.addMultiPaneSupport();
 
         this.addSection(this.newSection(getString(R.string.dashboard), R.drawable.ic_dashboard_gray600_24dp, new DashboardFragment())
                 .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
@@ -206,14 +251,36 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
                 .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
         this.addBottomSection(this.newSection(getString(R.string.about), R.drawable.ic_info_outline_grey600_24dp, new AboutFragment())
                 .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
-        this.addBottomSection(this.newSection(getString(R.string.logout), R.drawable.ic_exit_to_app_grey600_24dp, this)
-                .setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
+        this.addBottomSection(this.newSection(getString(R.string.logout), R.drawable.ic_exit_to_app_grey600_24dp, new MaterialSectionListener() {
+            @Override
+            public void onClick(MaterialSection section) {
+                logout();
+            }
+        }).setSectionColor(getResources().getColor(R.color.unicap_base), getResources().getColor(R.color.unicap_base_dark)));
 
+
+        this.addAccountSection(this.newSection(getString(R.string.add_account), R.drawable.ic_person_add_grey600_24dp, new MaterialSectionListener() {
+            @Override
+            public void onClick(MaterialSection section) {
+                mAccountManager.addAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, MainActivity.this, new AccountManagerCallback<Bundle>() {
+                    @Override
+                    public void run(AccountManagerFuture<Bundle> future) {
+
+                        try {
+                            future.getResult(); // Used to catch exceptions
+                            restartActivity();
+                        } catch (OperationCanceledException | IOException | AuthenticatorException ignored) {
+                        }
+
+                    }
+                }, null);
+            }
+        }));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             initTaskDescriptionConfig();
 
-        mAccountManager = AccountManager.get(this);
+        initMaterialAccounts();
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -231,14 +298,30 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
         }, 1000);
     }
 
-    @Override
-    public void onClick(MaterialSection section) {
-        switch (section.getPosition()) {
-            case 102: //Logout
-                logout();
-            default:
-                super.onClick(section);
+    private void initMaterialAccounts() {
+
+        Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+        Account currentAccount = UnicapApplication.getCurrentAccount();
+        boolean hasCurrentAccount = currentAccount != null;
+
+        // Adding current account
+        if(hasCurrentAccount) {
+            MaterialAccount account = new MaterialAccount(getResources(), currentAccount.name, currentAccount.name, R.drawable.ic_graduate_lightgrey_24dp, R.drawable.material_base);
+            this.addAccount(account);
         }
+
+        for (Account account : accounts) {
+
+            if(hasCurrentAccount && account.name.equals(currentAccount.name)) {
+                continue;
+            }
+
+            MaterialAccount materialAccount = new MaterialAccount(getResources(), account.name, account.name, R.drawable.ic_graduate_lightgrey_24dp, R.drawable.material_base);
+            this.addAccount(materialAccount);
+        }
+
+        updateNavigationDrawerInfo();
+
     }
 
     @Override
@@ -274,6 +357,31 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
 
     @Override
     public void onChangeAccount(MaterialAccount materialAccount) {
+
+        Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+        String registration = materialAccount.getSubTitle();
+
+        try {
+            for (Account account : accounts) {
+                if(account.name.equals(registration)) {
+                    UnicapApplication.setCurrentAccount(account);
+                }
+            }
+
+            Student student = new Select().from(Student.class).where("Student.Registration = ?", UnicapApplication.getCurrentAccount().name).executeSingle();
+
+            if (student != null) {
+                UnicapApplication.setCurrentStudent(student);
+                UnicapApplication.bus.post(new UnicapSyncEvent(UnicapSyncEvent.EventType.SYNC_COMPLETED));
+
+            } else if (!UnicapApplication.isSyncing()) {
+                UnicapApplication.forceSync();
+            }
+
+        } catch (Exception e) {
+            if (!UnicapApplication.hasStudentData()) finish();
+        }
+
     }
 }
 

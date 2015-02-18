@@ -10,7 +10,6 @@ import java.util.Calendar;
 
 public class UnicapUtils {
 
-    @SuppressWarnings("SpellCheckingInspection")
     private static String[][] nameExceptions = {
             {"Da", "da"},
             {"Das", "das"},
@@ -18,7 +17,6 @@ public class UnicapUtils {
             {"Do", "do"},
     };
 
-    @SuppressWarnings("SpellCheckingInspection")
     private static String[][] exceptions = {
             {"A", "a"},
             {"Aco", "Aço"},
@@ -115,6 +113,7 @@ public class UnicapUtils {
             {"Trafego", "Tráfego"},
             {"Transcendencia", "Transcendência"},
             {"Tributario", "Tributário"},
+            {"Vi", "VI"},
     };
 
     public static boolean isRegistrationValid(String email) {
