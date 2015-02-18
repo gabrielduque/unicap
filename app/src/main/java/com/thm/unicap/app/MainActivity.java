@@ -49,7 +49,7 @@ import uk.me.lewisdeane.ldialogs.CustomDialog;
 
 public class MainActivity extends MaterialNavigationDrawer implements MaterialAccountListener {
 
-    private AccountManager mAccountManager;
+    private AccountManager accountManager;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void initTaskDescriptionConfig() {
@@ -86,10 +86,10 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
 
     public void initAccountCreateIfNeeded() {
 
-        Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+        Account[] accounts = accountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
 
         if(accounts.length == 0) {
-            mAccountManager.addAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, this, new AccountManagerCallback<Bundle>() {
+            accountManager.addAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, this, new AccountManagerCallback<Bundle>() {
                 @Override
                 public void run(AccountManagerFuture<Bundle> future) {
 
@@ -103,7 +103,22 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
                 }
             }, null);
         } else {
-            selectAccount(accounts[0]);
+
+            Account selectedAccount = accounts[0];
+
+            String lastAccount = getLastAccount();
+
+            if(lastAccount != null) {
+                UnicapApplication.log(lastAccount);
+                for (Account account : accounts) {
+                    if(account.name.equals(lastAccount)) {
+                        selectedAccount = account;
+                    }
+                }
+            }
+
+            selectAccount(selectedAccount);
+
         }
 
     }
@@ -128,9 +143,19 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
                 UnicapApplication.forceSync();
             }
 
+            saveLastAccount(account.name);
+
         } catch (Exception e) {
             if (!UnicapApplication.hasStudentData()) finish();
         }
+    }
+
+    private void saveLastAccount(String registration) {
+        getPreferences(Context.MODE_PRIVATE).edit().putString("last_account", registration).commit();
+    }
+
+    private String getLastAccount() {
+        return getPreferences(Context.MODE_PRIVATE).getString("last_account", null);
     }
 
     @Subscribe
@@ -153,12 +178,12 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
 
     private void updateNavigationDrawerInfo() {
 
-        Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+        Account[] accounts = accountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
 
         for (Account account : accounts) {
 
             Student student = new Select().from(Student.class).where("Registration = ?", account.name).executeSingle();
-            final MaterialAccount materialAccount = getMaterialAccountByRegistration(account.name);
+            final MaterialAccount materialAccount = getUIAccountByRegistration(account.name);
 
             if (student != null) {
                 materialAccount.setTitle(student.name);
@@ -188,10 +213,10 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
 
     }
 
-    private MaterialAccount getMaterialAccountByRegistration(String registration) {
-        List<MaterialAccount> accountList = getAccountList();
+    private MaterialAccount getUIAccountByRegistration(String registration) {
+        List<MaterialAccount> uiAccountList = getAccountList();
 
-        for (MaterialAccount materialAccount : accountList) {
+        for (MaterialAccount materialAccount : uiAccountList) {
             if(materialAccount.getSubTitle().equals(registration)) {
                 return materialAccount;
             }
@@ -200,7 +225,6 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
     }
 
     private void logout() {
-        AccountManager accountManager = AccountManager.get(this);
 
         final Student currentStudent = UnicapApplication.getCurrentStudent();
 
@@ -224,7 +248,7 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
     @Override
     public void init(Bundle bundle) {
 
-        mAccountManager = AccountManager.get(this);
+        accountManager = AccountManager.get(this);
 
         Crashlytics.start(this);
 
@@ -262,12 +286,17 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
         this.addAccountSection(this.newSection(getString(R.string.add_account), R.drawable.ic_person_add_grey600_24dp, new MaterialSectionListener() {
             @Override
             public void onClick(MaterialSection section) {
-                mAccountManager.addAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, MainActivity.this, new AccountManagerCallback<Bundle>() {
+
+                AccountManager accountManager = AccountManager.get(MainActivity.this);
+
+                accountManager.addAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, MainActivity.this, new AccountManagerCallback<Bundle>() {
                     @Override
                     public void run(AccountManagerFuture<Bundle> future) {
 
                         try {
-                            future.getResult(); // Used to catch exceptions
+                            Bundle bundle = future.getResult();// Used to catch exceptions
+                            String registration = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
+                            setAccountForNextLaunch(registration);
                             restartActivity();
                         } catch (OperationCanceledException | IOException | AuthenticatorException ignored) {
                         }
@@ -280,7 +309,7 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             initTaskDescriptionConfig();
 
-        initMaterialAccounts();
+        initUIAccounts();
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -298,21 +327,27 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
         }, 1000);
     }
 
-    private void initMaterialAccounts() {
+    private void setAccountForNextLaunch(String registration) {
+        UnicapApplication.setCurrentAccount(null);
+        UnicapApplication.setCurrentStudent(null);
+        saveLastAccount(registration);
+    }
 
-        Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
-        Account currentAccount = UnicapApplication.getCurrentAccount();
-        boolean hasCurrentAccount = currentAccount != null;
+    private void initUIAccounts() {
+
+        Account[] accounts = accountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+        String lastAccount = getLastAccount();
+        boolean hasLastAccount = lastAccount != null && accountExists(lastAccount);
 
         // Adding current account
-        if(hasCurrentAccount) {
-            MaterialAccount account = new MaterialAccount(getResources(), currentAccount.name, currentAccount.name, R.drawable.ic_graduate_lightgrey_24dp, R.drawable.material_base);
-            this.addAccount(account);
+        if(hasLastAccount) {
+            MaterialAccount materialAccount = new MaterialAccount(getResources(), lastAccount, lastAccount, R.drawable.ic_graduate_lightgrey_24dp, R.drawable.material_base);
+            this.addAccount(materialAccount);
         }
 
         for (Account account : accounts) {
 
-            if(hasCurrentAccount && account.name.equals(currentAccount.name)) {
+            if(hasLastAccount && account.name.equals(lastAccount)) {
                 continue;
             }
 
@@ -322,6 +357,17 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
 
         updateNavigationDrawerInfo();
 
+    }
+
+    private boolean accountExists(String registration) {
+        Account[] accounts = accountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+
+        for (Account account : accounts) {
+            if(account.name.equals(registration)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -358,29 +404,15 @@ public class MainActivity extends MaterialNavigationDrawer implements MaterialAc
     @Override
     public void onChangeAccount(MaterialAccount materialAccount) {
 
-        Account[] accounts = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+        Account[] accounts = accountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
         String registration = materialAccount.getSubTitle();
 
-        try {
-            for (Account account : accounts) {
-                if(account.name.equals(registration)) {
-                    UnicapApplication.setCurrentAccount(account);
-                }
+        for (Account account : accounts) {
+            if(account.name.equals(registration)) {
+                selectAccount(account);
             }
-
-            Student student = new Select().from(Student.class).where("Student.Registration = ?", UnicapApplication.getCurrentAccount().name).executeSingle();
-
-            if (student != null) {
-                UnicapApplication.setCurrentStudent(student);
-                UnicapApplication.bus.post(new UnicapSyncEvent(UnicapSyncEvent.EventType.SYNC_COMPLETED));
-
-            } else if (!UnicapApplication.isSyncing()) {
-                UnicapApplication.forceSync();
-            }
-
-        } catch (Exception e) {
-            if (!UnicapApplication.hasStudentData()) finish();
         }
+
 
     }
 }

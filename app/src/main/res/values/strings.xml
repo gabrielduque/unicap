@@ -130,5 +130,6 @@
     <string name="location">Local</string>
     <string name="end">Fim</string>
     <string name="add_account">Adicionar conta</string>
+    <string name="warning_multiple_account">A funcionalidade de múltiplas contas está em desenvolvimento.</string>
 
 </resources>

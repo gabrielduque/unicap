@@ -23,6 +23,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 import com.github.johnpersano.supertoasts.SuperToast;
@@ -52,7 +53,7 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
 
     public final static String PARAM_USER_PASS = "USER_PASS";
 
-    private AccountManager mAccountManager;
+    private AccountManager accountManager;
     private String mAuthTokenType;
 
     private UnicapAuthTask mAuthTask = null;
@@ -77,7 +78,15 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             initTaskDescriptionConfig();
 
-        mAccountManager = AccountManager.get(getBaseContext());
+        accountManager = AccountManager.get(getBaseContext());
+
+        Account[] accounts = accountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+
+        if(accounts.length > 0) {
+            Toast.makeText(this, getString(R.string.warning_multiple_account), Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
 
         mAuthTokenType = getIntent().getStringExtra(ARG_AUTH_TYPE);
         if (mAuthTokenType == null)
@@ -267,13 +276,13 @@ public class LoginActivity extends AccountAuthenticatorActivity implements OnTas
 
             // Creating the account on the device and setting the auth token we got
             // (Not setting the auth token will cause another call to the server to authenticate the user)
-            if (mAccountManager.addAccountExplicitly(account, accountPassword, null)) {
-                mAccountManager.setAuthToken(account, authtokenType, authtoken);
+            if (accountManager.addAccountExplicitly(account, accountPassword, null)) {
+                accountManager.setAuthToken(account, authtokenType, authtoken);
 
                 ContentResolver.setSyncAutomatically(account, UnicapContentProvider.AUTHORITY, true);
             }
         } else {
-            mAccountManager.setPassword(account, accountPassword);
+            accountManager.setPassword(account, accountPassword);
         }
 
         setAccountAuthenticatorResult(intent.getExtras());

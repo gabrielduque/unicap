@@ -38,7 +38,11 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
 
         UnicapSyncEvent finalSyncEvent;
 
-        UnicapApplication.bus.post(new UnicapSyncEvent(UnicapSyncEvent.EventType.SYNC_STARTED));
+        Account currentAccount = UnicapApplication.getCurrentAccount();
+
+        if (currentAccount != null && currentAccount.name.equals(account.name)) {
+            UnicapApplication.bus.post(new UnicapSyncEvent(UnicapSyncEvent.EventType.SYNC_STARTED));
+        }
 
         ActiveAndroid.beginTransaction();
         UnicapDataManager.cleanUserData(account.name);
@@ -75,9 +79,6 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
         }
 
         if (successful) UnicapNotification.notifyNewGrades(getContext());
-
-
-        Account currentAccount = UnicapApplication.getCurrentAccount();
 
         if (currentAccount != null && currentAccount.name.equals(account.name)) {
             UnicapApplication.bus.post(finalSyncEvent);
