@@ -58,24 +58,10 @@
 
         </LinearLayout>
 
-        <RelativeLayout
+        <lecho.lib.hellocharts.view.PieChartView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.echo.holographlibrary.PieGraph
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:id="@+id/graph"/>
-
-            <TextView
-                android:id="@+id/status_percentage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@android:color/holo_green_light"
-                android:textSize="20sp"/>
-
-        </RelativeLayout>
+            android:layout_height="200dp"
+            android:id="@+id/graph"/>
 
     </LinearLayout>
 

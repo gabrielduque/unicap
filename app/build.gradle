@@ -48,6 +48,7 @@ dependencies {
     compile 'it.neokree:MaterialNavigationDrawer:1.3.2'
     compile 'uk.co.chrisjenx:calligraphy:1.2.0'
     compile 'de.halfbit:tinybus:2.1.0'
+    compile 'com.github.lecho:hellocharts-library:1.5.0@aar'
 }
 
 repositories{
