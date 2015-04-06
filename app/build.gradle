@@ -11,15 +11,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'crashlytics'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 22
     buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "com.thm.unicap.app"
         minSdkVersion 15
-        targetSdkVersion 21
-        versionCode 47
-        versionName "1.2.6"
+        targetSdkVersion 22
+        versionCode 48
+        versionName "1.2.7"
     }
     buildTypes {
         release {
@@ -31,8 +31,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v4:21.0.3'
-    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:support-v4:22.0.0'
+    compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.android.support:cardview-v7:21.0.3'
     compile 'com.github.johnkil.android-progressfragment:progressfragment:1.4.0'
     compile 'org.jsoup:jsoup:1.8.1'

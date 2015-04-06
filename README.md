@@ -8,7 +8,7 @@ Application designed to allow you to access the information provided on [Student
 
 ### Version
 
-1.2.4
+1.2.7
 
 ## Contributing
 
