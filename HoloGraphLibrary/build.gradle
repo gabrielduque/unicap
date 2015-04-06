@@ -18,4 +18,8 @@ android {
             manifest.srcFile 'AndroidManifest.xml'
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
