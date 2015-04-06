@@ -45,7 +45,8 @@ public class UnicapSyncAdapter extends AbstractThreadedSyncAdapter {
         }
 
         ActiveAndroid.beginTransaction();
-        UnicapDataManager.cleanUserData(account.name);
+        //TODO: solve problem related to cleaning up data - (cleaning breaks notification and not cleaning breaks period transition)
+//        UnicapDataManager.cleanUserData(account.name);
         try {
             UnicapApplication.log("SYNC - " + account.name + " - 1/7 [====>                              ] - loginRequest");
             UnicapRequest.loginRequest(new StudentCredentials(account.name, mAccountManager.getPassword(account)));
