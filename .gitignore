@@ -7,4 +7,5 @@
 
 crashlytics.properties
 crashlytics-build.properties
-com_crashlytics_export_strings.xml
+com_crashlytics_export_strings.xml 
+/log/log-id
